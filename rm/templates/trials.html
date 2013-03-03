@@ -1,0 +1,51 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+{% block extratitle %} - All Trials{% endblock %}
+{% block content %}
+  <div class="page">
+    <div class="row-fluid">
+      {% if request.user.is_authenticated %}
+      {% tabs 'trials' %}
+      {% endif %}
+      <h1>Trials</h1>
+      <h2>Popular Active Trials</h2>
+      <div class="span6">
+        <p>
+          Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
+          tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+          fermentum massa justo sit amet risus. Etiam porta sem malesuada
+          magna mollis euismod. Donec sed odio dui.
+        </p>
+      </div>
+
+      <div class="span5">
+        <ul>
+          <li class="yellow">1. Donec id elit non </li>
+          <li class="yellow">2. mi porta gravida at</li>
+          <li class="yellow">eget metus. Fusce dapibus</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <h2>Popular Past Trials</h2>
+      <div class="span6">
+        <p>
+          Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
+          tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+          fermentum massa justo sit amet risus. Etiam porta sem malesuada
+          magna mollis euismod. Donec sed odio dui.
+        </p>
+      </div>
+
+      <div class="span5">
+        <ul>
+          <li class="yellow">1. Donec id elit non </li>
+          <li class="yellow">2. mi porta gravida at</li>
+          <li class="yellow">eget metus. Fusce dapibus</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'baser.html' %}
+{% block htmlclass%} nologo {% endblock %}
+{% block extratitle %} - Sign Up{% endblock %}
+{% block content %}
+  <div class="row-fluid">
+    <a href="{% url 'home' %}">
+      <img src="{{ STATIC_URL }}img/rmfull.png" class="center block">
+    </a>
+  </div> {# row-fluid #}
+
+<div class="page">
+  <div class="row-fluid">
+
+    <div class="span4">
+      <h2>Standard</h2>
+      <ul>
+        <li>ability to view trials</li>
+        <li>join existing trials</li>
+        <li>start new trials</li>
+      </ul>
+    </div>
+
+    <div class="span4">
+      <h2>Advanced</h2>
+      <ul>
+        <li>ability to view trials</li>
+        <li>join existing trials</li>
+        <li>start new trials</li>
+        <li class="yellow">run trials with existing samples</li>
+        <li class="yellow">
+          run trials offline e.g. with a .csv file that can be uploaded
+        </li>
+      </ul>
+    </div>
+
+    <div class="span4">
+      <h2>Premium</h2>
+      <ul>
+        <li>ability to view trials</li>
+        <li>join existing trials</li>
+        <li>start new trials</li>
+        <li class="yellow">run trials with existing samples</li>
+        <li class="yellow">
+          run trials offline e.g. with a .csv file that can be uploaded
+        </li>
+        <li class="red">bespoke stats</li>
+        <li class="red">consultancy service</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+
+    <div class="span4">
+      <p><a class="btn btn-danger" href="#">SIGN UP</a></p>
+    </div>
+
+    <div class="span4">
+      <p><a class="btn btn-danger" href="#">SIGN UP</a></p>
+    </div>
+
+    <div class="span4">
+      <p><a class="btn btn-danger" href="#">SIGN UP</a></p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" class="{% block htmlclass %}{% endblock %}">
+  <head>
+    <meta charset="utf-8">
+    <title>Randomise Me{% block extratitle %}{% endblock %}</title>
+    {% include 'head.html' %}
+  </head>
+
+  <body>
+    <div class="container">
+      {% include 'nav.html' %}
+      {% block content %}{% endblock %}
+      <hr />
+
+      <div class="footer">
+        <p>
+          &copy; Better Data 2013
+          |
+          <a href="{% url 'disclaimer' %}">DISCLAIMER</a>
+        </p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ STATIC_URL }}js/lib/jquery.js"></script>
+    <script src="{{ STATIC_URL }}css/lib/bootstrap/js/bootstrap.js"></script>
+
+  </body>
+</html>

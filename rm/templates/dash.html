@@ -1,0 +1,48 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+{% block extratitle %} - Your Home{% endblock %}
+{% block content %}
+  <div class="page">
+    <div class="row-fluid">
+      {% tabs 'home' %}
+      <h2>Stuff for you</h2>
+      <div class="span6">
+        <p>
+          Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
+          tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+          fermentum massa justo sit amet risus. Etiam porta sem malesuada
+          magna mollis euismod. Donec sed odio dui.
+        </p>
+      </div>
+
+      <div class="span5">
+        <ul>
+          <li class="yellow">1. Donec id elit non </li>
+          <li class="yellow">2. mi porta gravida at</li>
+          <li class="yellow">eget metus. Fusce dapibus</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <h2>Alternative stuff for you</h2>
+      <div class="span6">
+        <p>
+          Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
+          tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+          fermentum massa justo sit amet risus. Etiam porta sem malesuada
+          magna mollis euismod. Donec sed odio dui.
+        </p>
+      </div>
+
+      <div class="span5">
+        <ul>
+          <li class="yellow">1. Donec id elit non </li>
+          <li class="yellow">2. mi porta gravida at</li>
+          <li class="yellow">eget metus. Fusce dapibus</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

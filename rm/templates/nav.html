@@ -1,0 +1,17 @@
+<div id="nav">
+      <div class="masthead">
+        <a href="{% url 'home' %}" id="header-logo">
+          <img src="{{ STATIC_URL }}img/randomisemelogo.png">
+        </a>
+        <ul class="nav">
+          <li class="active"><a href="{% url 'trials' %}">Trials</a></li>
+          {% if request.user.is_authenticated %}
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Account</a></li>
+          <li><a href="/logout">Log Out</a></li>
+          {% else %}
+          <li><a href="/accounts/login">Log In</a></li>
+          {% endif %}
+        </ul>
+      </div>
+</div>
