@@ -15,5 +15,5 @@ def my_trials(context):
     """
     user = context['request'].user
     running = Trial.objects.filter(owner=user)
-    participating = [p.trial for p in user.participant_set.all()]
+    participating = user.participant_set.all()
     return dict(running=running, participating=participating)

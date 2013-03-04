@@ -5,6 +5,9 @@
         </a>
         <ul class="nav">
           <li class="active"><a href="{% url 'trials' %}">Trials</a></li>
+          {% if request.user.is_superuser %}
+            <li><a href="/admin/">Admin</a></li>
+          {% endif %}
           {% if request.user.is_authenticated %}
           <li><a href="#">Profile</a></li>
           <li><a href="#">Account</a></li>

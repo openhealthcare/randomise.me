@@ -1,5 +1,6 @@
 {% extends 'baser.html' %}
 {% load tabs %}
+{% load trial_cta %}
 {% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
 {% block content %}
 <div class="page">
@@ -29,12 +30,7 @@
       <p>
         {{ trial.time_remaining }} ({{ trial.finish_date }})
       </p>
-        <a href="{% url 'join-trial' trial.pk%}"
-           class="btn btn-danger {% if not trial.can_join %}disabled{% endif %}"
-           {% if not trial.can_join %}disabled="disabled"{% endif %}
-           >
-          Join This Trial
-        </a>
+      {% trial_cta trial request.user %}
     </div>
   </div>
 

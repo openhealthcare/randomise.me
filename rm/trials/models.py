@@ -48,6 +48,7 @@ class Trial(models.Model):
     finish_date       = models.DateField()
     finished          = models.BooleanField(default=False, editable=False)
     owner             = models.ForeignKey(User, editable=False)
+    featured          = models.BooleanField(default=False)
 
     def __unicode__(self):
         """
@@ -100,11 +101,17 @@ class Trial(models.Model):
         Ensure that we haven't gone over the max_participants level,
         raising TooManyParticipantsError if we have.
 
-        Ensure that this user hasn't already joined the trial
+        Ensure that this user hasn't already joined the trial, raising
+        AlreadyJoinedError if we have.
+
+        Ensure that this user doesn't own the trial, raising
+        TrialOwnerError if they do.
 
         If nobody has joined yet, we go to Group A, else Group A if
         the groups are equal, else Group B.
         """
+        if self.owner == user:
+            raise exceptions.TrialOwnerError()
         if Participant.objects.filter(trial=self, user=user).count() > 0:
             raise exceptions.AlreadyJoinedError()
         if self.participant_set.count() >= self.max_participants:
@@ -138,3 +145,9 @@ class Participant(models.Model):
     user  = models.ForeignKey(User)
     trial = models.ForeignKey(Trial)
     group = models.ForeignKey(Group)
+
+    def __unicode__(self):
+        """
+        Pretty printin'
+        """
+        return '<{0} - {1} ({2})>'.format(self.user, self.trial, self.group)

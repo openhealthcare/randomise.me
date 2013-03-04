@@ -6,7 +6,7 @@
     <div class="row-fluid">
       {% tabs 'trials' %}
       <h2>Popular Active Trials</h2>
-      <div class="span6">
+      <div class="span4">
         <p>
           Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
           tellus ac cursus commodo, tortor mauris condimentum nibh, ut
@@ -15,7 +15,7 @@
         </p>
       </div>
 
-      <div class="span5">
+      <div class="span4">
         <ul>
           {% for trial in active %}
             <li class="yellow">
@@ -26,11 +26,25 @@
           {% endfor %}
         </ul>
       </div>
+
+      <div class="span3">
+        <h4>Featured Active Trials</h4>
+        <ul>
+          {% for trial in active_featured %}
+            <li class="red">
+              <a href="{{ trial.get_absolute_url }}">
+                {{ trial.name }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
     </div>
 
     <div class="row-fluid">
       <h2>Popular Past Trials</h2>
-      <div class="span6">
+      <div class="span4">
         <p>
           Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
           tellus ac cursus commodo, tortor mauris condimentum nibh, ut
@@ -39,7 +53,7 @@
         </p>
       </div>
 
-      <div class="span5">
+      <div class="span4">
         <ul>
           {% for trial in past %}
             <li class="yellow">

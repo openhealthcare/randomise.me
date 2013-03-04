@@ -1,0 +1,14 @@
+{% if owner %}
+  You Own this trial
+{% elif participating %}
+  <a href="#" class="btn btn-danger">
+    Report Data
+  </a>
+{% else %}
+  <a href="{% url 'join-trial' trial.pk %}"
+          class="btn btn-danger {% if not trial.can_join %}disabled{% endif %}"
+          {% if not trial.can_join %}disabled="disabled"{% endif %}
+          >
+          Join This Trial
+  </a>
+{% endif %}

@@ -12,6 +12,7 @@
         <th>Name</th>
         <th>Required participants</th>
         <th>Current participants</th>
+        <th>Public?</th>
       </tr>
       {% for trial in running %}
         <tr>
@@ -22,6 +23,13 @@
           </td>
           <td>{{ trial.min_participants }}</td>
           <td>{{ trial.participant_set.count }}</td>
+          <td>
+            {% if trial.private %}
+              <i class="icon-lock"></i>
+            {% else %}
+              <i class="icon-unlock"></i>
+            {% endif %}
+          </td>
         </tr>
       {% endfor %}
     </table>
@@ -35,16 +43,16 @@
         <th>Finish Date</th>
         <th>Data</th>
       </tr>
-      {% for trial in participating %}
+      {% for part in participating %}
         <tr>
           <td>
-            <a href="{{ trial.get_absolute_url }}">
-              {{ trial.name }}
+            <a href="{{ part.trial.get_absolute_url }}">
+              {{ part.trial.name }}
             </a>
           </td>
-          <td>{{ trial.finish_date}}</td>
+          <td>{{ part.trial.finish_date}}</td>
           <td>
-            <a href="{{ trial.get_reporting_url}}" class="btn btn-danger">
+            <a href="{{ part.trial.get_reporting_url}}" class="btn btn-danger">
               Report data
             </a>
           </td>

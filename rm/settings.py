@@ -264,6 +264,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'rm.urls'
@@ -296,9 +297,10 @@ INSTALLED_APPS = (
   #  'allauth.socialaccount.providers.linkedin',
     'allauth.socialaccount.providers.openid',
 #    'allauth.socialaccount.providers.twitter',
+
     'bootstrapform',
+    'debug_toolbar',
     'django_extensions',
-    'django_jinja2',
 
     'south',
     # Our Apps
@@ -333,6 +335,8 @@ LOGGING = {
         },
     }
 }
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 # Email
 

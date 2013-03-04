@@ -15,3 +15,8 @@ class AlreadyJoinedError(Error):
     """
     A user tried to join a trial twice - sounds wonky to me.
     """
+
+class TrialOwnerError(Error):
+    """
+    The trial owner attempted something they shouldn't
+    """

@@ -1,14 +1,12 @@
 {% extends 'baser.html' %}
 {% block htmlclass%} nologo {% endblock %}
 {% block content %}
-      <!-- Jumbotron -->
       <div class="jumbotron">
         <img src="{{ STATIC_URL }}img/rmfull.png">
       </div>
 
       <hr>
 
-      <!-- Example row of columns -->
       <div class="row-fluid">
 
         <div class="span4">
@@ -28,17 +26,30 @@
             fermentum massa justo sit amet risus. Etiam porta sem malesuada
             magna mollis euismod. Donec sed odio dui.
           </p>
-          <p><a class="btn btn-danger" href="{% url 'signup' %}">SIGN UP</a></p>
+          <p><a class="btn btn-danger" href="{% url 'account-types' %}">SIGN UP</a></p>
        </div>
 
         <div class="span4">
-          <p>
-            Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-            egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-            Fusce dapibus, tellus ac cursus commodo, tortor mauris
-            condimentum nibh, ut fermentum massa.
-          </p>
-          <p><a class="btn btn-danger" href="#">FEATURED TRIALS</a></p>
+          <ul>
+            {% for trial in featured %}
+              <li class="yellow">
+                <h4>
+                  <a href="{{ trial.get_absolute_url }}">
+                    {{ trial.name }}
+                  </a>
+                </h4>
+                <p>
+                  {{ trial.description }}
+                </p>
+                <p>
+                  <a href="{{ trial.get_absolute_url }}">
+                    read more...
+                  </a>
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+          <p><a class="btn btn-danger" href="{% url 'featured' %}">FEATURED TRIALS</a></p>
         </div>
       </div>
 
