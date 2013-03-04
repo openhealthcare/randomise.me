@@ -1,6 +1,8 @@
 {% extends 'baser.html' %}
 {% load tabs %}
 {% load trial_cta %}
+{% load comments %}
+
 {% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
 {% block content %}
 <div class="page">
@@ -31,6 +33,38 @@
         {{ trial.time_remaining }} ({{ trial.finish_date }})
       </p>
       {% trial_cta trial request.user %}
+    </div>
+  </div>
+  {% get_comment_count for trial as comment_count %}
+  <div class="row-fluid">
+    <div class="span6">
+      {% if comment_count == 0 %}
+        <h4>Be the frist to comment on this trial</h4>
+      {% else %}
+        <h4>{{ comment_count }} comments on this trial</h4>
+      {% endif %}
+      {% render_comment_list for trial %}
+
+      <hr />
+
+      {% if user.is_authenticated %}
+        {% get_comment_form for object as form %}
+        <form action="{% comment_form_target %}" method="POST">
+          {% csrf_token %}
+          <div class="controls">
+            {{ form.comment }}
+          </div>
+          {{ form.honeypot }}
+          {{ form.content_type }}
+          {{ form.object_pk }}
+          {{ form.timestamp }}
+          {{ form.security_hash }}
+          <input type="hidden" name="next" value="{% url 'trial-detail' trial.pk %}" />
+          <input class="btn btn-danger" type="submit" value="Add comment" id="id_submit" />
+        </form>
+      {% else %}
+        <p>Please <a href="{% url 'account_login' %}?next={{ trial.get_absolute_url }}">log in</a> to leave a comment.</p>
+      {% endif %}
     </div>
   </div>
 

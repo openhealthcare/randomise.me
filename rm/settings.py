@@ -283,6 +283,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.comments',
+
     'grappelli', # Has to be here before the admin. Stupid.
     'django.contrib.admin',
     # 3rd Party
@@ -349,6 +351,10 @@ EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD', None)
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
 LOGIN_REDIRECT_URL = '/dash'
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+    }
 
 # Allauth
 SOCIALACCOUNT_PROVIDERS = \

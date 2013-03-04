@@ -92,3 +92,7 @@ html.nologo .masthead #header-logo {
 fieldset.collapsed div {
     /* display: none; */
 }
+
+#id_honeypot {
+    display: none;
+}

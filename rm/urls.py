@@ -18,6 +18,8 @@ urlpatterns = patterns(
     (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^comments/', include('django.contrib.comments.urls')),
+
     url(r'^/?$', HomeView.as_view(), name='home'),
     url(r'account-types$', TemplateView.as_view(template_name='account_types.html'),
         name='account-types'),

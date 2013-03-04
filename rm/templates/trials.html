@@ -28,7 +28,11 @@
       </div>
 
       <div class="span3">
-        <h4>Featured Active Trials</h4>
+        <h4>
+          <a href="{% url 'featured' %}">
+            Featured Active Trials
+          </a>
+        </h4>
         <ul>
           {% for trial in active_featured %}
             <li class="red">
