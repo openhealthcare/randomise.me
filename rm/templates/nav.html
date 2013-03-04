@@ -8,7 +8,7 @@
           {% if request.user.is_authenticated %}
           <li><a href="#">Profile</a></li>
           <li><a href="#">Account</a></li>
-          <li><a href="/logout">Log Out</a></li>
+          <li><a href="/logout">Log Out {{ request.user }}</a></li>
           {% else %}
           <li><a href="/accounts/login">Log In</a></li>
           {% endif %}

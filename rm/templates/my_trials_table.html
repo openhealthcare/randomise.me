@@ -1,3 +1,9 @@
+{% if trials.count == 0 %}
+  <p>
+    Looks like you haven't <a href="{% url 'trial-create' %}">created</a>
+    or <a href="{% url 'trials' %}">joined</a> any trials yet!
+  </p>
+{% else %}
 <table class="table table-striped table-bordered">
   <tr>
     <th>
@@ -22,3 +28,4 @@
     </tr>
   {% endfor %}
 </table>
+{% endif %}

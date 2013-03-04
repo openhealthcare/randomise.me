@@ -340,7 +340,7 @@ EMAIL_HOST_USER = os.environ.get('SENDGRID_USERNAME', None)
 EMAIL_HOST= 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD', None
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD', None)
 
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
