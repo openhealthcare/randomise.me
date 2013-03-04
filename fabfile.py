@@ -8,10 +8,16 @@ def manage(what):
     local('heroku run python manage.py {0}'.format(what))
 
 @task
+def migrate():
+    """
+    Update the database
+    """
+    manage('syncdb')
+    manage('migrate')
+
+@task
 def deploy():
     """
     Make it so!
     """
     local('git push heroku master')
-    manage('syncdb')
-    manage('migrate')

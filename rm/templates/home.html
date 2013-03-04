@@ -30,27 +30,15 @@
        </div>
 
         <div class="span4">
-          <ul>
-            {% for trial in featured %}
-              <li class="yellow">
-                <h4>
-                  <a href="{{ trial.get_absolute_url }}">
-                    {{ trial.name }}
-                  </a>
-                </h4>
-                <p>
-                  {{ trial.description }}
-                </p>
-                <p>
-                  <a href="{{ trial.get_absolute_url }}">
-                    read more...
-                  </a>
-                </p>
-              </li>
-            {% endfor %}
-          </ul>
+          <p>
+            Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
+            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+            fermentum massa justo sit amet risus. Etiam porta sem malesuada
+            magna mollis euismod. Donec sed odio dui.
+          </p>
           <p><a class="btn btn-danger" href="{% url 'featured' %}">FEATURED TRIALS</a></p>
         </div>
+
       </div>
 
 {% endblock %}
