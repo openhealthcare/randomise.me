@@ -7,6 +7,8 @@ distribute==0.6.24
 dj-database-url==0.2.1
 django-allauth==0.9.0
 django-bootstrap-form==2.0.5
+django-debug-toolbar==0.9.4
+django-devserver==0.4.0
 django-extensions==1.0.3
 django-form-utils==0.2.0
 django-grappelli==2.4.4
