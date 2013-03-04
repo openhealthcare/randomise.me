@@ -47,6 +47,12 @@ class Trial(models.Model):
     finished          = models.BooleanField(default=False, editable=False)
     owner             = models.ForeignKey(User, editable=False)
 
+    def __unicode__(self):
+        """
+        Nice printing representation
+        """
+        return '<{0}>'.format(self.name)
+
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.pk})
 

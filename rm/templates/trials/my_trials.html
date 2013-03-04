@@ -1,0 +1,14 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+{% load my_trials %}
+{% block extratitle %} - My Trials{% endblock %}
+{% block content %}
+  <div class="page">
+    <div class="row-fluid">
+      {% tabs 'mytrials' %}
+      <div class="span8">
+        {% my_trials %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

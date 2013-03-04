@@ -4,10 +4,7 @@
 {% block content %}
   <div class="page">
     <div class="row-fluid">
-      {% if request.user.is_authenticated %}
       {% tabs 'trials' %}
-      {% endif %}
-      <h1>Trials</h1>
       <h2>Popular Active Trials</h2>
       <div class="span6">
         <p>
@@ -20,9 +17,13 @@
 
       <div class="span5">
         <ul>
-          <li class="yellow">1. Donec id elit non </li>
-          <li class="yellow">2. mi porta gravida at</li>
-          <li class="yellow">eget metus. Fusce dapibus</li>
+          {% for trial in active %}
+            <li class="yellow">
+              <a href="{{ trial.get_absolute_url }}">
+                {{ trial.name }}
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
@@ -40,9 +41,13 @@
 
       <div class="span5">
         <ul>
-          <li class="yellow">1. Donec id elit non </li>
-          <li class="yellow">2. mi porta gravida at</li>
-          <li class="yellow">eget metus. Fusce dapibus</li>
+          {% for trial in past %}
+            <li class="yellow">
+              <a href="{{ trial.get_absolute_url }}">
+                {{ trial.name }}
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </div>

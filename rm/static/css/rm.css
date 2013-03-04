@@ -90,5 +90,5 @@ html.nologo .masthead #header-logo {
 
 /* Form stuffs */
 fieldset.collapsed div {
-    display: none;
+    /* display: none; */
 }

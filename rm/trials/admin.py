@@ -10,5 +10,6 @@ class TrialAdmin(admin.ModelAdmin):
     Tweak trials in the admin.
     """
     list_filter = ('owner',)
+    list_display = ['name', 'url', 'private', 'finish_date', 'owner']
 
 admin.site.register(Trial, TrialAdmin)

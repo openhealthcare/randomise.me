@@ -1,7 +1,9 @@
 """
 A create trial view?
 """
-from django.views.generic import DetailView
+import datetime
+
+from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView
 
 from rm.trials.forms import TrialForm
@@ -29,3 +31,25 @@ class TrialCreate(CreateView):
         """
         form.instance.owner = self.request.user
         return super(TrialCreate, self).form_valid(form)
+
+class AllTrials(TemplateView):
+    """
+    The all trials tab of the site
+    """
+    template_name = 'trials.html'
+
+    def get_context_data(self, **kw):
+        """
+        Add popular and featured trials to the all trials page
+        """
+        context = super(AllTrials, self).get_context_data(**kw)
+        today = datetime.datetime.today()
+        context['active'] = Trial.objects.filter(finish_date__gte=today)
+        context['past'] = Trial.objects.filter(finish_date__lt=today)
+        return context
+
+class MyTrials(TemplateView):
+    """
+    Trials associated with this user
+    """
+    template_name = 'trials/my_trials.html'
