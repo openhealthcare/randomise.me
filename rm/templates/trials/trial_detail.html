@@ -19,14 +19,22 @@
       </p>
     </div>
     <div class="span5">
-      <h4>Current Participants</h4>
-      <p>
-        *A real number here please*
-      </p>
-      <h4>Time remaining</h4>
+      <h4>
+        Required Participants: {{ trial.min_participants }}
+      </h4>
+      <h4>
+        Current Participants: {{ trial.participant_set.count }}
+      </h4>
+      <h4>Time remaining:</h4>
       <p>
         {{ trial.time_remaining }} ({{ trial.finish_date }})
       </p>
+        <a href="{% url 'join-trial' trial.pk%}"
+           class="btn btn-danger {% if not trial.can_join %}disabled{% endif %}"
+           {% if not trial.can_join %}disabled="disabled"{% endif %}
+           >
+          Join This Trial
+        </a>
     </div>
   </div>
 

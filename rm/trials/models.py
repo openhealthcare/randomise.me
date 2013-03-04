@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 
+from rm import exceptions
+
 class Trial(models.Model):
     """
     An individual trial that we are running.
@@ -64,3 +66,75 @@ class Trial(models.Model):
         if self.finish_date < today:
             return 'Trial finished'
         return self.finish_date - today
+
+    def can_join(self):
+        """
+        Predicate method to determine whether users are able to
+        join this trial.
+
+        We decide that a trial is unjoinable if it's finish date has
+        passed, or if it's max participants limit has been met.
+        """
+        today = datetime.date.today()
+        if self.finish_date < today:
+            return False
+        if self.participant_set.count() >= self.max_participants:
+            return False
+        return True
+
+    def ensure_groups(self):
+        """
+        Ensure that the groups for this trial exist.
+        """
+        groupa = Group.objects.get_or_create(trial=self, name='a')[0]
+        groupb = Group.objects.get_or_create(trial=self, name='b')[0]
+        return groupa, groupb
+
+    def join(self, user):
+        """
+        Add a user to our trial.
+
+        Make sure that the trial has groups, then randomly assign USER
+        to one of those groups.
+
+        Ensure that we haven't gone over the max_participants level,
+        raising TooManyParticipantsError if we have.
+
+        Ensure that this user hasn't already joined the trial
+
+        If nobody has joined yet, we go to Group A, else Group A if
+        the groups are equal, else Group B.
+        """
+        if Participant.objects.filter(trial=self, user=user).count() > 0:
+            raise exceptions.AlreadyJoinedError()
+        if self.participant_set.count() >= self.max_participants:
+            raise exceptions.TooManyParticipantsError()
+        groupa, groupb = self.ensure_groups()
+        a_parts = groupa.participant_set.count()
+        b_parts = groupb.participant_set.count()
+        if a_parts == 0 or a_parts == b_parts:
+            Participant(trial=self, group=groupa, user=user).save()
+        else:
+            Participant(trial=self, group=groupb, user=user).save()
+
+
+class Group(models.Model):
+    """
+    The randomised groups of participants, automatically
+    created for our trials
+    """
+    NAME_CHOICES = (
+        ('A', 'Group A'),
+        ('B', 'Group B')
+        )
+    trial = models.ForeignKey(Trial)
+    name  = models.CharField(max_length=1, choices=NAME_CHOICES)
+
+
+class Participant(models.Model):
+    """
+    A participant in a trial
+    """
+    user  = models.ForeignKey(User)
+    trial = models.ForeignKey(Trial)
+    group = models.ForeignKey(Group)

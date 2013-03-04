@@ -3,9 +3,10 @@ A create trial view?
 """
 import datetime
 
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, View
 from django.views.generic.edit import CreateView
 
+from rm import exceptions
 from rm.trials.forms import TrialForm
 from rm.trials.models import Trial
 
@@ -53,3 +54,41 @@ class MyTrials(TemplateView):
     Trials associated with this user
     """
     template_name = 'trials/my_trials.html'
+
+class JoinTrial(TemplateView):
+    """
+    Allow a user to join a trial
+    """
+    template_name = 'trials/join_trial.html'
+
+    def __init__(self, *args, **kwargs):
+        """
+        Add an errors container
+        """
+        self.errors = []
+        super(JoinTrial, self).__init__(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        """
+        We visit the trial page, assign groups and
+        send emails, then display a nice message.
+        """
+        trial = Trial.objects.get(pk=kwargs['pk'])
+        self.trial = trial
+        user = self.request.user
+        try:
+            trial.join(user)
+        except exceptions.TooManyParticipantsError:
+            self.errors.append('Too many participants on this trial already')
+        except exceptions.AlreadyJoinedError:
+            self.errors.append('You were already participating in this trial!')
+        return super(JoinTrial, self).get(self, * args, **kwargs)
+
+    def get_context_data(self, **kw):
+        """
+        We'd like access to the trial in our joined template
+        """
+        context = super(JoinTrial, self).get_context_data(**kw)
+        context['errors'] = self.errors
+        context['trial']  = self.trial
+        return context

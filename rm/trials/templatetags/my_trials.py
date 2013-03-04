@@ -3,7 +3,7 @@ Render the my trials table for a given user
 """
 from django import template
 
-from rm.trials.models import Trial
+from rm.trials.models import Trial, Participant
 
 register = template.Library()
 
@@ -13,7 +13,7 @@ def my_trials(context):
     Pass the trial queryset through to the table
     to be rendered.
     """
-#    with_status = [(t, t.status(user)) for t in context['trials']]
     user = context['request'].user
-    trials = Trial.objects.filter(owner=user)
-    return dict(trials=trials)
+    running = Trial.objects.filter(owner=user)
+    participating = [p.trial for p in user.participant_set.all()]
+    return dict(running=running, participating=participating)

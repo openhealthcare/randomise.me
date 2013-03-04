@@ -1,0 +1,23 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+{% block extratitle %} - Join a Trial - {{ trial.name }}{% endblock %}
+{% block content %}
+<div class="page">
+  <div class="row-fluid">
+    {% tabs '' %}
+    {% if errors %}
+      {% for err in errors %}
+        <p>{{ err }}</p>
+      {% endfor %}
+    {% else%}
+      <p>
+        Congratulations - you're signed up to <b>{{ trial.name }}</b>.
+      </p>
+      <p>
+        When the trial starts, we'll email you the instructions,
+        so make sure to check your mail!
+      </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

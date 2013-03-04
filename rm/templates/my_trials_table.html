@@ -1,31 +1,57 @@
-{% if trials.count == 0 %}
+{% if participating.count == 0 and running.count == 0 %}
   <p>
     Looks like you haven't <a href="{% url 'trial-create' %}">created</a>
     or <a href="{% url 'trials' %}">joined</a> any trials yet!
   </p>
 {% else %}
-<table class="table table-striped table-bordered">
-  <tr>
-    <th>
-      Name
-    </th>
-    <th>
-      Required participants
-    </th>
-    <th>
-      Current participants
-    </th>
-  </tr>
-  {% for trial in trials %}
-    <tr>
-      <td>
-        <a href="{{ trial.get_absolute_url }}">
-          {{ trial.name }}
-        </a>
-      </td>
-      <td>{{ trial.min_participants}}</td>
-      <td>*Real participants number heare please!+*</td>
-    </tr>
-  {% endfor %}
-</table>
+
+  {% if running.count > 0 %}
+    <h3>Trials you're running</h3>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th>Name</th>
+        <th>Required participants</th>
+        <th>Current participants</th>
+      </tr>
+      {% for trial in running %}
+        <tr>
+          <td>
+            <a href="{{ trial.get_absolute_url }}">
+              {{ trial.name }}
+            </a>
+          </td>
+          <td>{{ trial.min_participants }}</td>
+          <td>{{ trial.participant_set.count }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if participating.count > 0 %}
+    <h3>Trials you're participating in</h3>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th>Name</th>
+        <th>Finish Date</th>
+        <th>Data</th>
+      </tr>
+      {% for trial in participating %}
+        <tr>
+          <td>
+            <a href="{{ trial.get_absolute_url }}">
+              {{ trial.name }}
+            </a>
+          </td>
+          <td>{{ trial.finish_date}}</td>
+          <td>
+            <a href="{{ trial.get_reporting_url}}" class="btn btn-danger">
+              Report data
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+
 {% endif %}
