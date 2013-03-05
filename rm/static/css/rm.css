@@ -37,6 +37,8 @@ li.red {
 /* Utility classes */
 .block { display: block; }
 .center { margin: 0 auto; }
+.green { color: green; }
+.red { color: red; }
 
 /* Header */
 html.nologo .masthead #header-logo {
