@@ -21,31 +21,32 @@ class Trial(models.Model):
         (BINARY, 'Binary'),
         (COUNT,  'Count')
         )
-    ASAP = 'as'
-    HOUR = 'ho'
-    DATE = 'dr'
-    INSTRUCT_STYLE_CHOICES = (
-        (ASAP, 'As soon as they can'),
-        (HOUR, 'X hours after joining'),
-        (DATE, 'On this date and time')
-        )
+
+    HELP_URL = """This allows you to set a human-friendly url for your trial
+so you can share nice links to it. If your url is set to 'awesome-trial' then
+your trial will be available from randomise.me/awesome-trial. Valid characters
+in your URL are letters, numbers underscores and hyphens. If you're into
+regex, that's ([a-zA-Z0-9_-]+). You don't have to set a URL now, you can always
+come back to it later."""
+    HELP_DESC = """This is the explanatory text about your trial that will be
+publically visible."""
+    HELP_A = """These are the instructions that will be sent to Group A."""
+    HELP_B = """These are the instructions thbt will be sent to Group B."""
+    HELP_FINISH = "The date you would like your trial to finish (YYYY-MM-DD)"
 
     name              = models.CharField(max_length=200)
-    url               = models.CharField(max_length=120, unique=True)
+    url               = models.CharField(max_length=120, unique=True,
+                                         help_text=HELP_URL, blank=True, null=True)
     private           = models.BooleanField(default=False)
-    question          = models.TextField()
     style             = models.CharField(max_length=2, choices=STYLE_CHOICES)
-    description       = models.TextField()
-    group_a           = models.TextField()
-    group_b           = models.TextField()
-    instruct_style    = models.CharField(max_length=2, choices=INSTRUCT_STYLE_CHOICES)
-    instruct_hour     = models.IntegerField(blank=True, null=True)
-    instruct_date     = models.DateTimeField(blank=True, null=True)
+    description       = models.TextField(help_text=HELP_DESC)
+    group_a           = models.TextField(help_text=HELP_A)
+    group_b           = models.TextField(help_text=HELP_B)
     min_participants  = models.IntegerField()
     max_participants  = models.IntegerField()
-    group_a_expected  = models.IntegerField()
-    group_b_impressed = models.IntegerField()
-    finish_date       = models.DateField()
+    group_a_expected  = models.IntegerField(blank=True, null=True)
+    group_b_impressed = models.IntegerField(blank=True, null=True)
+    finish_date       = models.DateField(help_text=HELP_FINISH)
     finished          = models.BooleanField(default=False, editable=False)
     owner             = models.ForeignKey(User, editable=False)
     featured          = models.BooleanField(default=False)
