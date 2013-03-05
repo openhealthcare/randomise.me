@@ -27,7 +27,7 @@ so you can share nice links to it. If your url is set to 'awesome-trial' then
 your trial will be available from randomise.me/awesome-trial. Valid characters
 in your URL are letters, numbers underscores and hyphens. If you're into
 regex, that's ([a-zA-Z0-9_-]+). You don't have to set a URL now, you can always
-come back to it later."""
+come back to it later. (Not implemented yet)"""
     HELP_DESC = """This is the explanatory text about your trial that will be
 publically visible."""
     HELP_A = """These are the instructions that will be sent to Group A."""
@@ -35,7 +35,8 @@ publically visible."""
     HELP_FINISH = "The date you would like your trial to finish (YYYY-MM-DD)"
 
     name              = models.CharField(max_length=200)
-    url               = models.CharField(max_length=120, unique=True,
+    # TODO Validate and implement this.
+    url               = models.CharField(max_length=120,
                                          help_text=HELP_URL, blank=True, null=True)
     private           = models.BooleanField(default=False)
     style             = models.CharField(max_length=2, choices=STYLE_CHOICES)
