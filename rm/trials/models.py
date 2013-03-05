@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from rm import exceptions
+from rm.trials.validators import not_historic
 
 class Trial(models.Model):
     """
@@ -47,7 +48,8 @@ publically visible."""
     max_participants  = models.IntegerField()
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
-    finish_date       = models.DateField(help_text=HELP_FINISH)
+    finish_date       = models.DateField(help_text=HELP_FINISH,
+                                         validators=[not_historic])
     finished          = models.BooleanField(default=False, editable=False)
     owner             = models.ForeignKey(User, editable=False)
     featured          = models.BooleanField(default=False)

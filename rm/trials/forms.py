@@ -1,7 +1,6 @@
 """
 Custom forms for the creation of Trials
 """
-#from django import forms
 from form_utils.forms import BetterModelForm
 
 from rm.trials.models import Trial
