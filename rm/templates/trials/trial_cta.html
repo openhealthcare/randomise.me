@@ -5,10 +5,11 @@
     Report Data
   </a>
 {% else %}
-  <a href="{% url 'join-trial' trial.pk %}"
-          class="btn btn-danger {% if not trial.can_join %}disabled{% endif %}"
-          {% if not trial.can_join %}disabled="disabled"{% endif %}
-          >
-          Join This Trial
-  </a>
+  <{% if trial.can_join %}a{% else %}button{% endif %}
+      href="{% url 'join-trial' trial.pk %}"
+      class="btn btn-danger {% if not trial.can_join %}disabled{% endif %}"
+      {% if not trial.can_join %}disabled="disabled"{% endif %}
+      >
+      Join This Trial
+  </{% if trial.can_join %}a{% else %}button{% endif %}>
 {% endif %}
