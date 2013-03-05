@@ -25,5 +25,5 @@ class HomeView(TemplateView):
         Add featured trials for the homepage
         """
         context = super(HomeView, self).get_context_data(**kw)
-        context['featured'] = Trial.objects.filter(featured=True)[:4]
+        context['featured'] = Trial.objects.filter(featured=True, private=False)[:4]
         return context

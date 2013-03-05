@@ -61,10 +61,13 @@ class AllTrials(TemplateView):
         """
         context = super(AllTrials, self).get_context_data(**kw)
         today = datetime.datetime.today()
-        context['active'] = Trial.objects.filter(finish_date__gte=today)
+        context['active'] = Trial.objects.filter(finish_date__gte=today,
+                                                 private=False)
         context['active_featured'] = Trial.objects.filter(finish_date__gte=today,
-                                                          featured=True)
-        context['past'] = Trial.objects.filter(finish_date__lt=today)
+                                                          featured=True,
+                                                          private=False)
+        context['past'] = Trial.objects.filter(finish_date__lt=today,
+                                               private=False)
         return context
 
 
@@ -74,14 +77,16 @@ class MyTrials(TemplateView):
     """
     template_name = 'trials/my_trials.html'
 
+
 class FeaturedTrialsList(ListView):
     """
     This is the list view for featured Trials - an editorially
     decided subset of all trials.
     """
-    queryset            = Trial.objects.filter(featured=True)
+    queryset            = Trial.objects.filter(featured=True, private=False)
     context_object_name = 'trials'
     template_name       = 'trials/featured_trial_list.html'
+
 
 class JoinTrial(LoginRequiredMixin, TemplateView):
     """
