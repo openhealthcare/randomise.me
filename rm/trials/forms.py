@@ -4,6 +4,7 @@ Custom forms for the creation of Trials
 from form_utils.forms import BetterModelForm
 
 from rm.trials.models import Trial
+from rm.trials.validators import not_historic
 
 class TrialForm(BetterModelForm):
     """
@@ -28,3 +29,9 @@ class TrialForm(BetterModelForm):
                           'legend': 'Trial Duration',
                           'classes': ['collapsed']})
             ]
+
+    def clean_finish_date(self):
+        """
+        Can we validate that the finish_date isn't in the past please?
+        """
+        not_historic(self.cleaned_data['finish_date'])

@@ -20,3 +20,8 @@ class TrialOwnerError(Error):
     """
     The trial owner attempted something they shouldn't
     """
+
+class TrialFinishedError(Error):
+    """
+    This trial has finished. Some actions now impossible.
+    """

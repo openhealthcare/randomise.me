@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from rm import exceptions
-from rm.trials.validators import not_historic
 
 class Trial(models.Model):
     """
@@ -48,10 +47,9 @@ publically visible."""
     max_participants  = models.IntegerField()
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
-    finish_date       = models.DateField(help_text=HELP_FINISH,
-                                         validators=[not_historic])
+    finish_date       = models.DateField(help_text=HELP_FINISH)
     finished          = models.BooleanField(default=False, editable=False)
-    owner             = models.ForeignKey(User, editable=False)
+    owner             = models.ForeignKey(User)
     featured          = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -111,11 +109,17 @@ publically visible."""
         Ensure that this user doesn't own the trial, raising
         TrialOwnerError if they do.
 
+        Ensure that this trial isn't already finished, raising
+        TrialFinishedError if it is.
+
         If nobody has joined yet, we go to Group A, else Group A if
         the groups are equal, else Group B.
         """
         if self.owner == user:
             raise exceptions.TrialOwnerError()
+        today = datetime.date.today()
+        if self.finish_date < today:
+            raise exceptions.TrialFinishedError()
         if Participant.objects.filter(trial=self, user=user).count() > 0:
             raise exceptions.AlreadyJoinedError()
         if self.participant_set.count() >= self.max_participants:

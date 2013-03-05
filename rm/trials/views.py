@@ -117,6 +117,8 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
             self.errors.append('You were already participating in this trial!')
         except exceptions.TrialOwnerError:
             self.errors.append('This is your trial - joining it would be wonky!')
+        except exceptions.TrialFinishedError:
+            self.errors.append('This trial has already finished!')
         return super(JoinTrial, self).get(self, * args, **kwargs)
 
     def get_context_data(self, **kw):
