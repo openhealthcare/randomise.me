@@ -9,8 +9,8 @@ from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView
 
 from rm import exceptions
-from rm.trials.forms import TrialForm, UserTrialForm
-from rm.trials.models import Trial, SingleUserTrial
+from rm.trials.forms import TrialForm, UserTrialForm, UserReportForm
+from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
 
 class LoginRequiredMixin(object):
     """
@@ -106,7 +106,7 @@ class UserTrialCreate(CreateView):
     """
     Let's make a trial!
     """
-    context_object_name = "trial"
+    context_object_name = 'trial'
     model               = SingleUserTrial
     form_class          = UserTrialForm
 
@@ -118,11 +118,57 @@ class UserTrialCreate(CreateView):
         return super(UserTrialCreate, self).form_valid(form)
 
 
+class UserReport(CreateView):
+    """
+    Report a single data point for this trial
+    """
+    context_object_name = 'report'
+    model               = SingleUserReport
+    form_class          = UserReportForm
+
+    def get(self, *args,**kw):
+        """
+        Store the trial isntance
+        """
+        self.trial = SingleUserTrial.objects.get(pk=kw['pk'])
+        return super(UserReport, self).get(*args, **kw)
+
+    def post(self, *args,**kw):
+        """
+        Store the trial isntance
+        """
+        self.trial = SingleUserTrial.objects.get(pk=kw['pk'])
+        return super(UserReport, self).post(*args, **kw)
+
+    def get_context_data(self, **kw):
+        """
+        We want access to the trial data in the template please!
+        """
+        trial = getattr(self, 'trial', None)
+        if not trial:
+            raise ValueError()
+        context = super(UserReport, self).get_context_data(**kw)
+        context['trial'] = trial
+        return context
+
+    def form_valid(self, form):
+        """
+        We need to update the report object to set the trial
+        and figure out the group that the user was allocated
+        to on the date in question.
+        """
+        trial = getattr(self, 'trial', None)
+        if not trial:
+            raise ValueError()
+        form.instance.trial = trial
+        return super(UserReport, self).form_valid(form)
+
+
 class UserTrialDetail(DetailView):
     """
     View the details of a single user trial
     """
-    context_object_name = "trial"
+    context_object_name = 'trial'
     model               = SingleUserTrial
 
 # Views for trial discovery - lists, featured, etc.

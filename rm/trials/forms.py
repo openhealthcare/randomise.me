@@ -3,7 +3,7 @@ Custom forms for the creation of Trials
 """
 from form_utils.forms import BetterModelForm
 
-from rm.trials.models import Trial, SingleUserTrial
+from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
 from rm.trials.validators import not_historic
 
 class TrialForm(BetterModelForm):
@@ -68,3 +68,16 @@ class UserTrialForm(BetterModelForm):
     #     Can we validate that the start_date isn't in the past please?
     #     """
     #     not_historic(self.cleaned_data['start_date'])
+
+class UserReportForm(BetterModelForm):
+    """
+    Allow the reporting of data for a trial.
+    """
+    class Meta:
+        model = SingleUserReport
+        fieldsets = [
+            ('Main', {'fields': ['date', 'score'],
+                       'legend': 'Report Data',
+                       'description': ''}),
+
+            ]

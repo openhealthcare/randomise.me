@@ -24,7 +24,7 @@
       <p>
         {{ trial.singleuserreport_set.count }} reports so far.
       </p>
-      <a href="#" class="btn btn-danger">
+      <a href="{% url 'user-trial-report' trial.pk %}" class="btn btn-danger">
         Report Data
       </a>
     </div>

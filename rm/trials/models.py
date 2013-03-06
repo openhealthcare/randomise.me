@@ -223,6 +223,7 @@ class SingleUserAllocation(models.Model):
     date  = models.DateField()
     group = models.CharField(max_length=1, choices=GROUP_CHOICES)
 
+
 class SingleUserReport(models.Model):
     """
     A report of a value for a day in a trial.
@@ -234,4 +235,8 @@ class SingleUserReport(models.Model):
 
     trial = models.ForeignKey(SingleUserTrial)
     group = models.CharField(max_length=1, choices=GROUP_CHOICES)
+    date  = models.DateField()
     score = models.IntegerField()
+
+    def get_absolute_url(self):
+        return reverse('user-trial-detail', kwargs={'pk': self.trial.pk})

@@ -1,0 +1,83 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+{% load bootstrap %}
+{% block extratitle %} - Report Data{% endblock %}
+{% block content %}
+  <div class="page">
+    {% tabs '' %}
+    <h2>
+      <i class="icon-user yellow"></i>
+      Run a trial on yourself
+    </h2>
+
+    <div class="row-fluid">
+      <form id="usertrialreport_form" method="post"
+            action="{% url 'user-trial-report' trial.pk %}">
+        {% csrf_token %}
+
+{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+{% for fieldset in form.fieldsets %}
+  <fieldset {% if not fieldset.errors %}class="{{ fieldset.classes }}"{% endif %}>
+  {% if fieldset.legend %}
+    <legend>{{ fieldset.legend }}</legend>
+  {% endif %}
+  {% if fieldset.description %}
+    <p class="description">{{ fieldset.description }}</p>
+  {% endif %}
+  {% for field in fieldset %}
+    {% if field.is_hidden %}
+      {{ field }}
+    {% else %}
+
+      <div class="control-group{% if field.errors %} error{% endif %}{% if field.field.required %} required{% endif %}">
+        {% if field|is_checkbox %}
+          <div class="controls">
+            <label class="checkbox">
+              {{ field }} <span>{{ field.label }}</span>
+            </label>
+
+            {% for error in field.errors %}
+              <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+
+            {% if field.help_text %}
+              <p class="help-block">
+                {{ field.help_text|safe }}
+              </p>
+            {% endif %}
+          </div>
+        {% else %}
+          <label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+
+          <div class="controls">
+            {{ field }}
+
+            {% for error in field.errors %}
+              <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+
+            {% if field.help_text %}
+              <p class="help-block">
+                {{ field.help_text|safe }}
+              </p>
+            {% endif %}
+
+          </div>
+        {% endif %}
+      </div>
+
+
+    {% endif %}
+  {% endfor %}
+  </fieldset>
+{% endfor %}
+
+
+
+
+        <button class="btn btn-danger" type="submit">Report Data</button>
+      </form>
+
+    </div>
+</div>
+{% endblock %}
