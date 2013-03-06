@@ -6,12 +6,12 @@
   <div class="page">
     {% tabs 'newtrial' %}
     <h2>
-      <i class="icon-group yellow"></i>
-      Run a trial on Randomise Me users
+      <i class="icon-user yellow"></i>
+      Run a trial on yourself
     </h2>
 
     <div class="row-fluid">
-      <form id="newtrial_form" method="post" action="{% url 'trial-create' %}">
+      <form id="newusertrial_form" method="post" action="{% url 'user-trial-create' %}">
         {% csrf_token %}
 
 {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}

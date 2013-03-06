@@ -4,6 +4,10 @@ body {
     padding-bottom: 60px;
 }
 
+h1 {
+    font-weight: normal;
+}
+
 h2 {
     font-weight: normal;
 }
@@ -38,7 +42,8 @@ li.red {
 .block { display: block; }
 .center { margin: 0 auto; }
 .green { color: green; }
-.red { color: red; }
+.yellow { color: #fbc30c; }
+.red { color: #e83e1f; }
 
 /* Header */
 html.nologo .masthead #header-logo {

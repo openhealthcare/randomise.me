@@ -6,8 +6,8 @@
 {% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
 {% block content %}
 <div class="page">
+  {% tabs 'trialdetail' %}
   <div class="row-fluid">
-    {% tabs 'trialdetail' %}
     <h1>
       {{ trial.name }}
     </h1>

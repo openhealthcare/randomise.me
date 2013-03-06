@@ -13,7 +13,11 @@ def my_trials(context):
     Pass the trial queryset through to the table
     to be rendered.
     """
-    user = context['request'].user
-    running = Trial.objects.filter(owner=user)
+    user          = context['request'].user
+    running       = Trial.objects.filter(owner=user)
     participating = user.participant_set.all()
-    return dict(running=running, participating=participating)
+    usertrials    = user.singleusertrial_set.all()
+
+    return dict(running=running,
+                participating=participating,
+                usertrials=usertrials)

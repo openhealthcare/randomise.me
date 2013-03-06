@@ -9,8 +9,8 @@ from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView
 
 from rm import exceptions
-from rm.trials.forms import TrialForm
-from rm.trials.models import Trial
+from rm.trials.forms import TrialForm, UserTrialForm
+from rm.trials.models import Trial, SingleUserTrial
 
 class LoginRequiredMixin(object):
     """
@@ -23,6 +23,16 @@ class LoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+
+# Views for user tabs
+
+class MyTrials(TemplateView):
+    """
+    Trials associated with this user
+    """
+    template_name = 'trials/my_trials.html'
+
+# Views for trials on RM users.
 
 class TrialDetail(DetailView):
     """
@@ -47,45 +57,6 @@ class TrialCreate(CreateView):
         """
         form.instance.owner = self.request.user
         return super(TrialCreate, self).form_valid(form)
-
-
-class AllTrials(TemplateView):
-    """
-    The all trials tab of the site
-    """
-    template_name = 'trials.html'
-
-    def get_context_data(self, **kw):
-        """
-        Add popular and featured trials to the all trials page
-        """
-        context = super(AllTrials, self).get_context_data(**kw)
-        today = datetime.datetime.today()
-        context['active'] = Trial.objects.filter(finish_date__gte=today,
-                                                 private=False)
-        context['active_featured'] = Trial.objects.filter(finish_date__gte=today,
-                                                          featured=True,
-                                                          private=False)
-        context['past'] = Trial.objects.filter(finish_date__lt=today,
-                                               private=False)
-        return context
-
-
-class MyTrials(TemplateView):
-    """
-    Trials associated with this user
-    """
-    template_name = 'trials/my_trials.html'
-
-
-class FeaturedTrialsList(ListView):
-    """
-    This is the list view for featured Trials - an editorially
-    decided subset of all trials.
-    """
-    queryset            = Trial.objects.filter(featured=True, private=False)
-    context_object_name = 'trials'
-    template_name       = 'trials/featured_trial_list.html'
 
 
 class JoinTrial(LoginRequiredMixin, TemplateView):
@@ -129,3 +100,60 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
         context['errors'] = self.errors
         context['trial']  = self.trial
         return context
+
+# Views for trials users run on themselves
+class UserTrialCreate(CreateView):
+    """
+    Let's make a trial!
+    """
+    context_object_name = "trial"
+    model               = SingleUserTrial
+    form_class          = UserTrialForm
+
+    def form_valid(self, form):
+        """
+        Add ownership details to the trial
+        """
+        form.instance.owner = self.request.user
+        return super(UserTrialCreate, self).form_valid(form)
+
+
+class UserTrialDetail(DetailView):
+    """
+    View the details of a single user trial
+    """
+    context_object_name = "trial"
+    model               = SingleUserTrial
+
+# Views for trial discovery - lists, featured, etc.
+
+class AllTrials(TemplateView):
+    """
+    The all trials tab of the site
+    """
+    template_name = 'trials.html'
+
+    def get_context_data(self, **kw):
+        """
+        Add popular and featured trials to the all trials page
+        """
+        context = super(AllTrials, self).get_context_data(**kw)
+        today = datetime.datetime.today()
+        context['active'] = Trial.objects.filter(finish_date__gte=today,
+                                                 private=False)
+        context['active_featured'] = Trial.objects.filter(finish_date__gte=today,
+                                                          featured=True,
+                                                          private=False)
+        context['past'] = Trial.objects.filter(finish_date__lt=today,
+                                               private=False)
+        return context
+
+
+class FeaturedTrialsList(ListView):
+    """
+    This is the list view for featured Trials - an editorially
+    decided subset of all trials.
+    """
+    queryset            = Trial.objects.filter(featured=True, private=False)
+    context_object_name = 'trials'
+    template_name       = 'trials/featured_trial_list.html'

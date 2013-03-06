@@ -1,0 +1,35 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+{% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
+{% block content %}
+<div class="page">
+  {% tabs 'trialdetail' %}
+
+  <h1>{{ trial.name }}</h1>
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        {{ trial.question }}
+      </p>
+      <h4>Runs from:</h4>
+      <p>
+        {{ trial.start_date }} - {{ trial.finish_date }}
+      </p>
+      <h4>Recording:</h4>
+      <p>{{ trial.variable }}</p>
+    </div>
+
+    <div class="span6">
+      <h4>Data collected so far:</h4>
+      <p>
+        {{ trial.singleuserreport_set.count }} reports so far.
+      </p>
+      <a href="#" class="btn btn-danger">
+        Report Data
+      </a>
+    </div>
+
+  </div> <!-- Row -->
+
+</div> <!-- Page -->
+{% endblock %}

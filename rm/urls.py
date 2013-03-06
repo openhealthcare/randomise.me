@@ -10,31 +10,48 @@ from django.contrib import admin
 admin.autodiscover()
 
 from rm.views import HomeView
-from rm.trials.views import (TrialDetail, TrialCreate, AllTrials, MyTrials, JoinTrial,
-                             FeaturedTrialsList)
+from rm.trials.views import (MyTrials,
+                             TrialDetail, TrialCreate, JoinTrial,
+                             UserTrialCreate, UserTrialDetail,
+                             AllTrials, FeaturedTrialsList)
 
 urlpatterns = patterns(
     '',
+    # Boilerplates - not really our app.
     (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
-
     url(r'^comments/', include('django.contrib.comments.urls')),
-
-    url(r'^/?$', HomeView.as_view(), name='home'),
-    url(r'account-types$', TemplateView.as_view(template_name='account_types.html'),
-        name='account-types'),
-    url(r'trials/my-trials$', MyTrials.as_view(), name='mytrials'),
-    url(r'trials/featured$', FeaturedTrialsList.as_view(), name='featured'),
-    url(r'trials/new$', TrialCreate.as_view(), name='trial-create'),
-    url(r'trials/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
-    url(r'trials/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
-    url(r'trials$', AllTrials.as_view(), name='trials'),
-    url(r'dash$', TemplateView.as_view(template_name='dash.html'), name='dash'),
-    url(r'disclaimer$', TemplateView.as_view(template_name='disclaimer.html'),
-        name='disclaimer'),
     (r'^logout/$', 'django.contrib.auth.views.logout',
      {'next_page': '/'}),
     (r'^accounts/', include('allauth.urls')),
+
+    # Pre - login
+    url(r'^/?$', HomeView.as_view(), name='home'),
+    url(r'account-types$', TemplateView.as_view(template_name='account_types.html'),
+        name='account-types'),
+
+    # Site-wide boilerplates - totally our app.
+    url(r'disclaimer$', TemplateView.as_view(template_name='disclaimer.html'),
+        name='disclaimer'),
+
+    # Tabs at the top of a logged-in user's pages
+    url(r'trials/my-trials$', MyTrials.as_view(), name='mytrials'),
+    url(r'trials/new$', TemplateView.as_view(template_name='trials/new.html'),
+        name='trial-create'),
+    url(r'dash$', TemplateView.as_view(template_name='dash.html'), name='dash'),
+
+    # Trials users run on themselves - CRUD routes
+    url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),
+    url(r'trials/user/(?P<pk>\d+)$', UserTrialDetail.as_view(), name='user-trial-detail'),
+
+    # Trials on RM Users - CRUD routes
+    url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),
+    url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
+    url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
+
+    # Multiple ways to see lists of trials
+    url(r'trials/featured$', FeaturedTrialsList.as_view(), name='featured'),
+    url(r'trials$', AllTrials.as_view(), name='trials'),
 
 )
 

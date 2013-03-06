@@ -1,0 +1,79 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+
+{% block extratitle %} - New Trial{% endblock %}
+{% block content %}
+
+<div class="page">
+  {% tabs 'newtrial' %}
+  <div class="row-fluid">
+
+    <div class="span4">
+      <h2>
+        <i class="icon-user yellow"></i>
+        Run a trial on yourself
+      </h2>
+      <p class="muted">
+        <small>
+          Perfect for getting up and running with randomised
+          control trials or testing an idea on yourself to
+          see how this all works. Alternatively you could
+          check out one of our trial templates...
+        </small>
+      </p>
+      <p class="text-center" >
+        <a class="btn btn-danger" href="{% url 'user-trial-create' %}">Create Trial</a>
+      </p>
+    </div><!-- span4 -->
+
+    <div class="span4">
+      <h2>
+        <i class="icon-group yellow"></i>
+        Run a trial on Randomise Me users
+      </h2>
+      <p class="muted">
+        <small>
+          Create a trial that anyone can join on Randomise
+          Me. We'll take care of allocating your participants
+          and sending them their instructions, and we'll guide
+          you through the whole process step-by-step.
+        </small>
+      </p>
+      <p class="text-center" >
+        <a class="btn btn-danger" href="{% url 'rm-trial-create' %}">Create Trial</a>
+      </p>
+    </div><!-- span4 -->
+
+    <div class="span4">
+      <h2>
+        <i class="icon-cloud-upload red"></i>
+        Run an offline trial with your own sample
+      </h2>
+      <p class="muted">
+        <small>
+          For when you want to answer questions about
+          a sample that already exists offline, we'll help
+          you design a great trial, allocate your sample,
+          and run the stats when you're done.
+        </small>
+      </p>
+      <p class="text-center" >
+        <a class="btn btn-danger" href="#">COMING SOON</a>
+      </p>
+      <p class="text-warning">
+        <small>
+          Offline trials are only available to advanced
+          accounts and haven't been implemented yet.
+          We should probably offer to let you upgrade
+          your account here in the fullness of time.
+        </small>
+      </p>
+    </div><!-- span4 -->
+
+  </div> <!-- Row -->
+
+
+
+
+</div>
+{% endblock %}

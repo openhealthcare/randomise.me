@@ -31,7 +31,7 @@ come back to it later. (Not implemented yet)"""
     HELP_DESC = """This is the explanatory text about your trial that will be
 publically visible."""
     HELP_A = """These are the instructions that will be sent to Group A."""
-    HELP_B = """These are the instructions thbt will be sent to Group B."""
+    HELP_B = """These are the instructions that will be sent to Group B."""
     HELP_FINISH = "The date you would like your trial to finish (YYYY-MM-DD)"
 
     name              = models.CharField(max_length=200)
@@ -159,3 +159,79 @@ class Participant(models.Model):
         Pretty printin'
         """
         return '<{0} - {1} ({2})>'.format(self.user, self.trial, self.group)
+
+
+class SingleUserTrial(models.Model):
+    """
+    A trial that a user runs on themselves.
+    These will form part of the on-boarding process in the fullness of time.
+    """
+    HELP_INTERVAL = """This is the frequency with which you're going to
+record data in the trial. It lets us know how often to allocate you into
+one of the groups in the trial.
+"""
+    HELP_START = """This is the date on which the trial will start."""
+    HELP_FINISH = """This is the date on which the trial will finish."""
+    HELP_QUEST = """It helps to have a good description of the question
+you're trying to answer by running this trial. A good example would be
+'Does drinking Tea make you wee?'"""
+    HELP_A = """These are the instructions that will be sent when you're in Group A."""
+    HELP_B = """These are the instructions that will be sent when you're in Group B."""
+    HELP_VAR = """This is the name of the variable you'll be measuring. It's
+useful for us when we draw you pretty graphs. If you were counting the number of
+wees you took on a given day, then a good value here would be 'wees'"""
+
+    DAILY   = 'da'
+    WEEKLY  = 'we'
+    MONTHLY = 'mo'
+    CHOICES_INTERVAL = (
+        (DAILY, 'Daily'),
+        )
+
+    owner       = models.ForeignKey(User)
+    name        = models.CharField(max_length=200)
+    # This is incredibly useful, but Later :)
+    # interval    = models.CharField(max_length=2, choices=CHOICES_INTERVAL,
+    #                                help_text=HELP_INTERVAL)
+    start_date  = models.DateField(help_text=HELP_START)
+    finish_date = models.DateField(help_text=HELP_FINISH)
+    question    = models.TextField(help_text=HELP_QUEST)
+    variable    = models.CharField(max_length=200, help_text=HELP_VAR)
+    group_a     = models.TextField(help_text=HELP_A)
+    group_b     = models.TextField(help_text=HELP_B)
+
+    def __unicode__(self):
+        """
+        Pretty printin'
+        """
+        return '<Single User Trial {0} ({1})>'.format(self.name, self.owner)
+
+    def get_absolute_url(self):
+        return reverse('user-trial-detail', kwargs={'pk': self.pk})
+
+
+class SingleUserAllocation(models.Model):
+    """
+    The daily allocation of a user into a group
+    """
+    GROUP_CHOICES = (
+        ('A', 'Group A'),
+        ('B', 'Group B')
+        )
+
+    trial = models.ForeignKey(SingleUserTrial)
+    date  = models.DateField()
+    group = models.CharField(max_length=1, choices=GROUP_CHOICES)
+
+class SingleUserReport(models.Model):
+    """
+    A report of a value for a day in a trial.
+    """
+    GROUP_CHOICES = (
+        ('A', 'Group A'),
+        ('B', 'Group B')
+        )
+
+    trial = models.ForeignKey(SingleUserTrial)
+    group = models.CharField(max_length=1, choices=GROUP_CHOICES)
+    score = models.IntegerField()
