@@ -1,13 +1,22 @@
 from fabric.api import *
 from fabric.colors import red, green
 
+web = ['ohc@bytemark.ohc']
+PROJ_DIR = '/usr/local/ohc/randomise.me'
+VENV_BIN = '/home/ohc/.virtualenvs/rm/bin/{0}'
+venv_bin = lambda x: VENV_BIN.format(x)
+VENV_PY = venv_bin('python')
+
 def manage(what):
     """
     Run a manage.py command
-    """
-    local('heroku run python manage.py {0}'.format(what))
 
-@task
+    Return: None
+    Exceptions: None
+    """
+    with cd(PROJ_DIR):
+        run('{0} manage.py {1}'.format(VENV_PY, what))
+
 def migrate():
     """
     Update the database
@@ -15,9 +24,27 @@ def migrate():
     manage('syncdb')
     manage('migrate')
 
-@task
+def stop():
+    """
+    Stop the application in production
+    """
+    with cd(PROJ_DIR):
+        run('pkill gunicorn')
+
+def start():
+    """
+    Start the application in production.
+    """
+    with cd(PROJ_DIR):
+        run('{0} -D -c gunicorn_conf.py'.format(venv_bin('gunicorn_django')))
+
+@hosts(web)
 def deploy():
     """
     Make it so!
     """
-    local('git push heroku master')
+    with cd(PROJ_DIR):
+        run('git pull origin master') #not ssh - key stuff
+        run('{0} install -r requirements.txt'.format(venv_bin('pip')))
+        migrate()
+        start()
