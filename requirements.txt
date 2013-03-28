@@ -22,5 +22,4 @@ python-openid==2.2.5
 requests==1.1.0
 six==1.2.0
 wsgiref==0.1.2
-
 -e git://github.com/openhealthcare/django-cas2.git#egg=django_cas2

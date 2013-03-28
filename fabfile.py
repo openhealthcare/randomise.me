@@ -21,8 +21,7 @@ def migrate():
     """
     Update the database
     """
-    manage('syncdb')
-    manage('migrate')
+    manage('syncdb --migrate')
 
 def stop():
     """
