@@ -12,6 +12,9 @@
 
 <h1>{% trans "Sign In" %}</h1>
 
+<div class="row-fluid">
+  <div class="span4">
+
 {% if socialaccount.providers  %}
 <p>{% blocktrans with site.name as site_name %}Please log in with one
 of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
@@ -43,5 +46,17 @@ for an account{% endblocktrans %}</p>
 
   </div>
 </form>
+  </div>
+
+  <div class="span6 offset2">
+    <h4>Or sign in with an existing account...</h4>
+    <p>
+      <a href="{% url 'cas-login' %}">
+        <img src="{{ STATIC_URL }}img/ohc.logo.png" class="" alt="Open Healthcare Account" />
+      </a>
+    </p>
+  </div>
+
+</div>
 
 {% endblock %}

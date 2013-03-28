@@ -25,6 +25,11 @@ urlpatterns = patterns(
      {'next_page': '/'}),
     (r'^accounts/', include('allauth.urls')),
 
+    # CAS login
+    url(r'^cas/login/$', 'django_cas.views.login', name='cas-login'),
+    url(r'^cas/logout/$', 'django_cas.views.logout', name='cas-logout'),
+
+
     # Pre - login
     url(r'^/?$', HomeView.as_view(), name='home'),
     url(r'account-types$', TemplateView.as_view(template_name='account_types.html'),
