@@ -1,3 +1,6 @@
+"""
+Fabfile for Randomise Me
+"""
 from fabric.api import *
 from fabric.colors import red, green
 
@@ -46,4 +49,14 @@ def deploy():
         run('git pull origin master') #not ssh - key stuff
         run('{0} install -r requirements.txt'.format(venv_bin('pip')))
         migrate()
+        stop()
         start()
+
+
+@hosts(web)
+def restart():
+    """
+    Restart the application
+    """
+    stop()
+    start()
