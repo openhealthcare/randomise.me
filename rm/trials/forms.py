@@ -3,7 +3,8 @@ Custom forms for the creation of Trials
 """
 import datetime
 
-from django.forms.widgets import DateInput
+
+from django.forms import widgets
 from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
@@ -11,7 +12,7 @@ from rm import utils
 from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
 from rm.trials.validators import not_historic
 
-class BootstrapDatepickerWidget(DateInput):
+class BootstrapDatepickerWidget(widgets.DateInput):
     """
     Subclass the default date input widget to give us Bootstrap
     friendly datepicker widgets.
@@ -94,8 +95,26 @@ class UserTrialForm(BetterModelForm):
                           'classes': ['collapsed']})
             ]
         widgets = {
+            'name'      :  widgets.TextInput(attrs={
+                    'data-required': 'true',
+                    'data-maxlength': '200',
+                    'data-trigger':  'focusout change'
+                    }),
+            'question'  :  widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'variable'  :  widgets.TextInput(attrs={
+                    'data-required': 'true',
+                    'data-maxlength': '200',
+                    }),
+            'group_a'  :  widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'group_b'  :  widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
             'start_date':  BootstrapDatepickerWidget(),
-            'finish_date': BootstrapDatepickerWidget()
+            'finish_date': BootstrapDatepickerWidget(),
             }
 
     # def clean_finish_date(self):

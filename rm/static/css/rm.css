@@ -21,6 +21,10 @@ li {
     list-style:url(/static/img/disc.grey.png) none;
 }
 
+ul.parsley-error-list li {
+    list-style:url(/static/img/disc.red.png) none;
+}
+
 li.yellow {
     list-style:url(/static/img/disc.yellow.png) none;
 }

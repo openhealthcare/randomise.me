@@ -11,7 +11,7 @@
     </h2>
 
     <div class="row-fluid">
-      <form id="newusertrial_form" method="post" action="{% url 'user-trial-create' %}">
+      <form id="newusertrial_form" method="post" action="{% url 'user-trial-create' %}" data-validate="parsley">
         {% csrf_token %}
 
 {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
