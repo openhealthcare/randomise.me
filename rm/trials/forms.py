@@ -1,10 +1,46 @@
 """
 Custom forms for the creation of Trials
 """
+import datetime
+
+from django.forms.widgets import DateInput
+from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
+from rm import utils
 from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
 from rm.trials.validators import not_historic
+
+class BootstrapDatepickerWidget(DateInput):
+    """
+    Subclass the default date input widget to give us Bootstrap
+    friendly datepicker widgets.
+    """
+    tpl = """<div class="input-append date datepicker" data-date="{today}" data-date-format="dd/mm/yyyy">
+    {field} <span class="add-on"><i class="icon-th"></i></span>
+</div>"""
+
+    def render(self, name, value, attrs={}):
+        """
+        Take what would be there, add some default attributes, and
+        wrap it in a containing div.
+
+        Arguments:
+        - `name`:
+        - `value`:
+        - `attrs`:
+
+        Return:
+        Exceptions:
+        """
+        bs_attrs = dict(
+            size="16", type="text", value=utils.today(), readonly="true"
+            )
+        attrs.update(bs_attrs)
+        markup = super(BootstrapDatepickerWidget, self).render(name, value, attrs)
+        return format_html(self.tpl, field=markup, today=utils.today())
+
+
 
 class TrialForm(BetterModelForm):
     """
@@ -36,6 +72,7 @@ class TrialForm(BetterModelForm):
         """
         not_historic(self.cleaned_data['finish_date'])
 
+
 class UserTrialForm(BetterModelForm):
     """
     Creating a single user trial for our users
@@ -56,6 +93,10 @@ class UserTrialForm(BetterModelForm):
                           'legend': 'Trial Duration',
                           'classes': ['collapsed']})
             ]
+        widgets = {
+            'start_date':  BootstrapDatepickerWidget(),
+            'finish_date': BootstrapDatepickerWidget()
+            }
 
     # def clean_finish_date(self):
     #     """

@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'django_cas',
     'django_extensions',
     'django_jinja2',
+    'form_utils',
     'grappelli',
 
     'south',

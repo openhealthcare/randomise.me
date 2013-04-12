@@ -26,7 +26,12 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ STATIC_URL }}js/lib/jquery.js"></script>
+    <script type="text/javascript">
+      window.$ = jQuery; <!-- Bah. -->
+    </script>
     <script src="{{ STATIC_URL }}css/lib/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/rm.init.js"></script>
 
   </body>
 </html>
