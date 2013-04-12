@@ -102,7 +102,7 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
         return context
 
 # Views for trials users run on themselves
-class UserTrialCreate(CreateView):
+class UserTrialCreate(LoginRequiredMixin, CreateView):
     """
     Let's make a trial!
     """
