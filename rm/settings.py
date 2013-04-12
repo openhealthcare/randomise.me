@@ -111,6 +111,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_cas.middleware.CASMiddleware',
+    'rm.middleware.BasicAuthMiddleware'
 )
 
 ROOT_URLCONF = 'rm.urls'
@@ -192,6 +193,10 @@ CAS_AUTO_CREATE_USERS = True
 
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
+
+BASICAUTH = True
+BASICAUTH_PASSWORD = 'notareal password dummy'
+BASICAUTH_USERNAME = 'notareal username dummy'
 
 try:
     from local_settings import *
