@@ -1,3 +1,4 @@
 *.pyc
 *.sqlite
 /rm/local_settings.py
+build/*

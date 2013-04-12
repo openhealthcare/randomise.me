@@ -1,0 +1,4 @@
+(Non exhaustive :S  )
+
+install postgresql-9.1 python-dev libpq-dev
+pip install -r requirements.txt
