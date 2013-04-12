@@ -21,8 +21,8 @@ urlpatterns = patterns(
     (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^comments/', include('django.contrib.comments.urls')),
-    (r'^logout/$', 'django.contrib.auth.views.logout',
-     {'next_page': '/'}),
+    url(r'^logout/$', 'django.contrib.auth.views.logout'),
+
     (r'^accounts/', include('allauth.urls')),
 
     # CAS login
