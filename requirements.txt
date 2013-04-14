@@ -1,12 +1,14 @@
-Django==1.5
+Django==1.5.1
 Jinja2==2.6
 South==0.7.6
 Werkzeug==0.8.3
 argparse==1.2.1
+cssselect==0.8
 distribute==0.6.24
 dj-database-url==0.2.1
-django-allauth==0.9.0
+django-allauth==0.10.0
 django-bootstrap-form==2.0.5
+-e git://github.com/openhealthcare/django-cas2.git@e8a18601349f551d4949905fd6221e2041fe49c1#egg=django_cas-dev
 django-debug-toolbar==0.9.4
 django-devserver==0.4.0
 django-extensions==1.0.3
@@ -16,10 +18,17 @@ django-jinja2==0.1
 ffs==0.0.7.3
 gunicorn==0.17.2
 httplib2==0.7.7
+ipdb==0.7
+ipython==0.13.2
+lxml==3.1.1
+mock==1.0.1
 oauth2==1.5.211
+oauthlib==0.4.0
 psycopg2==2.4.6
+py==1.4.13
+pytest==2.3.4
 python-openid==2.2.5
-requests==1.1.0
+requests==1.2.0
+requests-oauthlib==0.3.0
 six==1.2.0
 wsgiref==0.1.2
--e git://github.com/openhealthcare/django-cas2.git#egg=django_cas2

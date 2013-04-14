@@ -189,7 +189,7 @@ CAS_SERVER_URL = 'http://auth.openhealthcare.org.uk'
 CAS_REDIRECT_URL = '/'
 CAS_IGNORE_REFERER = True
 CAS_AUTO_CREATE_USERS = True
-
+LOGIN_REDIRECT_URL = '/dash'
 
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
