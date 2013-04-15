@@ -11,7 +11,11 @@
       {% endfor %}
     {% else%}
       <p>
-        Congratulations - you're signed up to <b>{{ trial.name }}</b>.
+        Congratulations - you're signed up to
+        <a href="{% url 'trial-detail' trial.pk %}">
+          <b>{{ trial.name }}</b>
+        </a>
+        .
       </p>
       <p>
         When the trial starts, we'll email you the instructions,

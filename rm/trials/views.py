@@ -73,9 +73,13 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
         super(JoinTrial, self).__init__(*args, **kwargs)
 
     def get(self, *args, **kwargs):
+        trial = Trial.objects.get(pk=kwargs['pk'])
+        self.trial = trial
+        return super(JoinTrial, self).get(self, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
         """
-        We visit the trial page, assign groups and
-        send emails, then display a nice message.
+        Join the trial!
         """
         trial = Trial.objects.get(pk=kwargs['pk'])
         self.trial = trial
@@ -100,6 +104,7 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
         context['errors'] = self.errors
         context['trial']  = self.trial
         return context
+
 
 # Views for trials users run on themselves
 class UserTrialCreate(LoginRequiredMixin, CreateView):
