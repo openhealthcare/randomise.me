@@ -195,9 +195,17 @@ LOGIN_REDIRECT_URL = '/dash'
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
 
+
 BASICAUTH = True
+# Dummy settings as a reminder
 BASICAUTH_PASSWORD = 'notareal password dummy'
 BASICAUTH_USERNAME = 'notareal username dummy'
+EMAIL_HOST = 'example.com'
+EMAIL_HOST_USER = 'notareal username dummy'
+EMAIL_HOST_PASSWORD = 'notareal password dummy'
+DEFAULT_FROM_EMAIL = 'Randomise Me <www@randomizeme.org>'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 try:
     from local_settings import *
