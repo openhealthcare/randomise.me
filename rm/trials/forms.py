@@ -56,8 +56,9 @@ class TrialForm(BetterModelForm):
     Custom user presentation of trials
     """
     finish_date = fields.DateField(
-        input_formats = ['%d/%m/%Y',],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',], default=lambda: utils.in_a(week=1)))
+        input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
+                                         default=lambda: utils.in_a(week=1)))
 
     class Meta:
         model = Trial
@@ -83,7 +84,8 @@ class TrialForm(BetterModelForm):
         """
         Can we validate that the finish_date isn't in the past please?
         """
-        not_historic(self.cleaned_data['finish_date'])
+        if not_historic(self.cleaned_data['finish_date']):
+            return self.cleaned_data['finish_date']
 
 
 class UserTrialForm(BetterModelForm):

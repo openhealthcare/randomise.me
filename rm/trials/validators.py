@@ -12,3 +12,4 @@ def not_historic(value):
     today = datetime.date.today()
     if value < today :
         raise ValidationError('{0} is in the past'.format(value))
+    return True
