@@ -8,7 +8,7 @@ distribute==0.6.24
 dj-database-url==0.2.1
 django-allauth==0.10.0
 django-bootstrap-form==2.0.5
--e git://github.com/openhealthcare/django-cas2.git@e8a18601349f551d4949905fd6221e2041fe49c1#egg=django_cas-dev
+-e git://github.com/openhealthcare/django-cas2.git#egg=django_cas-dev
 django-debug-toolbar==0.9.4
 django-devserver==0.4.0
 django-extensions==1.0.3
