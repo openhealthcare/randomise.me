@@ -4,7 +4,7 @@ Custom forms for the creation of Trials
 import datetime
 
 
-from django.forms import widgets
+from django.forms import fields, widgets
 from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
@@ -47,6 +47,10 @@ class TrialForm(BetterModelForm):
     """
     Custom user presentation of trials
     """
+    finish_date = fields.DateField(
+        input_formats = ['%d/%m/%Y',],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
+
     class Meta:
         model = Trial
         fieldsets = [
@@ -78,6 +82,13 @@ class UserTrialForm(BetterModelForm):
     """
     Creating a single user trial for our users
     """
+    start_date = fields.DateField(
+        input_formats = ['%d/%m/%Y',],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
+    finish_date = fields.DateField(
+        input_formats = ['%d/%m/%Y',],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
+
     class Meta:
         model = SingleUserTrial
         fieldsets = [
@@ -113,8 +124,6 @@ class UserTrialForm(BetterModelForm):
             'group_b'  :  widgets.Textarea(attrs={
                     'data-required': 'true'
                     }),
-            'start_date':  BootstrapDatepickerWidget(),
-            'finish_date': BootstrapDatepickerWidget(),
             }
 
     # def clean_finish_date(self):
