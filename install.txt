@@ -2,3 +2,9 @@
 
 install postgresql-9.1 python-dev libpq-dev libxml2 libxml2-dev libxslt-dev
 pip install -r requirements.txt
+
+set up local settings -
+
+Database
+Email
+CAS URL if appropriate.
