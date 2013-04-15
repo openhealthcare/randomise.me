@@ -209,6 +209,21 @@ wees you took on a given day, then a good value here would be 'wees'"""
     def get_absolute_url(self):
         return reverse('user-trial-detail', kwargs={'pk': self.pk})
 
+    @property
+    def started(self):
+        """
+        Property to determine whether this trial has started or not.
+
+        Return: bool
+        Exceptions: None
+        """
+        if self.start_date is None:
+            return False
+        if self.start_date <= datetime.date.today():
+            return True
+        return False
+
+
 
 class SingleUserAllocation(models.Model):
     """
