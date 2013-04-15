@@ -21,6 +21,15 @@ class BootstrapDatepickerWidget(widgets.DateInput):
     {field} <span class="add-on"><i class="icon-th"></i></span>
 </div>"""
 
+    def __init__(self, *args, **kwargs):
+        """
+        Set the default date value function, then pass up the inheritance tree
+        """
+        self._default_val = utils.today
+        if 'default' in kwargs:
+            self._default_val = kwargs.pop('default')
+        super(BootstrapDatepickerWidget, self).__init__(*args, **kwargs)
+
     def render(self, name, value, attrs={}):
         """
         Take what would be there, add some default attributes, and
@@ -35,12 +44,11 @@ class BootstrapDatepickerWidget(widgets.DateInput):
         Exceptions:
         """
         bs_attrs = dict(
-            size="16", type="text", value=utils.today(), readonly="true"
+            size="16", type="text", value=self._default_val(), readonly="true"
             )
         attrs.update(bs_attrs)
         markup = super(BootstrapDatepickerWidget, self).render(name, value, attrs)
         return format_html(self.tpl, field=markup, today=utils.today())
-
 
 
 class TrialForm(BetterModelForm):
@@ -49,7 +57,7 @@ class TrialForm(BetterModelForm):
     """
     finish_date = fields.DateField(
         input_formats = ['%d/%m/%Y',],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',], default=lambda: utils.in_a(week=1)))
 
     class Meta:
         model = Trial
@@ -87,7 +95,7 @@ class UserTrialForm(BetterModelForm):
         widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
     finish_date = fields.DateField(
         input_formats = ['%d/%m/%Y',],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',], default=lambda: utils.in_a(week=1)))
 
     class Meta:
         model = SingleUserTrial
