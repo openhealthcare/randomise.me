@@ -13,6 +13,13 @@
     <div class="row-fluid">
       <form id="newtrial_form" method="post" action="{% url 'trial-create' %}">
         {% csrf_token %}
+        {% if form.errors %}
+          <div class="control-group error">
+            <p class="help-block">
+              There were some problems with your trial - see below
+            </p>
+          </div>
+        {% endif %}
 
 {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 {% for fieldset in form.fieldsets %}

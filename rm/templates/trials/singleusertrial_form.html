@@ -14,6 +14,15 @@
       <form id="newusertrial_form" method="post" action="{% url 'user-trial-create' %}" data-validate="parsley">
         {% csrf_token %}
 
+        {% if form.errors %}
+          <div class="control-group error">
+            <p class="help-block">
+              There were some problems with your trial - see below
+            </p>
+          </div>
+        {% endif %}
+
+
 {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 {% for fieldset in form.fieldsets %}
   <fieldset {% if not fieldset.errors %}class="{{ fieldset.classes }}"{% endif %}>
