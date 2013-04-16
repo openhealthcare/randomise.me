@@ -272,9 +272,10 @@ wees you took on a given day, then a good value here would be 'wees'"""
             Subject  = subject
             Template = 'email/singleuser_instructions'
             Context  = {
-                'href'        : self.get_absolute_url(),
+                'href'        : settings.DEFAULT_DOMAIN + self.get_absolute_url(),
                 'instructions': instructions,
-                'date'        : date
+                'date'        : date,
+                'name'        : self.name
                 }
 
         Message.send()

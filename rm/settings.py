@@ -210,6 +210,7 @@ EMAIL_HOST_PASSWORD = 'notareal password dummy'
 DEFAULT_FROM_EMAIL = 'Randomise Me <www@randomizeme.org>'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+DEFAULT_DOMAIN = 'http://byta.randomizeme.org'
 
 try:
     from local_settings import *
