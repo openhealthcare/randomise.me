@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
+import letter
 
 from rm import exceptions
 from rm.trials import managers
@@ -259,26 +260,25 @@ wees you took on a given day, then a good value here would be 'wees'"""
         if not self.owner.email:
             raise exceptions.NoEmailError()
 
-        _msg_tpl = """
-Instructions for {name} on {date}
----------------------------------
-
-{instructions}
-"""
-
+        date = date.strftime('%d/%m/%Y')
         subject = 'Randomise.me - instructions for {0} {1}'.format(
-            self.name, date.strftime('%d/%m/%Y'))
+            self.name, date)
 
-        message = _msg_tpl.format(name=self.name,
-                                  instructions=instructions,
-                                  date=date.strftime('%d/%m/%Y'))
+        class Message(letter.Letter):
+            Postie = letter.DjangoPostman()
 
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [self.owner.email, ]
-            )
+            From     = settings.DEFAULT_FROM_EMAIL
+            To       = self.owner.email
+            Subject  = subject
+            Template = 'email/singleuser_instructions'
+            Context  = {
+                'href'        : self.get_absolute_url(),
+                'instructions': instructions,
+                'date'        : date
+                }
+
+        Message.send()
+
         return
 
     def send_instructions(self):
@@ -340,7 +340,7 @@ class SingleUserAllocation(models.Model):
         Exceptions: None
         """
         allocation = SingleUserAllocation.objects.get_or_create(trial=trial, date=date)[0]
-        if allocation.group is None:
+        if not allocation.group:
             allocation.randomise()
             allocation.save()
 
@@ -348,7 +348,6 @@ class SingleUserAllocation(models.Model):
             return trial.group_a
         elif allocation.group == 'B':
             return trial.group_b
-
         return
 
     def randomise(self):

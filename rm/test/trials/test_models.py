@@ -91,7 +91,7 @@ class SingleUserTrialTestCase(TemporalTestCase):
 
     def test_email_instructions_subject(self):
         "Should send email"
-        trial = models.SingleUserTrial(name="This", owner=self.user)
+        trial = models.SingleUserTrial(name="This", owner=self.user, pk=1)
         trial._email_instructions('Do it', datetime.date(1984, 12, 22))
         self.assertEqual(1, len(mail.outbox))
         self.assertEqual(
@@ -100,15 +100,16 @@ class SingleUserTrialTestCase(TemporalTestCase):
 
     def test_email_instructions_body(self):
         "Should include instructions"
-        trial = models.SingleUserTrial(owner=self.user)
+        trial = models.SingleUserTrial(owner=self.user, pk=1)
         trial._email_instructions('Do it', datetime.date(1984, 12, 22))
         self.assertEqual(1, len(mail.outbox))
-        self.assertNotEqual(-1, mail.outbox[0].body.find('Do it'))
-        self.assertNotEqual(-1, mail.outbox[0].body.find('22/12/1984'))
+        for content in [mail.outbox[0].body, mail.outbox[0].alternatives[0][0]]:
+            self.assertNotEqual(-1, content.find('Do it'))
+            self.assertNotEqual(-1, content.find('22/12/1984'))
 
     def test_email_instructions_from(self):
         "Should be from email"
-        trial = models.SingleUserTrial(owner=self.user)
+        trial = models.SingleUserTrial(owner=self.user, pk=1)
         with self.settings(DEFAULT_FROM_EMAIL='from@example.com'):
             trial._email_instructions('Do it', datetime.date(1984, 12, 22))
         self.assertEqual(1, len(mail.outbox))
@@ -117,7 +118,7 @@ class SingleUserTrialTestCase(TemporalTestCase):
     def test_email_instructions_to(self):
         "Should be the owner's email"
         user = models.User(email = 'larry@example.com')
-        trial = models.SingleUserTrial(owner=user)
+        trial = models.SingleUserTrial(owner=user, pk=1)
         trial._email_instructions('Do it', datetime.datetime(1984, 12, 22))
         self.assertEqual(1, len(mail.outbox))
         self.assertEqual(['larry@example.com'], mail.outbox[0].to)
