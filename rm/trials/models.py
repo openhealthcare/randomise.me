@@ -1,13 +1,19 @@
 """
-Models for trials we're running
+MODELS for trials we're running
 """
 import datetime
+import random
 
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
 
 from rm import exceptions
+from rm.trials import managers
+
+td = lambda: datetime.date.today()
 
 class Trial(models.Model):
     """
@@ -64,11 +70,13 @@ publically visible."""
     def time_remaining(self):
         """
         How much time is between now and the end of the trial?
+
+        Return: timedelta or str
+        Exceptions: None
         """
-        today = datetime.date.today()
-        if self.finish_date < today:
+        if self.finish_date < td():
             return 'Trial finished'
-        return self.finish_date - today
+        return self.finish_date - td()
 
     def can_join(self):
         """
@@ -78,8 +86,7 @@ publically visible."""
         We decide that a trial is unjoinable if it's finish date has
         passed, or if it's max participants limit has been met.
         """
-        today = datetime.date.today()
-        if self.finish_date < today:
+        if self.finish_date < td():
             return False
         if self.participant_set.count() >= self.max_participants:
             return False
@@ -200,6 +207,8 @@ wees you took on a given day, then a good value here would be 'wees'"""
     group_a     = models.TextField(help_text=HELP_A)
     group_b     = models.TextField(help_text=HELP_B)
 
+    objects = managers.SingleUserTrialManager()
+
     def __unicode__(self):
         """
         Pretty printin'
@@ -223,6 +232,85 @@ wees you took on a given day, then a good value here would be 'wees'"""
             return True
         return False
 
+    def _out_of_bounds(self):
+        """
+        Helper method for repeated out of bounds logic.
+        """
+        if self.start_date is not None and self.start_date > td():
+            raise exceptions.TrialNotStartedError()
+        if self.finish_date is not None and self.finish_date < td():
+            raise exceptions.TrialFinishedError()
+        return
+
+    def _email_instructions(self, instructions, date):
+        """
+        Given a set of INSTRUCTIONS for a DATE, email them to
+        this trial's Owner.
+
+        If this trial's owner has no email, raise
+
+        Arguments:
+        - `instructions`: str
+        - `date`: Date
+
+        Return: None
+        Exceptions: NoEmailError
+        """
+        if not self.owner.email:
+            raise exceptions.NoEmailError()
+
+        _msg_tpl = """
+Instructions for {name} on {date}
+---------------------------------
+
+{instructions}
+"""
+
+        subject = 'Randomise.me - instructions for {0} {1}'.format(
+            self.name, date.strftime('%d/%m/%Y'))
+
+        message = _msg_tpl.format(name=self.name,
+                                  instructions=instructions,
+                                  date=date.strftime('%d/%m/%Y'))
+
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [self.owner.email, ]
+            )
+        return
+
+    def send_instructions(self):
+        """
+        Email the owner of this trial with their instructions for today.
+
+        Return: None
+        Exceptions:
+            - TrialFinishedError: The trial has finished
+            - TrialNotStartedError: The trial is yet to start
+        """
+        self._out_of_bounds()
+        self._email_instructions(self.instructions_on(td()), td())
+        return
+
+    def instructions_on(self, date):
+        """
+        Find the instructions for this trial on DATE.
+
+        if the date is out of bounds for this trial, raise an error.
+
+        Arguments:
+        - `date`: Date
+
+        Return: str
+        Exceptions:
+                   TrialNotStartedError
+                   TrialFinishedError
+        """
+        self._out_of_bounds()
+        return SingleUserAllocation.instructions_on(self, date)
+
 
 
 class SingleUserAllocation(models.Model):
@@ -237,6 +325,51 @@ class SingleUserAllocation(models.Model):
     trial = models.ForeignKey(SingleUserTrial)
     date  = models.DateField()
     group = models.CharField(max_length=1, choices=GROUP_CHOICES)
+
+    @staticmethod
+    def instructions_on(trial, date):
+        """
+        Find the instructions for TRIAL on DATE.
+        If no allocation has been conducted, do that now.
+
+        Arguments:
+        - `trial`: SingleUserTrial
+        - `date`: Date
+
+        Return: str
+        Exceptions: None
+        """
+        allocation = SingleUserAllocation.objects.get_or_create(trial=trial, date=date)[0]
+        if allocation.group is None:
+            allocation.randomise()
+            allocation.save()
+
+        if allocation.group == 'A':
+            return trial.group_a
+        elif allocation.group == 'B':
+            return trial.group_b
+
+        return
+
+    def randomise(self):
+        """
+        Conduct our randomisation for this trial on this day.
+
+        If the trial has already been randomised fo this day, raise
+        AlreadyRandomisedError
+
+        Return: None
+        Exceptions: AlreadyRandomisedError
+        """
+        if self.group == '':
+            self.group = random.choice(['A', 'B'])
+            return
+        raise exceptions.AlreadyRandomisedError()
+
+
+
+
+
 
 
 class SingleUserReport(models.Model):

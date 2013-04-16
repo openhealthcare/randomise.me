@@ -25,3 +25,18 @@ class TrialFinishedError(Error):
     """
     This trial has finished. Some actions now impossible.
     """
+
+class TrialNotStartedError(Error):
+    """
+    This trial hasn't started yet.
+    """
+
+class AlreadyRandomisedError(Error):
+    """
+    This thing has already been randomised. Re-randomisation is Wonkiness.
+    """
+
+class NoEmailError(Error):
+    """
+    We expected an email. We don't have one.
+    """
