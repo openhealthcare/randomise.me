@@ -39,7 +39,8 @@ come back to it later. (Not implemented yet)"""
 publically visible."""
     HELP_A = """These are the instructions that will be sent to Group A."""
     HELP_B = """These are the instructions that will be sent to Group B."""
-    HELP_FINISH = "The date you would like your trial to finish (YYYY-MM-DD)"
+    HELP_START = "The date you would like your trial to start"
+    HELP_FINISH = "The date you would like your trial to finish"
 
     name              = models.CharField(max_length=200)
     # TODO Validate and implement this.
@@ -54,10 +55,13 @@ publically visible."""
     max_participants  = models.IntegerField()
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
+    start_date        = models.DateField(help_text=HELP_START)
     finish_date       = models.DateField(help_text=HELP_FINISH)
     finished          = models.BooleanField(default=False, editable=False)
     owner             = models.ForeignKey(User)
     featured          = models.BooleanField(default=False)
+
+    objects = managers.RmTrialManager()
 
     def __unicode__(self):
         """
@@ -132,13 +136,13 @@ publically visible."""
             raise exceptions.AlreadyJoinedError()
         if self.participant_set.count() >= self.max_participants:
             raise exceptions.TooManyParticipantsError()
-        groupa, groupb = self.ensure_groups()
-        a_parts = groupa.participant_set.count()
-        b_parts = groupb.participant_set.count()
-        if a_parts == 0 or a_parts == b_parts:
-            Participant(trial=self, group=groupa, user=user).save()
-        else:
-            Participant(trial=self, group=groupb, user=user).save()
+        # groupa, groupb = self.ensure_groups()
+        # a_parts = groupa.participant_set.count()
+        # b_parts = groupb.participant_set.count()
+        # if a_parts == 0 or a_parts == b_parts:
+        #     Participant(trial=self, group=groupa, user=user).save()
+        # else:
+        #     Participant(trial=self, group=groupb, user=user).save()
 
 
 class Group(models.Model):
@@ -160,7 +164,7 @@ class Participant(models.Model):
     """
     user  = models.ForeignKey(User)
     trial = models.ForeignKey(Trial)
-    group = models.ForeignKey(Group)
+    group = models.ForeignKey(Group, blank=True, null=True)
 
     def __unicode__(self):
         """
@@ -365,11 +369,6 @@ class SingleUserAllocation(models.Model):
             self.group = random.choice(['A', 'B'])
             return
         raise exceptions.AlreadyRandomisedError()
-
-
-
-
-
 
 
 class SingleUserReport(models.Model):

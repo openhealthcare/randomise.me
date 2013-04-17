@@ -55,6 +55,9 @@ class TrialForm(BetterModelForm):
     """
     Custom user presentation of trials
     """
+    start_date = fields.DateField(
+        input_formats = ['%d/%m/%Y',],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
     finish_date = fields.DateField(
         input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
         widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
@@ -75,7 +78,7 @@ class TrialForm(BetterModelForm):
             ('Sizing', {'fields': ['min_participants', 'max_participants'],
                         'legend': 'Trial Sizing',
                         'classes': ['collapsed']}),
-            ('Duration', {'fields': ['finish_date'],
+            ('Duration', {'fields': ['start_date', 'finish_date'],
                           'legend': 'Trial Duration',
                           'classes': ['collapsed']})
             ]

@@ -25,3 +25,18 @@ def email_single_instructions():
     for trial in trials:
         trial.send_instructions()
     return
+
+@task
+def email_rm_instructions():
+    """
+    Email instructions to participants of trials that are starting
+    today.
+
+
+    Return: None
+    Exceptions: None
+    """
+    trials = models.Trial.objects.starting_today()
+    for trial in trials:
+        trial.send_instructions()
+    return

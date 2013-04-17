@@ -43,19 +43,82 @@ class TrialTestCase(TemporalTestCase):
         trial = models.Trial(finish_date=self.yesterday)
         self.assertEqual(False, trial.can_join())
 
-    def can_join_open(self):
+    @patch.object(models.Trial, 'participant_set')
+    def test_can_join_open(self, pset):
         "Can join an open trial"
         trial = models.Trial(finish_date=self.tomorrow, max_participants=2)
-        with patch.object(trial.participant_set, 'count') as pcount:
-            pcount.return_value = 1
-            self.assertEqual(True, trial.can_join())
+        pset.count.return_value = 1
+        self.assertEqual(True, trial.can_join())
 
-    def can_join_full(self):
+    @patch.object(models.Trial, 'participant_set')
+    def test_can_join_full(self, pset):
         "Can join an open trial"
         trial = models.Trial(finish_date=self.tomorrow, max_participants=2)
-        with patch.object(trial.participant_set, 'count') as pcount:
-            pcount.return_value = 2
-            self.assertEqual(False, trial.can_join())
+        pset.count.return_value = 2
+        self.assertEqual(2, trial.participant_set.count())
+        self.assertEqual(False, trial.can_join())
+
+    def test_ensure_groups(self):
+        "Get or greate for a & b groups"
+        trial = models.Trial()
+        with patch.object(models.Group.objects, 'get_or_create') as pgc:
+            trial.ensure_groups()
+            self.assertEqual(2, pgc.call_count)
+            pgc.assert_any_call(trial=trial, name='a')
+            pgc.assert_any_call(trial=trial, name='b')
+
+    def test_join_is_owner(self):
+        "Should raise"
+        user = models.User()
+        trial = models.Trial(owner=user)
+        with self.assertRaises(exceptions.TrialOwnerError):
+            trial.join(user)
+
+    def test_join_finished_trial(self):
+        "Should raise"
+        user = models.User()
+        trial = models.Trial(finish_date=self.yesterday)
+        with self.assertRaises(exceptions.TrialFinishedError):
+            trial.join(user)
+
+    def test_join_second_time(self, pset):
+        "should raise"
+        with patch.object(models.Participant.objects, 'filter') as pfilt:
+            pfilt.return_value.count.return_value = 1
+            trial = models.Trial(finish_date=self.tomorrow)
+            user = models.User()
+            with self.assertRaises(exceptions.AlreadyJoinedError):
+                trial.join(user)
+            pfilt.assert_called_once_with(trial=trial, user=user)
+
+    @patch.object(models.Trial, 'participant_set')
+    def test_join_too_many_participants(self, pset):
+        "should raise"
+        trial = models.Trial(max_participants=2, finish_date=self.tomorrow)
+        pset.count.return_value = 2
+        with self.assertRaises(exceptions.TooManyParticipantsError):
+            trial.join(models.User())
+
+    def test_join(self):
+        "Should create participant"
+        trial = models.Trial(finish_date=self.tomorrow, max_participants=2)
+        user = models.User()
+        with patch.object(models, 'Participant') as ppart:
+            trial.join(user)
+            ppart.assert_called_once_with(trial=trial, user=user)
+            ppart.return_value.assert_called_once_with()
+
+    def test_randomise_second_time(self):
+        "Should raise"
+        trial = models.Trial()
+        with self.assertRaises(exceptions.AlreadyRandomisedError):
+            trial.randomise()
+
+    def test_randomise(self):
+        "Randomise the participants"
+        trial = models.Trial()
+        trial.randomise()
+        self.assertEqual(2, 1)
 
 
 class SingleUserTrialTestCase(TemporalTestCase):
