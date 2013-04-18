@@ -38,5 +38,6 @@ def email_rm_instructions():
     """
     trials = models.Trial.objects.starting_today()
     for trial in trials:
+        trial.randomise()
         trial.send_instructions()
     return

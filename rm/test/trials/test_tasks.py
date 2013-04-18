@@ -41,6 +41,7 @@ class EmailRmInstructionsTestCase(unittest.TestCase):
             ptod.return_value = [mock_trial]
             tasks.email_rm_instructions()
             ptod.assert_called_once_with()
+            mock_trial.randomise.assert_called_once_with()
             mock_trial.send_instructions.assert_called_once_with()
 
 

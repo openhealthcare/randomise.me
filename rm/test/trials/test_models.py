@@ -76,16 +76,18 @@ class TrialTestCase(TemporalTestCase):
 
     def test_join_finished_trial(self):
         "Should raise"
-        user = models.User()
-        trial = models.Trial(finish_date=self.yesterday)
+        owner = models.User(pk=1)
+        user = models.User(pk=2)
+        trial = models.Trial(owner=owner, finish_date=self.yesterday)
         with self.assertRaises(exceptions.TrialFinishedError):
             trial.join(user)
 
-    def test_join_second_time(self, pset):
+    def test_join_second_time(self):
         "should raise"
+        owner = models.User(pk=1)
         with patch.object(models.Participant.objects, 'filter') as pfilt:
             pfilt.return_value.count.return_value = 1
-            trial = models.Trial(finish_date=self.tomorrow)
+            trial = models.Trial(owner=owner, finish_date=self.tomorrow)
             user = models.User()
             with self.assertRaises(exceptions.AlreadyJoinedError):
                 trial.join(user)
@@ -94,31 +96,122 @@ class TrialTestCase(TemporalTestCase):
     @patch.object(models.Trial, 'participant_set')
     def test_join_too_many_participants(self, pset):
         "should raise"
-        trial = models.Trial(max_participants=2, finish_date=self.tomorrow)
+        owner = models.User(pk=1)
+        trial = models.Trial(owner=owner, max_participants=2, finish_date=self.tomorrow)
         pset.count.return_value = 2
         with self.assertRaises(exceptions.TooManyParticipantsError):
             trial.join(models.User())
 
     def test_join(self):
         "Should create participant"
-        trial = models.Trial(finish_date=self.tomorrow, max_participants=2)
-        user = models.User()
+        owner = models.User(pk=1)
+        trial = models.Trial(owner=owner, finish_date=self.tomorrow, max_participants=2)
+        user = models.User(pk=2)
         with patch.object(models, 'Participant') as ppart:
+            ppart.objects.filter.return_value.count.return_value = 0
             trial.join(user)
+            ppart.objects.filter.assert_called_once_with(trial=trial, user=user)
+            ppart.objects.filter.return_value.count.assert_called_once_with()
             ppart.assert_called_once_with(trial=trial, user=user)
-            ppart.return_value.assert_called_once_with()
+            ppart.return_value.save.assert_called_once_with()
 
-    def test_randomise_second_time(self):
+    @patch.object(models.Trial, 'participant_set')
+    def test_randomise_second_time(self, pset):
         "Should raise"
+        pset.filter.return_value.count.return_value = 2
         trial = models.Trial()
         with self.assertRaises(exceptions.AlreadyRandomisedError):
             trial.randomise()
+        pset.filter.assert_called_once_with(group__isnull=False)
+        pset.filter.return_value.count.assert_called_once_with()
 
-    def test_randomise(self):
+    @patch.object(models.Trial, 'participant_set')
+    def test_randomise(self, pset):
         "Randomise the participants"
         trial = models.Trial()
-        trial.randomise()
-        self.assertEqual(2, 1)
+        part1, part2 = MagicMock(), MagicMock()
+        pset.all.return_value = [part1, part2]
+        pset.filter.return_value.count.return_value = 0
+
+        groups = [models.Group(trial=trial, name='A'),
+                  models.Group(trial=trial, name='B')]
+
+        with patch.object(trial, 'ensure_groups') as psure:
+            psure.return_value = groups
+
+            trial.randomise()
+            for participant in [part1, part2]:
+                self.assertTrue(participant.group in groups)
+                participant.save.assert_called_once_with()
+
+    def test_send_instructions_finished(self):
+        "Should raise"
+        trial = models.Trial(finish_date=self.yesterday)
+        with self.assertRaises(exceptions.TrialFinishedError):
+            trial.send_instructions()
+
+    def test_send_instructions_not_started(self):
+        "Should raise"
+        trial = models.Trial(start_date=self.tomorrow)
+        with self.assertRaises(exceptions.TrialNotStartedError):
+            trial.send_instructions()
+
+    @patch.object(models.Trial, 'participant_set')
+    def test_send_instructions(self, pset):
+        "Should email participants."
+        part1, part2 = MagicMock(), MagicMock()
+        pset.all.return_value = [part1, part2]
+        trial = models.Trial()
+        trial.send_instructions()
+        for participant in [part1, part2]:
+            participant.send_instructions.assert_called_once_with()
+
+
+class ParticipantTestCase(TestCase):
+
+    def setUp(self):
+        super(ParticipantTestCase, self).setUp()
+        self.user = models.User(email='larry@example.com')
+        self.trial = models.Trial(pk=1, name='This', group_a='Do it')
+        self.group = models.Group(trial=self.trial, name='A')
+        self.participant = models.Participant(user=self.user,
+                                              trial=self.trial,
+                                              group=self.group)
+
+    def test_send_instructions_no_to_email(self):
+        "Should raise"
+        self.user.email = ''
+        with self.assertRaises(exceptions.NoEmailError):
+            self.participant.send_instructions()
+
+    def test_send_instructions_subject(self):
+        "Should send email"
+        self.participant.send_instructions()
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(
+            'Randomise.me - instructions for This',
+            mail.outbox[0].subject)
+
+    def test_send_instructions_body(self):
+        "Should include instructions"
+        self.participant.send_instructions()
+        self.assertEqual(1, len(mail.outbox))
+        for content in [mail.outbox[0].body, mail.outbox[0].alternatives[0][0]]:
+            self.assertNotEqual(-1, content.find('Do it'))
+
+    def test_send_instructions_from(self):
+        "Should be from email"
+        with self.settings(DEFAULT_FROM_EMAIL='from@example.com'):
+            self.participant.send_instructions()
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual('from@example.com', mail.outbox[0].from_email)
+
+    def test_send_instructions_to(self):
+        "Should be the owner's email"
+        self.user.email = 'larry@example.com'
+        self.participant.send_instructions()
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(['larry@example.com'], mail.outbox[0].to)
 
 
 class SingleUserTrialTestCase(TemporalTestCase):

@@ -15,6 +15,7 @@ from rm import exceptions
 from rm.trials import managers
 
 td = lambda: datetime.date.today()
+POSTIE = letter.DjangoPostman()
 
 class Trial(models.Model):
     """
@@ -136,13 +137,42 @@ publically visible."""
             raise exceptions.AlreadyJoinedError()
         if self.participant_set.count() >= self.max_participants:
             raise exceptions.TooManyParticipantsError()
-        # groupa, groupb = self.ensure_groups()
-        # a_parts = groupa.participant_set.count()
-        # b_parts = groupb.participant_set.count()
-        # if a_parts == 0 or a_parts == b_parts:
-        #     Participant(trial=self, group=groupa, user=user).save()
-        # else:
-        #     Participant(trial=self, group=groupb, user=user).save()
+        Participant(trial=self, user=user).save()
+        return
+
+    def randomise(self):
+        """
+        Randomise the participants of this trial.
+
+        If we have already randomised the participants, raise AlreadyRandomisedError.
+
+        Return: None
+        Exceptions: AlreadyRandomisedError
+        """
+        if self.participant_set.filter(group__isnull=False).count() > 0:
+            raise exceptions.AlreadyRandomisedError()
+        groupa, groupb = self.ensure_groups()
+        for participant in self.participant_set.all():
+            participant.group = random.choice([groupa, groupb])
+            participant.save()
+        return
+
+    def send_instructions(self):
+        """
+        Email the participants of this trial with their instructions.
+
+        Return: None
+        Exceptions:
+            - TrialFinishedError: The trial has finished
+            - TrialNotStartedError: The trial is yet to start
+        """
+        if self.start_date is not None and self.start_date > td():
+            raise exceptions.TrialNotStartedError()
+        if self.finish_date is not None and self.finish_date < td():
+            raise exceptions.TrialFinishedError()
+        for participant in self.participant_set.all():
+            participant.send_instructions()
+        return
 
 
 class Group(models.Model):
@@ -171,6 +201,39 @@ class Participant(models.Model):
         Pretty printin'
         """
         return '<{0} - {1} ({2})>'.format(self.user, self.trial, self.group)
+
+    def send_instructions(self):
+        """
+        Email the participant their instructions for this trial.
+
+        If the participant does not have an email address, raise an error.
+
+        Return: None
+        Exceptions: NoEmailError
+        """
+        if not self.user.email:
+            raise exceptions.NoEmailError()
+
+        subject = 'Randomise.me - instructions for {0}'.format(self.trial.name)
+        instructions = self.group.name == 'A' and self.trial.group_a or self.trial.group_b
+
+        class Message(letter.Letter):
+            Postie   = POSTIE
+
+            From     = settings.DEFAULT_FROM_EMAIL
+            To       = self.user.email
+            Subject  = subject
+            Template = 'email/rm_instructions'
+            Context  = {
+                'href'        : settings.DEFAULT_DOMAIN + self.trial.get_absolute_url(),
+                'instructions': instructions,
+                'name'        : self.trial.name
+                }
+
+        Message.send()
+
+        return
+
 
 
 class SingleUserTrial(models.Model):
@@ -269,7 +332,7 @@ wees you took on a given day, then a good value here would be 'wees'"""
             self.name, date)
 
         class Message(letter.Letter):
-            Postie = letter.DjangoPostman()
+            Postie   = POSTIE
 
             From     = settings.DEFAULT_FROM_EMAIL
             To       = self.owner.email
@@ -283,7 +346,6 @@ wees you took on a given day, then a good value here would be 'wees'"""
                 }
 
         Message.send()
-
         return
 
     def send_instructions(self):
@@ -315,7 +377,6 @@ wees you took on a given day, then a good value here would be 'wees'"""
         """
         self._out_of_bounds()
         return SingleUserAllocation.instructions_on(self, date)
-
 
 
 class SingleUserAllocation(models.Model):
