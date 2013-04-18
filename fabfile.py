@@ -32,6 +32,7 @@ def stop():
     """
     with cd(PROJ_DIR):
         run('pkill gunicorn')
+        run("ps auxww | grep celery| awk '{print $2}'| xargs kill -9")
 
 def start():
     """
@@ -39,6 +40,8 @@ def start():
     """
     with cd(PROJ_DIR):
         run('{0} -D -c gunicorn_conf.py'.format(venv_bin('gunicorn_django')))
+        manage('celery worker')
+        manage('celerybeat -S djcelery.schedulers.DatabaseScheduler')
 
 @hosts(web)
 def deploy():
