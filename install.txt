@@ -1,6 +1,6 @@
 (Non exhaustive :S  )
 
-install postgresql-9.1 python-dev libpq-dev libxml2 libxml2-dev libxslt-dev
+install postgresql-9.1 python-dev libpq-dev libxml2 libxml2-dev libxslt-dev libevent-2.0-5 libevent-dev build-essential rabbitmq-server
 pip install -r requirements.txt
 
 set up local settings -
