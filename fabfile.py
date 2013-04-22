@@ -11,6 +11,19 @@ venv_bin = lambda x: VENV_BIN.format(x)
 VENV_PY = venv_bin('python')
 VENV_CTL = venv_bin('supervisorctl')
 
+@hosts(web)
+def mkenv():
+    """
+    Set up the directory environment required
+
+    Return: None
+    Exceptions: None
+    """
+    run('mkdir -p /usr/local/ohc/var/run')
+    run('mkdir -p /usr/local/ohc/log/supervisord')
+
+
+
 def manage(what):
     """
     Run a manage.py command
@@ -49,7 +62,7 @@ def stop():
         # run('pkill gunicorn || echo "Gunicorn not running"')
         # run("ps auxww | grep celery | grep -v grep| awk '{print $2}'| xargs kill -9 || echo 'Celery not running'")
 
-
+@hosts(web)
 def start():
     """
     Start the application in production.
