@@ -17,6 +17,10 @@
       </p>
       <h4>Recording:</h4>
       <p>{{ trial.variable }}</p>
+      {% if trial.active %}
+        <h2>Instructions: </h2>
+        <p> {{ trial.instructions_today }} </p>
+      {% endif %}
     </div>
 
     <div class="span6">

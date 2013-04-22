@@ -239,6 +239,31 @@ class SingleUserTrialTestCase(TemporalTestCase):
         trial = models.SingleUserTrial()
         self.assertEqual(False, trial.started)
 
+    def test_active(self):
+        "Is the trial active?"
+        trial = models.SingleUserTrial(start_date=self.yesterday, finish_date=self.tomorrow)
+        self.assertEqual(True, trial.active)
+
+    def test_active_starts_today(self):
+        "Is active"
+        trial = models.SingleUserTrial(start_date=self.today, finish_date=self.tomorrow)
+        self.assertEqual(True, trial.active)
+
+    def test_active_finishes_today(self):
+        "Is active"
+        trial = models.SingleUserTrial(start_date=self.yesterday, finish_date=self.today)
+        self.assertEqual(True, trial.active)
+
+    def test_active_not_started(self):
+        "Not active"
+        trial = models.SingleUserTrial(start_date=self.tomorrow, finish_date=self.tomorrow)
+        self.assertEqual(False, trial.active)
+
+    def test_active_finished(self):
+        "Not active"
+        trial = models.SingleUserTrial(start_date=self.yesterday, finish_date=self.yesterday)
+        self.assertEqual(False, trial.active)
+
     def test_email_instructions_no_to_email(self):
         "Should raise"
         trial = models.SingleUserTrial(owner=models.User())
@@ -323,6 +348,17 @@ class SingleUserTrialTestCase(TemporalTestCase):
         trial = models.SingleUserTrial(finish_date=self.yesterday)
         with self.assertRaises(exceptions.TrialFinishedError):
             trial.instructions_on(self.today)
+
+    def test_instructions_today(self):
+        "Pass to other meth."
+        trial = models.SingleUserTrial()
+        with patch.object(trial, 'instructions_on') as pinst:
+            pinst.return_value = 'Do it'
+            instructions = trial.instructions_today()
+            self.assertEqual('Do it', instructions)
+            pinst.assert_called_once_with(models.td())
+
+
 
 
 class SingleUserAllocationTestCase(TemporalTestCase):

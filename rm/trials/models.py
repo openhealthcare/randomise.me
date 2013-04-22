@@ -300,6 +300,20 @@ wees you took on a given day, then a good value here would be 'wees'"""
             return True
         return False
 
+    @property
+    def active(self):
+        """
+        Property to determine whether this trial is active today.
+
+        Return: bool
+        Exceptions: None
+        """
+        if not self.start_date or not self.finish_date:
+            return False
+        if self.start_date <= td() and self.finish_date >= td():
+            return True
+        return False
+
     def _out_of_bounds(self):
         """
         Helper method for repeated out of bounds logic.
@@ -377,6 +391,17 @@ wees you took on a given day, then a good value here would be 'wees'"""
         """
         self._out_of_bounds()
         return SingleUserAllocation.instructions_on(self, date)
+
+    def instructions_today(self):
+        """
+        Find the instructions for this trial today.
+
+        Return: str
+        Exceptions:
+        """
+        return self.instructions_on(td())
+
+
 
 
 class SingleUserAllocation(models.Model):
