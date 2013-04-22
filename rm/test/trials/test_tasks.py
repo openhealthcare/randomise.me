@@ -8,6 +8,7 @@ from mock import MagicMock, patch
 
 if sys.version_info <  (2, 7): import unittest2 as unittest
 
+from rm import exceptions
 from rm.trials import tasks
 
 class EmailSingleInstructionsTestCase(unittest.TestCase):
@@ -25,6 +26,19 @@ class EmailSingleInstructionsTestCase(unittest.TestCase):
             tasks.email_single_instructions()
             pact.assert_called_once_with()
             mock_trial.send_instructions.assert_called_once_with()
+
+    def test_no_email(self):
+        "If a user has no email, continue."
+        def raiser():
+            raise exceptions.NoEmailError()
+
+        mock_trial1 = MagicMock(name="Mock Single User Trial 1")
+        mock_trial1.send_instructions.side_effect = raiser
+        mock_trial2 = MagicMock(name="Mock Single User Trial 2")
+        with patch.object(tasks.models.SingleUserTrial.objects, 'active') as pact:
+            pact.return_value = [mock_trial1, mock_trial2]
+            tasks.email_single_instructions()
+            mock_trial2.send_instructions.assert_called_once_with()
 
 
 class EmailRmInstructionsTestCase(unittest.TestCase):

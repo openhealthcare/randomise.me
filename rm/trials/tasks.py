@@ -4,6 +4,7 @@ Celery tasks for the trials package
 import time
 from celery import task
 
+from rm import exceptions
 from rm.trials import models
 
 @task
@@ -23,7 +24,10 @@ def email_single_instructions():
     """
     trials = models.SingleUserTrial.objects.active()
     for trial in trials:
-        trial.send_instructions()
+        try:
+            trial.send_instructions()
+        except exceptions.NoEmailError:
+            pass # Decide what to do here?
     return
 
 @task
