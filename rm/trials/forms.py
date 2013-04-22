@@ -83,6 +83,34 @@ class TrialForm(BetterModelForm):
                           'classes': ['collapsed']})
             ]
 
+        widgets = {
+            'name': widgets.TextInput(attrs={
+                    'data-required' : 'true',
+                    'data-maxlength': '200'
+                    }),
+            'style': widgets.Select(attrs={
+                    'data-required': 'true'
+                    }),
+            'description': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'group_a': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'group_b': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'min_participants': widgets.TextInput(attrs={
+                    'data-required': 'true',
+                    'data-type'    : 'digits',
+                    'data-min'     : '1'
+                    }),
+            'max_participants': widgets.TextInput(attrs={
+                    'data-required': 'true',
+                    'data-type'    : 'digits',
+                    }),
+            }
+
     def clean_finish_date(self):
         """
         Can we validate that the finish_date isn't in the past please?
