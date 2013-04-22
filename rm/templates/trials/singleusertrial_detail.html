@@ -11,15 +11,19 @@
       <p>
         {{ trial.question }}
       </p>
-      <h4>Runs from:</h4>
-      <p>
-        {{ trial.start_date }} - {{ trial.finish_date }}
-      </p>
-      <h4>Recording:</h4>
-      <p>{{ trial.variable }}</p>
-      {% if trial.active %}
-        <h2>Instructions: </h2>
-        <p> {{ trial.instructions_today }} </p>
+      {% if not trial.finished %}
+        <h4>Runs from:</h4>
+        <p>
+          {{ trial.start_date }} - {{ trial.finish_date }}
+          </p>
+        <h4>Recording:</h4>
+        <p>{{ trial.variable }}</p>
+        {% if trial.active %}
+          <h2>Instructions: </h2>
+          <p> {{ trial.instructions_today }} </p>
+        {% endif %}
+      {% else %}
+        <!-- Results Vis here -->
       {% endif %}
     </div>
 
@@ -32,6 +36,13 @@
         <a href="{% url 'user-trial-report' trial.pk %}" class="btn btn-danger">
           Report Data
           </a>
+      {% elif trial.finished %}
+        <h4>Runs from:</h4>
+        <p>
+          {{ trial.start_date }} - {{ trial.finish_date }}
+          </p>
+        <h4>Recording:</h4>
+        <p>{{ trial.variable }}</p>
       {% endif %}
     </div>
 

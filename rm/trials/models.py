@@ -301,6 +301,18 @@ wees you took on a given day, then a good value here would be 'wees'"""
         return False
 
     @property
+    def finished(self):
+        """
+        Predicate property to determine whether this trial is finished.
+
+        Return: bool
+        Exceptions: None
+        """
+        if self.finish_date < td():
+            return True
+        return False
+
+    @property
     def active(self):
         """
         Property to determine whether this trial is active today.

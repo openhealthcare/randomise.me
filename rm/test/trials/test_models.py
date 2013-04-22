@@ -239,6 +239,11 @@ class SingleUserTrialTestCase(TemporalTestCase):
         trial = models.SingleUserTrial()
         self.assertEqual(False, trial.started)
 
+    def test_finished(self):
+        "Have we finished this trial yet?"
+        trial = models.SingleUserTrial(finish_date=self.yesterday)
+        self.assertEqual(True, trial.finished)
+
     def test_active(self):
         "Is the trial active?"
         trial = models.SingleUserTrial(start_date=self.yesterday, finish_date=self.tomorrow)

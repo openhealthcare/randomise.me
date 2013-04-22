@@ -34,6 +34,8 @@ class SingleUserReportAdmin(admin.ModelAdmin):
     """
     Manual admin of SingleUserReports
     """
+    list_filter = ('trial',)
+    list_display = ['trial', 'date', 'group']
 
 admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(Trial, TrialAdmin)

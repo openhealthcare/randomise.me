@@ -3,14 +3,14 @@ Custom forms for the creation of Trials
 """
 import datetime
 
-
+from django.core.exceptions import ValidationError
 from django.forms import fields, widgets
 from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
 from rm import utils
 from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
-from rm.trials.validators import not_historic, during_trial
+from rm.trials import validators
 
 class BootstrapDatepickerWidget(widgets.DateInput):
     """
@@ -115,7 +115,7 @@ class TrialForm(BetterModelForm):
         """
         Can we validate that the finish_date isn't in the past please?
         """
-        if not_historic(self.cleaned_data['finish_date']):
+        if validators.not_historic(self.cleaned_data['finish_date']):
             return self.cleaned_data['finish_date']
 
 
@@ -167,17 +167,6 @@ class UserTrialForm(BetterModelForm):
                     }),
             }
 
-    # def clean_finish_date(self):
-    #     """
-    #     Can we validate that the finish_date isn't in the past please?
-    #     """
-    #     not_historic(self.cleaned_data['finish_date'])
-
-    # def clean_start_date(self):
-    #     """
-    #     Can we validate that the start_date isn't in the past please?
-    #     """
-    #     not_historic(self.cleaned_data['start_date'])
 
 class UserReportForm(BetterModelForm):
     """
@@ -200,7 +189,10 @@ class UserReportForm(BetterModelForm):
         """
         Ensure that the date reported on is within the boundaries of
         our trial.
+
+        Ensure that the trial has not been reported on for this date.
         """
         dt = self.cleaned_data['date']
-        if during_trial(dt, self.instance.trial.start_date, self.instance.trial.finish_date):
-            return dt
+        if validators.during_trial(dt, self.instance.trial.start_date, self.instance.trial.finish_date):
+            if validators.no_single_report(dt, self.instance.trial):
+                return dt
