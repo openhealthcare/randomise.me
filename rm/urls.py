@@ -43,7 +43,8 @@ urlpatterns = patterns(
     url(r'trials/my-trials$', MyTrials.as_view(), name='mytrials'),
     url(r'trials/new$', TemplateView.as_view(template_name='trials/new.html'),
         name='trial-create'),
-    url(r'dash$', TemplateView.as_view(template_name='dash.html'), name='dash'),
+#    url(r'dash$', TemplateView.as_view(template_name='dash.html'), name='dash'),
+    url(r'dash$', MyTrials.as_view(), name='dash'),
 
     # Trials users run on themselves - CRUD routes
     url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),

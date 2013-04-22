@@ -2,15 +2,18 @@
 <div class="row-fluid">
   <div class="span12">
     <ul class="nav nav-tabs" id="myTab">
-      <li {% if active == 'home' %}class="active"{% endif %}>
-        <a href="/dash">Home</a>
-      </li>
-      <li {% if active == 'newtrial' %}class="active"{% endif %}>
-        <a href="{% url 'trial-create' %}">New Trial</a>
-      </li>
       <li {% if active == 'mytrials' %}class="active"{% endif %}>
         <a href="{% url 'mytrials' %}">My Trials</a>
       </li>
+      <!-- <li {% if active == 'home' %}class="active"{% endif %}> -->
+      <!--   <a href="/dash">Home</a> -->
+      <!-- </li> -->
+      <li {% if active == 'newtrial' %}class="active"{% endif %}>
+        <a href="{% url 'trial-create' %}">New Trial</a>
+      </li>
+      <!-- <li {% if active == 'mytrials' %}class="active"{% endif %}> -->
+      <!--   <a href="{% url 'mytrials' %}">My Trials</a> -->
+      <!-- </li> -->
       <li {% if active == 'trials' %}class="active"{% endif %}>
         <a href="{% url 'trials' %}">All Trials</a>
       </li>
