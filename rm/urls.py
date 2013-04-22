@@ -49,7 +49,7 @@ urlpatterns = patterns(
     # Trials users run on themselves - CRUD routes
     url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),
     url(r'trials/user/(?P<pk>\d+)$', UserTrialDetail.as_view(), name='user-trial-detail'),
-    url(r'trials/rm/(?P<pk>\d+)/report', UserReport.as_view(), name='user-trial-report'),
+    url(r'trials/user/(?P<pk>\d+)/report', UserReport.as_view(), name='user-trial-report'),
 
     # Trials on RM Users - CRUD routes
     url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),

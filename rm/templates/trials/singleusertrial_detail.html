@@ -28,7 +28,7 @@
       <p>
         {{ trial.singleuserreport_set.count }} reports so far.
       </p>
-      {% if trial.started %}
+      {% if trial.active %}
         <a href="{% url 'user-trial-report' trial.pk %}" class="btn btn-danger">
           Report Data
           </a>

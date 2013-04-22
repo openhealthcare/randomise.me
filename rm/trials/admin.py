@@ -23,6 +23,7 @@ class SingleUserTrialAdmin(admin.ModelAdmin):
     """
     Manual admin of SingleUserTrials
     """
+    list_display = ['name', 'owner', 'start_date', 'finish_date']
 
 class SingleUserAllocationAdmin(admin.ModelAdmin):
     """

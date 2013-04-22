@@ -10,7 +10,7 @@ from form_utils.forms import BetterModelForm
 
 from rm import utils
 from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
-from rm.trials.validators import not_historic
+from rm.trials.validators import not_historic, during_trial
 
 class BootstrapDatepickerWidget(widgets.DateInput):
     """
@@ -183,6 +183,10 @@ class UserReportForm(BetterModelForm):
     """
     Allow the reporting of data for a trial.
     """
+    date = fields.DateField(
+        input_formats = ['%d/%m/%Y',],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
+
     class Meta:
         model = SingleUserReport
         fieldsets = [
@@ -191,3 +195,12 @@ class UserReportForm(BetterModelForm):
                        'description': ''}),
 
             ]
+
+    def clean_date(self):
+        """
+        Ensure that the date reported on is within the boundaries of
+        our trial.
+        """
+        dt = self.cleaned_data['date']
+        if during_trial(dt, self.instance.trial.start_date, self.instance.trial.finish_date):
+            return dt

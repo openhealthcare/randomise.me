@@ -156,6 +156,15 @@ class UserReport(CreateView):
         context['trial'] = trial
         return context
 
+    def get_form(self, *args, **kwargs):
+        """
+        Add the trial to the instance
+        """
+        trial = getattr(self, 'trial', None)
+        form = super(UserReport, self).get_form(*args, **kwargs)
+        form.instance.trial = trial
+        return form
+
     def form_valid(self, form):
         """
         We need to update the report object to set the trial
