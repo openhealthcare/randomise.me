@@ -326,6 +326,17 @@ wees you took on a given day, then a good value here would be 'wees'"""
             return True
         return False
 
+    def results(self):
+        """
+        Return the results of this trial
+
+        Return: dict
+        Exceptions: None
+        """
+        a = self.singleuserreport_set.filter(group='A').aggregate(models.Avg('score'))['score__avg']
+        b = self.singleuserreport_set.filter(group='B').aggregate(models.Avg('score'))['score__avg']
+        return [dict(name='Group A', avg=a), dict(name='Group B', avg=b)]
+
     def _out_of_bounds(self):
         """
         Helper method for repeated out of bounds logic.

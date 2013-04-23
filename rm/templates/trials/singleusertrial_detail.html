@@ -1,5 +1,5 @@
 {% extends 'baser.html' %}
-{% load tabs %}
+{% load tabs json_filters %}
 {% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
 {% block content %}
 <div class="page">
@@ -23,6 +23,16 @@
           <p> {{ trial.instructions_today }} </p>
         {% endif %}
       {% else %}
+        <div id="vis">
+
+        </div><!--results-->
+        <script type="text/javascript">
+          {% autoescape off %}
+            $(document).ready( function(){
+              RM.graphs.single_user_trial("#vis", {{ trial.results|json }});
+            });
+          {% endautoescape %}
+        </script>
         <!-- Results Vis here -->
       {% endif %}
     </div>

@@ -4,6 +4,7 @@ A create trial view?
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView
@@ -11,6 +12,19 @@ from django.views.generic.edit import CreateView
 from rm import exceptions
 from rm.trials.forms import TrialForm, UserTrialForm, UserReportForm
 from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
+from django.utils import simplejson
+
+class JsonResponse(HttpResponse):
+    """
+        JSON response
+    """
+    def __init__(self, content, mimetype='application/json', status=None, content_type=None):
+        super(JsonResponse, self).__init__(
+            content=simplejson.dumps(content),
+            mimetype=mimetype,
+            status=status,
+            content_type=content_type,
+        )
 
 class LoginRequiredMixin(object):
     """
@@ -184,6 +198,7 @@ class UserTrialDetail(DetailView):
     """
     context_object_name = 'trial'
     model               = SingleUserTrial
+
 
 # Views for trial discovery - lists, featured, etc.
 

@@ -5,6 +5,8 @@ from django import test
 from django.test import Client
 from lxml import html
 
+from rm.trials import views
+
 class CreateRMTrialTestCase(test.TestCase):
 
     def test_form_action(self):

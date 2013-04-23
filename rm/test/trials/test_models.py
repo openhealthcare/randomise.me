@@ -17,7 +17,6 @@ def setup_module():
 def teardown_module():
     utils.teardown_test_environment()
 
-
 class TemporalTestCase(TestCase):
     def setUp(self):
         super(TemporalTestCase, self).setUp()

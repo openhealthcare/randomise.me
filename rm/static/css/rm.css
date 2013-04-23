@@ -107,3 +107,18 @@ fieldset.collapsed div {
 #id_honeypot {
     display: none;
 }
+
+/* Graph Stuffs */
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+.chart rect {
+    stroke: white;
+    fill: steelblue;
+}
