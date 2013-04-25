@@ -235,6 +235,21 @@ class Participant(models.Model):
         return
 
 
+class Report(models.Model):
+    "A report of a single datapoint for a trial"
+    GROUP_CHOICES = (
+        ('A', 'Group A'),
+        ('B', 'Group B')
+        )
+
+    trial = models.ForeignKey(Trial)
+    group = models.CharField(max_length=1, choices=GROUP_CHOICES)
+    date  = models.DateField()
+    score = models.IntegerField()
+
+    def get_absolute_url(self):
+        return reverse('trial-detail', kwargs={'pk': self.trial.pk})
+
 
 class SingleUserTrial(models.Model):
     """

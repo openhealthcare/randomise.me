@@ -11,7 +11,7 @@ admin.autodiscover()
 
 from rm.views import HomeView
 from rm.trials.views import (MyTrials,
-                             TrialDetail, TrialCreate, JoinTrial,
+                             TrialDetail, TrialCreate, TrialReport, JoinTrial,
                              UserTrialCreate, UserTrialDetail, UserReport,
                              AllTrials, FeaturedTrialsList)
 
@@ -54,6 +54,7 @@ urlpatterns = patterns(
     # Trials on RM Users - CRUD routes
     url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),
     url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
+    url(r'trials/rm/(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
     url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
 
     # Multiple ways to see lists of trials

@@ -9,7 +9,7 @@ from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
 from rm import utils
-from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
+from rm.trials.models import Trial, Report, SingleUserTrial, SingleUserReport
 from rm.trials import validators
 
 class BootstrapDatepickerWidget(widgets.DateInput):
@@ -117,6 +117,36 @@ class TrialForm(BetterModelForm):
         """
         if validators.not_historic(self.cleaned_data['finish_date']):
             return self.cleaned_data['finish_date']
+
+
+class TrialReportForm(BetterModelForm):
+    """
+    Allow the reporting of data for a trial.
+    """
+    date = fields.DateField(
+        input_formats = ['%d/%m/%Y',],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
+
+    class Meta:
+        model = Report
+        fieldsets = [
+            ('Main', {'fields': ['date', 'score'],
+                       'legend': 'Report Data',
+                       'description': ''}),
+
+            ]
+
+    def clean_date(self):
+        """
+        Ensure that the date reported on is within the boundaries of
+        our trial.
+
+        Ensure that the trial has not been reported on for this date.
+        """
+        dt = self.cleaned_data['date']
+        if validators.during_trial(dt, self.instance.trial.start_date, self.instance.trial.finish_date):
+            if validators.no_report(dt, self.instance.trial):
+                return dt
 
 
 class UserTrialForm(BetterModelForm):

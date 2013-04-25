@@ -1,7 +1,7 @@
 {% if owner %}
   You Own this trial
 {% elif participating %}
-  <a href="#" class="btn btn-danger">
+  <a href="{% url 'trial-report' trial.pk %}" class="btn btn-danger">
     Report Data
   </a>
 {% else %}

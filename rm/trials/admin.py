@@ -3,7 +3,7 @@ Register Trials with the admin site.
 """
 from django.contrib import admin
 
-from rm.trials.models import (Trial, Participant, SingleUserTrial,
+from rm.trials.models import (Trial, Report, Participant, SingleUserTrial,
                               SingleUserAllocation, SingleUserReport)
 
 class TrialAdmin(admin.ModelAdmin):
@@ -18,6 +18,13 @@ class ParticipantAdmin(admin.ModelAdmin):
     """
     Manual admin of participants
     """
+
+class ReportAdmin(admin.ModelAdmin):
+    """
+    Manual admin of data reports
+    """
+    list_filter = ('trial',)
+    list_display = ['trial', 'date', 'group']
 
 class SingleUserTrialAdmin(admin.ModelAdmin):
     """
@@ -39,6 +46,7 @@ class SingleUserReportAdmin(admin.ModelAdmin):
 
 admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(Trial, TrialAdmin)
+admin.site.register(Report, ReportAdmin)
 admin.site.register(SingleUserTrial, SingleUserTrialAdmin)
 admin.site.register(SingleUserAllocation, SingleUserAllocationAdmin)
 admin.site.register(SingleUserReport, SingleUserReportAdmin)

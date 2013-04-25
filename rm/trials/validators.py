@@ -47,3 +47,18 @@ def no_single_report(value, trial):
     if models.SingleUserReport.objects.filter(trial=trial, date=value).count() > 0:
         raise ValidationError('Already reported data for {0}'.format(value))
     return True
+
+def no_report(value, trial):
+    """
+    Validate that there is not already a report for VALUE
+
+    Arguments:
+    - `value`: date
+    - `trial`: BaseTrial
+
+    Return: bool
+    Exceptions: ValidationError
+    """
+    if models.Report.objects.filter(trial=trial, date=value).count() > 0:
+        raise ValidationError('Already reported data for {0}'.format(value))
+    return True

@@ -10,8 +10,9 @@ from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView
 
 from rm import exceptions
-from rm.trials.forms import TrialForm, UserTrialForm, UserReportForm
-from rm.trials.models import Trial, SingleUserTrial, SingleUserReport
+from rm.trials.forms import (TrialForm, TrialReportForm, UserTrialForm,
+                             UserReportForm)
+from rm.trials.models import Trial, Report, SingleUserTrial, SingleUserReport
 from django.utils import simplejson
 
 class JsonResponse(HttpResponse):
@@ -37,6 +38,63 @@ class LoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+
+class ReportView(CreateView):
+    """
+    Generic report data view.
+
+    Ensures that we have access to the right trial at the right time.
+    """
+
+    context_object_name = 'report'
+
+    def get(self, *args,**kw):
+        """
+        Store the trial isntance
+        """
+        self.trial = self.trial_model.objects.get(pk=kw['pk'])
+        return super(ReportView, self).get(*args, **kw)
+
+    def post(self, *args,**kw):
+        """
+        Store the trial isntance
+        """
+        self.trial = self.trial_model.objects.get(pk=kw['pk'])
+        return super(ReportView, self).post(*args, **kw)
+
+    def get_context_data(self, **kw):
+        """
+        We want access to the trial data in the template please!
+        """
+        trial = getattr(self, 'trial', None)
+        if not trial:
+            raise ValueError()
+        context = super(ReportView, self).get_context_data(**kw)
+        context['trial'] = trial
+        return context
+
+    def get_form(self, *args, **kwargs):
+        """
+        Add the trial to the instance
+        """
+        trial = getattr(self, 'trial', None)
+        form = super(ReportView, self).get_form(*args, **kwargs)
+        form.instance.trial = trial
+        return form
+
+    def form_valid(self, form):
+        """
+        We need to update the report object to set the trial
+        and figure out the group that the user was allocated
+        to on the date in question.
+        """
+        trial = getattr(self, 'trial', None)
+        if not trial:
+            raise ValueError()
+        form.instance.trial = trial
+        return super(ReportView, self).form_valid(form)
+
+
 
 # Views for user tabs
 
@@ -119,6 +177,13 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
         context['trial']  = self.trial
         return context
 
+class TrialReport(ReportView):
+    """
+    Report a data point for this trial
+    """
+    model       = Report
+    trial_model = Trial
+    form_class  = TrialReportForm
 
 # Views for trials users run on themselves
 class UserTrialCreate(LoginRequiredMixin, CreateView):
@@ -137,59 +202,13 @@ class UserTrialCreate(LoginRequiredMixin, CreateView):
         return super(UserTrialCreate, self).form_valid(form)
 
 
-class UserReport(CreateView):
+class UserReport(ReportView):
     """
     Report a single data point for this trial
     """
-    context_object_name = 'report'
-    model               = SingleUserReport
-    form_class          = UserReportForm
-
-    def get(self, *args,**kw):
-        """
-        Store the trial isntance
-        """
-        self.trial = SingleUserTrial.objects.get(pk=kw['pk'])
-        return super(UserReport, self).get(*args, **kw)
-
-    def post(self, *args,**kw):
-        """
-        Store the trial isntance
-        """
-        self.trial = SingleUserTrial.objects.get(pk=kw['pk'])
-        return super(UserReport, self).post(*args, **kw)
-
-    def get_context_data(self, **kw):
-        """
-        We want access to the trial data in the template please!
-        """
-        trial = getattr(self, 'trial', None)
-        if not trial:
-            raise ValueError()
-        context = super(UserReport, self).get_context_data(**kw)
-        context['trial'] = trial
-        return context
-
-    def get_form(self, *args, **kwargs):
-        """
-        Add the trial to the instance
-        """
-        trial = getattr(self, 'trial', None)
-        form = super(UserReport, self).get_form(*args, **kwargs)
-        form.instance.trial = trial
-        return form
-
-    def form_valid(self, form):
-        """
-        We need to update the report object to set the trial
-        and figure out the group that the user was allocated
-        to on the date in question.
-        """
-        trial = getattr(self, 'trial', None)
-        if not trial:
-            raise ValueError()
-        form.instance.trial = trial
-        return super(UserReport, self).form_valid(form)
+    model       = SingleUserReport
+    trial_model = SingleUserTrial
+    form_class  = UserReportForm
 
 
 class UserTrialDetail(DetailView):
