@@ -50,6 +50,9 @@ urlpatterns = patterns(
     url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),
     url(r'trials/user/(?P<pk>\d+)$', UserTrialDetail.as_view(), name='user-trial-detail'),
     url(r'trials/user/(?P<pk>\d+)/report', UserReport.as_view(), name='user-trial-report'),
+    url(r'tutorial',
+        TemplateView.as_view(template_name='trials/tutorial.html'),
+        name='tutorial'),
 
     # Trials on RM Users - CRUD routes
     url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),

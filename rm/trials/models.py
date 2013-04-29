@@ -61,6 +61,7 @@ publically visible."""
     finished          = models.BooleanField(default=False, editable=False)
     owner             = models.ForeignKey(User)
     featured          = models.BooleanField(default=False)
+    recruiting        = models.BooleanField(default=True)
 
     objects = managers.RmTrialManager()
 
@@ -72,6 +73,16 @@ publically visible."""
 
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.pk})
+
+    def save(self):
+        """
+        Check for recruiting status
+
+        Return: None
+        Exceptions: None
+        """
+        self.recruiting = self.can_join()
+        return super(Trial, self).save()
 
     def time_remaining(self):
         """

@@ -38,4 +38,12 @@ class SingleUserTrialManager(ActiveManager):
     pass
 
 class RmTrialManager(ActiveManager):
-    pass
+
+    def recruiting(self):
+        """
+        Return a queryset representing the trials that are recruiting.
+
+        Return: Queryset
+        Exceptions: None
+        """
+        return self.filter(finished=False, private=False, recruiting=True)

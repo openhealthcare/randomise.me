@@ -1,36 +1,101 @@
 {% extends 'baser.html' %}
-{% block htmlclass%} nologo {% endblock %}
+{% load tabs %}
+{% block htmlclass%}  {% endblock %}
 {% block content %}
-      <div class="jumbotron">
-        <img src="{{ STATIC_URL }}img/rmfull.png">
+  <div class="page">
+    <div class="row-fluid">
+      {% tabs 'home' %}
+    </div>
+
+    <!-- Top level banner - What is this? Why are we here? -->
+    <div class="row-fluid">
+      <div class="span6">
+        <h2>Randomise Me</h2>
+        <p>
+          Evidence is super neat, RCTs are pretty wild. Wouldn't you
+          like to run some RCTs yourself? Now you can!
+        </p>
+        <p>
+          Why don't you watch this video ? If you like that sort of
+          thing. Shure. Whatever.
+        </p>
       </div>
-
-      <hr>
-
-      <div class="row-fluid">
-
-        <div class="span4">
-          <p>
-            Show me the data. All trials registered and all results reported here. 
-          </p>
-          <p><a class="btn btn-danger" href="{% url 'trials' %}">ALL TRIALS</a></p>
-        </div>
-
-        <div class="span4">
-          <p>
-           Sign me up. Join an existing trial or start your own. We help you run randomized control trials. 
-
-          </p>
-          <p><a class="btn btn-danger" href="{% url 'account-types' %}">SIGN UP</a></p>
-       </div>
-
-        <div class="span4">
-          <p>
-           Stop me getting scurvy. Treatment of scurvy on board HMS Salisbury. Cider, elixir vitriol, vinegar, nutmeg, sea water, and oranges & lemons. Those given oranges & lemons showed '...the most sudden and visible good effects' (Lind 1747).
-          </p>
-          <p><a class="btn btn-danger" href="{% url 'featured' %}">FEATURED TRIALS</a></p>
-        </div>
-
+      <div class="span6">
+        <p>Placeholder for some video thing.</p>
       </div>
+    </div>
+
+    <!-- Second row - What do you get out of running a trial? -->
+    <div class="row-fluid">
+      {% for trial in finished %}
+        <div class="span8">
+          <h3>
+            <a href="{{ trial.get_absolute_url }}">
+              {{ trial.name }}
+            </a>
+          </h3>
+        </div>
+        <div class="span4">
+          <p>PLACEHOLDER - BASIC GRAPH THUMBNAIL HERE</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Third row, Create/join trials -->
+    <div class="row-fluid">
+      <div class="span6">
+        <h3>Create a trial</h3>
+      </div>
+      <div class="span6">
+        <h3>Join a trial</h3>
+        {% for trial in recruiting %}
+          <p>
+            <a href="{{ trial.get_absolute_url }}">
+              {{ trial.name }}
+            </a>
+          </p>
+        {% endfor %}
+        <p>
+          Looking for a something else?
+          TRIAL DISCOVERY LINK HERE
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+
+
+      <!-- <div class="jumbotron"> -->
+      <!--   <img src="{{ STATIC_URL }}img/rmfull.png"> -->
+      <!-- </div> -->
+
+      <!-- <hr> -->
+
+      <!-- <div class="row-fluid"> -->
+
+      <!--   <div class="span4"> -->
+      <!--     <p> -->
+      <!--       Show me the data. All trials registered and all results reported here.  -->
+      <!--     </p> -->
+      <!--     <p><a class="btn btn-danger" href="{% url 'trials' %}">ALL TRIALS</a></p> -->
+      <!--   </div> -->
+
+      <!--   <div class="span4"> -->
+      <!--     <p> -->
+      <!--      Sign me up. Join an existing trial or start your own. We help you run randomized control trials.  -->
+
+      <!--     </p> -->
+      <!--     <p><a class="btn btn-danger" href="{% url 'account-types' %}">SIGN UP</a></p> -->
+      <!--  </div> -->
+
+      <!--   <div class="span4"> -->
+      <!--     <p> -->
+      <!--      Stop me getting scurvy. Treatment of scurvy on board HMS Salisbury. Cider, elixir vitriol, vinegar, nutmeg, sea water, and oranges & lemons. Those given oranges & lemons showed '...the most sudden and visible good effects' (Lind 1747). -->
+      <!--     </p> -->
+      <!--     <p><a class="btn btn-danger" href="{% url 'featured' %}">FEATURED TRIALS</a></p> -->
+      <!--   </div> -->
+
+      <!-- </div> -->
 
 {% endblock %}
