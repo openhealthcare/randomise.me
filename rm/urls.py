@@ -38,6 +38,8 @@ urlpatterns = patterns(
     # Site-wide boilerplates - totally our app.
     url(r'disclaimer$', TemplateView.as_view(template_name='disclaimer.html'),
         name='disclaimer'),
+    url(r'contact$', TemplateView.as_view(template_name='contact.html'), name='contact'),
+    url(r'about$', TemplateView.as_view(template_name='about.html'), name='about'),
 
     # Tabs at the top of a logged-in user's pages
     url(r'trials/my-trials$', MyTrials.as_view(), name='mytrials'),

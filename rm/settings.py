@@ -194,7 +194,7 @@ CAS_REDIRECT_URL = '/'
 CAS_IGNORE_REFERER = True
 CAS_AUTO_CREATE_USERS = True
 CAS_USE_EXTRA = True
-LOGIN_REDIRECT_URL = '/dash'
+LOGIN_REDIRECT_URL = '/'
 
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'

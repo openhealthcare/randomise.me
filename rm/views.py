@@ -15,11 +15,6 @@ class HomeView(TemplateView):
     """
     template_name='home.html'
 
-    def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('dash'))
-        return super(HomeView, self).get(*args, **kwargs)
-
     def get_context_data(self, **kw):
         """
         Add featured trials for the homepage

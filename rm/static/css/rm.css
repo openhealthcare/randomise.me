@@ -16,7 +16,7 @@ a {
     color: grey;
 }
 
-li {
+ul li {
     vertical-align: top;
     list-style:url(/static/img/disc.grey.png) none;
 }
@@ -36,7 +36,7 @@ li.red {
 /* Custom container */
 .container {
     margin: 0 auto;
-    max-width: 1000px;
+    /* max-width: 1000px; */
 }
 .container > hr {
     margin: 60px 0;

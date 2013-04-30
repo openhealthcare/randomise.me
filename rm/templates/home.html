@@ -10,7 +10,6 @@
     <!-- Top level banner - What is this? Why are we here? -->
     <div class="row-fluid">
       <div class="span6">
-        <h2>Randomise Me</h2>
         <p>
           Evidence is super neat, RCTs are pretty wild. Wouldn't you
           like to run some RCTs yourself? Now you can!
@@ -21,30 +20,104 @@
         </p>
       </div>
       <div class="span6">
-        <p>Placeholder for some video thing.</p>
+        <img src="{{ STATIC_URL }}img/video-placeholder-large.jpg" class="" alt="" />
       </div>
     </div>
 
     <!-- Second row - What do you get out of running a trial? -->
+    <h2>Featured Trials</h2>
     <div class="row-fluid">
-      {% for trial in finished %}
-        <div class="span8">
-          <h3>
-            <a href="{{ trial.get_absolute_url }}">
-              {{ trial.name }}
-            </a>
-          </h3>
-        </div>
-        <div class="span4">
-          <p>PLACEHOLDER - BASIC GRAPH THUMBNAIL HERE</p>
-        </div>
-      {% endfor %}
+      {% if finished %}
+        {% for trial in finished %}
+          <div class="span8">
+            <h3>
+              <a href="{{ trial.get_absolute_url }}">
+                {{ trial.name }}
+                </a>
+            </h3>
+          </div>
+          <div class="span4">
+            <p>PLACEHOLDER - BASIC GRAPH THUMBNAIL HERE</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <hr />
+
+
+          <div class="span8">
+            <h3>
+              <a href="#">
+                This trial has a name
+                <br />
+              </a>
+            </h3>
+            <p>
+              This trial also has a description. That tells you what it's about.
+            </p>
+
+          </div>
+          <div class="span3">
+            <div id="vis1"></div><!--vis1-->
+          </div>
+
+        </div> <!-- row-fluid -->
+        <hr />
+        <div class="row-fluid">
+
+          <div class="span8">
+            <h3>
+              <a href="#">
+                This is another trial
+                <br />
+              </a>
+            </h3>
+            <p>
+              What this second trial is about
+            </p>
+
+          </div>
+          <div class="span3">
+            <div id="vis2"></div><!--vis1-->
+          </div>
+
+        <script type="text/javascript">
+          {% autoescape off %}
+            $(document).ready( function(){
+              RM.graphs.trial_thumbnail("#vis1", [{name: 'Group A', avg: 123},
+                                                  {name: 'Group B', avg: 456}]);
+              RM.graphs.trial_thumbnail("#vis2", [{name: 'Group A', avg: 789},
+                                                  {name: 'Group B', avg: 456}]);
+
+            });
+          {% endautoescape %}
+        </script>
+
+      {% endif %}
     </div>
+
+        <hr />
 
     <!-- Third row, Create/join trials -->
     <div class="row-fluid">
       <div class="span6">
         <h3>Create a trial</h3>
+        <ol>
+          <li>
+            Have a question
+          </li>
+          <li>
+            Create a trial in minutes
+          </li>
+          <li>
+            Get pretty results
+          </li>
+        </ol>
+        <div class="span3">
+          <a href="#">How does it work</a>
+        </div>
+        <div class="span3">
+          <a href="{% url 'tutorial' %}" class="btn btn-danger">Start</a>
+        </div>
       </div>
       <div class="span6">
         <h3>Join a trial</h3>
@@ -54,48 +127,18 @@
               {{ trial.name }}
             </a>
           </p>
+          <p>
+            {{ trial.description }}
+          </p>
         {% endfor %}
         <p>
-          Looking for a something else?
-          TRIAL DISCOVERY LINK HERE
+          <a href="{% url 'trials' }">
+            Looking for a something else?
+          </a>
         </p>
       </div>
     </div>
 
   </div>
-
-
-
-      <!-- <div class="jumbotron"> -->
-      <!--   <img src="{{ STATIC_URL }}img/rmfull.png"> -->
-      <!-- </div> -->
-
-      <!-- <hr> -->
-
-      <!-- <div class="row-fluid"> -->
-
-      <!--   <div class="span4"> -->
-      <!--     <p> -->
-      <!--       Show me the data. All trials registered and all results reported here.  -->
-      <!--     </p> -->
-      <!--     <p><a class="btn btn-danger" href="{% url 'trials' %}">ALL TRIALS</a></p> -->
-      <!--   </div> -->
-
-      <!--   <div class="span4"> -->
-      <!--     <p> -->
-      <!--      Sign me up. Join an existing trial or start your own. We help you run randomized control trials.  -->
-
-      <!--     </p> -->
-      <!--     <p><a class="btn btn-danger" href="{% url 'account-types' %}">SIGN UP</a></p> -->
-      <!--  </div> -->
-
-      <!--   <div class="span4"> -->
-      <!--     <p> -->
-      <!--      Stop me getting scurvy. Treatment of scurvy on board HMS Salisbury. Cider, elixir vitriol, vinegar, nutmeg, sea water, and oranges & lemons. Those given oranges & lemons showed '...the most sudden and visible good effects' (Lind 1747). -->
-      <!--     </p> -->
-      <!--     <p><a class="btn btn-danger" href="{% url 'featured' %}">FEATURED TRIALS</a></p> -->
-      <!--   </div> -->
-
-      <!-- </div> -->
 
 {% endblock %}

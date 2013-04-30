@@ -3,18 +3,23 @@
         <a href="{% url 'home' %}" id="header-logo">
           <img src="{{ STATIC_URL }}img/randomisemelogo.png">
         </a>
+
         <ul class="nav">
-          <li class="active"><a href="{% url 'trials' %}">Trials</a></li>
+          <li class="">
+            <a href="{% url 'contact' %}">
+              Contact
+            </a>
+          </li>
           {% if request.user.is_superuser %}
             <li><a href="/admin/">Admin</a></li>
           {% endif %}
           {% if request.user.is_authenticated %}
-          <li><a href="#">Profile</a></li>
-          <li><a href="{% url 'account-types' %}">Account</a></li>
-          <li><a href="/logout">Log Out {{ request.user }}</a></li>
+          <li><a href="#">{{ request.user }}</a></li>
+          <li><a href="/logout">Log Out</a></li>
           {% else %}
           <li><a href="/accounts/login">Log In</a></li>
           {% endif %}
         </ul>
+
       </div>
 </div>

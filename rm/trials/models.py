@@ -186,6 +186,28 @@ publically visible."""
         return
 
 
+class Variable(models.Model):
+    """
+    A variable that we are reporting on
+    """
+    SCORE  = 'sc'
+    BINARY = 'bi'
+    COUNT  = 'co'
+
+    STYLE_CHOICES = (
+        (SCORE,  'Score'),
+        (BINARY, 'Binary'),
+        (COUNT,  'Count')
+        )
+
+    trial = models.ForeignKey(Trial)
+    name  = models.CharField(max_length=200)
+    style = models.CharField(max_length=2, choices=STYLE_CHOICES)
+
+    def __unicode__(self):
+        return '<Variable {0} ({1})>'.format(self.name, self.style)
+
+
 class Group(models.Model):
     """
     The randomised groups of participants, automatically
