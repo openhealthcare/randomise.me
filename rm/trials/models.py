@@ -97,6 +97,47 @@ publically visible."""
         return [dict(name='Group A', avg=random.randrange(1, 100)),
                 dict(name='Group B', avg=random.randrange(1, 100))]
 
+
+    @property
+    def started(self):
+        """
+        Property to determine whether this trial has started or not.
+
+        Return: bool
+        Exceptions: None
+        """
+        if self.start_date is None:
+            return False
+        if self.start_date <= datetime.date.today():
+            return True
+        return False
+
+    @property
+    def finished(self):
+        """
+        Predicate property to determine whether this trial is finished.
+
+        Return: bool
+        Exceptions: None
+        """
+        if self.finish_date < td():
+            return True
+        return False
+
+    @property
+    def active(self):
+        """
+        Property to determine whether this trial is active today.
+
+        Return: bool
+        Exceptions: None
+        """
+        if not self.start_date or not self.finish_date:
+            return False
+        if self.start_date <= td() and self.finish_date >= td():
+            return True
+        return False
+
     def time_remaining(self):
         """
         How much time is between now and the end of the trial?
@@ -251,6 +292,8 @@ class Group(models.Model):
     trial = models.ForeignKey(Trial)
     name  = models.CharField(max_length=1, choices=NAME_CHOICES)
 
+    def __unicode__(self):
+        return self.name
 
 class Participant(models.Model):
     """
@@ -301,13 +344,9 @@ class Participant(models.Model):
 
 class Report(models.Model):
     "A report of a single datapoint for a trial"
-    GROUP_CHOICES = (
-        ('A', 'Group A'),
-        ('B', 'Group B')
-        )
 
     trial = models.ForeignKey(Trial)
-    group = models.CharField(max_length=1, choices=GROUP_CHOICES)
+    group = models.ForeignKey(Group, blank=True, null=True)
     date  = models.DateField()
     score = models.IntegerField()
 
