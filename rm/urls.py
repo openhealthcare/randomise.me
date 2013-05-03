@@ -9,7 +9,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 admin.autodiscover()
 
-from rm.views import HomeView
+from rm.views import HomeView, RMContactView
 from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
                              ReproduceTrial, TrialAsCsv,
@@ -39,7 +39,10 @@ urlpatterns = patterns(
     # Site-wide boilerplates - totally our app.
     url(r'disclaimer$', TemplateView.as_view(template_name='disclaimer.html'),
         name='disclaimer'),
-    url(r'contact$', TemplateView.as_view(template_name='contact.html'), name='contact'),
+    url(r'contact$', RMContactView.as_view(), name='contact'),
+    url(r'contact-ta$', TemplateView.as_view(template_name='contact-ta.html'),
+        name='contact-ta'),
+
     url(r'about$', TemplateView.as_view(template_name='about.html'), name='about'),
 
     # Tabs at the top of a logged-in user's pages

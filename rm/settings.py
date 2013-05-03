@@ -208,6 +208,7 @@ EMAIL_HOST = 'example.com'
 EMAIL_HOST_USER = 'notareal username dummy'
 EMAIL_HOST_PASSWORD = 'notareal password dummy'
 DEFAULT_FROM_EMAIL = 'Randomise Me <www@randomizeme.org>'
+CONTACT_EMAIL = 'nospam@example.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_DOMAIN = 'http://byta.randomizeme.org'

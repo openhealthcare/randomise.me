@@ -1,0 +1,21 @@
+{% extends 'baser.html' %}
+{% load bootstrap %}
+
+{% block content %}
+  <h1>Contact Us</h1>
+  <p>
+    Feel free to drop us a line on
+    <a href="mailto:hello@openhealthcare.org.uk">
+      hello@openhealthcare.org.uk
+    </a>
+    or alternatively, use the contact form below:
+  </p>
+  <form method="POST" action="{% url 'contact' %}">
+    {% csrf_token %}
+    {{ form|bootstrap }}
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Send</button>
+    </div>
+
+  </form>
+{% endblock %}

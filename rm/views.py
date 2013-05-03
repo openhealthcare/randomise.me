@@ -3,9 +3,10 @@ Top level views for Randomise Me.
 
 Static-ish pages etc.
 """
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
+from letter.contrib.contact import ContactView
 
 from rm.trials.models import Trial
 
@@ -27,3 +28,9 @@ class HomeView(TemplateView):
 
         context['finished'] = Trial.objects.completed().filter(featured=True)[:2]
         return context
+
+class RMContactView(ContactView):
+    """
+    Pointless form for people who don't like their email clients
+    """
+    success_url   = reverse_lazy('contact-ta')
