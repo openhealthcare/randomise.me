@@ -47,3 +47,21 @@ class RmTrialManager(ActiveManager):
         Exceptions: None
         """
         return self.filter(finished=False, private=False, recruiting=True)
+
+    def reproduce(self, owner, **kwargs):
+        """
+        Return a cleaned version of a trial to reproduce.
+
+        Arguments:
+        - `**kwargs`: {}
+
+        Return: Trial
+        Exceptions: None
+        """
+        trial = self.get(**kwargs)
+        trial.pk          = None
+        trial.start_date  = None
+        trial.finish_date = None
+        trial.featured    = None
+        trial.owner       = owner
+        return trial

@@ -66,7 +66,7 @@ class TrialForm(BetterModelForm):
     class Meta:
         model = Trial
         fieldsets = [
-            ('Basic', {'fields': ['name', 'url', 'private'],
+            ('Basic', {'fields': ['name', 'private'],
                        'legend': 'Basic Details',
                        'description': ''}),
             ('Setup', {'fields': ['description', 'style'],
@@ -186,7 +186,7 @@ class UserTrialForm(BetterModelForm):
                     'data-required': 'true'
                     }),
             'variable'  :  widgets.TextInput(attrs={
-                    'data-required': 'true',
+                    'Data-required': 'true',
                     'data-maxlength': '200',
                     }),
             'group_a'  :  widgets.Textarea(attrs={

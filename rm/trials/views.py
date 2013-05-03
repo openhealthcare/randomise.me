@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, BaseCreateView
 
 from rm import exceptions
 from rm.trials.forms import (TrialForm, TrialReportForm, UserTrialForm,
@@ -129,6 +129,41 @@ class TrialCreate(CreateView):
         """
         form.instance.owner = self.request.user
         return super(TrialCreate, self).form_valid(form)
+
+
+class ReproduceTrial(LoginRequiredMixin, CreateView):
+    """
+    Forkin' action.
+    """
+    context_object_name = "trial"
+    model               = Trial
+    form_class          = TrialForm
+
+    def get_template_names(self, *args, **kwargs):
+        return ['trials/reproduce_trial.html']
+
+    def get(self, request, *args, **kwargs):
+        """
+        If the self.object we get from our parent classes is None
+        then fill it out with the object we're copying.
+
+        Arguments:
+        - `request`: Request
+
+        Return: Response
+        Exceptions:
+        """
+        self.object = Trial.objects.reproduce(request.user, pk=kwargs['pk'])
+        print self.object
+        return super(BaseCreateView, self).get(request, *args, **kwargs)
+
+
+    def form_valid(self, form):
+        """
+        Add ownership details to the trial
+        """
+        form.instance.owner = self.request.user
+        return super(ReproduceTrial, self).form_valid(form)
 
 
 class JoinTrial(LoginRequiredMixin, TemplateView):

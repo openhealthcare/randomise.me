@@ -1,0 +1,20 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+{% block extratitle %} - Reproduce Trial{% endblock %}
+{% block content %}
+  <div class="page">
+    {% tabs 'newtrial' %}
+    <h2>
+      <i class="icon-group yellow"></i>
+      Reproduce a trial
+    </h2>
+    <p>
+      This trial has already been created, but you can copy the trial details,
+      either to independantly reproduce the results, or to use it as the basis
+      for a different trial.
+    </p>
+    <div class="row-fluid">
+      {% include 'trials/_trial_form.html' %}
+    </div>
+</div>
+{% endblock %}
