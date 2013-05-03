@@ -26,78 +26,12 @@
       {% share_this %}
     </div>
   </div>
+  {% if trial.finished %}
+    {% include 'trials/trial_detail_report.html' %}
+  {% elif trial.owner == request.user %}
+    {% include 'trials/trial_detail_owner.html' %}
+  {% endif %}
 
-  <div class="row-fluid">
-    <div class="span8 feature-box grey-back">
-      <h3>
-        {% if trial.private %}
-          <i class="icon-lock red"></i>
-        {% else %}
-          <i class="icon-unlock green"></i>
-        {% endif %}
-
-        Participants: {{ trial.participant_set.count }}/{{ trial.min_participants }}
-      </h3>
-      <h3 class="pull-right">
-        {{ trial.time_remaining.days }}
-        <small>
-          days remaining
-        </small>
-      </h3>
-
-      <p>
-        {{ trial.description }}
-      </p>
-
-      {% if trial.needs_participants %}
-        <p>
-          You need {{ trial.needs }} more participants.
-          <a href="{% url 'contact' %}">
-            Contact us for help recruiting for your trial.
-          </a>
-        </p>
-
-        <h4>Active Participants: COMING SOON (SOON %)</h4>
-      {% endif %}
-
-      {% if trial.private %}
-        <hr />
-
-        <p>
-          Ready to make this trial public?
-          <a href="#" class="btn btn-danger">Make public</a>
-        </p>
-      {% endif %}
-
-      <hr />
-      <p>
-        Want to run a similar trial?
-        <a href="{% url 'reproduce-trial' trial.pk %}" class="btn btn-danger">
-          Reproduce this trial
-        </a>
-      </p>
-
-      <hr />
-      <p>
-        Want to stop this trial?
-        <a href="#" class="btn btn-danger">Stop this trial</a>
-      </p>
-
-    </div>
-
-  </div> <!-- Row Fluid -->
-
-  <h2>Instructions</h2>
-  <div class="row-fluid">
-    <div class="span4 grey-back feature-box">
-      <h3>Group A</h3>
-      <p>{{ trial.group_a }}</p>
-    </div>
-    <div class="span4 grey-back feature-box">
-      <h3>Group B</h3>
-      <p>{{ trial.group_b }}</p>
-    </div>
-  </div>
 
 </div>
 {% endblock %}

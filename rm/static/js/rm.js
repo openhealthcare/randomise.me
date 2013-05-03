@@ -11,6 +11,11 @@ var RM = {
             RM.graphs.trial_bar(selector, data, 210, 30)
         },
 
+        trial_report: function(pk, results){
+            var bar_selector = "#mainbar-"+ pk;
+            RM.graphs.trial_bar(bar_selector, results, 420, 60)
+        },
+
         trial_bar: function(selector, data, width, height){
 
             var chart = d3.select(selector).append('svg')
