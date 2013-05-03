@@ -48,6 +48,22 @@ li.red {
 .green { color: green; }
 .yellow { color: #fbc30c; }
 .red { color: #e83e1f; }
+.grey-back{ background: #dbd3cd; }
+
+
+.feature-box {
+    padding: 0px 12px 12px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.feature-box h3 {
+    font-weight: normal;
+    margin-top: -20px;
+    background: white;
+    display: inline-block;
+    padding: 0px 12px;
+}
+
 
 /* Header */
 html.nologo .masthead #header-logo {
