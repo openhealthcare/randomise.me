@@ -25,5 +25,5 @@ class HomeView(TemplateView):
             self.template_name = 'trials/my_trials.html'
             return context
 
-        context['finished'] = Trial.objects.filter(finished=True, featured=True)[:2]
+        context['finished'] = Trial.objects.completed().filter(featured=True)[:2]
         return context
