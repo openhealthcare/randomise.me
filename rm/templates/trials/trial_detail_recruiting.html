@@ -1,0 +1,10 @@
+<div class="row-fluid">
+  <div class="span8 hero-unit">
+    <p>{{trial.description}}</p>
+    <form method="POST" id="join-form" action="{% url 'join-trial' trial.pk %}">
+      {% csrf_token %}
+      <button class="btn btn-danger">Join this Trial</button>
+    </form>
+
+  </div>
+</div>

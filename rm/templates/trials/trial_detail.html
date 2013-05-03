@@ -26,10 +26,13 @@
       {% share_this %}
     </div>
   </div>
+
   {% if trial.finished %}
     {% include 'trials/trial_detail_report.html' %}
   {% elif trial.owner == request.user %}
     {% include 'trials/trial_detail_owner.html' %}
+  {% else %}
+    {% include 'trials/trial_detail_recruiting.html' %}
   {% endif %}
 
 
