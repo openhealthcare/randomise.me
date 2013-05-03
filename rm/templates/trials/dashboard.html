@@ -138,7 +138,7 @@
                 <script type="text/javascript">
                   {% autoescape off %}
                   $(document).ready( function(){
-                    RM.graphs.trial_thumbnail("#vis1", {{trial.results|json}} );
+                    RM.graphs.trial_thumbnail("#vis{{trial.pk}}", {{trial.results|json}} );
                     });
                   {% endautoescape %}
                 </script>
