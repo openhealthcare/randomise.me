@@ -72,11 +72,10 @@ def deploy():
     Make it so!
     """
     with cd(PROJ_DIR):
-        run('git pull origin master') #not ssh - key stuff
+        run('git pull origin master --tags') #not ssh - key stuff
         run('{0} install -r requirements.txt'.format(venv_bin('pip')))
         migrate()
         restart()
-
 
 @hosts(web)
 def restart():
@@ -85,3 +84,13 @@ def restart():
     """
     supervisorctl('reread')
     supervisorctl('restart all')
+
+@hosts(web)
+def emergency():
+    """
+    Emergency rollback.
+    """
+    with cd(PROJ_DIR):
+        run('git checkout stable')
+        migrate()
+        restart()
