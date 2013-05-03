@@ -138,6 +138,15 @@ publically visible."""
             return True
         return False
 
+    def related(self):
+        """
+        Get trials possibly related to this one.
+
+        Return: Queryset
+        Exceptions: None
+        """
+        return Trial.objects.exclude(pk=self.pk)[:5]
+
     def time_remaining(self):
         """
         How much time is between now and the end of the trial?

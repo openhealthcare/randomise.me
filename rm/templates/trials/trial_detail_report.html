@@ -6,11 +6,41 @@
   </div>
 </div>
 
+<!-- Headline stats -->
 <div class="row-fluid">
+  <h3>
+    This intervention produces a SOON% average change in VARIABLE
+    <small>
+      explain this
+    </small>
+  </h3>
+  <h3>
+    {{ trial.participant_set.count }} participants, between
+    {{ trial.start_date }} and {{ trial.finish_date }}
+  </h3>
+</div>
+
+<!-- random calls to action -->
+<div class="row-fluid">
+  <a href="#" class="btn btn-danger">Download Data</a>
+  <a href="{% url 'reproduce-trial' trial.pk %}" class="btn btn-danger">Reproduce this trial</a>
+  <a href="#" class="btn btn-danger">Report this trial</a>
+</div>
+
+<div class="row-fluid drop24">
   <div class="span8 grey-back feature-box">
     <h3>Related trials</h3>
     {% for rel in trial.related %}
-      {{trial}}
+      <p>
+        <a href="{{ rel.get_absolute_url }}">{{ rel.name }}</a>
+          <form method="POST" id="join-form" action="{% url 'join-trial' rel.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-danger">
+               Participate
+               </button>
+          </form>
+
+      </p>
     {% endfor %}
   </div>
 </div>
