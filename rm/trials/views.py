@@ -3,17 +3,52 @@ A create trial view?
 """
 import datetime
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView, BaseCreateView
+from django.utils import simplejson
+import ffs
 
 from rm import exceptions
 from rm.trials.forms import (TrialForm, TrialReportForm, UserTrialForm,
                              UserReportForm)
 from rm.trials.models import Trial, Report, SingleUserTrial, SingleUserReport
-from django.utils import simplejson
+
+def serve_maybe(meth):
+    """
+    Decorator to figure out if we want to serve files
+    ourselves (DEBUG) or hand off to Nginx
+    """
+    # Originally from Open Prescribing raw.views
+
+    def handoff(self, *args, **kwargs):
+        """
+        Internal wrapper function to figure out
+        the logic
+        """
+        filename = meth(self, *args, **kwargs)
+
+        # When we're running locally, just take the hit, otherwise
+        # offload the serving of the datafile to Nginx
+        if settings.DEBUG:
+            resp = HttpResponse(
+                open(filename, 'rb').read(),
+                mimetype='application/force-download'
+                )
+            return resp
+
+        resp = HttpResponse()
+        url = '/protected/{0}'.format(filename)
+        # let nginx determine the correct content type
+        resp['Content-Type']=""
+        resp['X-Accel-Redirect'] = url
+        return resp
+
+    return handoff
+
 
 class JsonResponse(HttpResponse):
     """
@@ -219,6 +254,35 @@ class TrialReport(ReportView):
     model       = Report
     trial_model = Trial
     form_class  = TrialReportForm
+
+class TrialAsCsv(View):
+    """
+    Download the trial's raw data as a csv.
+    """
+
+    @serve_maybe
+    def get(self, request, pk):
+        """
+        We want to serve a CSV of this trial's raw data!
+
+        Return: str
+        Exceptions: None
+        """
+        trial = Trial.objects.get(pk=pk)
+        rows = [
+            (report.group.name, report.date.isoformat(), report.score)
+            for report in trial.report_set.all()
+            ]
+
+        raw = ffs.Path.newfile()
+        with raw.csv() as csv:
+            csv.writerows([[
+                    'group',
+                    'date'
+                    'score'
+                    ]] + rows)
+        return raw
+
 
 # Views for trials users run on themselves
 class UserTrialCreate(LoginRequiredMixin, CreateView):

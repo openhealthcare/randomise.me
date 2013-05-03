@@ -22,7 +22,7 @@
 
 <!-- random calls to action -->
 <div class="row-fluid">
-  <a href="#" class="btn btn-danger">Download Data</a>
+  <a href="{% url 'trial-as-csv' trial.pk %}" class="btn btn-danger">Download Data</a>
   <a href="{% url 'reproduce-trial' trial.pk %}" class="btn btn-danger">Reproduce this trial</a>
   <a href="#" class="btn btn-danger">Report this trial</a>
 </div>

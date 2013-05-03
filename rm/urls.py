@@ -12,7 +12,7 @@ admin.autodiscover()
 from rm.views import HomeView
 from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
-                             ReproduceTrial,
+                             ReproduceTrial, TrialAsCsv,
                              UserTrialCreate, UserTrialDetail, UserReport,
                              AllTrials, FeaturedTrialsList)
 
@@ -62,7 +62,9 @@ urlpatterns = patterns(
     url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
     url(r'trials/rm/(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
     url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
-    url(r'trials/rm/(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(), name='reproduce-trial'),
+    url(r'trials/rm/(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(),
+        name='reproduce-trial'),
+    url(r'trials/rm/(?P<pk>\d+)/as-csv$', TrialAsCsv.as_view(), name='trial-as-csv'),
 
     # Multiple ways to see lists of trials
     url(r'trials/featured$', FeaturedTrialsList.as_view(), name='featured'),
