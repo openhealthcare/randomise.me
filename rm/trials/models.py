@@ -84,6 +84,17 @@ publically visible."""
         self.recruiting = self.can_join()
         return super(Trial, self).save()
 
+    def results(self):
+        """
+        Return the results of this trial
+
+        Return: dict
+        Exceptions: None
+        """
+        return [dict(name='Group A', avg=random.randrange(1, 100)),
+                dict(name='Group B', avg=random.randrange(1, 100))]
+
+
     def time_remaining(self):
         """
         How much time is between now and the end of the trial?

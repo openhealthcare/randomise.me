@@ -23,6 +23,15 @@ class ActiveManager(models.Manager):
         """
         return self.filter(start_date__lte=td(), finish_date__gte=td())
 
+    def completed(self):
+        """
+        Return a queryset representing completed trials.
+
+        Return: Queryset
+        Exceptions: None
+        """
+        return self.filter(finish_date__lt=td())
+
     def starting_today(self):
         """
         Return a queryset representing trials that start today.
@@ -46,7 +55,7 @@ class RmTrialManager(ActiveManager):
         Return: Queryset
         Exceptions: None
         """
-        return self.filter(finished=False, private=False, recruiting=True)
+        return self.active().filter(private=False, recruiting=True)
 
     def reproduce(self, owner, **kwargs):
         """

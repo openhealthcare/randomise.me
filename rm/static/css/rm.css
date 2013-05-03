@@ -45,6 +45,7 @@ li.red {
 /* Utility classes */
 .block { display: block; }
 .center { margin: 0 auto; }
+.drop24 { margin-top: 24px; }
 .green { color: green; }
 .yellow { color: #fbc30c; }
 .red { color: #e83e1f; }

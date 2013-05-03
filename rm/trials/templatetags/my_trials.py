@@ -14,10 +14,12 @@ def my_trials(context):
     to be rendered.
     """
     user          = context['request'].user
-    running       = Trial.objects.filter(owner=user)
+    running       = Trial.objects.active().filter(owner=user)
+    completed     = Trial.objects.completed().filter(owner=user)
     participating = user.participant_set.all()
     usertrials    = user.singleusertrial_set.all()
 
     return dict(running=running,
+                completed=completed,
                 participating=participating,
                 usertrials=usertrials)
