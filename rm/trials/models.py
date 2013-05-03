@@ -30,6 +30,9 @@ class Trial(models.Model):
         (COUNT,  'Count')
         )
 
+    HELP_NAME = """This is the question that you're trying to answer. It will
+be displayed prominently on the site, so try and make it interesting to get more
+people to join your trial!"""
     HELP_URL = """This allows you to set a human-friendly url for your trial
 so you can share nice links to it. If your url is set to 'awesome-trial' then
 your trial will be available from randomise.me/awesome-trial. Valid characters
@@ -43,7 +46,7 @@ publically visible."""
     HELP_START = "The date you would like your trial to start"
     HELP_FINISH = "The date you would like your trial to finish"
 
-    name              = models.CharField(max_length=200)
+    name              = models.CharField(max_length=200, help_text=HELP_NAME)
     # TODO Validate and implement this.
     url               = models.CharField(max_length=120,
                                          help_text=HELP_URL, blank=True, null=True)
@@ -94,7 +97,6 @@ publically visible."""
         return [dict(name='Group A', avg=random.randrange(1, 100)),
                 dict(name='Group B', avg=random.randrange(1, 100))]
 
-
     def time_remaining(self):
         """
         How much time is between now and the end of the trial?
@@ -119,6 +121,24 @@ publically visible."""
         if self.participant_set.count() >= self.max_participants:
             return False
         return True
+
+    def needs(self):
+        """
+        How many participants does this trial need?
+
+        Return: bool
+        Exceptions: None
+        """
+        return (self.min_participants - self.participant_set.count() )
+
+    def needs_participants(self):
+        """
+        Does this trial need participants?
+
+        Return: bool
+        Exceptions: None
+        """
+        return self.needs() > 0
 
     def ensure_groups(self):
         """

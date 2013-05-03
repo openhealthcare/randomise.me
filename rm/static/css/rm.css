@@ -139,3 +139,13 @@ fieldset.collapsed div {
     stroke: white;
     fill: steelblue;
 }
+
+/* Sharing generics */
+
+.share-this a:hover {
+    text-decoration: none;
+}
+.share-this i {
+    color: red;
+    font-size: 1.4em;
+}

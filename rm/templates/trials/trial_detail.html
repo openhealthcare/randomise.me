@@ -1,5 +1,5 @@
 {% extends 'baser.html' %}
-{% load tabs %}
+{% load tabs share %}
 {% load trial_cta %}
 {% load comments %}
 
@@ -8,66 +8,94 @@
 <div class="page">
   {% tabs 'trialdetail' %}
   <div class="row-fluid">
-    <h1>
-      {{ trial.name }}
-    </h1>
-    <small>
-      Trial run by:
-      {% if trial.owner == request.user %}You!{% else %}{{ trial.owner }}{% endif %}
-    </small>
-    <hr>
+    <div class="span10">
+      <h1>
+        {{ trial.name }}
+        </h1>
+      <small>
+        Trial run by:
+        {% if trial.owner == request.user %}You!{% else %}{{ trial.owner }}{% endif %}
+        </small>
+    </div>
+    <div class="span2">
+      <a href="{{ trial.get_absolute_url }}">
+        <h2>
+          #{{ trial.pk }}
+        </h2>
+      </a>
+      {% share_this %}
+    </div>
   </div>
 
   <div class="row-fluid">
-    <div class="span6">
+    <div class="span8 feature-box grey-back">
+      <h3>
+        {% if trial.private %}
+          <i class="icon-lock red"></i>
+        {% else %}
+          <i class="icon-unlock green"></i>
+        {% endif %}
+
+        Participants: {{ trial.participant_set.count }}/{{ trial.min_participants }}
+      </h3>
+      <h3 class="pull-right">
+        {{ trial.time_remaining.days }}
+        <small>
+          days remaining
+        </small>
+      </h3>
+
       <p>
         {{ trial.description }}
       </p>
-    </div>
-    <div class="span5">
-      <h4>
-        Required Participants: {{ trial.min_participants }}
-      </h4>
-      <h4>
-        Current Participants: {{ trial.participant_set.count }}
-      </h4>
-      <h4>Time remaining:</h4>
-      <p>
-        {{ trial.time_remaining }} ({{ trial.finish_date }})
-      </p>
-      {% trial_cta trial request.user %}
-    </div>
-  </div>
-  {% get_comment_count for trial as comment_count %}
-  <div class="row-fluid">
-    <div class="span6">
-      {% if comment_count == 0 %}
-        <h4>Be the frist to comment on this trial</h4>
-      {% else %}
-        <h4>{{ comment_count }} comments on this trial</h4>
+
+      {% if trial.needs_participants %}
+        <p>
+          You need {{ trial.needs }} more participants.
+          <a href="{% url 'contact' %}">
+            Contact us for help recruiting for your trial.
+          </a>
+        </p>
+
+        <h4>Active Participants: COMING SOON (SOON %)</h4>
       {% endif %}
-      {% render_comment_list for trial %}
+
+      {% if trial.private %}
+        <hr />
+
+        <p>
+          Ready to make this trial public?
+          <a href="#" class="btn btn-danger">Make public</a>
+        </p>
+      {% endif %}
 
       <hr />
+      <p>
+        Want to run a similar trial?
+        <a href="{% url 'reproduce-trial' trial.pk %}" class="btn btn-danger">
+          Reproduce this trial
+        </a>
+      </p>
 
-      {% if user.is_authenticated %}
-        {% get_comment_form for object as form %}
-        <form action="{% comment_form_target %}" method="POST">
-          {% csrf_token %}
-          <div class="controls">
-            {{ form.comment }}
-          </div>
-          {{ form.honeypot }}
-          {{ form.content_type }}
-          {{ form.object_pk }}
-          {{ form.timestamp }}
-          {{ form.security_hash }}
-          <input type="hidden" name="next" value="{% url 'trial-detail' trial.pk %}" />
-          <input class="btn btn-danger" type="submit" value="Add comment" id="id_submit" />
-        </form>
-      {% else %}
-        <p>Please <a href="{% url 'account_login' %}?next={{ trial.get_absolute_url }}">log in</a> to leave a comment.</p>
-      {% endif %}
+      <hr />
+      <p>
+        Want to stop this trial?
+        <a href="#" class="btn btn-danger">Stop this trial</a>
+      </p>
+
+    </div>
+
+  </div> <!-- Row Fluid -->
+
+  <h2>Instructions</h2>
+  <div class="row-fluid">
+    <div class="span4 grey-back feature-box">
+      <h3>Group A</h3>
+      <p>{{ trial.group_a }}</p>
+    </div>
+    <div class="span4 grey-back feature-box">
+      <h3>Group B</h3>
+      <p>{{ trial.group_b }}</p>
     </div>
   </div>
 
