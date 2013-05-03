@@ -41,8 +41,9 @@ regex, that's ([a-zA-Z0-9_-]+). You don't have to set a URL now, you can always
 come back to it later. (Not implemented yet)"""
     HELP_DESC = """This is the explanatory text about your trial that will be
 publically visible."""
-    HELP_A = """These are the instructions that will be sent to Group A."""
-    HELP_B = """These are the instructions that will be sent to Group B."""
+    HELP_A = """These are the instructions that will be sent to the group who
+get the intervention"""
+    HELP_B = """These are the instructions that will be sent to the control group"""
     HELP_START = "The date you would like your trial to start"
     HELP_FINISH = "The date you would like your trial to finish"
 
@@ -53,8 +54,8 @@ publically visible."""
     private           = models.BooleanField(default=False)
     style             = models.CharField(max_length=2, choices=STYLE_CHOICES)
     description       = models.TextField(help_text=HELP_DESC)
-    group_a           = models.TextField(help_text=HELP_A)
-    group_b           = models.TextField(help_text=HELP_B)
+    group_a           = models.TextField("Intervention Group Instructions", help_text=HELP_A)
+    group_b           = models.TextField("Control Group Instructions", help_text=HELP_B)
     min_participants  = models.IntegerField()
     max_participants  = models.IntegerField()
     group_a_expected  = models.IntegerField(blank=True, null=True)
