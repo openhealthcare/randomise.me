@@ -7,7 +7,7 @@ from rm.trials.models import Trial, Participant
 
 register = template.Library()
 
-@register.inclusion_tag('my_trials_table.html', takes_context=True)
+@register.inclusion_tag('trials/dashboard.html', takes_context=True)
 def my_trials(context):
     """
     Pass the trial queryset through to the table
