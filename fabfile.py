@@ -82,8 +82,9 @@ def restart():
     """
     Restart the application
     """
-    supervisorctl('reread')
-    supervisorctl('restart all')
+    with cd(PROJ_DIR):
+        supervisorctl('reread')
+        supervisorctl('restart all')
 
 @hosts(web)
 def emergency():

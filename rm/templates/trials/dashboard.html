@@ -150,6 +150,50 @@
       </div>
     {% endif %}
 
+    {% if participated.count > 0 %}
+      <div class="row-fluid drop24">
+        <div class="span8 grey-back feature-box">
+          <h3>
+            <i class="icon-user red"></i>
+            Trials you participated in
+          </h3>
+
+          <table class="table table-striped table-bordered">
+            <tr>
+              <th>Trial</th>
+              <th>Description</th>
+              <th>Results</th>
+            </tr>
+            {% for participant in participated %}
+            {% with participant.trial as trial %}
+            <tr>
+              <td>
+                <a href="{{ trial.get_absolute_url }}">
+                  {{ trial.name }}
+                  </a>
+              </td>
+              <td>{{ trial.description }}</td>
+              <td>
+                <div id="vis{{trial.pk}}">
+
+                </div><!--vis{{trial.pk}}-->
+                <script type="text/javascript">
+                  {% autoescape off %}
+                  $(document).ready( function(){
+                    RM.graphs.trial_thumbnail("#vis{{trial.pk}}", {{trial.results|json}} );
+                    });
+                  {% endautoescape %}
+                </script>
+              </td>
+              {% endwith %}
+          {% endfor %}
+            </tr>
+          </table>
+        </div>
+      </div>
+    {% endif %}
+
+
     <div class="row-fluid drop24">
       {% join_trial_widget %}
     </div>
