@@ -14,7 +14,9 @@
       <small>
         Trial run by:
         {% if trial.owner == request.user %}You!{% else %}{{ trial.owner }}{% endif %}
-        </small>
+        <br />
+        {{ trial.start_date }} - {{ trial.finish_date }}
+      </small>
     </div>
     <div class="span2">
       <a href="{{ trial.get_absolute_url }}">
@@ -26,14 +28,7 @@
     </div>
   </div>
 
-  {% if trial.finished %}
-    {% include 'trials/trial_detail_report.html' %}
-  {% elif trial.owner == request.user %}
-    {% include 'trials/trial_detail_owner.html' %}
-  {% else %}
-    {% include 'trials/trial_detail_recruiting.html' %}
-  {% endif %}
-
+  {% include detail_template %}
 
 </div>
 {% endblock %}

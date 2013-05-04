@@ -149,6 +149,26 @@ class TrialDetail(DetailView):
     context_object_name = "trial"
     model               = Trial
 
+    def get_context_data(self, **kw):
+        """
+        Determine the detail template appropriate for this user
+
+        Return: dict
+        Exceptions: None
+        """
+        context = super(TrialDetail, self).get_context_data(**kw)
+        trial = context['trial']
+        detail_template = 'trials/trial_detail_recruiting.html'
+        if trial.finished:
+            detail_template = 'trials/trial_detail_report.html'
+        elif trial.owner == self.request.user:
+            detail_template = 'trials/trial_detail_owner.html'
+        elif trial.participant_set.filter(user=self.request.user).count() > 0:
+            detail_template = 'trials/trial_detail_participant.html'
+
+        context['detail_template'] = detail_template
+        return context
+
 
 class TrialCreate(CreateView):
     """
