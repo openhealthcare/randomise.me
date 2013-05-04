@@ -16,6 +16,7 @@ from rm.trials import managers
 
 td = lambda: datetime.date.today()
 POSTIE = letter.DjangoPostman()
+Avg = models.Avg
 
 class Trial(models.Model):
     """
@@ -95,8 +96,13 @@ get the intervention"""
         Return: dict
         Exceptions: None
         """
-        return [dict(name='Group A', avg=random.randrange(1, 100)),
-                dict(name='Group B', avg=random.randrange(1, 100))]
+        avg = lambda g: self.report_set.filter(
+            group__name=g).aggregate(Avg('score')).values()[0]
+
+        intervention_group = avg('A')
+        control_group = avg('B')
+        return [dict(name='Intervention Group', avg=intervention_group),
+                dict(name='Control Group', avg=control_group)]
 
 
     @property
@@ -359,6 +365,11 @@ class Report(models.Model):
     group = models.ForeignKey(Group, blank=True, null=True)
     date  = models.DateField()
     score = models.IntegerField()
+
+    def __unicode__(self):
+        return '<Report for {0} {1} on {2}>'.format(self.trial.name,
+                                                    getattr(self.group, 'name', 'noname'),
+                                                    self.date)
 
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.trial.pk})
