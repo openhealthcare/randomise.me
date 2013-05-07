@@ -22,6 +22,7 @@ django-grappelli==2.4.4
 django-jinja2==0.1
 ffs==0.0.7.3
 gevent==0.13.8
+gocardless==0.2.1
 greenlet==0.4.0
 gunicorn==0.17.2
 httplib2==0.7.7
