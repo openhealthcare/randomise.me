@@ -1,0 +1,20 @@
+{% extends 'baser.html' %}
+{% load tabs %}
+
+{% block htmlclass%} nologo {% endblock %}
+{% block content %}
+  <div class="page">
+    <div class="row-fluid">
+      {% tabs 'home' %}
+    </div>
+    <div class="row-fluid">
+      <div class="hero-unit">
+        <h3>Congratulations!</h3>
+        <p>
+          You've successfully upgraded your account to
+          {{ request.user.get_account_display }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

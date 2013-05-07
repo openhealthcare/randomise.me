@@ -24,12 +24,14 @@ urlpatterns = patterns(
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
 
+    # Accounts, profiles, login
     (r'^accounts/', include('allauth.urls')),
-
-    # CAS login
     url(r'^cas/login/$', 'django_cas.views.login', name='cas-login'),
     url(r'^cas/logout/$', 'django_cas.views.logout', name='cas-logout'),
+    url(r'^profile/', include('rm.userprofiles.urls')),
 
+    # Payment
+    url(r'^gocardless/', include('rm.gcapp.urls')),
 
     # Pre - login
     url(r'^/?$', HomeView.as_view(), name='home'),

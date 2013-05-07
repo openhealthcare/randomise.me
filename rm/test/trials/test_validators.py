@@ -20,6 +20,7 @@ class NotHistoricTestCase(unittest.TestCase):
 
 class DuringTrialTestCase(unittest.TestCase):
     def setUp(self):
+        super(DuringTrialTestCase, self).setUp()
         self.trial = MagicMock(name='Mock Trial')
         self.today = datetime.date.today()
         self.yesterday = self.today - datetime.timedelta(days=1)

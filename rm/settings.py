@@ -152,11 +152,14 @@ INSTALLED_APPS = (
     'django_jinja2',
     'djcelery',
     'form_utils',
+    'rm.gcapp',
     'grappelli',
 
     'south',
     # Our Apps
     'rm.trials',
+    'rm.userprofiles',
+    'rm.gcapp',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -188,6 +191,7 @@ LOGGING = {
     }
 }
 
+AUTH_USER_MODEL = 'userprofiles.RMUser'
 
 CAS_SERVER_URL = 'http://auth.openhealthcare.org.uk'
 CAS_REDIRECT_URL = '/'
@@ -212,6 +216,8 @@ CONTACT_EMAIL = 'nospam@example.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_DOMAIN = 'http://byta.randomizeme.org'
+
+SOUTH_TESTS_MIGRATE = True
 
 try:
     from local_settings import *

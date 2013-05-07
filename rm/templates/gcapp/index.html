@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup via GoCardless</title>
+</head>
+<body>
+  <h2>Signup up via GoCardless!</h2>
+  <form action ="{% url 'gc_submit' %}" method='POST'>
+    {% csrf_token %}
+    <h3>Enter your email to subscribe</h3>
+    <input type="text" name="email">
+    <input type="submit">
+  </form>
+</body>
+</html>
