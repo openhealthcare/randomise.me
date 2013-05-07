@@ -202,9 +202,10 @@ LOGIN_REDIRECT_URL = '/'
 
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
-
+SOUTH_TESTS_MIGRATE = True
 
 BASICAUTH = True
+
 # Dummy settings as a reminder
 BASICAUTH_PASSWORD = 'notareal password dummy'
 BASICAUTH_USERNAME = 'notareal username dummy'
@@ -217,7 +218,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_DOMAIN = 'http://byta.randomizeme.org'
 
-SOUTH_TESTS_MIGRATE = True
+GC_APP_ID = 'Not a real ID'
+GC_APP_SECRET = 'Not a real secret'
+GC_ACCESS_TOKEN = 'Not a real token'
+GC_MERCHANT_ID = '0BF5SJEGEH'
+GC_ENVIRONMENT = 'sandbox'
 
 try:
     from local_settings import *

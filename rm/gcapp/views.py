@@ -1,6 +1,7 @@
 """
 Views for our Go Cardless integration
 """
+from django.conf import settings
 from django.views.generic import RedirectView, TemplateView, View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -15,12 +16,12 @@ __all__ = ('Purchase', 'Subscribe', 'Preauth',
            'Confirm', 'Success', 'Error', 'Webhook')
 
 gocardless.set_details(
-    app_id='46V5WM1DYSDE62QXCJ42JT1KSZQRK772H8JGARTTTNCGCS34RFQTFM3CJY2G7FVG',
-    app_secret='1GBC40E6JS4E0F2ZKV3NVH33KNX0CW4TS5AMV947FAGKFGXVX1SVW25G1PXKQET0',
-    access_token='2E60XRDN5BME46X1G05ZWXDTFT71D339SB6Y3RDH0KTAG22Q0033Q403EMFDGBJW',
-    merchant_id='0BF5SJEGEH'
+    app_id=settings.GC_APP_ID,
+    app_secret=settings.GC_APP_SECRET,
+    access_token=settings.GC_ACCESS_TOKEN,
+    merchant_id=settings.GC_MERCHANT_ID
 )
-gocardless.environment = 'sandbox'
+gocardless.environment = settings.GC_ENVIRONMENT
 
 User = get_user_model()
 
