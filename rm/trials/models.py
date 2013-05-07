@@ -203,8 +203,8 @@ get the intervention"""
         """
         Ensure that the groups for this trial exist.
         """
-        groupa = Group.objects.get_or_create(trial=self, name='a')[0]
-        groupb = Group.objects.get_or_create(trial=self, name='b')[0]
+        groupa = Group.objects.get_or_create(trial=self, name=Group.GROUP_A)[0]
+        groupb = Group.objects.get_or_create(trial=self, name=Group.GROUP_B)[0]
         return groupa, groupb
 
     def join(self, user):
@@ -303,10 +303,13 @@ class Group(models.Model):
     The randomised groups of participants, automatically
     created for our trials
     """
+    GROUP_A = 'A'
+    GROUP_B = 'B'
     NAME_CHOICES = (
-        ('A', 'Group A'),
-        ('B', 'Group B')
+        (GROUP_A, 'Group A'),
+        (GROUP_B, 'Group B')
         )
+
     trial = models.ForeignKey(Trial)
     name  = models.CharField(max_length=1, choices=NAME_CHOICES)
 

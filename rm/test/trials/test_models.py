@@ -63,8 +63,8 @@ class TrialTestCase(TemporalTestCase):
         with patch.object(models.Group.objects, 'get_or_create') as pgc:
             trial.ensure_groups()
             self.assertEqual(2, pgc.call_count)
-            pgc.assert_any_call(trial=trial, name='a')
-            pgc.assert_any_call(trial=trial, name='b')
+            pgc.assert_any_call(trial=trial, name='A')
+            pgc.assert_any_call(trial=trial, name='B')
 
     def test_join_is_owner(self):
         "Should raise"

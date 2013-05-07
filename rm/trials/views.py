@@ -161,10 +161,12 @@ class TrialDetail(DetailView):
         detail_template = 'trials/trial_detail_recruiting.html'
         if trial.finished:
             detail_template = 'trials/trial_detail_report.html'
-        elif trial.owner == self.request.user:
-            detail_template = 'trials/trial_detail_owner.html'
-        elif trial.participant_set.filter(user=self.request.user).count() > 0:
-            detail_template = 'trials/trial_detail_participant.html'
+
+        if self.request.user.is_authenticated():
+            if trial.owner == self.request.user:
+                detail_template = 'trials/trial_detail_owner.html'
+            elif trial.participant_set.filter(user=self.request.user).count() > 0:
+                detail_template = 'trials/trial_detail_participant.html'
 
         context['detail_template'] = detail_template
         return context
