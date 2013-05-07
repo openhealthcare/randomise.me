@@ -38,6 +38,7 @@ class Purchase(RedirectView):
 # Generate a URL for a subscription and redirect to it
 class Subscribe(RedirectView):
     def get_redirect_url(self, **kwargs):
+
         url = gocardless.client.new_subscription_url(
             20,
             interval_unit='month',
