@@ -60,14 +60,21 @@
       <p class="text-center" >
         <a class="btn btn-danger" href="#">COMING SOON</a>
       </p>
+
+      {% if user.is_standard %}
+        <center>
       <p class="text-warning">
         <small>
           Offline trials are only available to advanced
-          accounts and haven't been implemented yet.
-          We should probably offer to let you upgrade
-          your account here in the fullness of time.
+          accounts.
         </small>
+        <br />
+        <a href="{% url 'account-types' %}" class="btn btn-danger">
+          Upgrade your account
+        </a>
       </p>
+        </center>
+      {% endif %}
     </div><!-- span4 -->
 
   </div> <!-- Row -->

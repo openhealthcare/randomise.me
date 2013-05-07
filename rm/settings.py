@@ -152,11 +152,14 @@ INSTALLED_APPS = (
     'django_jinja2',
     'djcelery',
     'form_utils',
+    'rm.gcapp',
     'grappelli',
 
     'south',
     # Our Apps
     'rm.trials',
+    'rm.userprofiles',
+    'rm.gcapp',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -188,6 +191,7 @@ LOGGING = {
     }
 }
 
+AUTH_USER_MODEL = 'userprofiles.RMUser'
 
 CAS_SERVER_URL = 'http://auth.openhealthcare.org.uk'
 CAS_REDIRECT_URL = '/'

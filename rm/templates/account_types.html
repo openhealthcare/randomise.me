@@ -1,6 +1,6 @@
 {% extends 'baser.html' %}
 {% block htmlclass%} nologo {% endblock %}
-{% block extratitle %} - Sign Up{% endblock %}
+{% block extratitle %} - {% if request.user.is_authenticated %}Upgrade{% else %}Sign Up{% endif %}{% endblock %}
 {% block content %}
   <div class="row-fluid">
     <a href="{% url 'home' %}">
@@ -18,7 +18,6 @@
         <li>join existing trials</li>
         <li>start new trials</li>
         <li>free</li>
-
       </ul>
     </div>
 
@@ -57,15 +56,29 @@
   <div class="row-fluid">
 
     <div class="span4">
-      <p><a class="btn btn-danger" href="{% url 'account_signup' %}">SIGN UP</a></p>
+      {% if not request.user.is_authenticated %}
+        <p><a class="btn btn-danger" href="{% url 'account_signup' %}">SIGN UP</a></p>
+      {% endif %}
     </div>
 
     <div class="span4">
-      <p><a class="btn btn-danger" href="{% url 'account_signup' %}">SIGN UP</a></p>
+      <p>
+      {% if not request.user.is_authenticated  %}
+        <a class="btn btn-danger" href="{% url 'account_signup' %}">SIGN UP</a>
+      {% elif request.user.is_standard %}
+        <a href="{% url 'gc_subscribe' %}" class="btn btn-danger">UPGRADE</a>
+      {% endif %}
+      </p>
     </div>
 
     <div class="span4">
-      <p><a class="btn btn-danger" href="{% url 'account_signup' %}">SIGN UP</a></p>
+      <p>
+        {% if not request.user.is_authenticated %}
+          <a class="btn btn-danger" href="{% url 'account_signup' %}">SIGN UP</a>
+        {% elif request.user.is_standard %}
+          <a href="{% url 'gc_subscribe' %}" class="btn btn-danger">UPGRADE</a>
+        {% endif %}
+      </p>
     </div>
 
   </div>

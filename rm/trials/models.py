@@ -5,7 +5,7 @@ import datetime
 import random
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -17,6 +17,8 @@ from rm.trials import managers
 td = lambda: datetime.date.today()
 POSTIE = letter.DjangoPostman()
 Avg = models.Avg
+User = get_user_model()
+
 
 class Trial(models.Model):
     """
@@ -64,7 +66,7 @@ get the intervention"""
     start_date        = models.DateField(help_text=HELP_START)
     finish_date       = models.DateField(help_text=HELP_FINISH)
     finished          = models.BooleanField(default=False, editable=False)
-    owner             = models.ForeignKey(User)
+    owner             = models.ForeignKey(settings.AUTH_USER_MODEL)
     featured          = models.BooleanField(default=False)
     recruiting        = models.BooleanField(default=True)
 
@@ -315,7 +317,7 @@ class Participant(models.Model):
     """
     A participant in a trial
     """
-    user  = models.ForeignKey(User)
+    user  = models.ForeignKey(settings.AUTH_USER_MODEL)
     trial = models.ForeignKey(Trial)
     group = models.ForeignKey(Group, blank=True, null=True)
 
@@ -402,7 +404,7 @@ wees you took on a given day, then a good value here would be 'wees'"""
         (DAILY, 'Daily'),
         )
 
-    owner       = models.ForeignKey(User)
+    owner       = models.ForeignKey(settings.AUTH_USER_MODEL)
     name        = models.CharField(max_length=200)
     # This is incredibly useful, but Later :)
     # interval    = models.CharField(max_length=2, choices=CHOICES_INTERVAL,
