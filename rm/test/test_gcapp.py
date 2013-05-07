@@ -1,13 +1,24 @@
 """
 Unittests for the GO Cardless integration
 """
-from django.test import TestCase
-from django.test.client import Client
+from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.test import TestCase, utils
 
 from mock import patch
 
 from rm.gcapp import views
+from rm.userprofiles.models import RMUser
+from rm.test import rmtestutils
+
+def setup_module(module):
+    rmtestutils.setup_module(module)
+    module.oldauth = settings.BASICAUTH
+    settings.BASICAUTH = False
+
+def teardown_module(module):
+    rmtestutils.teardown_module(module)
+    settings.BASICAUTH = module.oldauth
 
 def raiser(exc):
     "Mock helper"
@@ -19,35 +30,31 @@ class GoCardlessTest(TestCase):
     # These are slightly modified from the gocardless sample app tests.
     # https://github.com/gocardless/sample-django-app
     def test_index(self):
-        with self.settings(BASICAUTH=False):
-            response = self.client.get('/gocardless/')
+        response = self.client.get('/gocardless/')
 
-            self.assertEqual(response.status_code, 200)
-            self.assertTrue('GoCardless sample application' in response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('GoCardless sample application' in response.content)
 
     def test_buy(self):
-        with self.settings(BASICAUTH=False):
-            response = self.client.post('/gocardless/buy/', {'name': 'Test'})
+        response = self.client.post('/gocardless/buy/', {'name': 'Test'})
 
-            self.assertEqual(response.status_code, 301)
-            self.assertTrue('https://sandbox.gocardless.com/connect/bills/new' in
-                            response['Location'])
+        self.assertEqual(response.status_code, 301)
+        self.assertTrue('https://sandbox.gocardless.com/connect/bills/new' in
+                        response['Location'])
 
     def test_subscription(self):
-        with self.settings(BASICAUTH=False):
-            response = self.client.post('/gocardless/subscribe/', {'name': 'Test'})
+        response = self.client.post('/gocardless/subscribe/', {'name': 'Test'})
 
-            self.assertEqual(response.status_code, 301)
-            self.assertTrue('https://sandbox.gocardless.com/connect/subscriptions/new' in
-                            response['Location'])
+        self.assertEqual(response.status_code, 301)
+        self.assertTrue('https://sandbox.gocardless.com/connect/subscriptions/new' in
+                        response['Location'])
 
     def test_preauth(self):
-        with self.settings(BASICAUTH=False):
-            response = self.client.post('/gocardless/preauth/', {'name': 'Test'})
+        response = self.client.post('/gocardless/preauth/', {'name': 'Test'})
 
-            self.assertEqual(response.status_code, 301)
-            self.assertTrue('https://sandbox.gocardless.com/connect/pre_authorizations/new' in
-                            response['Location'])
+        self.assertEqual(response.status_code, 301)
+        self.assertTrue('https://sandbox.gocardless.com/connect/pre_authorizations/new' in
+                        response['Location'])
 
 
 class ConfirmTestCase(TestCase):
@@ -57,15 +64,30 @@ class ConfirmTestCase(TestCase):
 
     def test_confirm_correct(self):
         " 301 success "
-        with self.settings(BASICAUTH=False):
-            with patch.object(views.gocardless.client, 'confirm_resource') as pconf:
-                self.client.get('/gocardless/confirm/')
-                pconf.assert_called_once_with({})
-
+        with patch.object(views.gocardless.client, 'confirm_resource') as pconf:
+            resp = self.client.get('/gocardless/confirm/')
+            pconf.assert_called_once_with({})
+            self.assertEqual(301, resp.status_code)
+            self.assertIn(reverse('gc_success'), resp['Location'])
 
     def test_confirm_fail(self):
         " 301 failure "
-        with self.settings(BASICAUTH=False):
+        with patch.object(views.gocardless.client, 'confirm_resource') as pconf:
+            pconf.side_effect = raiser(Exception)
+            resp = self.client.get('/gocardless/confirm/')
+            pconf.assert_called_once_with({})
+            self.assertEqual(301, resp.status_code)
+            self.assertIn(reverse('gc_error'), resp['Location'])
+
+    def test_subscribe_logged_in(self):
+        "Should upgrade account"
+        myuser = RMUser(email='larry@example.com')
+        myuser.set_password('thepass')
+        myuser.save()
+        self.assertTrue(self.client.login(username='larry@example.com', password='thepass'))
+        GET = {'resource_type': 'subscription'}
+
+        with patch.object(views.User, 'upgrade') as pup:
             with patch.object(views.gocardless.client, 'confirm_resource') as pconf:
-                self.client.get('/gocardless/confirm/')
-                pconf.assert_called_once_with({})
+                resp = self.client.get('/gocardless/confirm/', GET)
+                pup.assert_called_once_with()

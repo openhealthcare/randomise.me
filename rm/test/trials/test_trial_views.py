@@ -1,15 +1,38 @@
 """
 Unittests for Trial views
 """
+import datetime
+
 from django import test
 from lxml import html
 
-from rm.trials import views
+from rm.trials import views, models
+from rm.userprofiles.models import RMUser
+from rm.test import rmtestutils
+
+td = datetime.date.today
+
+setup_module = rmtestutils.setup_module
+teardown_module = rmtestutils.teardown_module
 
 class DetailTestCase(test.TestCase):
 
     def test_200_not_logged_in(self):
        " Assert status Regression #60"
+       myuser = RMUser(email='larry@example.com')
+       myuser.set_password('thepass')
+       myuser.save()
+
+       trial = models.Trial(
+           owner=myuser,
+           name='Dummy Trial',
+           start_date=td(),
+           finish_date=td(),
+           max_participants=1,
+           min_participants=1
+           )
+
+       trial.save()
        with self.settings(BASICAUTH=False):
            response = self.client.get('/trials/rm/1')
            self.assertEqual(200, response.status_code)

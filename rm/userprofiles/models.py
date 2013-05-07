@@ -84,3 +84,15 @@ class RMUser(AbstractBaseUser):
         Exceptions: None
         """
         return self.account == self.STANDARD
+
+    def upgrade(self):
+        """
+        Upgrade our user please
+
+        Return: None
+        Exceptions: None
+        """
+        if self.is_standard:
+            self.account = self.ADVANCED
+            self.save()
+        return

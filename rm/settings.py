@@ -138,7 +138,7 @@ INSTALLED_APPS = (
 
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
+    # 'allauth.socialaccount',
     # ... include the providers you want to enable:
 #    'allauth.socialaccount.providers.facebook',
  #   'allauth.socialaccount.providers.google',
@@ -216,6 +216,8 @@ CONTACT_EMAIL = 'nospam@example.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_DOMAIN = 'http://byta.randomizeme.org'
+
+SOUTH_TESTS_MIGRATE = True
 
 try:
     from local_settings import *

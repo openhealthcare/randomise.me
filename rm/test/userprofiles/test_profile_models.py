@@ -4,18 +4,13 @@ Unittests for the rm.userprofiles.models module
 import sys
 import unittest
 
-from django.test import utils, TestCase
-from mock import MagicMock, patch
+from django.test import TestCase
 
-if sys.version_info <  (2, 7): import unittest2 as unittest
-
+from rm.test import rmtestutils
 from rm.userprofiles import models
 
-def setup_module():
-    utils.setup_test_environment()
-
-def teardown_module():
-    utils.teardown_test_environment()
+setup_module = rmtestutils.setup_module
+teardown_module = rmtestutils.setup_module
 
 
 class RMUserTestCase(TestCase):
@@ -32,6 +27,13 @@ class RMUserTestCase(TestCase):
     def test_is_standard_premium(self):
         user = models.RMUser(account=models.RMUser.PREMIUM)
         self.assertFalse(user.is_standard)
+
+    def test_upgrade_standard(self):
+        user = models.RMUser()
+        user.save()
+        self.assertEqual(models.RMUser.STANDARD, user.account)
+        user.upgrade()
+        self.assertEqual(models.RMUser.ADVANCED, user.account)
 
 
 

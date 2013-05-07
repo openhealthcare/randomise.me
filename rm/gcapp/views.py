@@ -1,6 +1,10 @@
+"""
+Views for our Go Cardless integration
+"""
 from django.views.generic import RedirectView, TemplateView, View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.utils import simplejson
@@ -17,6 +21,8 @@ gocardless.set_details(
     merchant_id='0BF5SJEGEH'
 )
 gocardless.environment = 'sandbox'
+
+User = get_user_model()
 
 
 # Generate a URL for a one-off payment and redirect to it
@@ -64,6 +70,8 @@ class Confirm(RedirectView):
         try:
             gocardless.client.confirm_resource(self.request.GET)
             # If we've confirmed, we should update the user's account here.
+            if self.request.user.is_authenticated():
+                self.request.user.upgrade()
             self.url = reverse_lazy('gc_success')
         except Exception:
             self.url = reverse_lazy('gc_error')
