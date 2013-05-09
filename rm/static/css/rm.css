@@ -1,6 +1,5 @@
 /* Reset */
 body {
-    padding-bottom: 60px;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     font-size: 18px;
@@ -169,6 +168,17 @@ html.nologo .masthead #header-logo {
 
 #subhead li {
     padding-top: 12px;
+}
+
+/* Footer */
+.footer{
+    background: #393632;
+    padding: 40px;
+    font-weight: 400;
+}
+.footer a {
+    color: #fff9f7;
+    padding-left: 40px;
 }
 
 /* Pages */
