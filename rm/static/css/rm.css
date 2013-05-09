@@ -21,6 +21,12 @@ a {
     color: grey;
 }
 
+a:hover {
+    color: white;
+    background: #e54f25;
+    text-decoration: none;
+}
+
 ul li {
     list-style: none;
 }
@@ -100,6 +106,12 @@ ul li {
   border: none;
 }
 
+.btn-warning:hover,
+.btn-danger:hover {
+    background-color: #393632;
+    *background-color: #393632;
+}
+
 .btn-danger {
     color: white;
     background-color: #e54f25;
@@ -109,6 +121,29 @@ ul li {
     border: none;
     text-shadow: none;
 }
+
+.redroll:hover {
+    background: #e54f25;
+}
+.redroll:hover a {
+    color: white;
+}
+
+.whiteroll:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.feature-heading:hover h2 {
+    text-decoration: none;
+    background: #e54f25;
+    display: inline-block;
+    color: white
+}
+.feature-heading:hover .red {
+    color: white;
+}
+
 
 .feature-box {
     padding: 20px 20px 0px 20px;
@@ -126,7 +161,8 @@ ul li {
 }
 
 .feature-box p {
-    padding: 20px;
+    padding: 24px;
+    margin: 0px;
 }
 
 /* Header */
@@ -167,7 +203,13 @@ html.nologo .masthead #header-logo {
 }
 
 #subhead li {
-    padding-top: 12px;
+    padding: 12px 6px 6px 6px;
+}
+
+#subhead li:hover,
+#subhead li a:hover {
+    background: #393632;
+    color: #fff9f7;
 }
 
 /* Footer */
@@ -178,7 +220,12 @@ html.nologo .masthead #header-logo {
 }
 .footer a {
     color: #fff9f7;
-    padding-left: 40px;
+    padding-left: 0px;
+}
+
+.footer a:hover {
+    background: white;
+    color: black;
 }
 
 /* Pages */

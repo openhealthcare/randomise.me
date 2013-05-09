@@ -23,7 +23,9 @@
     </div>
 
     <!-- Second row - What do you get out of running a trial? -->
-    <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
+    <a href="#" class="feature-heading">
+      <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
+    </a>
       {% if finished %}
         <div class="row-fluid">
         {% for trial in finished %}
@@ -43,8 +45,8 @@
 
           <div class="row-fluid darkback">
             <div class="span8">
-              <p class="larger white">
-                <a href="#">
+              <p class="larger white redroll">
+                <a href="#" class="whiteroll">
                   What's so hard about peace love and understanding?
                   </a>
               </p>
@@ -56,8 +58,8 @@
 
         <div class="row-fluid darkback">
           <div class="span8">
-            <p class="larger white">
-              <a href="#">
+            <p class="larger white redroll">
+              <a href="#" class="whiteroll">
                 What's so hard about peace love and understanding?
               </a>
           </div>
@@ -88,7 +90,9 @@
     <!-- Third row, Create/join trials -->
     <div class="row-fluid clearem">
       <div class="span6">
-        <h2><span class="bold red">CREATE</span> <span class="light">A TRIAL</span></h2>
+        <a href="{% url 'tutorial' %}" class="feature-heading">
+          <h2><span class="bold red">CREATE</span> <span class="light">A TRIAL</span></h2>
+        </a>
         <div class="feature-box">
         <ol id="create-trial-homepage">
           <li>
