@@ -15,7 +15,7 @@ import ffs
 from rm import exceptions
 from rm.trials.forms import (TrialForm, TrialReportForm, UserTrialForm,
                              UserReportForm)
-from rm.trials.models import Trial, Report, SingleUserTrial, SingleUserReport
+from rm.trials.models import Trial, Report, Variable, SingleUserTrial, SingleUserReport
 
 def serve_maybe(meth):
     """
@@ -171,22 +171,28 @@ class TrialDetail(DetailView):
         context['detail_template'] = detail_template
         return context
 
+from extra_views import CreateWithInlinesView, InlineFormSet
+from extra_views import NamedFormsetsMixin
 
-class TrialCreate(CreateView):
-    """
-    Create Me a trial please
-    """
+
+class VariableInline(InlineFormSet):
+    model = Variable
+
+class TrialCreate(NamedFormsetsMixin, CreateWithInlinesView):
+    model = Trial
     context_object_name = "trial"
     model               = Trial
     form_class          = TrialForm
+    inlines = [VariableInline]
+    inlines_names = ['Variable']
 
-    def form_valid(self, form):
+    def get_form(self, klass):
         """
         Add ownership details to the trial
         """
+        form = super(TrialCreate, self).get_form(klass)
         form.instance.owner = self.request.user
-        return super(TrialCreate, self).form_valid(form)
-
+        return form
 
 class ReproduceTrial(LoginRequiredMixin, CreateView):
     """

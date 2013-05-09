@@ -10,6 +10,9 @@
           </div>
         {% endif %}
 
+        {{inlines}}
+
+
 {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 {% for fieldset in form.fieldsets %}
   <fieldset {% if not fieldset.errors %}class="{{ fieldset.classes }}"{% endif %}>
@@ -65,8 +68,18 @@
     {% endif %}
   {% endfor %}
   </fieldset>
-{% endfor %}
 
+  {% if fieldset.name == 'Details' %}
+    {% for inline in inlines %}
+      <h2>Variables in your trial</h2>
+  </fieldset>
+    {{ inline }}
+    {% endfor %}
+    {% endif %}
+
+
+
+{% endfor %}
 
 
 

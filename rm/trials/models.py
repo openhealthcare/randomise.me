@@ -33,27 +33,22 @@ class Trial(models.Model):
         (COUNT,  'Count')
         )
 
-    HELP_NAME = """This is the question that you're trying to answer. It will
+    HELP_QUESTION = """This is the question that you're trying to answer. It will
 be displayed prominently on the site, so try and make it interesting to get more
 people to join your trial!"""
-    HELP_URL = """This allows you to set a human-friendly url for your trial
-so you can share nice links to it. If your url is set to 'awesome-trial' then
-your trial will be available from randomise.me/awesome-trial. Valid characters
-in your URL are letters, numbers underscores and hyphens. If you're into
-regex, that's ([a-zA-Z0-9_-]+). You don't have to set a URL now, you can always
-come back to it later. (Not implemented yet)"""
+    HELP_PART = """Who can participate in this trial?
+(Everyone? People with an infant under 6 months? People who binge drink Alcohol?)"""
     HELP_DESC = """This is the explanatory text about your trial that will be
-publically visible."""
+publically visible. A good description will help recruit participants to your trial by
+letting them know why you want to answer this question."""
     HELP_A = """These are the instructions that will be sent to the group who
 get the intervention"""
     HELP_B = """These are the instructions that will be sent to the control group"""
     HELP_START = "The date you would like your trial to start"
     HELP_FINISH = "The date you would like your trial to finish"
 
-    name              = models.CharField(max_length=200, help_text=HELP_NAME)
-    # TODO Validate and implement this.
-    url               = models.CharField(max_length=120,
-                                         help_text=HELP_URL, blank=True, null=True)
+    question          = models.CharField(max_length=200, help_text=HELP_QUESTION)
+    participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
     private           = models.BooleanField(default=False)
     style             = models.CharField(max_length=2, choices=STYLE_CHOICES)
     description       = models.TextField(help_text=HELP_DESC)
@@ -76,7 +71,7 @@ get the intervention"""
         """
         Nice printing representation
         """
-        return '<{0}>'.format(self.name)
+        return '<{0}>'.format(self.question)
 
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.pk})

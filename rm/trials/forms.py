@@ -5,11 +5,12 @@ import datetime
 
 from django.core.exceptions import ValidationError
 from django.forms import fields, widgets
+from django.forms.models import inlineformset_factory
 from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
 from rm import utils
-from rm.trials.models import Trial, Report, SingleUserTrial, SingleUserReport
+from rm.trials.models import Trial, Report, Variable, SingleUserTrial, SingleUserReport
 from rm.trials import validators
 
 class BootstrapDatepickerWidget(widgets.DateInput):
@@ -66,21 +67,22 @@ class TrialForm(BetterModelForm):
     class Meta:
         model = Trial
         fieldsets = [
-            ('Basic', {'fields': ['name', 'private'],
-                       'legend': 'Basic Details',
+            ('Basic', {'fields': ['question'],
+                       'legend': '1. Hypothesis',
                        'description': ''}),
-            ('Setup', {'fields': ['description', 'style'],
-                       'legend': 'Trial Setup',
-                       'classes': ['collapsed']}),
-            ('Details', {'fields': ['group_a', 'group_b'],
-                         'legend': 'Trial Details',
-                         'classes': ['collapsed']}),
+            ('Details', {'fields': ['participants', 'description'],
+                       'legend': '2. Details',
+                       'classes': []}),
+
+            ('Instructions', {'fields': ['group_a', 'group_b'],
+                         'legend': '3. Instructions',
+                         'classes': []}),
             ('Sizing', {'fields': ['min_participants', 'max_participants'],
-                        'legend': 'Trial Sizing',
-                        'classes': ['collapsed']}),
+                        'legend': '4. Sizing',
+                        'classes': []}),
             ('Duration', {'fields': ['start_date', 'finish_date'],
-                          'legend': 'Trial Duration',
-                          'classes': ['collapsed']})
+                          'legend': '5. Duration',
+                          'classes': []})
             ]
 
         widgets = {
@@ -117,6 +119,8 @@ class TrialForm(BetterModelForm):
         """
         if validators.not_historic(self.cleaned_data['finish_date']):
             return self.cleaned_data['finish_date']
+
+# TrialFormSet = inlineformset_factory(TrialForm, Variable)
 
 
 class TrialReportForm(BetterModelForm):
