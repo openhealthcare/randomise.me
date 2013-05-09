@@ -1,9 +1,10 @@
-<div id="nav">
+<div id="header">
       <div class="masthead">
         <a href="{% url 'home' %}" id="header-logo">
           <img src="{{ STATIC_URL }}img/randomisemelogo.png">
         </a>
 
+        <div id="nav-right">
         <ul class="nav">
           <li class="">
             <a href="{% url 'contact' %}">
@@ -21,5 +22,33 @@
           {% endif %}
         </ul>
 
+        <form class="form-search">
+          <input type="text" class="input-medium search-query" placeholder="search">
+          <!-- <button type="submit" class="btn">Search</button> -->
+        </form>
+
+        </div><!--nav-right-->
       </div>
 </div>
+<div id="subhead">
+  <div class="container">
+    <ul class="nav">
+      <li>
+        <a href="">Home</a>
+      </li>
+      <li>
+        <a href="">Create a Trial</a>
+      </li>
+      <li>
+        <a href="">Browse Trials</a>
+      </li>
+      <li>
+        <a href="">About RCTs</a>
+      </li>
+      <li>
+        <a href="">About Randomise Me</a>
+      </li>
+
+    </ul>
+  </div>
+</div><!--subhead-->

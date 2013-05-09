@@ -1,7 +1,9 @@
 /* Reset */
 body {
-    padding-top: 20px;
     padding-bottom: 60px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
 }
 
 h1 {
@@ -21,20 +23,7 @@ a {
 }
 
 ul li {
-    vertical-align: top;
-    list-style:url(/static/img/disc.grey.png) none;
-}
-
-ul.parsley-error-list li {
-    list-style:url(/static/img/disc.red.png) none;
-}
-
-li.yellow {
-    list-style:url(/static/img/disc.yellow.png) none;
-}
-
-li.red {
-    list-style:url(/static/img/disc.red.png) none;
+    list-style: none;
 }
 
 /* Custom container */
@@ -49,81 +38,158 @@ li.red {
 /* Utility classes */
 .block { display: block; }
 .center { margin: 0 auto; }
+.clearem { clear: both; }
+
+.drop12 { margin-top: 12px; }
 .drop24 { margin-top: 24px; }
+
 .green { color: green; }
 .yellow { color: #fbc30c; }
-.red { color: #e83e1f; }
-.grey-back{ background: #dbd3cd; }
+.red { color: #e54f25; }
+.white { color: #fff9f7; }
 
+.bold { font-weight: 700; }
+.light { font-weight: 300; }
+.weight400 { font-weight: 400; }
+.larger { font-size: 24px; }
+
+.darkback { background: #393632; }
+
+.btn {
+  display: inline-block;
+  *display: inline;
+  padding: 8px 18px;
+  margin-bottom: 0;
+  *margin-left: .3em;
+  font-size: 14px;
+  font-family: 'Comfortaa', sans-serif;
+  font-weight: 700;
+  line-height: 20px;
+  color: #333333;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  *background-color: #e6e6e6;
+  background-image: none
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+  *border: 0;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-bottom-color: #b3b3b3;
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
+  *zoom: 1;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+.btn.larger {
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.btn-warning {
+  color: black;
+  text-shadow: none;
+  background-color: #ffc711;
+  *background-color: #ffc711;
+  background-image: none;
+  background-repeat: repeat-x;
+  border: none;
+}
+
+.btn-danger {
+    color: white;
+    background-color: #e54f25;
+    *background-color: #e54f25;
+    background-image: none;
+    background-repeat: repeat-x;
+    border: none;
+    text-shadow: none;
+}
 
 .feature-box {
-    padding: 0px 12px 12px;
-    border: 1px solid black;
+    padding: 20px 20px 0px 20px;
+    border: 8px dotted #d8d1cd;
     border-radius: 4px;
 }
+
+.feature-box .row-fluid {
+    margin-bottom: 20px;
+}
+
 .feature-box h3 {
     font-weight: normal;
-    margin-top: -20px;
-    background: white;
-    display: inline-block;
     padding: 0px 12px;
 }
 
+.feature-box p {
+    padding: 20px;
+}
 
 /* Header */
 html.nologo .masthead #header-logo {
     display: none;
 }
 
-
-/* Pages */
-.page { margin-top: 40px; }
-
-/* Main marketing message and sign up button */
-.jumbotron {
-    margin: 80px 0;
-    text-align: center;
-}
-.jumbotron h1 {
-    font-size: 100px;
-    line-height: 1;
-}
-.jumbotron .lead {
-    font-size: 24px;
-    line-height: 1.25;
-}
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+#header {
+     background: #393632;
 }
 
-/* Supporting marketing content */
-.marketing {
-    margin: 60px 0;
-}
-.marketing p + h4 {
-    margin-top: 28px;
+.masthead {
+    width: 1170px;
+    min-height: 60px;
+    margin: 0 auto;
+    padding: 10px;
 }
 
-.masthead .nav {
+#nav-right {
     float: right;
+}
+.nav {
+    margin-bottom: 4px;
 }
 .nav li {
     display: inline-block;
     margin: 0px 10px
 }
-.nav li a {
-    color: grey;
+.masthead .nav li a {
+    color: #fff9f7;
 }
 .nav li.active a {
     color: black;
 }
 
-
-/* Form stuffs */
-fieldset.collapsed div {
-    /* display: none; */
+#subhead {
+    font-size: 24px;
 }
+
+#subhead li {
+    padding-top: 12px;
+}
+
+/* Pages */
+.page { margin-top: 40px; }
+
+
+/* Homepage */
+#create-trial-homepage {
+    font-weight: 700;
+    font-size: 30px;
+    margin: -30px 50px 40px;
+}
+
+#create-trial-homepage li {
+    margin: 40px 0px;
+}
+
+.feature-box.join-trial p {
+    padding: 10px;
+}
+/* Form stuffs */
 
 #id_honeypot {
     display: none;

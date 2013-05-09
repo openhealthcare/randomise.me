@@ -1,25 +1,20 @@
+<div class="span6">
+   <h2><span class="bold red">JOIN</span> <span class="light">A TRIAL</span></h2>
+   <div class="feature-box join-trial">
 
-      <div class="span6 grey-back feature-box">
-        <h3>Join a trial</h3>
         {% for trial in recruiting %}
           <p>
-            <a href="{{ trial.get_absolute_url }}">
-              {{ trial.name }}
+            {{ trial.question }}
+            <a href="{{ trial.get_absolute_url }}" class="btn btn-warning pull-right">
+              find out more
             </a>
           </p>
-          <p>
-            {{ trial.description }}
-            <form method="POST" id="join-form" action="{% url 'join-trial' trial.pk %}">
-              {% csrf_token %}
-              <button class="btn btn-danger">
-                Join This Trial
-              </button>
-            </form>
-          </p>
         {% endfor %}
-        <p>
-          <a href="{% url 'trials' %}">
-            Looking for a something else?
-          </a>
-        </p>
-      </div>
+   </div>
+   <p class="pull-right drop12">
+     <a href="{% url 'trials' %}" class="red weight400">
+       Looking for a trial?
+     </a>
+   </p>
+
+</div>

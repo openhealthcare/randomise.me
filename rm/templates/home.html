@@ -1,15 +1,13 @@
 {% extends 'baser.html' %}
-{% load tabs join_trial %}
+{% load  join_trial %}
 {% block htmlclass%}  {% endblock %}
 {% block content %}
   <div class="page">
-    <div class="row-fluid">
-      {% tabs 'home' %}
-    </div>
 
     <!-- Top level banner - What is this? Why are we here? -->
     <div class="row-fluid">
-      <div class="span6">
+      <div class="span5">
+        <h2>Randomise Me</h2>
         <p>
           Evidence is super neat, RCTs are pretty wild. Wouldn't you
           like to run some RCTs yourself? Now you can!
@@ -19,20 +17,20 @@
           thing. Shure. Whatever.
         </p>
       </div>
-      <div class="span6">
+      <div class="span6 offset1">
         <img src="{{ STATIC_URL }}img/video-placeholder-large.jpg" class="" alt="" />
       </div>
     </div>
 
     <!-- Second row - What do you get out of running a trial? -->
-    <h2>Featured Trials</h2>
+    <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
       {% if finished %}
         <div class="row-fluid">
         {% for trial in finished %}
           <div class="span8">
             <h3>
               <a href="{{ trial.get_absolute_url }}">
-                {{ trial.name }}
+                {{ trial.question }}
                 </a>
             </h3>
           </div>
@@ -41,42 +39,32 @@
           </div>
         {% endfor %}
       {% else %}
-      <div class="row-fluid grey-back feature-box">
-          <div class="span8">
-            <h3>
-              <a href="#">
-                This trial has a name
-                <br />
-              </a>
-            </h3>
-            <p>
-              This trial also has a description. That tells you what it's about.
-            </p>
+        <div class="feature-box">
 
-          </div>
-          <div class="span3">
-            <div id="vis1"></div><!--vis1-->
+          <div class="row-fluid darkback">
+            <div class="span8">
+              <p class="larger white">
+                <a href="#">
+                  What's so hard about peace love and understanding?
+                  </a>
+              </p>
+            </div>
+            <div class="span3">
+              <div id="vis1"></div><!--vis1-->
+            </div>
           </div>
 
-        </div> <!-- row-fluid -->
-        <hr />
-        <div class="row-fluid grey-back feature-box">
-
+        <div class="row-fluid darkback">
           <div class="span8">
-            <h3>
+            <p class="larger white">
               <a href="#">
-                This is another trial
-                <br />
+                What's so hard about peace love and understanding?
               </a>
-            </h3>
-            <p>
-              What this second trial is about
-            </p>
-
           </div>
           <div class="span3">
             <div id="vis2"></div><!--vis1-->
           </div>
+        </div>
 
         <script type="text/javascript">
           {% autoescape off %}
@@ -93,13 +81,16 @@
       {% endif %}
     </div>
 
-        <hr />
+        <p class="pull-right drop12">
+          <a href="#" class="red weight400">See more trials</a>
+        </p>
 
     <!-- Third row, Create/join trials -->
-    <div class="row-fluid">
-      <div class="span6 grey-back feature-box">
-        <h3>Create a trial</h3>
-        <ol>
+    <div class="row-fluid clearem">
+      <div class="span6">
+        <h2><span class="bold red">CREATE</span> <span class="light">A TRIAL</span></h2>
+        <div class="feature-box">
+        <ol id="create-trial-homepage">
           <li>
             Have a question
           </li>
@@ -110,12 +101,13 @@
             Get pretty results
           </li>
         </ol>
-        <div class="span3">
-          <a href="#">How does it work</a>
         </div>
-        <div class="span3">
-          <a href="{% url 'tutorial' %}" class="btn btn-danger">Start</a>
-        </div>
+        <p class="drop12">
+          <a href="#" class="red weight400">How does it work</a>
+          <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
+            get started
+          </a>
+        </p>
       </div>
 
       {% join_trial_widget %}
