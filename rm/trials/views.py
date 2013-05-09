@@ -5,11 +5,13 @@ import datetime
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView, BaseCreateView
 from django.utils import simplejson
+from extra_views import CreateWithInlinesView, InlineFormSet
+from extra_views import NamedFormsetsMixin, ModelFormSetView
 import ffs
 
 from rm import exceptions
@@ -88,14 +90,25 @@ class ReportView(CreateView):
         Store the trial isntance
         """
         self.trial = self.trial_model.objects.get(pk=kw['pk'])
+        print self.trial
         return super(ReportView, self).get(*args, **kw)
 
     def post(self, *args,**kw):
         """
         Store the trial isntance
         """
+
         self.trial = self.trial_model.objects.get(pk=kw['pk'])
-        return super(ReportView, self).post(*args, **kw)
+        date = datetime.datetime.strptime(self.request.POST['date'], '%d/%m/%Y').date()
+        group = self.trial.participant_set.get(user=self.request.user).group
+
+        for variable in self.trial.variable_set.all():
+            report = Report.objects.get_or_create(trial=self.trial, date=date,
+                                                  group=group, variable=variable)[0]
+            report.score = int(self.request.POST['id-'+variable.name])
+            report.save()
+
+        return HttpResponseRedirect(self.trial.get_absolute_url())
 
     def get_context_data(self, **kw):
         """
@@ -108,27 +121,13 @@ class ReportView(CreateView):
         context['trial'] = trial
         return context
 
-    def get_form(self, *args, **kwargs):
-        """
-        Add the trial to the instance
-        """
-        trial = getattr(self, 'trial', None)
-        form = super(ReportView, self).get_form(*args, **kwargs)
-        form.instance.trial = trial
-        return form
 
-    def form_valid(self, form):
-        """
-        We need to update the report object to set the trial
-        and figure out the group that the user was allocated
-        to on the date in question.
-        """
-        trial = getattr(self, 'trial', None)
-        if not trial:
-            raise ValueError()
-        form.instance.trial = trial
-        return super(ReportView, self).form_valid(form)
-
+class TrialReport(ReportView):
+    """
+    Report a data point for this trial
+    """
+    model       = Report
+    trial_model = Trial
 
 
 # Views for user tabs
@@ -170,9 +169,6 @@ class TrialDetail(DetailView):
 
         context['detail_template'] = detail_template
         return context
-
-from extra_views import CreateWithInlinesView, InlineFormSet
-from extra_views import NamedFormsetsMixin
 
 
 class VariableInline(InlineFormSet):
@@ -274,14 +270,6 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
         context['errors'] = self.errors
         context['trial']  = self.trial
         return context
-
-class TrialReport(ReportView):
-    """
-    Report a data point for this trial
-    """
-    model       = Report
-    trial_model = Trial
-    form_class  = TrialReportForm
 
 class TrialAsCsv(View):
     """

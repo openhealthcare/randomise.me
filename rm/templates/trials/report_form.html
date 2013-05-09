@@ -7,7 +7,7 @@
     {% tabs '' %}
     <h2>
       <i class="icon-group red"></i>
-      {{trial.name}}
+      {{trial.question}}
     </h2>
 
     <div class="row-fluid">
@@ -15,64 +15,47 @@
             action="{% url 'trial-report' trial.pk %}">
         {% csrf_token %}
 
-{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
-{% for fieldset in form.fieldsets %}
-  <fieldset {% if not fieldset.errors %}class="{{ fieldset.classes }}"{% endif %}>
-  {% if fieldset.legend %}
-    <legend>{{ fieldset.legend }}</legend>
-  {% endif %}
-  {% if fieldset.description %}
-    <p class="description">{{ fieldset.description }}</p>
-  {% endif %}
-  {% for field in fieldset %}
-    {% if field.is_hidden %}
-      {{ field }}
-    {% else %}
 
-      <div class="control-group{% if field.errors %} error{% endif %}{% if field.field.required %} required{% endif %}">
-        {% if field|is_checkbox %}
-          <div class="controls">
-            <label class="checkbox">
-              {{ field }} <span>{{ field.label }}</span>
-            </label>
+      <div class="control-group required">
 
-            {% for error in field.errors %}
-              <span class="help-inline">{{ error }}</span>
-            {% endfor %}
-
-            {% if field.help_text %}
-              <p class="help-block">
-                {{ field.help_text|safe }}
-              </p>
-            {% endif %}
-          </div>
-        {% else %}
-          <label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+          <label class="control-label" for="date">Date</label>
 
           <div class="controls">
-            {{ field }}
-
-            {% for error in field.errors %}
-              <span class="help-inline">{{ error }}</span>
-            {% endfor %}
-
-            {% if field.help_text %}
-              <p class="help-block">
-                {{ field.help_text|safe }}
-              </p>
-            {% endif %}
+            <div class="input-append date datepicker" data-date="09/05/2013" data-date-format="dd/mm/yyyy">
+    <input id="date" name="date" readonly="true" size="16" type="text" value="09/05/2013" /> <span class="add-on"><i class="icon-th"></i></span>
+</div>
 
           </div>
-        {% endif %}
+
       </div>
 
 
-    {% endif %}
-  {% endfor %}
-  </fieldset>
-{% endfor %}
 
 
+
+            {% for variable in trial.variable_set.all %}
+              <div class="control-group">
+          <label class="control-label" for="id-{{ variable.name }}">{{ variable.name }}</label>
+
+          <div class="controls">
+            <input type="text" name="id-{{variable.name}}" value="" />
+
+            {% for error in field.errors %}
+              <!-- Bah this won't work -->
+              <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+
+            {% if field.help_text %}
+              <!-- Nor will this -->
+              <p class="help-block">
+                {{ field.help_text|safe }}
+              </p>
+            {% endif %}
+
+          </div>
+      </div>
+
+            {% endfor %}
 
 
         <button class="btn btn-danger" type="submit">Report Data</button>

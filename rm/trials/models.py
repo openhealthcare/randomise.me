@@ -364,10 +364,11 @@ class Report(models.Model):
     trial = models.ForeignKey(Trial)
     group = models.ForeignKey(Group, blank=True, null=True)
     date  = models.DateField()
-    score = models.IntegerField()
+    score = models.IntegerField(blank=True, null=True)
+    variable = models.ForeignKey(Variable)
 
     def __unicode__(self):
-        return '<Report for {0} {1} on {2}>'.format(self.trial.name,
+        return '<Report for {0} {1} on {2}>'.format(self.trial.question,
                                                     getattr(self.group, 'name', 'noname'),
                                                     self.date)
 
