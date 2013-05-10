@@ -1,0 +1,26 @@
+<div class="row-fluid drop48">
+
+<div class="span9">
+  <a href="#" class="feature-heading">
+    <h2><span class="light">POSSIBLY</span>
+      <span class="bold red">RELATED</span>
+      <span class="light">TRIALS</span></h2>
+  </a>
+   <div class="feature-box join-trial">
+        {% for rel in trial.related %}
+          <p>
+            {{ rel.title }}
+            <a href="{{ rel.get_absolute_url }}" class="btn btn-warning pull-right">
+              find out more
+            </a>
+          </p>
+        {% endfor %}
+   </div>
+   <p class="pull-right drop12">
+     <a href="{% url 'trials' %}" class="red weight400">
+       See more trials
+     </a>
+   </p>
+
+</div>
+</div>

@@ -27,23 +27,7 @@
   <a href="#" class="btn btn-danger">Report this trial</a>
 </div>
 
-<div class="row-fluid drop24">
-  <div class="span8 grey-back feature-box">
-    <h3>Related trials</h3>
-    {% for rel in trial.related %}
-      <p>
-        <a href="{{ rel.get_absolute_url }}">{{ rel.title }}</a>
-          <form method="POST" id="join-form" action="{% url 'join-trial' rel.pk %}">
-            {% csrf_token %}
-            <button class="btn btn-danger">
-               Participate
-               </button>
-          </form>
-
-      </p>
-    {% endfor %}
-  </div>
-</div>
+{% include 'trials/possibly_related.html' %}
 
 <script type="text/javascript">
   {% autoescape off %}

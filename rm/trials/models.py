@@ -160,7 +160,7 @@ get the intervention"""
         Exceptions: None
         """
         if self.finish_date < td():
-            return 'Trial finished'
+            return 'finished'
         return self.finish_date - td()
 
     def can_join(self):

@@ -5,29 +5,40 @@
 {% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
 {% block content %}
 <div class="page">
+  <h1>
+    <span class="greyunder">Your Trial</span>
+  </h1>
   <div class="row-fluid">
-    <div class="span10">
-      <h1>
+    <div class="span6">
+      <h2 class="light">
         {{ trial.title }}
-        </h1>
-      <small>
-        Trial run by:
-        {% if trial.owner == request.user %}You!{% else %}{{ trial.owner }}{% endif %}
-        <br />
-        {{ trial.start_date }} - {{ trial.finish_date }}
-      </small>
+      </h2>
     </div>
-    <div class="span2">
+    <div class="span3">
+      <h3>
+        {% if trial.time_remaining.days == 0 %}
+          ends today
+        {% elif trial.time_remaining == 'finished' %}
+          finished
+        {% else %}
+        <span class="bold">{{ trial.time_remaining.days }} days</span>
+        <span class="ligt">to end</span>
+        {% endif %}
+      </h3>
+    </div>
+
+    <div class="span3">
       <a href="{{ trial.get_absolute_url }}">
-        <h2>
+        <h3>
           #{{ trial.pk }}
-        </h2>
+        </h3>
       </a>
       {% share_this %}
     </div>
   </div>
 
   {% include detail_template %}
+  {% include 'trials/possibly_related.html' %}
 
 </div>
 {% endblock %}

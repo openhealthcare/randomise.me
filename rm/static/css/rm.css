@@ -70,6 +70,7 @@ ul li {
 
 .drop12 { margin-top: 12px; }
 .drop24 { margin-top: 24px; }
+.drop48 { margin-top: 48px; }
 
 .green { color: green; }
 .yellow { color: #fbc30c; }
@@ -326,7 +327,7 @@ html.nologo .masthead #header-logo {
     text-decoration: none;
 }
 .share-this i {
-    color: red;
+    color: #e54f25;
     font-size: 1.4em;
 }
 
@@ -335,4 +336,32 @@ html.nologo .masthead #header-logo {
 
 .feature-box .dashrow h3 {
     padding-left: 30px;
+}
+
+
+
+
+/* Trial Detail*/
+
+.row-fluid .side-panel {
+    background-color: #393632;
+    min-height: 400px;
+}
+.side-panel ul {
+    margin-left: 60px
+}
+
+.side-panel ul li {
+    padding-top: 20px;
+}
+
+.side-panel a {
+    color: #e54f25;
+    padding: 2px;
+    font-weight: 400;
+}
+
+.side-panel a:hover {
+    color: white;
+    background-color: #e54f25;
 }

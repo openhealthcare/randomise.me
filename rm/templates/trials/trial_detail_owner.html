@@ -1,72 +1,66 @@
-
+{% load maths %}
+<div class="feature-box">
   <div class="row-fluid">
-    <div class="span8 feature-box grey-back">
-      <h3>
-        {% if trial.private %}
-          <i class="icon-lock red"></i>
-        {% else %}
-          <i class="icon-unlock green"></i>
-        {% endif %}
+      <!-- Main panel -->
+      <div class="span9">
+        <h3>
+          Participants
+          <span class="bold">
+            {{ trial.participant_set.count }}/{{ trial.min_participants }}
+            </span>
+          You need
+          <span class="bold">
+            {{ trial.participant_set.count|subtract:trial.min_participants}}
+          </span>
+          more people
+        </h3>
 
-        Participants: {{ trial.participant_set.count }}/{{ trial.min_participants }}
-      </h3>
-      <h3 class="pull-right">
-        {{ trial.time_remaining.days }}
-        <small>
-          days remaining
-        </small>
-      </h3>
+        <h3>
+          Active Participants
+          <span class="bold">
+            85 (4%)
+          </span>
+        </h3>
 
-      <p>
-        {{ trial.description }}
-      </p>
+        <h3>
+          This is a
+          <span class="bold">
+          {% if trial.private %}private{% else %}public{% endif %}
+          </span> trial
+          <a href="#" class="btn btn-warning">make public</a>
+        </h3>
 
-      {% if trial.needs_participants %}
-        <p>
-          You need {{ trial.needs }} more participants.
-          <a href="{% url 'contact' %}">
-            Contact us for help recruiting for your trial.
-          </a>
-        </p>
+        <div class="row-fluid">
+          <div class="span4">
+            <h3>Instructions for the Intervention Group</h3>
+            <p><i>{{ trial.group_a }}</i></p>
+          </div>
+          <div class="span4">
+            <h3>Instructions for the Control Group</h3>
+            <p><i>{{ trial.group_b }}</i></p>
+          </div>
+        </div>
 
-        <h4>Active Participants: COMING SOON (SOON %)</h4>
-      {% endif %}
+        <a href="#" class="btn btn-warning">stop this trial</a>
 
-      {% if trial.private %}
-        <hr />
+      </div>
 
-        <p>
-          Ready to make this trial public?
-          <a href="#" class="btn btn-danger">Make public</a>
-        </p>
-      {% endif %}
-
-      <hr />
-      <p>
-        Want to run a similar trial?
-        <a href="{% url 'reproduce-trial' trial.pk %}" class="btn btn-danger">
-          Reproduce this trial
-        </a>
-      </p>
-
-      <hr />
-      <p>
-        Want to stop this trial?
-        <a href="#" class="btn btn-danger">Stop this trial</a>
-      </p>
-
+      <!-- Side panel -->
+      <div class="span3 side-panel">
+        <ul class="unstyled">
+          <li>
+            <a href="#">Export as CSV</a>
+          </li>
+          <li>
+            <a href="#">Duplicate Trial</a>
+          </li>
+          <li>
+            <a href="#">Talk to us</a>
+          </li>
+          <li>
+            <a href="#">About this trial</a>
+          </li>
+        </ul>
+      </div>
     </div>
-
   </div> <!-- Row Fluid -->
-
-  <h2>Instructions</h2>
-  <div class="row-fluid">
-    <div class="span4 grey-back feature-box">
-      <h3>Intervention Group</h3>
-      <p>{{ trial.group_a }}</p>
-    </div>
-    <div class="span4 grey-back feature-box">
-      <h3>Control Group</h3>
-      <p>{{ trial.group_b }}</p>
-    </div>
-  </div>
