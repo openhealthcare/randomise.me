@@ -31,9 +31,6 @@ class Trial(models.Model):
         (INVITATION, "Only people I've invited can join")
         )
 
-    HELP_QUESTION = """This is the question that you're trying to answer. It will
-be displayed prominently on the site, so try and make it interesting to get more
-people to join your trial!"""
     HELP_PART = """Who can participate in this trial?
 (Everyone? People with an infant under 6 months? People who binge drink Alcohol?)"""
     HELP_A = """These are the instructions that will be sent to the group who
@@ -43,7 +40,7 @@ get the intervention"""
     HELP_FINISH = "The date you would like your trial to finish"
 
     # Step 1
-    question          = models.CharField(max_length=200, help_text=HELP_QUESTION)
+    title          = models.CharField(max_length=200, blank=True, null=True)
     # Step 3
     min_participants  = models.IntegerField()
     max_participants  = models.IntegerField()

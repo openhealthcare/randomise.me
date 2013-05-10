@@ -67,7 +67,7 @@ class TrialForm(BetterModelForm):
     class Meta:
         model = Trial
         fieldsets = [
-            ('Basic', {'fields': ['question'],
+            ('Basic', {'fields': ['title'],
                        'legend': '1. Hypothesis',
                        'description': ''}),
             ('Details', {'fields': ['participants', 'description',

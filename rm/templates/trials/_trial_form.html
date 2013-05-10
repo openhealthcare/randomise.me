@@ -18,12 +18,10 @@
 
   <!-- Step 1 - question/title -->
 
-  <h2>1. <span class="light">YOUR</span> <span class="red bold">HYPOTHESIS</span></h2>
-  <h3>What is the question your trial is attempting to answer?</h3>
+  <h2>1. <span class="light">YOUR</span> <span class="red bold">TRIAL</span></h2>
+  <h3>What is the title of your trial?</h3>
 
-  <div class="controls">
-    {{ form.question }}
-  </div>
+  {{ form.title|bootstrap }}
 
   <p class="muted">
     This is the question that you're trying to answer. It will
