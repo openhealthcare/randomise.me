@@ -15,6 +15,10 @@ h1 {
     margin-bottom: 50px;
 }
 
+h1.nodots {
+    background: transparent;
+}
+
 h2 {
     font-weight: normal;
 }
@@ -268,11 +272,15 @@ html.nologo .masthead #header-logo {
     min-height: 600px;
 }
 .carousel-indicators {
-    top: -60px;
+    top: -100px;
 }
 
 .carousel-indicators li {
     background-color: #fbc30c;
+    height: 28px;
+    width: 28px;
+    border-radius: 15px;
+    margin-right: 12px;
 }
 
 .carousel-indicators li.active {
