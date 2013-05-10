@@ -292,6 +292,7 @@ html.nologo .masthead #header-logo {
     opacity: 1;
     width: auto;
     height: auto;
+    margin-top: 10px;
 }
 #id_honeypot {
     display: none;
