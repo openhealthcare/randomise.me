@@ -72,7 +72,7 @@ get the intervention"""
         """
         Nice printing representation
         """
-        return '<{0}>'.format(self.question)
+        return '<{0}>'.format(self.title)
 
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.pk})
@@ -370,7 +370,7 @@ class Report(models.Model):
     variable = models.ForeignKey(Variable)
 
     def __unicode__(self):
-        return '<Report for {0} {1} on {2}>'.format(self.trial.question,
+        return '<Report for {0} {1} on {2}>'.format(self.trial.title,
                                                     getattr(self.group, 'name', 'noname'),
                                                     self.date)
 

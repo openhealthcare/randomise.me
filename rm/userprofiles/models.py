@@ -41,12 +41,23 @@ class RMUser(AbstractBaseUser):
         (PREMIUM,  'Premium')
         )
 
+    MALE   = 'ma'
+    FEMALE = 'fe'
+    GENDERS = (
+        (MALE,   'Male'),
+        (FEMALE, 'Female')
+        )
+
     username      = models.CharField(max_length=40, unique=True, db_index=True)
     email         = models.EmailField(max_length=254, unique=True)
     account       = models.CharField(max_length=2, choices=ACCOUNT_CHOICES, default='st')
     is_active     = models.BooleanField(default=True)
     is_staff      = models.BooleanField(default=False)
     is_superuser  = models.BooleanField(default=False)
+    name          = models.CharField(max_length=200, blank=True, null=True)
+    dob           = models.DateField(blank=True, null=True)
+    gender        = models.CharField(max_length=2, blank=True, null=True, choices=GENDERS)
+    postcode      = models.CharField(max_length=20, blank=True, null=True)
 
     objects = RMUserManager()
 

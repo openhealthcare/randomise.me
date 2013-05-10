@@ -32,7 +32,7 @@
     <h3>Related trials</h3>
     {% for rel in trial.related %}
       <p>
-        <a href="{{ rel.get_absolute_url }}">{{ rel.name }}</a>
+        <a href="{{ rel.get_absolute_url }}">{{ rel.title }}</a>
           <form method="POST" id="join-form" action="{% url 'join-trial' rel.pk %}">
             {% csrf_token %}
             <button class="btn btn-danger">

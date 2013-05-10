@@ -12,10 +12,15 @@
   </p>
   <form method="POST" action="{% url 'contact' %}">
     {% csrf_token %}
-    {{ form|bootstrap }}
-    <div class="form-actions">
-      <button class="btn btn-primary" type="submit">Send</button>
+    <div class="row">
+      <div class="span3">
+        {{form.name|bootstrap}}
+        {{form.email|bootstrap}}
+      </div>
+      <div class="span6">
+        {{form.message|bootstrap}}
+      </div>
     </div>
-
+    <button class="btn btn-danger" type="submit">Send</button>
   </form>
 {% endblock %}

@@ -1,12 +1,6 @@
 {% extends 'baser.html' %}
-{% block htmlclass%} nologo {% endblock %}
 {% block extratitle %} - {% if request.user.is_authenticated %}Upgrade{% else %}Sign Up{% endif %}{% endblock %}
 {% block content %}
-  <div class="row-fluid">
-    <a href="{% url 'home' %}">
-      <img src="{{ STATIC_URL }}img/rmfull.png" class="center block">
-    </a>
-  </div> {# row-fluid #}
 
 <div class="page">
   <div class="row-fluid">

@@ -15,7 +15,13 @@
             <li><a href="/admin/">Admin</a></li>
           {% endif %}
           {% if request.user.is_authenticated %}
-          <li><a href="#">{{ request.user }}</a></li>
+          <li><a href="{% url 'account-edit' %}">
+              {% if request.user.name %}
+                {{ request.user.name}}
+              {% else %}
+                {{ request.user }}
+              {% endif %}
+            </a></li>
           <li><a href="/logout">Log Out</a></li>
           {% else %}
           <li><a href="/accounts/login">Log In</a></li>

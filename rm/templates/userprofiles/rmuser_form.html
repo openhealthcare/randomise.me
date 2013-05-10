@@ -1,0 +1,38 @@
+{% extends 'baser.html' %}
+{% load bootstrap %}
+{% block extratitle %} - Your Profile{% endblock %}
+{% block content %}
+
+  <div class="page">
+    <h1><span class="greyunder">Your Profile</span></h1>
+    {% if form.errors %}
+      <div class="control-group error">
+        <p class="help-block">
+          There were some problems with your trial - see below
+          </p>
+        {{ form.errors }}
+      </div>
+    {% endif %}
+
+    <form method="POST" id="profile-edit-form" action="">
+      {% csrf_token %}
+
+      <div class="row-fluid">
+        <div class="span8">
+          <h2>Basic details</h2>
+          {{ form.name|bootstrap }}
+          {{ form.email|bootstrap }}
+          <h2>Demographic data</h2>
+          {{ form.dob|bootstrap }}
+          {{ form.gender|bootstrap }}
+          {{ form.postcode|bootstrap }}
+        <center>
+          <button class="btn btn-danger" type="submit">save</button>
+        </center>
+        </div>
+      </div>
+
+    </form>
+
+</div>
+{% endblock %}

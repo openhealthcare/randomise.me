@@ -1,5 +1,5 @@
 {% extends 'baser.html' %}
-{% load  join_trial %}
+{% load  join_trial json_filters %}
 {% block htmlclass%}  {% endblock %}
 {% block content %}
   <div class="page">
@@ -26,61 +26,29 @@
     <a href="#" class="feature-heading">
       <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
     </a>
-      {% if finished %}
-        <div class="row-fluid">
-        {% for trial in finished %}
-          <div class="span8">
-            <h3>
-              <a href="{{ trial.get_absolute_url }}">
-                {{ trial.title }}
-                </a>
-            </h3>
-          </div>
-          <div class="span4">
-            <p>PLACEHOLDER - BASIC GRAPH THUMBNAIL HERE</p>
-          </div>
-        {% endfor %}
-      {% else %}
         <div class="feature-box">
 
+          {% for trial in featured %}
           <div class="row-fluid darkback">
             <div class="span8">
               <p class="larger white redroll">
-                <a href="#" class="whiteroll">
-                  What's so hard about peace love and understanding?
-                  </a>
+                <a href="{{ trial.get_absolute_url }}" class="whiteroll">
+                  {{ trial.title }}
+                </a>
               </p>
             </div>
             <div class="span3">
-              <div id="vis1"></div><!--vis1-->
+              <div id="vis{{trial.pk}}"></div>
             </div>
           </div>
-
-        <div class="row-fluid darkback">
-          <div class="span8">
-            <p class="larger white redroll">
-              <a href="#" class="whiteroll">
-                What's so hard about peace love and understanding?
-              </a>
-          </div>
-          <div class="span3">
-            <div id="vis2"></div><!--vis1-->
-          </div>
-        </div>
-
-        <script type="text/javascript">
+          <script type="text/javascript">
           {% autoescape off %}
             $(document).ready( function(){
-              RM.graphs.trial_thumbnail("#vis1", [{name: 'Group A', avg: 123},
-                                                  {name: 'Group B', avg: 456}]);
-              RM.graphs.trial_thumbnail("#vis2", [{name: 'Group A', avg: 789},
-                                                  {name: 'Group B', avg: 456}]);
-
+              RM.graphs.trial_thumbnail("#vis{{trial.pk}}", {{trial.results|json}});
             });
           {% endautoescape %}
-        </script>
-
-      {% endif %}
+          </script>
+          {% endfor %}
     </div>
 
         <p class="pull-right drop12">
@@ -107,7 +75,7 @@
         </ol>
         </div>
         <p class="drop12">
-          <a href="#" class="red weight400">How does it work</a>
+          <a href="{% url 'how-do-rcts-work' %}" class="red weight400">How does it work</a>
           <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
             get started
           </a>

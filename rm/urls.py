@@ -15,6 +15,7 @@ from rm.trials.views import (MyTrials,
                              ReproduceTrial, TrialAsCsv,
                              UserTrialCreate, UserTrialDetail, UserReport,
                              AllTrials, FeaturedTrialsList)
+from rm.userprofiles.views import RMUserUpdate
 
 urlpatterns = patterns(
     '',
@@ -45,8 +46,10 @@ urlpatterns = patterns(
     url(r'contact-ta$', TemplateView.as_view(template_name='contact-ta.html'),
         name='contact-ta'),
 
+    # Static content pages
     url(r'about$', TemplateView.as_view(template_name='about.html'), name='about-rm'),
     url(r'about-rcts$', TemplateView.as_view(template_name='rcts.html'), name='about-rcts'),
+    url(r'how-do-rcts-work$', TemplateView.as_view(template_name='how-do-rcts-work.html'), name='how-do-rcts-work'),
 
     # Tabs at the top of a logged-in user's pages
     url(r'trials/my-trials$', MyTrials.as_view(), name='mytrials'),
@@ -54,6 +57,9 @@ urlpatterns = patterns(
         name='trial-create'),
 #    url(r'dash$', TemplateView.as_view(template_name='dash.html'), name='dash'),
     url(r'dash$', MyTrials.as_view(), name='dash'),
+
+    # profile editor
+    url(r'account$', RMUserUpdate.as_view(), name='account-edit'),
 
     # Trials users run on themselves - CRUD routes
     url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),
