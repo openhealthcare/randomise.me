@@ -339,7 +339,7 @@ class Participant(models.Model):
         if not self.user.email:
             raise exceptions.NoEmailError()
 
-        subject = 'Randomise.me - instructions for {0}'.format(self.trial.name)
+        subject = 'Randomise.me - instructions for {0}'.format(self.trial.title)
         instructions = self.group.name == 'A' and self.trial.group_a or self.trial.group_b
 
         class Message(letter.Letter):
@@ -352,7 +352,7 @@ class Participant(models.Model):
             Context  = {
                 'href'        : settings.DEFAULT_DOMAIN + self.trial.get_absolute_url(),
                 'instructions': instructions,
-                'name'        : self.trial.name
+                'name'        : self.trial.title
                 }
 
         Message.send()

@@ -171,7 +171,7 @@ class ParticipantTestCase(TestCase):
     def setUp(self):
         super(ParticipantTestCase, self).setUp()
         self.user = models.User(email='larry@example.com')
-        self.trial = models.Trial(pk=1, name='This', group_a='Do it')
+        self.trial = models.Trial(pk=1, title='This', group_a='Do it')
         self.group = models.Group(trial=self.trial, name='A')
         self.participant = models.Participant(user=self.user,
                                               trial=self.trial,

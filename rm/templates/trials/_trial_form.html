@@ -155,8 +155,15 @@
         if so, write them here:
       </p>
 
-      {{ form.group_a|bootstrap }}
-      {{ form.group_b|bootstrap }}
+      <div class="row">
+        <div class="span5">
+          {{ form.group_a|bootstrap }}
+        </div>
+        <div class="span5">
+          {{ form.group_b|bootstrap }}
+        </div>
+      </div>
+
       <p class="muted">
         As your individual subjects report their outcome, we will calculate the
         difference between the two groups, and calculate the statistical
