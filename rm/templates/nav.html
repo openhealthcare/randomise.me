@@ -34,19 +34,19 @@
   <div class="container">
     <ul class="nav">
       <li>
-        <a href="">Home</a>
+        <a href="/">Home</a>
       </li>
       <li>
-        <a href="">Create a Trial</a>
+        <a href="{% url 'trial-create' %}">Create a Trial</a>
       </li>
       <li>
-        <a href="">Browse Trials</a>
+        <a href="{% url 'trials' %}">Browse Trials</a>
       </li>
       <li>
-        <a href="">About RCTs</a>
+        <a href="{% url 'about-rcts' %}">About RCTs</a>
       </li>
       <li>
-        <a href="">About Randomise Me</a>
+        <a href="{% url 'about-rm' %}">About Randomise Me</a>
       </li>
 
     </ul>

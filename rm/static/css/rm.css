@@ -7,6 +7,12 @@ body {
 
 h1 {
     font-weight: normal;
+    font-family: 'Arvo', serif;
+    color: #959291;
+    background: url('/static/img/h1dots.png')    ;
+    background-repeat: no-repeat;
+    background-position: right;
+    margin-bottom: 50px;
 }
 
 h2 {

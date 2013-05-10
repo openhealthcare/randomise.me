@@ -45,7 +45,8 @@ urlpatterns = patterns(
     url(r'contact-ta$', TemplateView.as_view(template_name='contact-ta.html'),
         name='contact-ta'),
 
-    url(r'about$', TemplateView.as_view(template_name='about.html'), name='about'),
+    url(r'about$', TemplateView.as_view(template_name='about.html'), name='about-rm'),
+    url(r'about-rcts$', TemplateView.as_view(template_name='rcts.html'), name='about-rcts'),
 
     # Tabs at the top of a logged-in user's pages
     url(r'trials/my-trials$', MyTrials.as_view(), name='mytrials'),
