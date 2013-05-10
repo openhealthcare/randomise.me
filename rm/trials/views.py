@@ -174,7 +174,7 @@ class TrialDetail(DetailView):
 class VariableInline(InlineFormSet):
     model = Variable
 
-class TrialCreate(NamedFormsetsMixin, CreateWithInlinesView):
+class TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView):
     model = Trial
     context_object_name = "trial"
     model               = Trial
