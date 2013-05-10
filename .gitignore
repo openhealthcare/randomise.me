@@ -2,3 +2,4 @@
 *.sqlite
 /rm/local_settings.py
 build/*
+/rm/static/css/#rm.css#

@@ -1,87 +1,148 @@
 {% load bootstrap %}
 
-      <form id="newtrial_form" method="post" action="" data-validate="parsley">
-        {% csrf_token %}
-        {% if form.errors %}
-          <div class="control-group error">
-            <p class="help-block">
-              There were some problems with your trial - see below
-            </p>
-          </div>
-        {% endif %}
-
-        {{inlines}}
-
-
-{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
-{% for fieldset in form.fieldsets %}
-  <fieldset {% if not fieldset.errors %}class="{{ fieldset.classes }}"{% endif %}>
-  {% if fieldset.legend %}
-    <legend>{{ fieldset.legend }}</legend>
+<form id="newtrial_form" method="post" action="" data-validate="parsley">
+  {{ Variable.management_form }}
+  {% csrf_token %}
+  {% if form.errors %}
+    <div class="control-group error">
+      <p class="help-block">
+        There were some problems with your trial - see below
+        </p>
+{{ form.errors }}
+    </div>
   {% endif %}
-  {% if fieldset.description %}
-    <p class="description">{{ fieldset.description }}</p>
-  {% endif %}
-  {% for field in fieldset %}
-    {% if field.is_hidden %}
-      {{ field }}
-    {% else %}
 
-      <div class="control-group{% if field.errors %} error{% endif %}{% if field.field.required %} required{% endif %}">
-        {% if field|is_checkbox %}
-          <div class="controls">
-            <label class="checkbox">
-              {{ field }} <span>{{ field.label }}</span>
-            </label>
+  {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 
-            {% for error in field.errors %}
-              <span class="help-inline">{{ error }}</span>
-            {% endfor %}
+  <!-- Begin Trial creation steps -->
 
-            {% if field.help_text %}
-              <p class="help-block">
-                {{ field.help_text|safe }}
-              </p>
-            {% endif %}
-          </div>
-        {% else %}
-          <label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+  <!-- Step 1 - question/title -->
 
-          <div class="controls">
-            {{ field }}
+  <h2>1. <span class="light">YOUR</span> <span class="red bold">HYPOTHESIS</span></h2>
+  <h3>What is the question your trial is attempting to answer?</h3>
 
-            {% for error in field.errors %}
-              <span class="help-inline">{{ error }}</span>
-            {% endfor %}
+  <div class="controls">
+    {{ form.question }}
+  </div>
 
-            {% if field.help_text %}
-              <p class="help-block">
-                {{ field.help_text|safe }}
-              </p>
-            {% endif %}
+  <p class="muted">
+    This is the question that you're trying to answer. It will
+    be displayed prominently on the site, so try and make it interesting to get more
+    people to join your trial!
+  </p>
 
-          </div>
-        {% endif %}
-      </div>
+  <!-- Step 2 measures. -->
 
+  <h2>2. <span class="light">YOUR</span> <span class="red bold">MAIN OUTCOME</span> </h2>
+
+
+  {% for var in Variable %}
+
+
+    {% if forloop.first %}
+
+      <h3>What kind of measure is your main outcome? </h3>
+      {{ var.style }}
+
+      <p class="muted">
+        -       Score: these are measures that are scored with a number. For example,
+headache pain can be measured on a severity scale from 0 to 10.<br>
+-       Binary: these are outcomes that are either present or absent. For example,
+you could have vomited, or not vomited.<br>
+-       Count: these are variables that are counted. For example, the number of
+wees you have in 24 hours.
+      </p>
+
+      <h3>What question should we ask?</h3>
+
+      {{ var.question }}
+
+      <p class="muted">
+        Tell us what question to ask, next to this measure, for your participants to
+        see when you collect your results from them. We will make a drop down
+        menu for participants to give you an answer (for binary it‟s yes/no, for
+        score it‟s 0-10, etc).
+      </p>
 
     {% endif %}
   {% endfor %}
-  </fieldset>
 
-  {% if fieldset.name == 'Details' %}
-    {% for inline in inlines %}
-      <h2>Variables in your trial</h2>
-  </fieldset>
-    {{ inline }}
-    {% endfor %}
-    {% endif %}
+  <!-- Step 3 Trial size -->
 
+  <h2>3. <span class="red bold">SIZE</span> <span class="light">OF YOUR TRIAL</span></h2>
 
+  <h3>Would you like help to decide how many people you will need in your trial? </h3>
 
-{% endfor %}
+  <p class="muted">
+    Roughly what score/proportion/count do you expect in group A?
+    What score in treatment group B would be meaningfully different enough
+    for you to be impressed? <br>
+           > simple power calculation
+  </p>
+  <p>IMPLEMENT THIS</p>
 
+  <h3>No, you think you've got it?</h3>
 
+  {{ form.min_participants|bootstrap }}
+  {{ form.max_participants|bootstrap }}
 
-        <button class="btn btn-danger" type="submit">Create Trial</button>
-      </form>
+  <!-- Step 4 Recruitment -->
+  <h2>4. <span class="light">RECRUITING</span> <span class="red bold">PARTICIPANTS</span></h2>
+
+  <h3>How will you recruit participants? </h3>
+  {{ form.recruitment|bootstrap }}
+  <p class="muted">
+    If you select 'Anyone can join' then we'll feature your trial on the
+    site. If you select 'Only people I've invited' then we'll generate a
+    link for you that won't be accessible from elsewhere on Randomise Me
+  </p>
+
+  <!-- Step 5. Participant information -->
+  <h2>
+    5. <span class="red bold">PARTICIPANT</span> <span class="light">INFORMATION</span>
+  </h2>
+
+  {{ form.description| bootstrap }}
+  <p class="muted">
+    Write your information for participants here. Consider telling them what
+    question you‟re interested in answering (you may wish that to be a
+    secret), and what kind of intervention you‟re going to give to each group.
+  </p>
+  <h3>What are you going to do to group A?</h3>
+  {{ form.group_a_desc|bootstrap }}
+  <h3>What are you going to do to group B?</h3>
+  {{ form.group_b_desc|bootstrap }}
+
+  <!-- Step 6. Instructions -->
+  <h2>6. <span class="light">TRIAL </span><span class="red bold">INSTRUCTIONS</span></h2>
+
+  <h3>Do you have instructions for your participants?</h3>
+
+  <p class="muted">
+    Do you want us to send some specific instructions to participants after
+    they have been randomised to group A or B?
+    if so, write them here:
+  </p>
+
+  {{ form.group_a|bootstrap }}
+  {{ form.group_b|bootstrap }}
+
+  <p class="muted">
+    As your individual subjects report their outcome, we will calculate the
+    difference between the two groups, and calculate the statistical
+    significance of this difference (if any!). We will hide these results from you
+    until your participant response rate is 90%, or until you press “peek”.
+  </p>
+
+  <!-- Step 7 Trial Duration -->
+
+  <h2>7. <span class="light">TRIAL</span> <span class="red bold">DURATION</span></h2>
+  <h3>How long should your trial last?</h3>
+  {{ form.start_date|bootstrap }}
+  {{ form.finish_date|bootstrap }}
+
+  <!-- End Trial creation steps -->
+  <h2>8. <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span></h2>
+
+  <button class="btn btn-danger" type="submit">Create Trial</button>
+</form>

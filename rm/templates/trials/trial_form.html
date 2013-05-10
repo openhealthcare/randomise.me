@@ -1,14 +1,8 @@
 {% extends 'baser.html' %}
-{% load tabs %}
 {% block extratitle %} - New Trial{% endblock %}
 {% block content %}
   <div class="page">
-    {% tabs 'newtrial' %}
-    <h2>
-      <i class="icon-group yellow"></i>
-      Run a trial on Randomise Me users
-    </h2>
-
+    <h1>Create a Trial</h1>
     <div class="row-fluid">
       {% include 'trials/_trial_form.html' %}
     </div>

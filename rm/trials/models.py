@@ -24,13 +24,11 @@ class Trial(models.Model):
     """
     An individual trial that we are running.
     """
-    SCORE  = 'sc'
-    BINARY = 'bi'
-    COUNT  = 'co'
-    STYLE_CHOICES = (
-        (SCORE,  'Score'),
-        (BINARY, 'Binary'),
-        (COUNT,  'Count')
+    ANYONE     = 'an'
+    INVITATION = 'in'
+    RECRUITMENT_CHOICES = (
+        (ANYONE,     'Anyone can join'),
+        (INVITATION, "Only people I've invited can join")
         )
 
     HELP_QUESTION = """This is the question that you're trying to answer. It will
@@ -38,24 +36,28 @@ be displayed prominently on the site, so try and make it interesting to get more
 people to join your trial!"""
     HELP_PART = """Who can participate in this trial?
 (Everyone? People with an infant under 6 months? People who binge drink Alcohol?)"""
-    HELP_DESC = """This is the explanatory text about your trial that will be
-publically visible. A good description will help recruit participants to your trial by
-letting them know why you want to answer this question."""
     HELP_A = """These are the instructions that will be sent to the group who
 get the intervention"""
     HELP_B = """These are the instructions that will be sent to the control group"""
     HELP_START = "The date you would like your trial to start"
     HELP_FINISH = "The date you would like your trial to finish"
 
+    # Step 1
     question          = models.CharField(max_length=200, help_text=HELP_QUESTION)
-    participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
-    private           = models.BooleanField(default=False)
-    style             = models.CharField(max_length=2, choices=STYLE_CHOICES)
-    description       = models.TextField(help_text=HELP_DESC)
-    group_a           = models.TextField("Intervention Group Instructions", help_text=HELP_A)
-    group_b           = models.TextField("Control Group Instructions", help_text=HELP_B)
+    # Step 3
     min_participants  = models.IntegerField()
     max_participants  = models.IntegerField()
+    # Step 4
+    recruitment       = models.CharField(max_length=2, choices=RECRUITMENT_CHOICES,
+                                         default=ANYONE)
+    # Step 5
+    description       = models.TextField(blank=True, null=True)
+    group_a_desc      = models.TextField(blank=True, null=True)
+    group_b_desc      = models.TextField(blank=True, null=True)
+    # Step 6
+    group_a           = models.TextField("Intervention Group Instructions", help_text=HELP_A)
+    group_b           = models.TextField("Control Group Instructions", help_text=HELP_B)
+
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
     start_date        = models.DateField(help_text=HELP_START)
@@ -64,7 +66,9 @@ get the intervention"""
     owner             = models.ForeignKey(settings.AUTH_USER_MODEL)
     featured          = models.BooleanField(default=False)
     recruiting        = models.BooleanField(default=True)
+    participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
 
+    private           = models.BooleanField(default=False)
     objects = managers.RmTrialManager()
 
     def __unicode__(self):
@@ -286,7 +290,8 @@ class Variable(models.Model):
         )
 
     trial = models.ForeignKey(Trial)
-    name  = models.CharField(max_length=200)
+    name  = models.CharField(max_length=200, blank=True, null=True)
+    question = models.TextField(blank=True, null=True)
     style = models.CharField(max_length=2, choices=STYLE_CHOICES)
 
     def __unicode__(self):

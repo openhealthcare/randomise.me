@@ -1,11 +1,10 @@
 {% extends 'baser.html' %}
-{% load tabs share %}
+{% load share %}
 {% load trial_cta %}
 
 {% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
 {% block content %}
 <div class="page">
-  {% tabs 'trialdetail' %}
   <div class="row-fluid">
     <div class="span10">
       <h1>

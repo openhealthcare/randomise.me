@@ -23,6 +23,12 @@ h3 {
     font-weight: normal;
 }
 
+legend {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+}
+
 a {
     color: grey;
 }
@@ -31,6 +37,9 @@ a:hover {
     color: white;
     background: #e54f25;
     text-decoration: none;
+}
+a.img:hover {
+    background: transparent;
 }
 
 ul li {

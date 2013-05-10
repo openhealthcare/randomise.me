@@ -12,12 +12,11 @@
   </p>
 {% else %}
     {% if usertrials.count > 0 or running.count > 0 %}
+      <h2>
+        <span class="light">TRIALS YOU ARE </span><span class="bold red">RUNNING</span>
+      </h2>
       <div class="row-fluid">
-        <div class="span8 grey-back feature-box">
-          <h3>
-            <i class="icon-user red"></i>
-            Trials you're running
-          </h3>
+        <div class="span12 grey-back feature-box">
         <table class="table table-striped table-bordered">
           <tr>
             <th>Name</th>
@@ -74,14 +73,15 @@
     {% endif %}
 
     {% if participating.count > 0 %}
+      <h2>
+        <span class="light">TRIALS YOU ARE </span>
+        <span class="bold red">
+          PARTICIPATING IN
+        </span>
+      </h2>
+
       <div class="row-fluid drop24">
-        <div class="span8 grey-back feature-box">
-
-          <h3>
-            <i class="icon-group yellow"></i>
-            Trials you're participating in
-          </h3>
-
+        <div class="span12 grey-back feature-box">
           <table class="table table-striped table-bordered">
             <tr>
               <th>Name</th>
@@ -110,13 +110,12 @@
     {% endif %}
 
     {% if completed.count > 0 %}
-      <div class="row-fluid drop24">
-        <div class="span8 grey-back feature-box">
-          <h3>
-            <i class="icon-user red"></i>
-            Finished Trials
-          </h3>
+      <h2>
+        <span class="bold red">FINISHED</span> <span class="light">TRIALS</span>
+      </h2>
 
+      <div class="row-fluid drop24">
+        <div class="span12 grey-back feature-box">
           <table class="table table-striped table-bordered">
             <tr>
               <th>Trial</th>
@@ -151,13 +150,12 @@
     {% endif %}
 
     {% if participated.count > 0 %}
-      <div class="row-fluid drop24">
-        <div class="span8 grey-back feature-box">
-          <h3>
-            <i class="icon-user red"></i>
-            Trials you participated in
-          </h3>
+      <h2>
+        <span class="light">TRIALS YOU </span><span class="bold red">PARTICIPATED IN</span>
+      </h2>
 
+      <div class="row-fluid drop24">
+        <div class="span12 grey-back feature-box">
           <table class="table table-striped table-bordered">
             <tr>
               <th>Trial</th>

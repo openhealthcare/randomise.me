@@ -70,14 +70,16 @@ class TrialForm(BetterModelForm):
             ('Basic', {'fields': ['question'],
                        'legend': '1. Hypothesis',
                        'description': ''}),
-            ('Details', {'fields': ['participants', 'description'],
+            ('Details', {'fields': ['participants', 'description',
+                                    'group_a_desc', 'group_b_desc'],
                        'legend': '2. Details',
                        'classes': []}),
 
             ('Instructions', {'fields': ['group_a', 'group_b'],
                          'legend': '3. Instructions',
                          'classes': []}),
-            ('Sizing', {'fields': ['min_participants', 'max_participants'],
+            ('Sizing', {'fields': ['min_participants', 'max_participants',
+                                   'recruitment'],
                         'legend': '4. Sizing',
                         'classes': []}),
             ('Duration', {'fields': ['start_date', 'finish_date'],
@@ -111,6 +113,7 @@ class TrialForm(BetterModelForm):
                     'data-required': 'true',
                     'data-type'    : 'digits',
                     }),
+            'recruitment': widgets.RadioSelect(),
             }
 
     def clean_finish_date(self):
