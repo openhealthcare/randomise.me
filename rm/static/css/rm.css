@@ -149,7 +149,8 @@ ul li {
     text-decoration: none;
 }
 
-.feature-heading:hover h2 {
+.feature-heading:hover h2,
+.feature-heading:hover h3{
     text-decoration: none;
     background: #e54f25;
     display: inline-block;
@@ -263,6 +264,27 @@ html.nologo .masthead #header-logo {
 }
 /* Form stuffs */
 
+.item {
+    min-height: 600px;
+}
+.carousel-indicators {
+    top: -60px;
+}
+
+.carousel-indicators li {
+    background-color: #fbc30c;
+}
+
+.carousel-indicators li.active {
+    border-color: #e54f25;
+    background-color: #e54f25;
+}
+
+.carousel-control {
+    opacity: 1;
+    width: auto;
+    height: auto;
+}
 #id_honeypot {
     display: none;
 }

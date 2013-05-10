@@ -8,54 +8,59 @@
   <div class="row-fluid">
 
     <div class="span6">
-      <h2>
-        <i class="icon-group yellow"></i>
-        Run a trial with Randomise Me users
-      </h2>
-      <p class="muted">
-        <small>
+      <a href="{% url 'rm-trial-create' %}" class="feature-heading">
+        <h3>
+          <span class="light">RUN A TRIAL WITH</span>
+          <span class="red bold">RANDOMISE ME USERS</span>
+        </h3>
+      </a>
+      <div class="feature-box">
+        <p>
           Create a trial that anyone can join on Randomise
           Me. We'll take care of allocating your participants
           and sending them their instructions, and we'll guide
           you through the whole process step-by-step.
-        </small>
-      </p>
-      <p class="text-center" >
-        <a class="btn btn-danger" href="{% url 'rm-trial-create' %}">Create Trial</a>
-      </p>
+          </p>
+        <p class="text-center" >
+          <a class="btn btn-danger" href="{% url 'rm-trial-create' %}">Create Trial</a>
+        </p>
+
+      </div>
     </div><!-- span4 -->
 
     <div class="span6">
-      <h2>
-        <i class="icon-cloud-upload red"></i>
-        Run an offline trial with your own sample
-      </h2>
-      <p class="muted">
-        <small>
+
+      <h3>
+        <span class="light">RUN AN </span>
+        <span class="red bold">OFFLINE TRIAL</span>
+      </h3>
+      <div class="feature-box">
+        <p class="muted">
           For when you want to answer questions about
           a sample that already exists offline, we'll help
           you design a great trial, allocate your sample,
           and run the stats when you're done.
-        </small>
-      </p>
-      <p class="text-center" >
-        <a class="btn btn-danger" href="#">COMING SOON</a>
-      </p>
+        </p>
+        <p class="text-center" >
+          <a class="btn btn-danger" href="#">COMING SOON</a>
+        </p>
 
-      {% if user.is_standard %}
-        <center>
-      <p class="text-warning">
-        <small>
-          Offline trials are only available to advanced
-          accounts.
-        </small>
-        <br />
-        <a href="{% url 'account-types' %}" class="btn btn-danger">
-          Upgrade your account
-        </a>
-      </p>
-        </center>
-      {% endif %}
+        {% if user.is_standard %}
+          <center>
+            <p class="text-warning">
+              <small>
+                Offline trials are only available to advanced
+                accounts.
+                </small>
+              <br />
+              <a href="{% url 'account-types' %}" class="btn btn-danger">
+                Upgrade your account
+                </a>
+            </p>
+          </center>
+          {% endif %}
+
+      </div>
     </div><!-- span4 -->
 
   </div> <!-- Row -->
