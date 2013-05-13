@@ -1,19 +1,35 @@
 {% load maths %}
+<h3>
+  <span class="light">TRIAL</span> <span class="red bold">META</span>
+</h3>
 <div class="feature-box">
   <div class="row-fluid">
       <!-- Main panel -->
       <div class="span9">
-        <h3>
-          Participants
-          <span class="bold">
-            {{ trial.participant_set.count }}/{{ trial.min_participants }}
-            </span>
-          You need
-          <span class="bold">
-            {{ trial.participant_set.count|subtract:trial.min_participants}}
-          </span>
-          more people
-        </h3>
+
+        <div class="row-fluid">
+          <div class="span6"> <!-- Inner frist col -->
+            <h3>
+              Participants
+              <span class="bold">
+                {{ trial.participant_set.count }}/{{ trial.min_participants }}
+                </span>
+              </h3>
+
+          </div>
+
+          <div class="span6"> <!-- Inner second col -->
+            <h3>
+              You need
+              <span class="bold">
+                {{ trial.min_participants|subtract:trial.participant_set.count}}
+                </span>
+              more people
+            </h3>
+
+          </div>
+
+        </div> <!-- Inner row 1. -->
 
         <h3>
           Active Participants
@@ -22,20 +38,41 @@
           </span>
         </h3>
 
-        <h3>
-          This is a
-          <span class="bold">
-          {% if trial.private %}private{% else %}public{% endif %}
-          </span> trial
-          <a href="#" class="btn btn-warning">make public</a>
-        </h3>
+        <!-- Public private etc -->
+        {% if trial.is_invitation_only %}
+          <div class="row-fluid">
+            <div class="span6">
+              <h3>
+                This trial is <span class="bold">invitation only</span>
+              </h3>
+            </div>
+            <div class="span6">
+              <a href="#" class="btn btn-warning">invite people</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="row-fluid">
+            <div class="span6">
+              <h3>
+                This is a
+                <span class="bold">
+                  {% if trial.private %}private{% else %}public{% endif %}
+                </span> trial
+              </h3>
+            </div>
+            <div class="span6">
+              <a href="#" class="btn btn-warning">make public</a>
+            </div>
+          </div>
+        {% endif %}
+
 
         <div class="row-fluid">
-          <div class="span4">
+          <div class="span6">
             <h3>Instructions for the Intervention Group</h3>
             <p><i>{{ trial.group_a }}</i></p>
           </div>
-          <div class="span4">
+          <div class="span6">
             <h3>Instructions for the Control Group</h3>
             <p><i>{{ trial.group_b }}</i></p>
           </div>
@@ -44,23 +81,36 @@
         <a href="#" class="btn btn-warning">stop this trial</a>
 
       </div>
-
-      <!-- Side panel -->
-      <div class="span3 side-panel">
-        <ul class="unstyled">
-          <li>
-            <a href="#">Export as CSV</a>
-          </li>
-          <li>
-            <a href="#">Duplicate Trial</a>
-          </li>
-          <li>
-            <a href="#">Talk to us</a>
-          </li>
-          <li>
-            <a href="#">About this trial</a>
-          </li>
-        </ul>
-      </div>
+      {% include 'trials/trial_detail_sidebar.html' %}
     </div>
   </div> <!-- Row Fluid -->
+
+
+<h3>
+  <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
+</h3>
+
+<div class="feature-box">
+  <p>
+    {{ trial.description }}
+  </p>
+  <div class="row-fluid">
+    <div class="span6">
+      <h3 class="light">
+        Control Group description
+      </h3>
+      <p><i>
+        {{ trial.group_a_desc }}
+      </p></i>
+    </div>
+    <div class="span6">
+      <h3 class="light">
+        Intervention Group description
+      </h3>
+      <p><i>
+        {{ trial.group_b_desc }}
+      </p></i>
+    </div>
+
+  </div>
+</div>

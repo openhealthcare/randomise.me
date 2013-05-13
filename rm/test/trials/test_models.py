@@ -35,7 +35,7 @@ class TrialTestCase(TemporalTestCase):
     def test_time_remaining_finished(self):
         "Finished string"
         trial = models.Trial(finish_date=self.yesterday)
-        self.assertEqual('Trial finished', trial.time_remaining())
+        self.assertEqual('finished', trial.time_remaining())
 
     def test_can_join_finished(self):
         "Can't join a finished trial"
@@ -164,6 +164,15 @@ class TrialTestCase(TemporalTestCase):
         trial.send_instructions()
         for participant in [part1, part2]:
             participant.send_instructions.assert_called_once_with()
+
+    def test_is_invitation_only(self):
+        "Model predicates"
+        trial = models.Trial()
+        self.assertEqual(False, trial.is_invitation_only)
+        trial.recruitment = trial.INVITATION
+        self.assertEqual(True, trial.is_invitation_only)
+
+
 
 
 class ParticipantTestCase(TestCase):

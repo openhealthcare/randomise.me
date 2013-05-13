@@ -143,6 +143,17 @@ get the intervention"""
             return True
         return False
 
+    @property
+    def is_invitation_only(self):
+        """
+        Predicate property to determine whether the trial
+        is invitation_only.
+
+        Return: None
+        Exceptions: None
+        """
+        return self.recruitment == self.INVITATION
+
     def related(self):
         """
         Get trials possibly related to this one.

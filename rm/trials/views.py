@@ -161,7 +161,7 @@ class TrialDetail(DetailView):
         if trial.finished:
             detail_template = 'trials/trial_detail_report.html'
 
-        if self.request.user.is_authenticated():
+        elif self.request.user.is_authenticated():
             if trial.owner == self.request.user:
                 detail_template = 'trials/trial_detail_owner.html'
             elif trial.participant_set.filter(user=self.request.user).count() > 0:

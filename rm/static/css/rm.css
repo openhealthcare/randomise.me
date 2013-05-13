@@ -321,6 +321,394 @@ html.nologo .masthead #header-logo {
     fill: steelblue;
 }
 
+/* Reset */
+body {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+}
+
+h1 {
+    font-weight: normal;
+    font-family: 'Arvo', serif;
+    color: #959291;
+    background: url('/static/img/h1dots.png')    ;
+    background-repeat: no-repeat;
+    background-position: right;
+    margin-bottom: 50px;
+}
+
+h1.nodots {
+    background: transparent;
+}
+
+.greyunder {
+    border-bottom: solid #d8d1cd 3px;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+h3 {
+    font-weight: normal;
+}
+
+legend {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+}
+
+a {
+    color: grey;
+}
+
+a:hover {
+    color: white;
+    background: #e54f25;
+    text-decoration: none;
+}
+a.img:hover {
+    background: transparent;
+}
+
+ul li {
+    list-style: none;
+}
+
+/* Custom container */
+.container {
+    margin: 0 auto;
+    /* max-width: 1000px; */
+}
+.container > hr {
+    margin: 60px 0;
+}
+
+/* Utility classes */
+.block { display: block; }
+.center { margin: 0 auto; }
+.clearem { clear: both; }
+
+.drop12 { margin-top: 12px; }
+.drop24 { margin-top: 24px; }
+.drop48 { margin-top: 48px; }
+
+.green { color: green; }
+.yellow { color: #fbc30c; }
+.red { color: #e54f25; }
+.white { color: #fff9f7; }
+
+.bold { font-weight: 700; }
+.light { font-weight: 300; }
+.weight400 { font-weight: 400; }
+.larger { font-size: 24px; }
+
+.darkback { background: #393632; }
+
+.btn {
+  display: inline-block;
+  *display: inline;
+  padding: 8px 18px;
+  margin-bottom: 0;
+  *margin-left: .3em;
+  font-size: 14px;
+  font-family: 'Comfortaa', sans-serif;
+  font-weight: 700;
+  line-height: 20px;
+  color: #333333;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  *background-color: #e6e6e6;
+  background-image: none
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+  *border: 0;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-bottom-color: #b3b3b3;
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
+  *zoom: 1;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+.btn.larger {
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.btn-warning {
+  color: black;
+  text-shadow: none;
+  background-color: #ffc711;
+  *background-color: #ffc711;
+  background-image: none;
+  background-repeat: repeat-x;
+  border: none;
+}
+
+.btn-warning:hover,
+.btn-danger:hover {
+    background-color: #393632;
+    *background-color: #393632;
+}
+
+.btn-danger {
+    color: white;
+    background-color: #e54f25;
+    *background-color: #e54f25;
+    background-image: none;
+    background-repeat: repeat-x;
+    border: none;
+    text-shadow: none;
+}
+
+.redroll:hover {
+    background: #e54f25;
+}
+.redroll:hover a {
+    color: white;
+}
+
+.whiteroll:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.feature-heading:hover h2,
+.feature-heading:hover h3{
+    text-decoration: none;
+    background: #e54f25;
+    display: inline-block;
+    color: white
+}
+.feature-heading:hover .red {
+    color: white;
+}
+
+
+.feature-box {
+    padding: 20px 20px 0px 20px;
+    border: 8px dotted #d8d1cd;
+    border-radius: 4px;
+}
+
+.feature-box .row-fluid {
+    margin-bottom: 20px;
+}
+
+.feature-box h3 {
+    font-weight: normal;
+    padding: 0px 12px;
+}
+
+.feature-box p {
+    padding: 24px;
+    margin: 0px;
+}
+
+/* Header */
+html.nologo .masthead #header-logo {
+    display: none;
+}
+
+#header {
+     background: #393632;
+}
+
+.masthead {
+    width: 1170px;
+    min-height: 60px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+#nav-right {
+    float: right;
+}
+.nav {
+    margin-bottom: 4px;
+}
+.nav li {
+    display: inline-block;
+    margin: 0px 10px
+}
+.masthead .nav li a {
+    color: #fff9f7;
+}
+.nav li.active a {
+    color: black;
+}
+
+#subhead {
+    font-size: 24px;
+}
+
+#subhead li {
+    padding: 12px 6px 6px 6px;
+}
+
+#subhead li:hover,
+#subhead li a:hover {
+    background: #393632;
+    color: #fff9f7;
+}
+
+/* Footer */
+.footer{
+    background: #393632;
+    padding: 40px;
+    font-weight: 400;
+}
+.footer a {
+    color: #fff9f7;
+    padding-left: 0px;
+}
+
+.footer a:hover {
+    background: white;
+    color: black;
+}
+
+/* Pages */
+.page { margin-top: 40px; }
+
+
+/* Homepage */
+#create-trial-homepage {
+    font-weight: 700;
+    font-size: 30px;
+    margin: -30px 50px 40px;
+}
+
+#create-trial-homepage li {
+    margin: 40px 0px;
+}
+
+.feature-box.join-trial p {
+    padding: 20px 10px;
+}
+.feature-box.join-trial p:last-child {
+    margin-bottom: 30px;
+}
+/* Form stuffs */
+
+.item {
+    min-height: 600px;
+}
+.carousel-indicators {
+    top: -100px;
+}
+
+.carousel-indicators li {
+    background-color: #d8d1cd;
+    height: 28px;
+    width: 28px;
+    border-radius: 15px;
+    margin-right: 12px;
+}
+
+.carousel-indicators li.active {
+    border-color: #fbc30c;
+    background-color: #fbc30c;
+}
+
+.carousel-control {
+    opacity: 1;
+    width: auto;
+    height: auto;
+    margin-top: 10px;
+}
+#id_honeypot {
+    display: none;
+}
+
+/* Graph Stuffs */
+.chart {
+    background: #393632;
+    margin: auto 0;
+}
+.chart text {
+    color: white;
+    fill: white
+}
+
+.chart div {
+  font: 10px sans-serif;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+.chart rect {
+    stroke: white;
+}
+
+.chart rect.bar {
+    fill: #e54f25;
+    border-radius: 5px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: white;
+  shape-rendering: crispEdges;
+}
+
+/* Sharing generics */
+
+.share-this a:hover {
+    text-decoration: none;
+}
+.share-this i {
+    color: #e54f25;
+    font-size: 1.4em;
+}
+
+
+/* Dashboard */
+
+.feature-box .dashrow h3 {
+    padding-left: 30px;
+}
+
+
+
+
+/* Trial Detail*/
+
+.row-fluid .side-panel {
+    background-color: #393632;
+    min-height: 400px;
+}
+.side-panel ul {
+    margin-left: 60px
+}
+
+.side-panel ul li {
+    padding-top: 20px;
+}
+
+.side-panel a {
+    color: #e54f25;
+    padding: 2px;
+    font-weight: 400;
+}
+
+.side-panel a:hover {
+    color: white;
+    background-color: #e54f25;
+}
+
+
 /* Sharing generics */
 
 .share-this a:hover {

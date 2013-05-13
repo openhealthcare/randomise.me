@@ -1,33 +1,75 @@
 {% load json_filters %}
-<div class="row-fluid">
-  <div class="span8">
-    <div id="mainbar-{{trial.pk}}" class="">
-    </div><!--mainbar-{{trial.pk}}-->
+<h3>
+  <span class="light">TRIAL</span> <span class="red bold">META</span>
+</h3>
+<div class="feature-box">
+  <div class="row-fluid">
+      <!-- Main panel -->
+      <div class="span9">
+
+
+        <div class="row-fluid">
+          <div class="span12">
+            <div id="mainbar-{{trial.pk}}" class="">
+            </div><!--mainbar-{{trial.pk}}-->
+          </div>
+        </div>
+
+        <h3 class="light">
+          <center>
+            {{ trial.participant_set.count }} participants in total,<br />
+            started on {{ trial.start_date }},<br />
+            ended {{ trial.finisth_date }}
+          </center>
+        </h3>
+
+      </div>
+
+      {% include 'trials/trial_detail_sidebar.html' %}
+    </div>
+  </div> <!-- Row Fluid -->
+
+
+<h3>
+  <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
+</h3>
+
+<div class="feature-box">
+  <p>
+    {{ trial.description }}
+  </p>
+  <div class="row-fluid">
+    <div class="span6">
+      <h3 class="light">
+        Control Group description
+      </h3>
+      <p><i>
+        {{ trial.group_a_desc }}
+      </p></i>
+    </div>
+    <div class="span6">
+      <h3 class="light">
+        Intervention Group description
+      </h3>
+      <p><i>
+        {{ trial.group_b_desc }}
+      </p></i>
+    </div>
   </div>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <h3>Instructions for the Intervention Group</h3>
+      <p><i>{{ trial.group_a }}</i></p>
+    </div>
+    <div class="span6">
+      <h3>Instructions for the Control Group</h3>
+      <p><i>{{ trial.group_b }}</i></p>
+    </div>
+  </div>
+
 </div>
 
-<!-- Headline stats -->
-<div class="row-fluid">
-  <h3>
-    This intervention produces a SOON% average change in VARIABLE
-    <small>
-      explain this
-    </small>
-  </h3>
-  <h3>
-    {{ trial.participant_set.count }} participants, between
-    {{ trial.start_date }} and {{ trial.finish_date }}
-  </h3>
-</div>
-
-<!-- random calls to action -->
-<div class="row-fluid">
-  <a href="{% url 'trial-as-csv' trial.pk %}" class="btn btn-danger">Download Data</a>
-  <a href="{% url 'reproduce-trial' trial.pk %}" class="btn btn-danger">Reproduce this trial</a>
-  <a href="#" class="btn btn-danger">Report this trial</a>
-</div>
-
-{% include 'trials/possibly_related.html' %}
 
 <script type="text/javascript">
   {% autoescape off %}
