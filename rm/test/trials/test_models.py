@@ -104,7 +104,10 @@ class TrialTestCase(TemporalTestCase):
     def test_join(self):
         "Should create participant"
         owner = models.User(pk=1)
-        trial = models.Trial(owner=owner, finish_date=self.tomorrow, max_participants=2)
+        trial = models.Trial(owner=owner, finish_date=self.tomorrow,
+                             min_participants=2, max_participants=2,
+                             start_date=self.today)
+        trial.save()
         user = models.User(pk=2)
         with patch.object(models, 'Participant') as ppart:
             ppart.objects.filter.return_value.count.return_value = 0
@@ -112,7 +115,6 @@ class TrialTestCase(TemporalTestCase):
             ppart.objects.filter.assert_called_once_with(trial=trial, user=user)
             ppart.objects.filter.return_value.count.assert_called_once_with()
             ppart.assert_called_once_with(trial=trial, user=user)
-            ppart.return_value.save.assert_called_once_with()
 
     @patch.object(models.Trial, 'participant_set')
     def test_randomise_second_time(self, pset):

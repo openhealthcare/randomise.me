@@ -161,7 +161,7 @@ class TrialDetail(DetailView):
         detail_template = 'trials/trial_detail_recruiting.html'
         page_title = 'Recruiting Trial'
         if trial.finished:
-            detail_template = 'trials/trial_detail_repot.hrtml'
+            detail_template = 'trials/trial_detail_report.html'
 
         elif self.request.user.is_authenticated():
             if trial.owner == self.request.user:
@@ -169,6 +169,9 @@ class TrialDetail(DetailView):
             elif trial.participant_set.filter(user=self.request.user).count() > 0:
                 detail_template = 'trials/trial_detail_participant.html'
                 page_title = 'Participating In'
+                group = trial.participant_set.get(user=self.request.user).group
+                instructions = group.name == 'A' and trial.group_a or trial.group_b
+                context['instructions'] = instructions
 
         context['detail_template'] = detail_template
         context['page_title'] = page_title

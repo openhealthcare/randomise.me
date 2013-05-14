@@ -245,7 +245,7 @@ get the intervention"""
             raise exceptions.AlreadyJoinedError()
         if self.participant_set.count() >= self.max_participants:
             raise exceptions.TooManyParticipantsError()
-        Participant(trial=self, user=user).save()
+        Participant(trial=self, user=user).randomise().save()
         return
 
     def randomise(self):
@@ -353,6 +353,17 @@ class Participant(models.Model):
         """
         return '<{0} - {1} ({2})>'.format(self.user, self.trial, self.group)
 
+    def randomise(self):
+        """
+        Randomise this participant into a group
+
+        Return: Participant
+        Exceptions: None
+        """
+        self.group = random.choice(self.trial.ensure_groups())
+        self.save()
+        return self
+
     def send_instructions(self):
         """
         Email the participant their instructions for this trial.
@@ -382,7 +393,6 @@ class Participant(models.Model):
                 }
 
         Message.send()
-
         return
 
 

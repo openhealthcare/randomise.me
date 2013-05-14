@@ -32,14 +32,23 @@
 </div>
 
 <h3>
-  <span class="light">TRIAL</span> <span class="red bold">META</span>
+  <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
 </h3>
 <div class="feature-box">
   <div class="row-fluid">
       <!-- Main panel -->
       <div class="span9">
+        <h3>Instructions</h3>
         <p>
+          <i>
+          {{ instructions }}
+          </i>
+        </p>
+        <h3>Description</h3>
+        <p>
+          <i>
           {{ trial.description }}
+          </i>
         </p>
       </div>
       {% include 'trials/trial_detail_sidebar.html' %}
