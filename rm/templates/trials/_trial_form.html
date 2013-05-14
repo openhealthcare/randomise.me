@@ -1,6 +1,6 @@
 {% load bootstrap %}
 <div class="row-fluid">
-<form id="newtrial_form" method="post" action="" data-validate="parsley">
+<form id="newtrial_form" method="post" action="">
   {{ Variable.management_form }}
   {% csrf_token %}
   {% if form.errors %}

@@ -54,6 +54,99 @@ ul li {
     list-style: none;
 }
 
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  background-color: #d9d2ce;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+  -webkit-transition: none;
+     -moz-transition: none;
+       -o-transition: none;
+          transition: none;
+   border-radius: 0px;
+   height: 30px;
+}
+
+textarea {
+    height: auto;
+    width: auto;
+}
+
+textarea.parsley-error,
+input[type="text"].parsley-error,
+input[type="password"].parsley-error,
+input[type="datetime"].parsley-error,
+input[type="datetime-local"].parsley-error,
+input[type="date"].parsley-error,
+input[type="month"].parsley-error,
+input[type="time"].parsley-error,
+input[type="week"].parsley-error,
+input[type="number"].parsley-error,
+input[type="email"].parsley-error,
+input[type="url"].parsley-error,
+input[type="search"].parsley-error,
+input[type="tel"].parsley-error,
+input[type="color"].parsley-error,
+.uneditable-input.parsley-error {
+  background-color: #ffc711;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+  -webkit-transition: none;
+     -moz-transition: none;
+       -o-transition: none;
+          transition: none;
+   border-radius: 0px;
+}
+
+select.parsley-error {
+  background-color: #ffc711;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  /*border-color: rgba(82, 168, 236, 0.8);*/
+  outline: 0;
+  outline: none
+  /* IE6-9 */
+
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
 /* Custom container */
 .container {
     margin: 0 auto;
@@ -304,6 +397,17 @@ html.nologo .masthead #header-logo {
 }
 #id_honeypot {
     display: none;
+}
+
+ul.parsley-error-list {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+ul.parsley-error-list {
+    margin: 0px;
+    padding: 0px;
+    color: #e54f25;
 }
 
 /* Graph Stuffs */

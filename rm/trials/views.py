@@ -5,6 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.forms.models import inlineformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
@@ -15,7 +16,7 @@ from extra_views import NamedFormsetsMixin, ModelFormSetView
 import ffs
 
 from rm import exceptions
-from rm.trials.forms import (TrialForm, TrialReportForm, UserTrialForm,
+from rm.trials.forms import (TrialForm, VariableForm, TrialReportForm, UserTrialForm,
                              UserReportForm)
 from rm.trials.models import Trial, Report, Variable, SingleUserTrial, SingleUserReport
 
@@ -171,8 +172,21 @@ class TrialDetail(DetailView):
         return context
 
 
+
+
 class VariableInline(InlineFormSet):
     model = Variable
+    form = VariableForm
+
+
+    def get_formset(self):
+        """
+        Returns the formset class from the inline formset factory
+        """
+        kwargs = self.get_factory_kwargs()
+        kwargs['form'] = VariableForm
+        return inlineformset_factory(self.model, self.get_inline_model(), **kwargs)
+
 
 class TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView):
     model = Trial

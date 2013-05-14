@@ -6,6 +6,7 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.forms import fields, widgets
 from django.forms.models import inlineformset_factory
+from django.forms.models import ModelForm
 from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
@@ -88,7 +89,7 @@ class TrialForm(BetterModelForm):
             ]
 
         widgets = {
-            'name': widgets.TextInput(attrs={
+            'title': widgets.TextInput(attrs={
                     'data-required' : 'true',
                     'data-maxlength': '200'
                     }),
@@ -104,6 +105,12 @@ class TrialForm(BetterModelForm):
             'group_b': widgets.Textarea(attrs={
                     'data-required': 'true'
                     }),
+            'group_a_desc': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'group_b_desc': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
             'min_participants': widgets.TextInput(attrs={
                     'data-required': 'true',
                     'data-type'    : 'digits',
@@ -112,6 +119,7 @@ class TrialForm(BetterModelForm):
             'max_participants': widgets.TextInput(attrs={
                     'data-required': 'true',
                     'data-type'    : 'digits',
+                    'data-min'     : '1'
                     }),
             'recruitment': widgets.RadioSelect(),
             }
@@ -122,6 +130,38 @@ class TrialForm(BetterModelForm):
         """
         if validators.not_historic(self.cleaned_data['finish_date']):
             return self.cleaned_data['finish_date']
+
+
+class VariableForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        """
+
+        Arguments:
+        - `self`:
+        - `*args`:
+        - `**kwargs`:
+
+        Return:
+        Exceptions:
+        """
+        print 'this'
+        ModelForm.__init__(self, *args, **kwargs)
+
+
+    class Meta:
+        model = Variable
+
+        widgets = {
+            'style': widgets.Select(attrs={
+                    'data-required': 'true'
+                    }),
+            'question': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+
+
+            }
 
 # TrialFormSet = inlineformset_factory(TrialForm, Variable)
 

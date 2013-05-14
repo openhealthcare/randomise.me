@@ -1,3 +1,4 @@
+
 $(document).ready( function(){
     $('.datepicker').datepicker();
 
@@ -5,4 +6,5 @@ $(document).ready( function(){
         interval: false
         , pause: 'hover'
     }
+
 });
