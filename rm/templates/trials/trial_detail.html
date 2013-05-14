@@ -2,11 +2,11 @@
 {% load share %}
 {% load trial_cta %}
 
-{% block extratitle %} - Trials - {{ trial.name }}{% endblock %}
+{% block extratitle %} - Trials - {{ trial.title }}{% endblock %}
 {% block content %}
 <div class="page">
   <h1>
-    <span class="greyunder">Your Trial</span>
+    <span class="greyunder">{{ page_title }}</span>
   </h1>
   <div class="row-fluid">
     <div class="span6">

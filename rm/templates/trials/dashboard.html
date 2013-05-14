@@ -16,12 +16,12 @@
         <span class="light">TRIALS YOU ARE </span><span class="bold red">RUNNING</span>
       </h2>
       <div class="row-fluid">
-        <div class="span12 grey-back feature-box">
+        <div class="span12 feature-box">
           {% for trial in running %}
             <div class="row dashrow">
               <div class="span6">
                 <h3 class="light">
-                  <a href="{{ trial.get_absolute_url }}">
+                  <a href="{{ trial.get_absolute_url }}" class="feature-heading">
                     {{ trial.title }}
                     </a>
                 </h3>
@@ -58,30 +58,22 @@
       </h2>
 
       <div class="row-fluid drop24">
-        <div class="span12 grey-back feature-box">
-          <table class="table table-striped table-bordered">
-            <tr>
-              <th>Name</th>
-              <th>Finish Date</th>
-              <th>Data</th>
-            </tr>
-            {% for part in participating %}
-            <tr>
-              <td>
-                <a href="{{ part.trial.get_absolute_url }}">
+        <div class="span12 feature-box">
+          {% for part in participating %}
+            <div class="row dashrow">
+              <div class="span6">
+                <h3 class="light">
+                  <a href="{{ part.trial.get_absolute_url }}" class="feature-heading">
                   {{ part.trial.title }}
                 </a>
-              </td>
-              <td>{{ part.trial.finish_date}}</td>
-              <td>
+                </h3>
+              </div>
+              <div class="span6">
                 <a href="{{ part.trial.get_reporting_url}}" class="btn btn-danger">
                   Report data
                 </a>
-              </td>
-            </tr>
-            {% endfor %}
-          </table>
-
+              </div>
+          {% endfor %}
         </div>
       </div>
     {% endif %}
@@ -97,7 +89,7 @@
           {% for trial in completed %}
             <div class="row dashrow">
               <div class="span6">
-                <a href="{{ trial.get_absolute_url }}">
+                <a href="{{ trial.get_absolute_url }}" class="feature-heading">
                   <h3 class="light">
                     {{ trial.title }}
                   </h3>
@@ -131,7 +123,7 @@
             {% with participant.trial as trial %}
               <div class="row dashrow">
                 <div class="span6">
-                  <a href="{{ trial.get_absolute_url }}">
+                  <a href="{{ trial.get_absolute_url }}" class="feature-heading">
                     <h3 class="light">
                       {{ trial.title }}
                     </h3>
@@ -155,9 +147,5 @@
       </div>
     {% endif %}
 
-
-    <div class="row-fluid drop24">
-      {% join_trial_widget %}
-    </div>
 
 {% endif %}

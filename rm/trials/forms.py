@@ -163,8 +163,6 @@ class VariableForm(ModelForm):
 
             }
 
-# TrialFormSet = inlineformset_factory(TrialForm, Variable)
-
 
 class TrialReportForm(BetterModelForm):
     """
@@ -180,7 +178,6 @@ class TrialReportForm(BetterModelForm):
             ('Main', {'fields': ['date', 'score'],
                        'legend': 'Report Data',
                        'description': ''}),
-
             ]
 
     def clean_date(self):

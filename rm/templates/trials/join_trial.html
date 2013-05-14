@@ -1,27 +1,40 @@
 {% extends 'baser.html' %}
-{% load tabs %}
 {% block extratitle %} - Join a Trial - {{ trial.name }}{% endblock %}
 {% block content %}
-<div class="page">
+<h3>
+  <span class="red bold">JOIN</span> <span class="light">TRIAL</span>
+</h3>
+
+<div class="feature-box">
   <div class="row-fluid">
-    {% tabs '' %}
-    {% if errors %}
-      {% for err in errors %}
-        <p>{{ err }}</p>
-      {% endfor %}
-    {% else%}
-      <p>
-        Congratulations - you're signed up to
-        <a href="{% url 'trial-detail' trial.pk %}">
-          <b>{{ trial.name }}</b>
-        </a>
-        .
-      </p>
-      <p>
-        When the trial starts, we'll email you the instructions,
-        so make sure to check your mail!
-      </p>
-    {% endif %}
+    {% if request.method == 'POST' %}
+      {% if errors %}
+        {% for err in errors %}
+          <p>{{ err }}</p>
+        {% endfor %}
+      {% else%}
+        <p>
+          Congratulations - you're signed up to
+          <a href="{% url 'trial-detail' trial.pk %}">
+            <b>{{ trial.title }}</b>
+          </a>
+          .
+        </p>
+        <p>
+          When the trial starts, we'll email you the instructions,
+          so make sure to check your mail!
+        </p>
+     {% endif %}
+   {% else %}
+     <p>
+       CONSENT TEXT HERE. WOULD YOU LIKE TO JOIN THIS TRIAL? REALLY? YOU CAN UNDO
+       THIS, BUT ANY DATA YOU DO SUBMIT WILL BE INCLUDED IN THE EVENTUAL RESULTS.
+     </p>
+     <form method="POST" id="join-form" action="{% url 'join-trial' trial.pk %}">
+       {% csrf_token %}
+       <button class="btn btn-danger">Join this Trial</button>
+     </form>
+   {% endif %}
   </div>
 </div>
 {% endblock %}

@@ -305,6 +305,21 @@ class Variable(models.Model):
     def __unicode__(self):
         return '<Variable {0} ({1})>'.format(self.name, self.style)
 
+    def report_form(self):
+        """
+        Return the relevant report form with this as it's
+        instance.
+
+        Return: Form
+        Exceptions: None
+        """
+        from rm.trials import forms
+        data = dict(
+            trial=self.trial,
+            variable=self
+            )
+        return forms.TrialReportForm(initial=data)
+
 
 class Group(models.Model):
     """

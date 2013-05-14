@@ -106,7 +106,7 @@ class ReportView(CreateView):
         for variable in self.trial.variable_set.all():
             report = Report.objects.get_or_create(trial=self.trial, date=date,
                                                   group=group, variable=variable)[0]
-            report.score = int(self.request.POST['id-'+variable.name])
+            report.score = int(self.request.POST['score'])
             report.save()
 
         return HttpResponseRedirect(self.trial.get_absolute_url())
@@ -159,16 +159,19 @@ class TrialDetail(DetailView):
         context = super(TrialDetail, self).get_context_data(**kw)
         trial = context['trial']
         detail_template = 'trials/trial_detail_recruiting.html'
+        page_title = 'Recruiting Trial'
         if trial.finished:
-            detail_template = 'trials/trial_detail_report.html'
+            detail_template = 'trials/trial_detail_repot.hrtml'
 
         elif self.request.user.is_authenticated():
             if trial.owner == self.request.user:
                 detail_template = 'trials/trial_detail_owner.html'
             elif trial.participant_set.filter(user=self.request.user).count() > 0:
                 detail_template = 'trials/trial_detail_participant.html'
+                page_title = 'Participating In'
 
         context['detail_template'] = detail_template
+        context['page_title'] = page_title
         return context
 
 
@@ -284,6 +287,13 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
         context['errors'] = self.errors
         context['trial']  = self.trial
         return context
+
+
+class LeaveTrial(LoginRequiredMixin, TemplateView):
+    """
+    Allow a user to leave a trial
+    """
+    template_name = 'trials/leave_trial.html'
 
 class TrialAsCsv(View):
     """

@@ -12,4 +12,9 @@ def join_trial_widget(context):
     """
     Render the join trial widget
     """
-    return dict(recruiting=Trial.objects.recruiting()[:4])
+    request = context['request']
+    user = request.user
+    recruiting = Trial.objects.recruiting()
+    if user.is_authenticated():
+        recruiting = recruiting.exclude(owner=user)
+    return dict(recruiting=recruiting[:4])

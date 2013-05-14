@@ -1,10 +1,47 @@
-<div class="row-fluid">
-  <div class="span8 hero-unit">
-    <p>{{trial.description}}</p>
-    <a href="{% url 'trial-report' trial.pk %}" class="btn btn-danger">
-      Report Data
-    </a>
-    </form>
-
+{% load bootstrap %}
+<h3>
+  <span class="red bold">REPORT</span> <span class="light">DATA</span>
+</h3>
+<div class="feature-box">
+  <div class="row-fluid">
+    {% for variable in trial.variable_set.all %}
+    <div class="span6">
+      {% if forloop.first %}
+        {% with variable.report_form as form %}
+        <form id="usertrialreport_form" method="post"
+              action="{% url 'trial-report' trial.pk %}">
+          {% csrf_token %}
+          {{ form.date|bootstrap }}
+          {{ form.score|bootstrap }}
+          <button class="btn btn-danger">
+            report data
+          </button>
+        </form>
+        {% endwith %}
+      {% endif %}
+    </div>
+    <div class="span6">
+      <h3>
+        <i>
+          {{ variable.question }}
+        </i>
+      </h3>
+    </div>
+    {% endfor %}
   </div>
 </div>
+
+<h3>
+  <span class="light">TRIAL</span> <span class="red bold">META</span>
+</h3>
+<div class="feature-box">
+  <div class="row-fluid">
+      <!-- Main panel -->
+      <div class="span9">
+        <p>
+          {{ trial.description }}
+        </p>
+      </div>
+      {% include 'trials/trial_detail_sidebar.html' %}
+    </div>
+  </div> <!-- Row Fluid -->

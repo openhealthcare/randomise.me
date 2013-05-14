@@ -1,10 +1,23 @@
-<div class="row-fluid">
-  <div class="span8 hero-unit">
-    <p>{{trial.description}}</p>
-    <form method="POST" id="join-form" action="{% url 'join-trial' trial.pk %}">
-      {% csrf_token %}
-      <button class="btn btn-danger">Join this Trial</button>
-    </form>
-
-  </div>
-</div>
+<h3>
+  <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
+</h3>
+<div class="feature-box">
+  <div class="row-fluid">
+      <!-- Main panel -->
+      <div class="span9">
+        <h3>
+          Participants
+          <span class="bold">
+            {{ trial.participant_set.count }}/{{ trial.min_participants }}
+            </span>
+        </h3>
+        <p>
+          {{ trial.description }}
+        </p>
+        <a href="{% url 'join-trial' trial.pk %}" class="btn btn-warning">
+          join trial
+          </a>
+      </div>
+      {% include 'trials/trial_detail_sidebar.html' %}
+    </div>
+  </div> <!-- Row Fluid -->

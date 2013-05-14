@@ -1,5 +1,5 @@
 {% extends 'baser.html' %}
-{% load my_trials %}
+{% load my_trials join_trial %}
 {% block extratitle %} - Dashboard{% endblock %}
 {% block content %}
   <div class="page">
@@ -9,5 +9,9 @@
       </span>
     </h1>
     {% my_trials %}
+    <div class="row-fluid drop24">
+      {% join_trial_widget %}
+    </div>
+
   </div>
 {% endblock %}
