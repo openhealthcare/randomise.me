@@ -1,7 +1,13 @@
 {% load bootstrap %}
 {% for period in items %}
   <div class="span2 cal-item">
-    <a href="#report-{{period.date.isoformat}}" role="button" data-toggle="modal">
+    <a
+       {% if period.reported %}
+         href="#"
+       {% else %}
+       href="#report-{{period.date.isoformat}}" role="button" data-toggle="modal"
+       {% endif %}
+       >
       <p>{{ period.date }}
                 <i class="{% if period.reported %}icon-ok-sign{%endif%}"></i>
       </p>

@@ -26,6 +26,7 @@ var RM = {
                     var active = $('.modal.in');
                     var period = $('a[href$="'+active.attr('id')+'"]');
                     var status = period.children('p').children('i')
+                    period.attr('href', '#').attr('data-toggle', '').attr('role', '')
                     status.toggleClass('icon-ok-sign')
                     active.modal('toggle');
                     console.log('ta!');
