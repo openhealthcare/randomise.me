@@ -1,9 +1,11 @@
 <!-- Side panel -->
 <div class="span3 side-panel">
   <ul class="unstyled">
+    {% if trial.finished %}
     <li>
-      <a href="#">Export as CSV</a>
+      <a href="{% url 'trial-as-csv' trial.pk %}">Export as CSV</a>
     </li>
+    {% endif %}
     <li>
       <a href="{% url 'reproduce-trial' trial.pk %}">Duplicate Trial</a>
     </li>
