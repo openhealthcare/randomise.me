@@ -65,6 +65,30 @@ var RM = {
             )
         },
 
+        init_modalinvite: function(){
+            $('form#invite-form').ajaxForm({
+
+                beforeSubmit: function(){
+                    $('#btn-invite').attr('disabled', true)
+                },
+
+                success: function(data){
+                    $('#btn-invite').attr('disabled', false)
+                    console.log('ta!');
+                    var email_input = $('#invite-form input:visible');
+                    var invited = email_input.attr('value');
+                    email_input.attr('value', '');
+                    $('#invited-list').append('<li>'+invited+'</li>');
+                },
+
+                error: function(data){
+                    console.log('nah!')
+                    $('#btn-invite').attr('disabled', false)
+                },
+
+            })
+        },
+
     },
 
     graphs: {

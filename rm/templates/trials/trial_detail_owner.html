@@ -47,8 +47,47 @@
               </h3>
             </div>
             <div class="span6">
-              <a href="#" class="btn btn-warning">invite people</a>
+              <a href="#invite-modal" role="button" data-toggle="modal"
+                 class="btn btn-warning">
+                 invite people
+              </a>
             </div>
+
+  <!-- Modal -->
+  <div id="invite-modal" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Invite people to this trial</h3>
+       </div>
+       <div class="modal-body">
+         <form method="POST" id="invite-form" action="{% url 'trial-invite' trial.pk %}">
+           {% csrf_token %}
+           <input type="hidden" name="trial_pk" value="{{trial.pk}}" />
+         <p>
+           <input type="text" name="email" value="" placeholder="larry@example.com"/>
+           <button id="btn-invite" class="btn btn-danger">invite</button>
+         </p>
+         </form>
+         <h4>Currently invited</h4>
+         <ul id="invited-list">
+           {% for invitation in trial.invitation_set.all %}
+             <li>
+               {{ invitation.email }}
+             </li>
+           {% endfor %}
+         </ul>
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">close</button>
+       </div>
+       <script type="text/javascript">
+         $(document).ready( function(){
+           RM.forms.init_modalinvite();
+         });
+       </script>
+  </div>
+
+
           </div>
         {% else %}
           <div class="row-fluid">

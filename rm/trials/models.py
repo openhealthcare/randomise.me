@@ -56,6 +56,7 @@ get the intervention"""
     # Step 4
     recruitment       = models.CharField(max_length=2, choices=RECRUITMENT_CHOICES,
                                          default=ANYONE)
+
     # Step 5
     description       = models.TextField(blank=True, null=True)
     group_a_desc      = models.TextField(blank=True, null=True)
@@ -298,6 +299,44 @@ get the intervention"""
             raise exceptions.TrialFinishedError()
         for participant in self.participant_set.all():
             participant.send_instructions()
+        return
+
+
+class Invitation(models.Model):
+    """
+    An email we've invited to a trial.
+    """
+    trial = models.ForeignKey(Trial)
+    email = models.EmailField(max_length=254)
+    sent  = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '{0} - {1}'.format(self.email, self.trial.title)
+
+    def invite(self):
+        """
+        Send an invitation email to this invitee.
+
+        Return: None
+        Exceptions: None
+        """
+        subject = 'Invitation to participate in {0}'.format(self.trial.title)
+        class Message(letter.Letter):
+            Postie   = POSTIE
+
+            From     = settings.DEFAULT_FROM_EMAIL
+            To       = self.email;
+            Subject  = subject
+            Template = 'email/rm_invitation'
+            Context  = {
+                'href'        : settings.DEFAULT_DOMAIN + self.trial.get_absolute_url(),
+                'owner'       : self.trial.owner,
+                'name'        : self.trial.title
+                }
+
+        Message.send()
+        self.sent = True
+        self.save()
         return
 
 

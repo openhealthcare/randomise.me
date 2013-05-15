@@ -14,9 +14,19 @@
         <p>
           {{ trial.description }}
         </p>
+        {% if trial.recruitment == trial.INVITATION %}
+          {% if can_join %}
+            <a href="{% url 'join-trial' trial.pk %}" class="btn btn-warning">
+              join trial
+              </a>
+          {% else %}
+          <p>Participation in this trial is by invitation only</p>
+          {% endif %}
+        {% else %}
         <a href="{% url 'join-trial' trial.pk %}" class="btn btn-warning">
           join trial
           </a>
+        {% endif %}
       </div>
       {% include 'trials/trial_detail_sidebar.html' %}
     </div>

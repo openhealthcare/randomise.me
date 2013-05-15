@@ -12,9 +12,8 @@ admin.autodiscover()
 from rm.views import HomeView, RMContactView
 from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
-                             LeaveTrial, PeekTrial,
+                             LeaveTrial, PeekTrial, InviteTrial,
                              ReproduceTrial, TrialAsCsv,
-#                             UserTrialCreate, UserTrialDetail, UserReport,
                              AllTrials, FeaturedTrialsList, TrialSearchView)
 from rm.userprofiles.views import RMUserUpdate
 
@@ -78,6 +77,7 @@ urlpatterns = patterns(
     # url(r'trials/rm/(?P<pk>\d+)/report-ajax', TrialReportAjax.as_view(),
     #     name='trial-report-ajax'),
     url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
+    url(r'trials/rm/(?P<pk>\d+)/invite$', InviteTrial.as_view(), name='trial-invite'),
     url(r'trials/rm/(?P<pk>\d+)/peek$', PeekTrial.as_view(), name='trial-peek'),
     url(r'trials/rm/(?P<pk>\d+)/leave$', LeaveTrial.as_view(), name='leave-trial'),
     url(r'trials/rm/(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(),

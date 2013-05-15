@@ -24,22 +24,23 @@
       </li>
     {% endif %}
   </ul>
-        <!-- Modal -->
-        <div id="peek" class="modal hide fade" tabindex="-1"
-             role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-header">
-            <h3 id="myModalLabel">Peek at the results</h3>
-          </div>
-          <div class="modal-body">
-            <p>
-              YOU CAN PEEK AT THE RESULTS IF YOU REALLY WANT TO BUT THIS CAN
-              CAUSE BAD THINGS TO HAPPEN = ARE YOU SHURE?
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
-            <a href="{% url 'trial-peek' trial.pk%}" class="btn btn-danger">peek</a>
-          </div>
-        </div>
+
+  <!-- Modal -->
+  <div id="peek" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Peek at the results</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           YOU CAN PEEK AT THE RESULTS IF YOU REALLY WANT TO BUT THIS CAN
+           CAUSE BAD THINGS TO HAPPEN = ARE YOU SHURE?
+         </p>
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+         <a href="{% url 'trial-peek' trial.pk%}" class="btn btn-danger">peek</a>
+       </div>
+  </div>
 
 </div>

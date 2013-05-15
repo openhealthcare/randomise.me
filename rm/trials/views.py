@@ -18,7 +18,7 @@ import ffs
 
 from rm import exceptions
 from rm.trials.forms import (TrialForm, VariableForm)
-from rm.trials.models import Trial, Report, Variable
+from rm.trials.models import Trial, Report, Variable, Invitation
 
 def serve_maybe(meth):
     """
@@ -214,10 +214,13 @@ class TrialDetail(DetailView):
         """
         context = super(TrialDetail, self).get_context_data(**kw)
         trial = context['trial']
+
         detail_template = 'trials/trial_detail_recruiting.html'
         page_title = 'Recruiting Trial'
+
         if trial.finished:
             detail_template = 'trials/trial_detail_report.html'
+            page_title = 'Trial Report'
 
         elif self.request.user.is_authenticated():
             if trial.owner == self.request.user:
@@ -229,6 +232,18 @@ class TrialDetail(DetailView):
                 group = trial.participant_set.get(user=self.request.user).group
                 instructions = group.name == 'A' and trial.group_a or trial.group_b
                 context['instructions'] = instructions
+
+
+        if trial.recruitment == trial.INVITATION:
+            can_join = trial.can_join()
+            if not self.request.user.is_authenticated():
+                can_join = False
+            elif trial.invitation_set.filter(email=self.request.user.email).count() < 1:
+                can_join = False
+            context['can_join'] = can_join
+
+
+
 
         context['detail_template'] = detail_template
         context['page_title'] = page_title
@@ -285,6 +300,24 @@ class PeekTrial(TrialByPkMixin, OwnsTrialMixin, TemplateView):
     Peek at the results
     """
     template_name = 'trials/peek.html'
+
+
+class InviteTrial(View):
+    def post(self, *args, **kw):
+        """
+        Invite to the trial if:
+
+        The user is the owner.
+        The trial is invitation only.
+        """
+        trial = Trial.objects.get(pk=self.request.POST['trial_pk'])
+        if self.request.user.is_authenticated() and self.request.user == trial.owner:
+            if trial.recruitment == trial.INVITATION:
+                invitation = Invitation.objects.get_or_create(trial=trial,
+                                                              email=self.request.POST['email'])[0]
+                invitation.invite()
+                return HttpResponse('YAY')
+        return HttpResponseForbidden('NO')
 
 
 class JoinTrial(LoginRequiredMixin, TemplateView):
@@ -374,7 +407,6 @@ class LeaveTrial(LoginRequiredMixin, TemplateView):
         return context
 
 
-
 class TrialAsCsv(View):
     """
     Download the trial's raw data as a csv.
@@ -404,40 +436,6 @@ class TrialAsCsv(View):
         return raw
 
 
-# Views for trials users run on themselves
-# class UserTrialCreate(LoginRequiredMixin, CreateView):
-#     """
-#     Let's make a trial!
-#     """
-#     context_object_name = 'trial'
-#     model               = SingleUserTrial
-#     form_class          = UserTrialForm
-
-#     def form_valid(self, form):
-#         """
-#         Add ownership details to the trial
-#         """
-#         form.instance.owner = self.request.user
-#         return super(UserTrialCreate, self).form_valid(form)
-
-
-# class UserReport(ReportView):
-#     """
-#     Report a single data point for this trial
-#     """
-#     model       = SingleUserReport
-#     trial_model = SingleUserTrial
-#     form_class  = UserReportForm
-
-
-# class UserTrialDetail(DetailView):
-#     """
-#     View the details of a single user trial
-#     """
-#     context_object_name = 'trial'
-#     model               = SingleUserTrial
-
-
 # Views for trial discovery - lists, featured, etc.
 
 class AllTrials(TemplateView):
@@ -452,7 +450,7 @@ class AllTrials(TemplateView):
         """
         context = super(AllTrials, self).get_context_data(**kw)
         today = datetime.datetime.today()
-        context['active'] = Trial.objects.active()
+        context['active'] = Trial.objects.active().filter(recruitment=Trial.ANYONE)
         context['past'] = Trial.objects.completed()
         return context
 

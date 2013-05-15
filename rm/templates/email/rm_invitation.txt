@@ -1,0 +1,8 @@
+Invitation to participate in a Randomised Controlled Trial:
+===========================================================
+
+{{ owner }} would like to invite you to participate in their trial:
+
+{{ name }}
+
+{{href}}
