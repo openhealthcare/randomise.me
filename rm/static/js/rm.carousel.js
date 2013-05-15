@@ -118,7 +118,7 @@
 
   , next: function () {
       if (this.sliding) return
-      valid = this.validp()
+      var valid = this.validp()
       if(valid == false){
           return
       }

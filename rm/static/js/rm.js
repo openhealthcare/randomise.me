@@ -2,6 +2,45 @@
 //
 
 var RM = {
+
+    forms :{
+        init_modalreports: function(){
+            $('form.ajaxform').ajaxForm({
+
+                beforeSubmit: function(arr, $form, options){
+
+                    var valid = _.every(
+                        $('.modal.in .modal-body input:visible'),
+                        function(el){
+                            return $(el).parsley('destroy').parsley('validate') !== false
+                        });
+
+                    if(!valid){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                },
+
+                success: function(data){
+                    var active = $('.modal.in');
+                    var period = $('a[href$="'+active.attr('id')+'"]');
+                    var status = period.children('p').children('i')
+                    status.toggleClass('icon-ok-sign')
+                    active.modal('toggle');
+                    console.log('ta!');
+                    console.log(active);
+                },
+
+                error: function(data){
+                    console.log('nah!')
+                    console.log(data);
+                },
+
+            })
+        }
+    },
+
     graphs: {
         single_user_trial: function(selector, data){
             RM.graphs.trial_bar(selector, data, 420, 60)

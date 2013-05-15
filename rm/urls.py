@@ -14,7 +14,7 @@ from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
                              LeaveTrial,
                              ReproduceTrial, TrialAsCsv,
-                             UserTrialCreate, UserTrialDetail, UserReport,
+#                             UserTrialCreate, UserTrialDetail, UserReport,
                              AllTrials, FeaturedTrialsList, TrialSearchView)
 from rm.userprofiles.views import RMUserUpdate
 
@@ -75,6 +75,8 @@ urlpatterns = patterns(
     url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),
     url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
     url(r'trials/rm/(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
+    # url(r'trials/rm/(?P<pk>\d+)/report-ajax', TrialReportAjax.as_view(),
+    #     name='trial-report-ajax'),
     url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
     url(r'trials/rm/(?P<pk>\d+)/leave$', LeaveTrial.as_view(), name='leave-trial'),
     url(r'trials/rm/(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(),

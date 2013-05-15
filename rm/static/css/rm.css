@@ -42,18 +42,22 @@ a {
 }
 
 a:hover {
-    color: white;
-    background: #e54f25;
     text-decoration: none;
 }
 a.img:hover {
     background: transparent;
+}
+a:hover p {
+    background: #e54f25;
 }
 
 ul li {
     list-style: none;
 }
 
+form {
+    margin: 0px;
+}
 
 textarea,
 input[type="text"],
@@ -147,6 +151,19 @@ input[type="color"]:focus,
           box-shadow: none;
 }
 
+
+.modal {
+    background: #fff9f7;
+    border-radius: 0px;
+}
+.modal-header {
+    border-bottom: 2px solid #959291;
+}
+.modal-footer {
+    background: #e9ded3;
+    border-top: none;
+}
+
 /* Custom container */
 .container {
     margin: 0 auto;
@@ -193,13 +210,9 @@ input[type="color"]:focus,
   cursor: pointer;
   background-color: #f5f5f5;
   *background-color: #e6e6e6;
-  background-image: none
-  background-repeat: repeat-x;
-  border: 1px solid #cccccc;
-  *border: 0;
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  border-bottom-color: #b3b3b3;
+  background-image: none;
+  border: none;
+  border-bottom: none;
   -webkit-border-radius: 0px;
      -moz-border-radius: 0px;
           border-radius: 0px;
@@ -207,7 +220,14 @@ input[type="color"]:focus,
   -webkit-box-shadow: none;
      -moz-box-shadow: none;
           box-shadow: none;
+    background-color: #e54f25;
+    *background-color: #e54f25;
+    background-image: none;
+    background-repeat: repeat-x;
+    border: none;
+    text-shadow: none;
 }
+
 .btn.larger {
     font-size: 24px;
     line-height: 30px;
@@ -224,9 +244,22 @@ input[type="color"]:focus,
 }
 
 .btn-warning:hover,
-.btn-danger:hover {
+.btn-danger:hover,
+.btn:hover     {
     background-color: #393632;
     *background-color: #393632;
+}
+
+.btn:hover,
+.btn:focus {
+    outline: none;
+    border: none;
+    color: white;
+  background-position: inherit;
+  -webkit-transition: none;
+     -moz-transition: none;
+       -o-transition: none;
+          transition: none;
 }
 
 .btn-danger {
@@ -529,7 +562,7 @@ ul li {
   *background-color: #e6e6e6;
   background-image: none
   background-repeat: repeat-x;
-  border: 1px solid #cccccc;
+  border: none;
   *border: 0;
   border-color: #e6e6e6 #e6e6e6 #bfbfbf;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -856,4 +889,10 @@ html.nologo .masthead #header-logo {
 .side-panel a:hover {
     color: white;
     background-color: #e54f25;
+}
+
+.cal-item {
+    border: 1px solid #393632;
+    height: 100px;
+    margin-bottom: 12px;
 }

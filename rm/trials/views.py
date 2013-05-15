@@ -16,9 +16,8 @@ from extra_views import NamedFormsetsMixin, ModelFormSetView
 import ffs
 
 from rm import exceptions
-from rm.trials.forms import (TrialForm, VariableForm, TrialReportForm, UserTrialForm,
-                             UserReportForm)
-from rm.trials.models import Trial, Report, Variable, SingleUserTrial, SingleUserReport
+from rm.trials.forms import (TrialForm, VariableForm)
+from rm.trials.models import Trial, Report, Variable
 
 def serve_maybe(meth):
     """
@@ -101,13 +100,21 @@ class ReportView(CreateView):
 
         self.trial = self.trial_model.objects.get(pk=kw['pk'])
         date = datetime.datetime.strptime(self.request.POST['date'], '%d/%m/%Y').date()
-        group = self.trial.participant_set.get(user=self.request.user).group
+        participant = self.trial.participant_set.get(user=self.request.user)
+        group = participant.group
 
-        for variable in self.trial.variable_set.all():
-            report = Report.objects.get_or_create(trial=self.trial, date=date,
-                                                  group=group, variable=variable)[0]
+        variable = self.trial.variable_set.all()[0]
+
+        report = Report.objects.get_or_create(trial=self.trial, date=date,
+                                              participant=participant,
+                                              group=group, variable=variable)[0]
+        if variable.style == variable.SCORE:
             report.score = int(self.request.POST['score'])
-            report.save()
+        elif variable.style == variable.BINARY:
+            report.binary = bool(self.request.POST['binary'])
+        elif variable.style == variable.COUNT:
+            report.count = int(self.request.POST['count'])
+        report.save()
 
         return HttpResponseRedirect(self.trial.get_absolute_url())
 
@@ -129,6 +136,8 @@ class TrialReport(ReportView):
     """
     model       = Report
     trial_model = Trial
+
+
 
 
 # Views for user tabs
@@ -361,37 +370,37 @@ class TrialAsCsv(View):
 
 
 # Views for trials users run on themselves
-class UserTrialCreate(LoginRequiredMixin, CreateView):
-    """
-    Let's make a trial!
-    """
-    context_object_name = 'trial'
-    model               = SingleUserTrial
-    form_class          = UserTrialForm
+# class UserTrialCreate(LoginRequiredMixin, CreateView):
+#     """
+#     Let's make a trial!
+#     """
+#     context_object_name = 'trial'
+#     model               = SingleUserTrial
+#     form_class          = UserTrialForm
 
-    def form_valid(self, form):
-        """
-        Add ownership details to the trial
-        """
-        form.instance.owner = self.request.user
-        return super(UserTrialCreate, self).form_valid(form)
-
-
-class UserReport(ReportView):
-    """
-    Report a single data point for this trial
-    """
-    model       = SingleUserReport
-    trial_model = SingleUserTrial
-    form_class  = UserReportForm
+#     def form_valid(self, form):
+#         """
+#         Add ownership details to the trial
+#         """
+#         form.instance.owner = self.request.user
+#         return super(UserTrialCreate, self).form_valid(form)
 
 
-class UserTrialDetail(DetailView):
-    """
-    View the details of a single user trial
-    """
-    context_object_name = 'trial'
-    model               = SingleUserTrial
+# class UserReport(ReportView):
+#     """
+#     Report a single data point for this trial
+#     """
+#     model       = SingleUserReport
+#     trial_model = SingleUserTrial
+#     form_class  = UserReportForm
+
+
+# class UserTrialDetail(DetailView):
+#     """
+#     View the details of a single user trial
+#     """
+#     context_object_name = 'trial'
+#     model               = SingleUserTrial
 
 
 # Views for trial discovery - lists, featured, etc.

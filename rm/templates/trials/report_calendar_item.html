@@ -1,0 +1,67 @@
+{% load bootstrap %}
+{% for period in items %}
+  <div class="span2 cal-item">
+    <a href="#report-{{period.date.isoformat}}" role="button" data-toggle="modal">
+      <p>{{ period.date }}
+                <i class="{% if period.reported %}icon-ok-sign{%endif%}"></i>
+      </p>
+    </a>
+  </div>
+  <!-- Modal -->
+  <div id="report-{{period.date.isoformat}}" class="modal hide fade" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+      <h3 id="myModalLabel">Report data for {{ period.date }}</h3>
+    </div>
+    <form id="usertrialreport_form" method="post"
+          action="{% url 'trial-report' trial.pk %}" class="ajaxform">
+          {% csrf_token %}
+
+    <div class="modal-body">
+      <div class="row-fluid">
+
+    {% for variable in trial.variable_set.all %}
+    <div class="span6">
+      {% if forloop.first %}
+        {% with variable.report_form as form %}
+          <input id="id_date" name="date" readonly="true" size="16" type="hidden"
+                 value="{{period.date|date:"d/m/Y"}}">
+           {% if form.Meta.score %}
+             {{form.score|bootstrap}}
+           {% elif form.Meta.binary %}
+             {{form.binary|bootstrap}}
+           {% elif form.Meta.count %}
+             {{form.count|bootstrap}}
+           {% endif %}
+        {% endwith %}
+      {% endif %}
+    </div>
+    <div class="span6">
+      <h3>
+        <i>
+          {{ variable.question }}
+        </i>
+      </h3>
+    </div>
+    {% endfor %}
+
+      </div> <!-- row fluid -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn " data-dismiss="modal" aria-hidden="true">cancel</button>
+      <button class="btn btn-danger">
+        report data
+     </button>
+
+    </div>
+    </form>
+  </div><!--report-{{period.date.isoformat}}-->
+  <script type="text/javascript">
+
+    $(document).ready( function(){
+      RM.forms.init_modalreports();
+    });
+
+  </script>
+{% endfor %}

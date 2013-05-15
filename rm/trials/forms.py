@@ -11,7 +11,7 @@ from django.utils.html import format_html
 from form_utils.forms import BetterModelForm
 
 from rm import utils
-from rm.trials.models import Trial, Report, Variable, SingleUserTrial, SingleUserReport
+from rm.trials.models import Trial, Report, Variable
 from rm.trials import validators
 
 class BootstrapDatepickerWidget(widgets.DateInput):
@@ -51,6 +51,8 @@ class BootstrapDatepickerWidget(widgets.DateInput):
         attrs.update(bs_attrs)
         markup = super(BootstrapDatepickerWidget, self).render(name, value, attrs)
         return format_html(self.tpl, field=markup, today=utils.today())
+
+
 
 
 class TrialForm(BetterModelForm):
@@ -145,7 +147,6 @@ class VariableForm(ModelForm):
         Return:
         Exceptions:
         """
-        print 'this'
         ModelForm.__init__(self, *args, **kwargs)
 
 
@@ -164,21 +165,15 @@ class VariableForm(ModelForm):
             }
 
 
-class TrialReportForm(BetterModelForm):
+class BaseTrialReportForm(ModelForm):
     """
     Allow the reporting of data for a trial.
     """
     date = fields.DateField(
         input_formats = ['%d/%m/%Y',],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
-
-    class Meta:
-        model = Report
-        fieldsets = [
-            ('Main', {'fields': ['date', 'score'],
-                       'legend': 'Report Data',
-                       'description': ''}),
-            ]
+        widget=BootstrapDatepickerWidget(
+            format=['%d/%m/%Y',],
+            ))
 
     def clean_date(self):
         """
@@ -193,80 +188,80 @@ class TrialReportForm(BetterModelForm):
                 return dt
 
 
-class UserTrialForm(BetterModelForm):
+class ScoreReportForm(BaseTrialReportForm):
     """
-    Creating a single user trial for our users
+    Report on a score 1-10 variable
     """
-    start_date = fields.DateField(
-        input_formats = ['%d/%m/%Y',],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
-    finish_date = fields.DateField(
-        input_formats = ['%d/%m/%Y',],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',], default=lambda: utils.in_a(week=1)))
+    SCORE_CHOICES = (
+        (1,1),
+        (2,2),
+        (3,3),
+        (4,4),
+        (5,5),
+        (6,6),
+        (7,7),
+        (8,8),
+        (9,9),
+        (10,10)
+        )
 
     class Meta:
-        model = SingleUserTrial
-        fieldsets = [
-            ('Basic', {'fields': ['name'],
-                       'legend': 'Basic Details',
-                       'description': ''}),
-            ('Setup', {'fields': ['question', 'variable'],
-                       'legend': 'Trial Setup',
-                       'classes': ['collapsed']}),
-            ('Details', {'fields': ['group_a', 'group_b'],
-                         'legend': 'Trial Details',
-                         'classes': ['collapsed']}),
-            ('Duration', {'fields': ['start_date', 'finish_date'],
-                          'legend': 'Trial Duration',
-                          'classes': ['collapsed']})
-            ]
-        widgets = {
-            'name'      :  widgets.TextInput(attrs={
-                    'data-required': 'true',
-                    'data-maxlength': '200',
-                    'data-trigger':  'focusout change'
-                    }),
-            'question'  :  widgets.Textarea(attrs={
-                    'data-required': 'true'
-                    }),
-            'variable'  :  widgets.TextInput(attrs={
-                    'Data-required': 'true',
-                    'data-maxlength': '200',
-                    }),
-            'group_a'  :  widgets.Textarea(attrs={
-                    'data-required': 'true'
-                    }),
-            'group_b'  :  widgets.Textarea(attrs={
-                    'data-required': 'true'
-                    }),
-            }
+        score = True
+        model = Report
+
+    score = fields.IntegerField(
+        widget=widgets.Select(choices=SCORE_CHOICES, attrs={
+                'data-required': 'true'
+                })
+        )
 
 
-class UserReportForm(BetterModelForm):
+class BinaryReportForm(BaseTrialReportForm):
     """
-    Allow the reporting of data for a trial.
+    Report on a binary outcome
     """
-    date = fields.DateField(
-        input_formats = ['%d/%m/%Y',],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
-
     class Meta:
-        model = SingleUserReport
-        fieldsets = [
-            ('Main', {'fields': ['date', 'score'],
-                       'legend': 'Report Data',
-                       'description': ''}),
+        binary = True
+        model = Report
 
-            ]
+    binary = fields.NullBooleanField(
+        widget= widgets.NullBooleanSelect(attrs={
+                'data-required': 'true'
+                }))
 
-    def clean_date(self):
-        """
-        Ensure that the date reported on is within the boundaries of
-        our trial.
 
-        Ensure that the trial has not been reported on for this date.
-        """
-        dt = self.cleaned_data['date']
-        if validators.during_trial(dt, self.instance.trial.start_date, self.instance.trial.finish_date):
-            if validators.no_single_report(dt, self.instance.trial):
-                return dt
+class CountReportForm(BaseTrialReportForm):
+    """
+    Report on count outcome
+    """
+    class Meta:
+        count = True
+        model = Report
+
+    count = fields.IntegerField(
+        widget=widgets.TextInput(attrs={
+                'data-required': 'true',
+                'data-type': 'digits'
+                }))
+
+
+
+def reportform_factory(variable, initial):
+    """
+    Return a reportform that has the correct inputs.
+
+
+    Arguments:
+    - `variable`: Variable
+    - `initial`: dict
+
+    Return: Form
+    Exceptions: None
+    """
+    if variable.style == variable.SCORE:
+        return ScoreReportForm(initial=initial)
+    elif variable.style == variable.BINARY:
+        return BinaryReportForm(initial=initial)
+    elif variable.style == variable.COUNT:
+        return CountReportForm()
+    raise ValueError('No variable style - what the what?')

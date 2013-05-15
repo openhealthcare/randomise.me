@@ -1,7 +1,13 @@
-{% load bootstrap %}
+{% load bootstrap report_cal %}
 <h3>
   <span class="red bold">REPORT</span> <span class="light">DATA</span>
 </h3>
+<div class="feature-box">
+  <div class="row-fluid">
+    {% report_cal %}
+  </div>
+</div>
+
 <div class="feature-box">
   <div class="row-fluid">
     {% for variable in trial.variable_set.all %}

@@ -3,9 +3,8 @@ Register Trials with the admin site.
 """
 from django.contrib import admin
 
-from rm.trials.models import (Trial, Report, Participant, Variable,
-                              SingleUserTrial,
-                              SingleUserAllocation, SingleUserReport)
+from rm.trials.models import (Trial, Report, Participant, Variable)
+
 class VariableInline(admin.StackedInline):
     model = Variable
 
@@ -30,27 +29,27 @@ class ReportAdmin(admin.ModelAdmin):
     list_filter = ('trial',)
     list_display = ['trial', 'date', 'group']
 
-class SingleUserTrialAdmin(admin.ModelAdmin):
-    """
-    Manual admin of SingleUserTrials
-    """
-    list_display = ['name', 'owner', 'start_date', 'finish_date']
+# class SingleUserTrialAdmin(admin.ModelAdmin):
+#     """
+#     Manual admin of SingleUserTrials
+#     """
+#     list_display = ['name', 'owner', 'start_date', 'finish_date']
 
-class SingleUserAllocationAdmin(admin.ModelAdmin):
-    """
-    Manual admin of SingleUserAllocations
-    """
+# class SingleUserAllocationAdmin(admin.ModelAdmin):
+#     """
+#     Manual admin of SingleUserAllocations
+#     """
 
-class SingleUserReportAdmin(admin.ModelAdmin):
-    """
-    Manual admin of SingleUserReports
-    """
-    list_filter = ('trial',)
-    list_display = ['trial', 'date', 'group']
+# class SingleUserReportAdmin(admin.ModelAdmin):
+#     """
+#     Manual admin of SingleUserReports
+#     """
+#     list_filter = ('trial',)
+#     list_display = ['trial', 'date', 'group']
 
 admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(Trial, TrialAdmin)
 admin.site.register(Report, ReportAdmin)
-admin.site.register(SingleUserTrial, SingleUserTrialAdmin)
-admin.site.register(SingleUserAllocation, SingleUserAllocationAdmin)
-admin.site.register(SingleUserReport, SingleUserReportAdmin)
+# admin.site.register(SingleUserTrial, SingleUserTrialAdmin)
+# admin.site.register(SingleUserAllocation, SingleUserAllocationAdmin)
+# admin.site.register(SingleUserReport, SingleUserReportAdmin)
