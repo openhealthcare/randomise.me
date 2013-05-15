@@ -10,7 +10,11 @@
 
 {% block content %}
 
-<h1>Sign In</h1>
+<h1>
+  <span class="greyunder">
+  Sign In
+  </span>
+</h1>
 
 <div class="row-fluid">
   <div class="span4">
@@ -40,10 +44,16 @@ for an account{% endblocktrans %}</p>
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <div class="form-actions">
-    <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
-    <a class="btn" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
 
+  <div>
+    <p>
+      <button class="btn btn-warning" type="submit">{% trans "Sign In" %}</button>
+      <a class="btn btn-danger" href="{% url 'account_reset_password' %}">Forgot Password?</a>
+    </p>
+    <p>
+      Don't have an account?
+      <a href="{% url 'account_signup' %}" class="btn btn-warning">sign up</a>
+    </p>
   </div>
 </form>
   </div>
