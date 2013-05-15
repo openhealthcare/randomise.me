@@ -1,68 +1,64 @@
 {% extends 'baser.html' %}
-{% load tabs %}
 {% block extratitle %} - All Trials{% endblock %}
 {% block content %}
   <div class="page">
-    <div class="row-fluid">
-      {% tabs 'trials' %}
-      <h2>Popular Active Trials</h2>
-      <div class="span4">
-        <p>
-        Popular, as voted for by the randomise me community, trials that are still recruiting. Get involved.
-        </p>
-      </div>
+    <h1>
+      <span class="greyunder">Browse Trials</span>
+    </h1>
 
-      <div class="span4">
-        <ul>
+    <div class="row-fluid">
+      <div class="span6">
+        <h3>
+          <span class="red bold">ACTIVE</span> <span class="light">TRIALS</span>
+        </h3>
+        <div class="row-fluid">
+          <div class="span12 feature-box">
           {% for trial in active %}
-            <li class="yellow">
-              <a href="{{ trial.get_absolute_url }}">
-                {{ trial.name }}
-              </a>
-            </li>
+            <div class="row dashrow">
+              <div class="span6">
+                <h3>
+                  <a href="{{ trial.get_absolute_url }}">
+                    {{ trial.title }}
+                  </a>
+                </h3>
+              </div>
+              <div class="span6">
+                <a href="{{ trial.get_absolute_url }}" class="btn btn-warning">
+                  find out more
+                </a>
+              </div>
+            </div>
           {% endfor %}
-        </ul>
+          </div>
+        </div>
       </div>
 
-      <div class="span3">
-        <h4>
-          <a href="{% url 'featured' %}">
-            Featured Active Trials
-          </a>
-        </h4>
-        <ul>
-          {% for trial in active_featured %}
-            <li class="red">
-              <a href="{{ trial.get_absolute_url }}">
-                {{ trial.name }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="row-fluid">
-      <h2>Popular Past Trials</h2>
-      <div class="span4">
-        <p>
-        Check out the most popular past trials, see the results and evaluate the trial design.
-        </p>
-      </div>
-
-      <div class="span4">
-        <ul>
+      <div class="span6">
+        <h3>
+          <span class="red bold">PAST</span> <span class="light">TRIALS</span>
+        </h3>
+        <div class="row-fluid">
+          <div class="span12 feature-box">
           {% for trial in past %}
-            <li class="yellow">
-              <a href="{{ trial.get_absolute_url }}">
-                {{ trial.name }}
-              </a>
-            </li>
+            <div class="row dashrow">
+              <div class="span6">
+                <h3>
+                  <a href="{{ trial.get_absolute_url }}">
+                    {{ trial.title }}
+                  </a>
+                </h3>
+              </div>
+              <div class="span6">
+                <a href="{{ trial.get_absolute_url }}" class="btn btn-warning">
+                  find out more
+                </a>
+              </div>
+            </div>
           {% endfor %}
-        </ul>
+          </div>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
 {% endblock %}
