@@ -46,6 +46,36 @@
       return this
     }
 
+      // Predicate function to determine whether the
+      // currently active slide is valid
+  , validp: function() {
+      var valid = true;
+
+      var validate_input = function(tag){
+          if($('.item.active ' + tag).lengh == 0){
+              return true
+          }
+          return _.every($('.item.active '+tag),
+                         function(el){
+                             return $(el).parsley('destroy').parsley('validate') !== false
+                         } )
+      }
+
+      if(!validate_input('input')){
+          valid = false
+      }
+
+      if(!validate_input('select')){
+          valid = false
+      }
+
+      if(!validate_input('textarea')){
+          valid = false
+      }
+      return valid;
+
+  }
+
   , getActiveIndex: function () {
       this.$active = this.$element.find('.item.active')
       this.$items = this.$active.parent().children()
@@ -53,6 +83,10 @@
     }
 
   , to: function (pos) {
+
+      if(!this.validp()){
+          return this.pause().cycle()
+      }
       var activeIndex = this.getActiveIndex()
         , that = this
 
@@ -84,29 +118,7 @@
 
   , next: function () {
       if (this.sliding) return
-      var valid = true;
-
-      var validate_input = function(tag){
-          if($('.item.active ' + tag).lengh == 0){
-              return true
-          }
-          return _.every($('.item.active '+tag),
-                         function(el){
-                             return $(el).parsley('destroy').parsley('validate') !== false
-                         } )
-      }
-
-      if(!validate_input('input')){
-          valid = false
-      }
-
-      if(!validate_input('select')){
-          valid = false
-      }
-
-      if(!validate_input('textarea')){
-          valid = false
-      }
+      valid = this.validp()
       if(valid == false){
           return
       }
