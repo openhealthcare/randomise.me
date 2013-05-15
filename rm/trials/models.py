@@ -11,8 +11,8 @@ from django.core.urlresolvers import reverse
 from django.db import models
 import letter
 
-from rm import exceptions, tasks
-from rm.trials import managers
+from rm import exceptions
+from rm.trials import managers, tasks
 
 td = lambda: datetime.date.today()
 POSTIE = letter.DjangoPostman()

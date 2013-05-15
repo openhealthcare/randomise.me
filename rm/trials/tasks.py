@@ -6,7 +6,6 @@ import time
 from celery import task
 
 from rm import exceptions
-from rm.trials import models
 
 td = lambda: datetime.date.today()
 
@@ -27,6 +26,8 @@ def email_rm_instructions():
     Return: None
     Exceptions: None
     """
+    from rm.trials import models
+
     trials = models.Trial.objects.filter(instruction_date=td())
     for trial in trials:
         trial.send_instructions()
@@ -38,6 +39,8 @@ def instruct_later(participant_pk):
     Email instructions to participants of trials that specified that
     this should be done X hours after randomisation
     """
+    from rm.trials import models
+
     participant = models.Participant.objects.get(pk=participant_pk)
     participant.send_instructions()
     return True
