@@ -71,6 +71,7 @@ class RmTrialManager(ActiveManager):
         trial.pk          = None
         trial.start_date  = None
         trial.finish_date = None
+        trial.instruction_date = None
         trial.featured    = None
         trial.owner       = owner
         return trial

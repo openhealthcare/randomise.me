@@ -2,7 +2,11 @@
 {% block extratitle %} - New Trial{% endblock %}
 {% block content %}
   <div class="page">
-    <h1 class="nodots"><span class="greyunder">Create a Trial</span></h1>
+    <h1 class="nodots">
+      <span class="greyunder">
+        {% if reproducing %}Reproduce{% else %}Create{% endif %} a Trial
+      </span>
+    </h1>
     {% include 'trials/_trial_form.html' %}
 </div>
 {% endblock %}

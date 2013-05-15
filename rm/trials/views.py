@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView, BaseCreateView
 from django.utils import simplejson
 from extra_views import CreateWithInlinesView, InlineFormSet
 from extra_views import NamedFormsetsMixin, ModelFormSetView
+from extra_views.advanced import BaseCreateWithInlinesView
 import ffs
 
 from rm import exceptions
@@ -264,39 +265,19 @@ class TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView)
         form.instance.owner = self.request.user
         return form
 
-class ReproduceTrial(LoginRequiredMixin, CreateView):
-    """
-    Forkin' action.
-    """
-    context_object_name = "trial"
-    model               = Trial
-    form_class          = TrialForm
-
-    def get_template_names(self, *args, **kwargs):
-        return ['trials/reproduce_trial.html']
-
-    def get(self, request, *args, **kwargs):
-        """
-        If the self.object we get from our parent classes is None
-        then fill it out with the object we're copying.
-
-        Arguments:
-        - `request`: Request
-
-        Return: Response
-        Exceptions:
-        """
-        self.object = Trial.objects.reproduce(request.user, pk=kwargs['pk'])
+class ReproduceTrial(TrialCreate):
+    def get(self, *args, **kw):
+        self.object = Trial.objects.reproduce(self.request.user, pk=kw['pk'])
         print self.object
-        return super(BaseCreateView, self).get(request, *args, **kwargs)
+        return super(BaseCreateWithInlinesView, self).get(*args, **kw)
 
+    def get_form(self, klass):
+        return klass(instance=self.object)
 
-    def form_valid(self, form):
-        """
-        Add ownership details to the trial
-        """
-        form.instance.owner = self.request.user
-        return super(ReproduceTrial, self).form_valid(form)
+    def get_context_data(self, *args, **kw):
+        context = super(ReproduceTrial, self).get_context_data(*args, **kw)
+        context['reproducing'] = True
+        return context
 
 
 class PeekTrial(TrialByPkMixin, OwnsTrialMixin, TemplateView):
@@ -304,6 +285,7 @@ class PeekTrial(TrialByPkMixin, OwnsTrialMixin, TemplateView):
     Peek at the results
     """
     template_name = 'trials/peek.html'
+
 
 class JoinTrial(LoginRequiredMixin, TemplateView):
     """

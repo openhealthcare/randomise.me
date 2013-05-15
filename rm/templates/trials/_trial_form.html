@@ -1,6 +1,6 @@
 {% load bootstrap %}
 <div class="row-fluid">
-<form id="newtrial_form" method="post" action="">
+<form id="newtrial_form" method="post" action="{% url 'rm-trial-create' %}">
   {{ Variable.management_form }}
   {% csrf_token %}
   {% if form.errors %}
