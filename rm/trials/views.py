@@ -6,7 +6,7 @@ import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.forms.models import inlineformset_factory
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView, BaseCreateView
@@ -76,6 +76,53 @@ class LoginRequiredMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
+
+class TrialByPkMixin(object):
+    """
+    set the trial as an attr.
+    """
+
+    def dispatch(self, *args,**kw):
+        if not getattr(self, 'trial', None):
+            self.trial = Trial.objects.get(pk=kw['pk'])
+        return super(TrialByPkMixin, self).dispatch(*args, **kw)
+
+    def get(self, *args,**kw):
+        """
+        Store the trial isntance
+        """
+        if not getattr(self, 'trial', None):
+            self.trial =Trial.objects.get(pk=kw['pk'])
+        return super(TrialByPkMixin, self).get(*args, **kw)
+
+    def post(self, *args,**kw):
+        """
+        Store the trial isntance
+        """
+        if not getattr(self, 'trial', None):
+            self.trial =Trial.objects.get(pk=kw['pk'])
+        return super(TrialByPkMixin, self).post(*args, **kw)
+
+    def get_context_data(self, **kw):
+        """
+        We want access to the trial data in the template please!
+        """
+        trial = getattr(self, 'trial', None)
+        if not trial:
+            raise ValueError()
+        context = super(TrialByPkMixin, self).get_context_data(**kw)
+        context['trial'] = trial
+        return context
+
+
+class OwnsTrialMixin(object):
+
+    def dispatch(self, *args, **kwargs):
+        if self.trial.owner != self.request.user:
+            return HttpResponseForbidden('Not Your Trial!')
+        return super(OwnsTrialMixin, self).dispatch(*args, **kwargs)
+
+
 class ReportView(CreateView):
     """
     Generic report data view.
@@ -90,7 +137,6 @@ class ReportView(CreateView):
         Store the trial isntance
         """
         self.trial = self.trial_model.objects.get(pk=kw['pk'])
-        print self.trial
         return super(ReportView, self).get(*args, **kw)
 
     def post(self, *args,**kw):
@@ -175,6 +221,7 @@ class TrialDetail(DetailView):
         elif self.request.user.is_authenticated():
             if trial.owner == self.request.user:
                 detail_template = 'trials/trial_detail_owner.html'
+                context['peek'] = True
             elif trial.participant_set.filter(user=self.request.user).count() > 0:
                 detail_template = 'trials/trial_detail_participant.html'
                 page_title = 'Participating In'
@@ -251,6 +298,12 @@ class ReproduceTrial(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         return super(ReproduceTrial, self).form_valid(form)
 
+
+class PeekTrial(TrialByPkMixin, OwnsTrialMixin, TemplateView):
+    """
+    Peek at the results
+    """
+    template_name = 'trials/peek.html'
 
 class JoinTrial(LoginRequiredMixin, TemplateView):
     """

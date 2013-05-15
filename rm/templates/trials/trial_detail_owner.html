@@ -61,7 +61,9 @@
               </h3>
             </div>
             <div class="span6">
-              <a href="#" class="btn btn-warning">make public</a>
+              {% if trial.private %}
+                <a href="#" class="btn btn-warning">make public</a>
+              {% endif %}
             </div>
           </div>
         {% endif %}
