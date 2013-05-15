@@ -203,6 +203,7 @@ LOGIN_REDIRECT_URL = '/'
 # 3rd party app settings
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
 SOUTH_TESTS_MIGRATE = True
+ACCOUNT_EMAIL_REQUIRED = True
 
 BASICAUTH = True
 
