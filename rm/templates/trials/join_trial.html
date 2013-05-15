@@ -27,8 +27,9 @@
      {% endif %}
    {% else %}
      <p>
-       CONSENT TEXT HERE. WOULD YOU LIKE TO JOIN THIS TRIAL? REALLY? YOU CAN UNDO
-       THIS, BUT ANY DATA YOU DO SUBMIT WILL BE INCLUDED IN THE EVENTUAL RESULTS.
+       By using our service you agree for the information you enter to be stored.
+       You may leave a trial, or close your account, at any time you wish but
+       information that forms part of a trial will retained as part of that trial.
      </p>
      <form method="POST" id="join-form" action="{% url 'join-trial' trial.pk %}">
        {% csrf_token %}

@@ -25,10 +25,9 @@ def my_trials(context):
     participating = participated.filter(trial__recruiting=True, trial__finish_date__gt=td())
     participated  = participated.filter(trial__finish_date__lt=td())
 
-    usertrials    = user.singleusertrial_set.all()
+
 
     return dict(running=running,
                 completed=completed,
                 participating=participating,
-                participated=participated,
-                usertrials=usertrials)
+                participated=participated)
