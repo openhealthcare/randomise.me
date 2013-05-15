@@ -52,7 +52,7 @@ class CreateRMTrialTestCase(test.TestCase):
             self.assertEqual(200, resp.status_code)
             dom = html.fromstring(resp.content)
             form = dom.cssselect('form#newtrial_form')[0]
-            self.assertEqual('', form.get('action'))
+            self.assertEqual('/trials/rm/new', form.get('action'))
 
 
 class JoinTrialTestCase(test.TestCase):
