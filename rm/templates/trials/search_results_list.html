@@ -1,0 +1,35 @@
+{% extends 'baser.html' %}
+{% load trial_cta %}
+
+{% block extratitle %} - Search Results {% endblock %}
+{% block content %}
+  <div class="page">
+    <h1>
+      <span class="greyunder">Search Results</span>
+    </h1>
+
+      <h3>
+        {% autoescape on %}{{ request.GET.q }}{% endautoescape %}
+      </h3>
+    <div class="row-fluid">
+      <div class="span12 feature-box">
+          {% for trial in trials %}
+            <div class="row dashrow">
+              <div class="span6">
+                <h3>
+                  <a href="{{ trial.get_absolute_url }}">
+                    {{ trial.title }}
+                  </a>
+                </h3>
+              </div>
+              <div class="span6">
+                <a href="{{ trial.get_absolute_url }}" class="btn btn-warning">
+                  find out more
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+      </div>
+
+  </div>
+{% endblock %}

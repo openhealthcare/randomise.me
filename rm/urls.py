@@ -14,7 +14,7 @@ from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
                              ReproduceTrial, TrialAsCsv,
                              UserTrialCreate, UserTrialDetail, UserReport,
-                             AllTrials, FeaturedTrialsList)
+                             AllTrials, FeaturedTrialsList, TrialSearchView)
 from rm.userprofiles.views import RMUserUpdate
 
 urlpatterns = patterns(
@@ -81,6 +81,7 @@ urlpatterns = patterns(
     # Multiple ways to see lists of trials
     url(r'trials/featured$', FeaturedTrialsList.as_view(), name='featured'),
     url(r'trials$', AllTrials.as_view(), name='trials'),
+    url(r'search$', TrialSearchView.as_view(), name='search')
 
 )
 

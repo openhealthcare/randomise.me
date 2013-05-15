@@ -28,8 +28,8 @@
           {% endif %}
         </ul>
 
-        <form class="form-search">
-          <input type="text" class="input-medium search-query" placeholder="search">
+        <form class="form-search" action="{% url 'search' %}">
+          <input type="text" name="q" class="input-medium search-query" placeholder="search">
           <!-- <button type="submit" class="btn">Search</button> -->
         </form>
 

@@ -178,8 +178,6 @@ class TrialDetail(DetailView):
         return context
 
 
-
-
 class VariableInline(InlineFormSet):
     model = Variable
     form = VariableForm
@@ -388,3 +386,26 @@ class FeaturedTrialsList(ListView):
     queryset            = Trial.objects.filter(featured=True, private=False)
     context_object_name = 'trials'
     template_name       = 'trials/featured_trial_list.html'
+
+
+class TrialSearchView(ListView):
+    """
+    Called from the search bar in the top right corner.
+    """
+    context_object_name = 'trials'
+    template_name = 'trials/search_results_list.html'
+
+    def get_queryset(self):
+        """
+        Return our queryset please.
+
+        Return: Queryset
+        Exceptions: None
+        """
+        q = self.request.GET.get('q', '')
+        if not q:
+            return Trial.objects.all()
+        return Trial.objects.filter(title__icontains=q)
+
+
+#    def get(self, request, *args, **kwargs):
