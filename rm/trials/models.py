@@ -343,7 +343,7 @@ class Participant(models.Model):
     """
     A participant in a trial
     """
-    user  = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user  = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     trial = models.ForeignKey(Trial)
     group = models.ForeignKey(Group, blank=True, null=True)
 

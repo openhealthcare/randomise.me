@@ -50,6 +50,9 @@
           {{ trial.description }}
           </i>
         </p>
+        <p>
+          <a href="{% url 'leave-trial' trial.pk %}" class="btn btn-warning">leave trial</a>
+        </p>
       </div>
       {% include 'trials/trial_detail_sidebar.html' %}
     </div>

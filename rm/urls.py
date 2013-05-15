@@ -12,6 +12,7 @@ admin.autodiscover()
 from rm.views import HomeView, RMContactView
 from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
+                             LeaveTrial,
                              ReproduceTrial, TrialAsCsv,
                              UserTrialCreate, UserTrialDetail, UserReport,
                              AllTrials, FeaturedTrialsList, TrialSearchView)
@@ -61,10 +62,11 @@ urlpatterns = patterns(
     # profile editor
     url(r'account$', RMUserUpdate.as_view(), name='account-edit'),
 
-    # Trials users run on themselves - CRUD routes
-    url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),
-    url(r'trials/user/(?P<pk>\d+)$', UserTrialDetail.as_view(), name='user-trial-detail'),
-    url(r'trials/user/(?P<pk>\d+)/report', UserReport.as_view(), name='user-trial-report'),
+    # # Trials users run on themselves - CRUD routes
+    # url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),
+    # url(r'trials/user/(?P<pk>\d+)$', UserTrialDetail.as_view(), name='user-trial-detail'),
+    # url(r'trials/user/(?P<pk>\d+)/report', UserReport.as_view(), name='user-trial-report'),
+
     url(r'tutorial',
         TemplateView.as_view(template_name='trials/tutorial.html'),
         name='tutorial'),
@@ -74,6 +76,7 @@ urlpatterns = patterns(
     url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
     url(r'trials/rm/(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
     url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
+    url(r'trials/rm/(?P<pk>\d+)/leave$', LeaveTrial.as_view(), name='leave-trial'),
     url(r'trials/rm/(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(),
         name='reproduce-trial'),
     url(r'trials/rm/(?P<pk>\d+)/as-csv$', TrialAsCsv.as_view(), name='trial-as-csv'),

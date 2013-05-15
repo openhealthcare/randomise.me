@@ -296,6 +296,41 @@ class LeaveTrial(LoginRequiredMixin, TemplateView):
     """
     template_name = 'trials/leave_trial.html'
 
+    def __init__(self, *args, **kwargs):
+        """
+        Add an errors container
+        """
+        self.errors = []
+        super(LeaveTrial, self).__init__(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        trial = Trial.objects.get(pk=kwargs['pk'])
+        self.trial = trial
+        return super(LeaveTrial, self).get(self, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        """
+        Join the trial!
+        """
+        trial = Trial.objects.get(pk=kwargs['pk'])
+        self.trial = trial
+        user = self.request.user
+        participant = trial.participant_set.get(user=user)
+        participant.user = None
+        participant.save()
+        return super(LeaveTrial, self).get(self, * args, **kwargs)
+
+    def get_context_data(self, **kw):
+        """
+        We'd like access to the trial in our joined template
+        """
+        context = super(LeaveTrial, self).get_context_data(**kw)
+        context['errors'] = self.errors
+        context['trial']  = self.trial
+        return context
+
+
+
 class TrialAsCsv(View):
     """
     Download the trial's raw data as a csv.
@@ -406,6 +441,3 @@ class TrialSearchView(ListView):
         if not q:
             return Trial.objects.all()
         return Trial.objects.filter(title__icontains=q)
-
-
-#    def get(self, request, *args, **kwargs):

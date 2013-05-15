@@ -1,0 +1,36 @@
+{% extends 'baser.html' %}
+{% block extratitle %} - Leave a Trial - {{ trial.name }}{% endblock %}
+{% block content %}
+<h3>
+  <span class="red bold">LEAVE</span> <span class="light">TRIAL</span>
+</h3>
+
+<div class="feature-box">
+  <div class="row-fluid">
+    {% if request.method == 'POST' %}
+      {% if errors %}
+        {% for err in errors %}
+          <p>{{ err }}</p>
+        {% endfor %}
+      {% else%}
+        <p>
+          O.K. We've taken you out of
+          <a href="{% url 'trial-detail' trial.pk %}">
+            <b>{{ trial.title }}</b>
+          </a>
+          .
+        </p>
+     {% endif %}
+   {% else %}
+     <p>
+       ARE YOU SHURE YOU WANT TO LEAVE THIS TRIAL? WE HAVE TO USE ANY
+       PREVIOUSLY REPORTED DATA. EXPLAIN WHY HERE PLEASE.
+     </p>
+     <form method="POST" id="leave-form" action="{% url 'leave-trial' trial.pk %}">
+       {% csrf_token %}
+       <button class="btn btn-danger">leave this trial</button>
+     </form>
+   {% endif %}
+  </div>
+</div>
+{% endblock %}
