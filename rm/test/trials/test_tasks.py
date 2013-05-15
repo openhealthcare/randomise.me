@@ -1,6 +1,7 @@
 """
 Unittests for the rm.trials.tasks module
 """
+import datetime
 import sys
 import unittest
 
@@ -21,11 +22,10 @@ class EmailRmInstructionsTestCase(unittest.TestCase):
     def test_fetches_active(self):
         "Make sure we fetch the active trials"
         mock_trial = MagicMock(name="Mock Rm User Trial")
-        with patch.object(tasks.models.Trial.objects, 'starting_today') as ptod:
+        with patch.object(tasks.models.Trial.objects, 'filter') as ptod:
             ptod.return_value = [mock_trial]
             tasks.email_rm_instructions()
-            ptod.assert_called_once_with()
-            mock_trial.randomise.assert_called_once_with()
+            ptod.assert_called_once_with(instruction_date=datetime.date.today())
             mock_trial.send_instructions.assert_called_once_with()
 
 

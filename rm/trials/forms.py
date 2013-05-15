@@ -66,6 +66,10 @@ class TrialForm(BetterModelForm):
         input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
         widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
                                          default=lambda: utils.in_a(week=1)))
+    instruction_date = fields.DateField(
+        input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
+                                         default=lambda: utils.today()))
 
     class Meta:
         model = Trial
@@ -78,7 +82,8 @@ class TrialForm(BetterModelForm):
                        'legend': '2. Details',
                        'classes': []}),
 
-            ('Instructions', {'fields': ['group_a', 'group_b'],
+            ('Instructions', {'fields': ['group_a', 'group_b', 'instruction_delivery',
+                                         'instruction_hours_after', 'instruction_date'],
                          'legend': '3. Instructions',
                          'classes': []}),
             ('Sizing', {'fields': ['min_participants', 'max_participants',
@@ -106,6 +111,10 @@ class TrialForm(BetterModelForm):
                     }),
             'group_b': widgets.Textarea(attrs={
                     'data-required': 'true'
+                    }),
+            'instruction_delivery': widgets.RadioSelect(),
+            'instruction_hours_after': widgets.TextInput(attrs={
+                    'data-type'    : 'digits',
                     }),
             'group_a_desc': widgets.Textarea(attrs={
                     'data-required': 'true'

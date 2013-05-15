@@ -39,7 +39,32 @@ var RM = {
                 },
 
             })
-        }
+        },
+
+        init_instruction_toggles : function(){
+            $('input[name="instruction_delivery"]').change(
+                function(e){
+                    var hidem = function(){
+                        $('#hours-after-container').hide();
+                        $('#instruction-date-container').hide();
+                    }
+                    var showem = function(sel){$(sel).show()}
+
+                    console.log(e)
+                    var src = $(e.target);
+                    if(src.attr('value') == 'im'){
+                        hidem()
+                    }else if(src.attr('value') == 'ho'){
+                        hidem();
+                        showem('#hours-after-container');
+                    }else{
+                        hidem();
+                        showem('#instruction-date-container');
+                    }
+                }
+            )
+        },
+
     },
 
     graphs: {

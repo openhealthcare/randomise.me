@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 import letter
 
-from rm import exceptions
+from rm import exceptions, tasks
 from rm.trials import managers
 
 td = lambda: datetime.date.today()
@@ -29,6 +29,15 @@ class Trial(models.Model):
     RECRUITMENT_CHOICES = (
         (ANYONE,     'Anyone can join'),
         (INVITATION, "Only people I've invited can join")
+        )
+
+    IMMEDIATE = 'im'
+    HOURS     = 'ho'
+    DATE      = 'da'
+    INSTRUCTION_CHOICES = (
+        (IMMEDIATE, 'Straight away after randomisation'),
+        (HOURS, 'X hours after randomisation'),
+        (DATE, 'On this date...')
         )
 
     HELP_PART = """Who can participate in this trial?
@@ -54,6 +63,9 @@ get the intervention"""
     # Step 6
     group_a           = models.TextField("Intervention Group Instructions", help_text=HELP_A)
     group_b           = models.TextField("Control Group Instructions", help_text=HELP_B)
+    instruction_delivery = models.TextField(max_length=2, choices=INSTRUCTION_CHOICES, default=IMMEDIATE)
+    instruction_hours_after = models.IntegerField(blank=True, null=True)
+    instruction_date = models.DateField(blank=True, null=True)
 
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
@@ -245,7 +257,13 @@ get the intervention"""
             raise exceptions.AlreadyJoinedError()
         if self.participant_set.count() >= self.max_participants:
             raise exceptions.TooManyParticipantsError()
-        Participant(trial=self, user=user).randomise().save()
+        part = Participant(trial=self, user=user).randomise()
+        part.save()
+        if self.instruction_delivery == self.IMMEDIATE:
+            part.send_instructions()
+        if self.instruction_delivery == self.HOURS:
+            eta = datetime.utcnow() + datetime.timedelta(seconds=60*60*self.instruction_hours_after)
+            tasks.instruct_later.apply_async((participant.pk), eta=eta)
         return
 
     def randomise(self):
