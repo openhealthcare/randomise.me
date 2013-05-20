@@ -90,7 +90,11 @@ input[type="color"],
 
 textarea {
     height: auto;
-    width: auto;
+    /* width: auto;
+       Not entirely happy with the default widths...
+       ... causes layout problems with the BS grid tho...
+       ... leave this way for nows.
+   */
 }
 
 textarea.parsley-error,
