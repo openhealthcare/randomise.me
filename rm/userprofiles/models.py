@@ -61,7 +61,8 @@ class RMUser(AbstractBaseUser):
 
     objects = RMUserManager()
 
-    USERNAME_FIELD = 'email'
+#    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
 
     def __unicode__(self):
         return self.email

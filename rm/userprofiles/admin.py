@@ -62,7 +62,7 @@ class MyUserAdmin(UserAdmin):
     list_display = ('email', 'account', 'is_superuser', 'is_staff')
     list_filter = ('is_superuser','account')
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password', 'username')}),
         ('Account Type', {'fields': ('account',)}),
         ('Permissions', {'fields': ('is_superuser', 'is_staff')}),
         ('Important dates', {'fields': ('last_login',)}),
