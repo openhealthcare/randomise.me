@@ -135,7 +135,9 @@ class TrialForm(BetterModelForm):
             'max_participants': widgets.TextInput(attrs={
                     'data-required': 'true',
                     'data-type'    : 'digits',
-                    'data-min'     : '1'
+                    'data-min'     : '1',
+                    'data-greaterthanorequalto': "#id_min_participants",
+                    'data-greaterthanorequalto-message': "Max participants must be greater than or equal to Min participants"
                     }),
             'recruitment': widgets.RadioSelect(),
             }
