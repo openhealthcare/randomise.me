@@ -1,6 +1,7 @@
 {% load bootstrap %}
 <div class="row-fluid">
-<form id="newtrial_form" method="post" action="{% url 'rm-trial-create' %}">
+<form id="newtrial_form" method="post"
+      action="{% if editing %}{% url 'edit-trial' trial.pk %}{% else %}{% url 'rm-trial-create' %}{% endif %}">
   {{ Variable.management_form }}
   {% csrf_token %}
   {% if form.errors %}
@@ -46,6 +47,23 @@
 
     <div class="item"><!-- Step 2 measures. -->
       <h2>2. <span class="light">YOUR</span> <span class="red bold">MAIN OUTCOME</span> </h2>
+      {% if editing %}
+      {% for var in form.instance.variable_set.all %}
+        {% if forloop.first %}
+          <h3>({{ var.get_style_display }} )</h3>
+          <p>
+            <i>
+            {{ var.question }}
+            </i>
+          </p>
+          <p class="muted">
+            You can't edit the outcome variables on a trial. If you want to
+            change these, you should either create a new trial, or duplicate
+            an existing trial.
+          </p>
+          {% endif %}
+        {% endfor %}
+      {% else %}
       {% for var in Variable %}
         {% if forloop.first %}
           <h3>What kind of measure is your main outcome? </h3>
@@ -67,7 +85,8 @@
             score it‟s 0-10, etc).
             </p>
           {% endif %}
-          {% endfor %}
+        {% endfor %}
+        {% endif %} <!-- Editing -->
 
       <h3>How often would you like your participants to report data?</h3>
       {{ form.reporting_freq|bootstrap }}
@@ -203,7 +222,11 @@
 
     <div class="item"><!-- End Trial creation steps -->
       <h2>8. <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span></h2>
+      {% if editing %}
+      <button class="btn btn-danger" type="submit">Save Changes</button>
+      {% else %}
       <button class="btn btn-danger" type="submit">Create Trial</button>
+      {% endif %}
     </div>
 
   </div>
@@ -213,6 +236,10 @@
   <a class="carousel-control right btn btn-danger"
      href="#myCarousel" data-slide="next">next</a>
 </div>
+
+{% if editing %}
+        <button class="btn btn-danger" type="submit">Save Changes</button>
+{% endif %}
 
 </form>
 

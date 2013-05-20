@@ -15,15 +15,21 @@
     <!-- <li> -->
     <!--   <a href="#">About this trial</a> -->
     <!-- </li> -->
+    {% if is_owner %}
+    <li>
+      <a href="{% url 'edit-trial' trial.pk %}">
+        Edit this trial
+      </a>
+    </li>
+    <li>
+      <a href="#peek" role="button" data-toggle="modal">
+        Peek at the results
+      </a>
+    </li>
+    {% else %}
     <li>
       <a href="#">Report this trial</a>
     </li>
-    {% if peek %}
-      <li>
-        <a href="#peek" role="button" data-toggle="modal">
-          Peek at the results
-        </a>
-      </li>
     {% endif %}
   </ul>
 

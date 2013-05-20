@@ -91,6 +91,7 @@ get the intervention"""
     featured          = models.BooleanField(default=False)
     recruiting        = models.BooleanField(default=True)
     participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
+    is_edited         = models.BooleanField(default=False)
 
     private           = models.BooleanField(default=False)
     objects = managers.RmTrialManager()

@@ -9,7 +9,7 @@ from django.forms.models import inlineformset_factory
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
-from django.views.generic.edit import CreateView, BaseCreateView
+from django.views.generic.edit import CreateView, BaseCreateView, UpdateView
 from django.utils import simplejson
 from extra_views import CreateWithInlinesView, InlineFormSet
 from extra_views import NamedFormsetsMixin, ModelFormSetView
@@ -225,7 +225,7 @@ class TrialDetail(DetailView):
         elif self.request.user.is_authenticated():
             if trial.owner == self.request.user:
                 detail_template = 'trials/trial_detail_owner.html'
-                context['peek'] = True
+                context['is_owner'] = True
             elif trial.participant_set.filter(user=self.request.user).count() > 0:
                 detail_template = 'trials/trial_detail_participant.html'
                 page_title = 'Participating In'
@@ -241,8 +241,6 @@ class TrialDetail(DetailView):
             elif trial.invitation_set.filter(email=self.request.user.email).count() < 1:
                 can_join = False
             context['can_join'] = can_join
-
-
 
 
         context['detail_template'] = detail_template
@@ -293,6 +291,37 @@ class ReproduceTrial(TrialCreate):
         context = super(ReproduceTrial, self).get_context_data(*args, **kw)
         context['reproducing'] = True
         return context
+
+
+class EditTrial(TrialByPkMixin, OwnsTrialMixin, UpdateView):
+    """
+    Edit a trial
+    """
+    form_class = TrialForm
+
+    def get_object(self, *args, **kw):
+        """
+        We already have the trial from the mixin
+
+        Return: Trial
+        Exceptions: None
+        """
+        return self.trial
+
+    def get_form(self, klass):
+        """
+        Add ownership details to the trial
+        """
+        form = super(EditTrial, self).get_form(klass)
+        form.instance.owner = self.request.user
+        form.instance.is_edited = True
+        return form
+
+    def get_context_data(self, *args, **kw):
+        context = super(EditTrial, self).get_context_data(*args, **kw)
+        context['editing'] = True
+        return context
+
 
 
 class PeekTrial(TrialByPkMixin, OwnsTrialMixin, TemplateView):

@@ -31,6 +31,7 @@ class BootstrapDatepickerWidget(widgets.DateInput):
         if 'default' in kwargs:
             self._default_val = kwargs.pop('default')
         super(BootstrapDatepickerWidget, self).__init__(*args, **kwargs)
+        self.format = '%d/%m/%Y'
 
     def render(self, name, value, attrs={}):
         """

@@ -12,6 +12,7 @@ admin.autodiscover()
 from rm.views import HomeView, RMContactView
 from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
+                             EditTrial,
                              LeaveTrial, PeekTrial, InviteTrial,
                              ReproduceTrial, TrialAsCsv,
                              AllTrials, FeaturedTrialsList, TrialSearchView)
@@ -61,11 +62,6 @@ urlpatterns = patterns(
     # profile editor
     url(r'account$', RMUserUpdate.as_view(), name='account-edit'),
 
-    # # Trials users run on themselves - CRUD routes
-    # url(r'trials/user/new', UserTrialCreate.as_view(), name='user-trial-create'),
-    # url(r'trials/user/(?P<pk>\d+)$', UserTrialDetail.as_view(), name='user-trial-detail'),
-    # url(r'trials/user/(?P<pk>\d+)/report', UserReport.as_view(), name='user-trial-report'),
-
     url(r'tutorial',
         TemplateView.as_view(template_name='trials/tutorial.html'),
         name='tutorial'),
@@ -74,8 +70,7 @@ urlpatterns = patterns(
     url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),
     url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
     url(r'trials/rm/(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
-    # url(r'trials/rm/(?P<pk>\d+)/report-ajax', TrialReportAjax.as_view(),
-    #     name='trial-report-ajax'),
+    url(r'trials/rm/(?P<pk>\d+)/edit$', EditTrial.as_view(), name='edit-trial'),
     url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
     url(r'trials/rm/(?P<pk>\d+)/invite$', InviteTrial.as_view(), name='trial-invite'),
     url(r'trials/rm/(?P<pk>\d+)/peek$', PeekTrial.as_view(), name='trial-peek'),
