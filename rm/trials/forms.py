@@ -64,8 +64,13 @@ class TrialForm(BetterModelForm):
         widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
     finish_date = fields.DateField(
         input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
-        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
-                                         default=lambda: utils.in_a(week=1)))
+        widget=BootstrapDatepickerWidget(
+            format=['%d/%m/%Y',],
+            attrs={
+                'data-rmafterdate':"#id_start_date",
+                'data-rmafterdate-message': "Finish date can't be after the start date"
+                },
+            default=lambda: utils.in_a(week=1)))
     instruction_date = fields.DateField(
         input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
         widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
