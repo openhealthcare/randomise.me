@@ -681,6 +681,10 @@ html.nologo .masthead #header-logo {
 .masthead .nav li a {
     color: #fff9f7;
 }
+.masthead .nav li a:hover {
+    color: black;
+}
+
 .nav li.active a {
     color: black;
 }
