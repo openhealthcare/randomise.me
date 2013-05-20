@@ -6,7 +6,9 @@
 
         {% for trial in recruiting %}
           <p>
+            <a href="{{ trial.get_absolute_url }}">
             {{ trial.title }}
+            </a>
             <a href="{{ trial.get_absolute_url }}" class="btn btn-warning pull-right">
               find out more
             </a>
