@@ -40,6 +40,15 @@ class Trial(models.Model):
         (DATE, 'On this date...')
         )
 
+    DAILY   = 'da'
+    WEEKLY  = 'we'
+    MONTHLY = 'mo'
+    FREQ_CHOICES = (
+        (DAILY,   'Once per day'),
+        (WEEKLY,  'Once per week'),
+        (MONTHLY, 'Once per month')
+        )
+
     HELP_PART = """Who can participate in this trial?
 (Everyone? People with an infant under 6 months? People who binge drink Alcohol?)"""
     HELP_A = """These are the instructions that will be sent to the group who
@@ -50,6 +59,11 @@ get the intervention"""
 
     # Step 1
     title          = models.CharField(max_length=200, blank=True, null=True)
+
+    # Step 2
+    reporting_freq = models.CharField("Reporting frequency", max_length=200,
+                                      choices=FREQ_CHOICES, default=DAILY)
+
     # Step 3
     min_participants  = models.IntegerField()
     max_participants  = models.IntegerField()
@@ -435,6 +449,7 @@ class Participant(models.Model):
 
         subject = 'Randomise.me - instructions for {0}'.format(self.trial.title)
         instructions = self.group.name == 'A' and self.trial.group_a or self.trial.group_b
+        question = self.trial.variable_set.all()[0].question
 
         class Message(letter.Letter):
             Postie   = POSTIE
@@ -446,7 +461,9 @@ class Participant(models.Model):
             Context  = {
                 'href'        : settings.DEFAULT_DOMAIN + self.trial.get_absolute_url(),
                 'instructions': instructions,
-                'name'        : self.trial.title
+                'name'        : self.trial.title,
+                'frequency'   : self.trial.get_reporting_freq_display(),
+                'question'    : question
                 }
 
         Message.send()

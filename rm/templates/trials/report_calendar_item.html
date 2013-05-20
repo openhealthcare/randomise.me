@@ -4,21 +4,39 @@
     <a
        {% if period.reported %}
          href="#"
+       {% elif period.future%}
+         href="#"
        {% else %}
        href="#report-{{period.date.isoformat}}" role="button" data-toggle="modal"
        {% endif %}
        >
-      <p>{{ period.date }}
-                <i class="{% if period.reported %}icon-ok-sign{%endif%}"></i>
+      <p>
+        {% if trial.reporting_freq == trial.WEEKLY %}W/C{% endif %}
+        {% if trial.reporting_freq == trial.MONTHLY %}
+          {{ period.date|date:"M"}}
+        {% else %}
+          {{ period.date }}
+        {% endif %}
+        <i class="{% if period.reported %}icon-ok-sign{%endif%}"></i>
       </p>
     </a>
   </div>
+
+  {% if not period.future %}
   <!-- Modal -->
   <div id="report-{{period.date.isoformat}}" class="modal hide fade" role="dialog"
        aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
-      <h3 id="myModalLabel">Report data for {{ period.date }}</h3>
+      <h3 id="myModalLabel">
+        Report data for
+        {% if trial.reporting_freq == trial.WEEKLY %}W/C{% endif %}
+        {% if trial.reporting_freq == trial.MONTHLY %}
+          {{ period.date|date:"M"}}
+        {% else %}
+          {{ period.date }}
+        {% endif %}
+      </h3>
     </div>
     <form id="usertrialreport_form" method="post"
           action="{% url 'trial-report' trial.pk %}" class="ajaxform">
@@ -63,6 +81,10 @@
     </div>
     </form>
   </div><!--report-{{period.date.isoformat}}-->
+  {% endif %}
+
+{% endfor %}
+
   <script type="text/javascript">
 
     $(document).ready( function(){
@@ -70,4 +92,3 @@
     });
 
   </script>
-{% endfor %}

@@ -79,7 +79,7 @@ class TrialForm(BetterModelForm):
     class Meta:
         model = Trial
         fieldsets = [
-            ('Basic', {'fields': ['title'],
+            ('Basic', {'fields': ['title', 'reporting_freq'],
                        'legend': '1. Hypothesis',
                        'description': ''}),
             ('Details', {'fields': ['participants', 'description',
@@ -104,6 +104,10 @@ class TrialForm(BetterModelForm):
             'title': widgets.TextInput(attrs={
                     'data-required' : 'true',
                     'data-maxlength': '200'
+                    }),
+            'reporting_freq': widgets.Select(
+                attrs={
+                    'data-required': 'true'
                     }),
             'style': widgets.Select(attrs={
                     'data-required': 'true'
