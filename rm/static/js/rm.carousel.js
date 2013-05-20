@@ -144,7 +144,24 @@
 
       isCycling && this.pause()
 
-      $next = $next.length ? $next : this.$element.find('.item')[fallback]()
+      var pos = this.getActiveIndex();
+      if(pos == 0 && direction ){
+          $(".carousel-control.left").show()
+      }                         // Going forward from frist, show BACK
+
+      if(pos == 1 && direction == 'right'){
+          $(".carousel-control.left").hide()
+      }                         // Going back to frist, hide BACK
+
+      if(pos == (this.$items.length -1)){
+          $(".carousel-control.right").show()
+      }                         // Going back from last, show NEXT
+
+      if(pos == (this.$items.length - 2) && direction == 'left'){
+          $(".carousel-control.right").hide()
+      }                         // Going forward from penultimate, hide NEXT
+
+     $next = $next.length ? $next : this.$element.find('.item')[fallback]()
 
       e = $.Event('slide', {
         relatedTarget: $next[0]

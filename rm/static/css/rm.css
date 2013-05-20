@@ -174,7 +174,8 @@ input[type="color"]:focus,
 }
 
 /* Utility classes */
-.hidem { display: none }
+.hidem,
+.btn.hidem { display: none }
 .block { display: block; }
 .center { margin: 0 auto; }
 .clearem { clear: both; }
