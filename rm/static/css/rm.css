@@ -551,6 +551,8 @@ ul li {
 
 .darkback { background: #393632; }
 
+
+/* Skinning bootstrap utilities */
 .btn {
   display: inline-block;
   *display: inline;
@@ -612,6 +614,49 @@ ul li {
     border: none;
     text-shadow: none;
 }
+
+.carousel-indicators {
+    top: -100px;
+}
+
+.carousel-indicators li {
+    background-color: #d8d1cd;
+    height: 28px;
+    width: 28px;
+    border-radius: 15px;
+    margin-right: 12px;
+}
+
+.carousel-indicators li.active {
+    border-color: #fbc30c;
+    background-color: #fbc30c;
+}
+
+.carousel-control {
+    opacity: 1;
+    width: auto;
+    height: auto;
+    margin-top: 10px;
+}
+
+.popover {
+    border: 2px solid #a9ce36;
+    padding: 0px;
+}
+.popover-title {
+    background: #a9ce36;
+    font-size: 20px;
+    color: white;
+    line-height: 38px
+}
+
+.popover-content {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+}
+
+/* Our own styles */
 
 .redroll:hover {
     background: #e54f25;
@@ -750,29 +795,7 @@ html.nologo .masthead #header-logo {
 .item {
     min-height: 600px;
 }
-.carousel-indicators {
-    top: -100px;
-}
 
-.carousel-indicators li {
-    background-color: #d8d1cd;
-    height: 28px;
-    width: 28px;
-    border-radius: 15px;
-    margin-right: 12px;
-}
-
-.carousel-indicators li.active {
-    border-color: #fbc30c;
-    background-color: #fbc30c;
-}
-
-.carousel-control {
-    opacity: 1;
-    width: auto;
-    height: auto;
-    margin-top: 10px;
-}
 #id_honeypot {
     display: none;
 }
@@ -838,7 +861,7 @@ html.nologo .masthead #header-logo {
     min-height: 400px;
 }
 .side-panel ul {
-    margin-left: 60px
+    margin-left: 20px
 }
 
 .side-panel ul li {
@@ -867,6 +890,7 @@ html.nologo .masthead #header-logo {
 
 .share-this a:hover {
     text-decoration: none;
+    background: transparent;
 }
 .share-this i {
     color: #e54f25;
@@ -878,4 +902,9 @@ html.nologo .masthead #header-logo {
 
 .feature-box .dashrow h3 {
     padding-left: 30px;
+}
+
+.icon-question-sign {
+    color: #a9ce36;
+    font-size: 34px;
 }

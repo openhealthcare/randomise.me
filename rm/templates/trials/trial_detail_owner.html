@@ -12,7 +12,12 @@
             <h3>
               Participants
               <span class="bold">
-                {{ trial.participant_set.count }}/{{ trial.min_participants }}
+                {{ trial.participant_set.count }}/{{ trial.min_participants }}-{{ trial.max_participants }}
+                <i class="icon-question-sign"
+                   title="Participants"
+                   data-content="This shows your current number of participants, as well as the minimum and maximum number of participants for your trial."
+                   >
+                </i>
                 </span>
               </h3>
 
