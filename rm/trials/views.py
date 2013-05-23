@@ -221,6 +221,8 @@ class TrialDetail(DetailView):
         if trial.finished:
             detail_template = 'trials/trial_detail_report.html'
             page_title = 'Trial Report'
+            if trial.owner == self.request.user:
+                context['is_owner'] = True
 
         elif self.request.user.is_authenticated():
             if trial.owner == self.request.user:

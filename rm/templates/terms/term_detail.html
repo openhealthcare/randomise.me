@@ -1,0 +1,42 @@
+{% extends 'basest.html' %}
+
+{% load i18n %}
+{% load terms %}
+
+{% block extratitle %} - {{ term|capfirst }}{% endblock %}
+{% block body %}
+<div id="header">
+  <div class="masthead">
+    <a href="{% url 'home' %}" id="header-logo" class="img">
+      <img src="{{ STATIC_URL }}img/randomisemelogo.png">
+    </a>
+  </div>
+</div><!--header-->
+<img src="{{ STATIC_URL }}img/h1dots.png" class="pull-right drop24" alt="" />
+<div class="container clearem larger">
+
+  <h1 class="nodots">
+    <span class="greyunder">
+      {{ term|capfirst }}
+    </span>
+  </h1>
+  <div class="row">
+    {{ term.definition|replace_terms|safe }}
+  </div>
+  <div class="row">
+    {% if perms.terms_change_term %}
+      <button class="btn btn-warning" onclick="document.location =
+                       '{% url 'admin:terms_term_change' term.pk %}';">
+                       {% trans 'Change' %}
+      </button>
+    {% endif %}
+    {% if perms.terms_delete_term %}
+      <button class="btn btn-danger" onclick="document.location =
+                       '{% url 'admin:terms_term_delete' term.pk %}';">
+                       {% trans 'Delete' %}
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

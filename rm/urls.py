@@ -34,6 +34,7 @@ urlpatterns = patterns(
 
     # Payment
     url(r'^gocardless/', include('rm.gcapp.urls')),
+    url(r'^glossary/', include('terms.urls')),
 
     # Pre - login
     url(r'^/?$', HomeView.as_view(), name='home'),

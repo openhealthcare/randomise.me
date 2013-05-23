@@ -28,37 +28,42 @@
      </i>
       <a href="{% url 'contact' %}">Talk to us</a>
     </li>
-    <!-- <li> -->
-    <!--   <a href="#">About this trial</a> -->
-    <!-- </li> -->
+
     {% if is_owner %}
-    <li>
-      <i class="icon-question-sign"
-         title="Edit Trial"
-         data-content="Made a mistake creating your trial? You can make changes here. Be careful though - making changes to a trial after it's started is wonky."
-         >
-     </i>
-      <a href="{% url 'edit-trial' trial.pk %}">
-        Edit this trial
-      </a>
-    </li>
-    <li>
-      <i class="icon-question-sign"
-         title="Duplicate Trial"
-         data-content="Create a new trial using this one as a template. This is useful to reproduce the results of a trial, or to speed up the creation of similar trials."
-         >
-     </i>
-      <a href="#peek" role="button" data-toggle="modal">
-        Peek at the results
-      </a>
-    </li>
+      <li>
+        <i class="icon-question-sign"
+           title="Edit Trial"
+           data-content="Made a mistake creating your trial? You can make changes here. Be careful though - making changes to a trial after it's started is wonky."
+           >
+        </i>
+        <a href="{% url 'edit-trial' trial.pk %}">
+          Edit this trial
+        </a>
+      </li>
+      <li>
+        <i class="icon-question-sign"
+           title="Duplicate Trial"
+           data-content="Create a new trial using this one as a template. This is useful to reproduce the results of a trial, or to speed up the creation of similar trials."
+           >
+        </i>
+        <a href="{% url 'reproduce-trial' trial.pk %}">
+          Reproduce this trial
+        </a>
+      </li>
+      {% if not trial.finished %}
+        <li>
+          <i class="icon-question-sign"
+             title="Peek"
+             data-content="You can peek at the results if you really want to"
+             >
+          </i>
+          <a href="#peek" role="button" data-toggle="modal">
+            Peek at the results
+          </a>
+        </li>
+      {% endif %}
     {% else %}
     <li>
-      <i class="icon-question-sign"
-         title="Peek"
-         data-content="You can peek at the results if you really want to"
-         >
-     </i>
       <a href="#">Report this trial</a>
     </li>
     {% endif %}

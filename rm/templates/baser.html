@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" class="{% block htmlclass %}{% endblock %}">
-  <head>
-    <meta charset="utf-8">
-    <title>Randomise Me{% block extratitle %}{% endblock %}</title>
-    {% include 'head.html' %}
-  </head>
-
-  <body>
+{% extends 'basest.html' %}
+{% block body %}
     {% include 'nav.html' %}
     <div class="container">
       {% block content %}{% endblock %}
@@ -31,19 +24,4 @@
       </div>
     </div>
 
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="{{STATIC_URL}}js/lib/d3/d3.v3.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/lib/underscore.js"></script>
-    <script src="{{ STATIC_URL }}css/lib/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/rm.carousel.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/parsley.extend.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/lib/parsley.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/rm.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/rm.init.js"></script>
-
-  </body>
-</html>
+{% endblock %}

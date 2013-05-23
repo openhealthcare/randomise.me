@@ -279,6 +279,18 @@ input[type="color"]:focus,
     text-shadow: none;
 }
 
+a.term {
+    cursor: help;
+    color: #a9ce36;
+    font-weight: bold;
+}
+a.term:hover {
+    background: transparent;
+    text-decoration: underline;
+    color: #a9ce36;
+}
+
+
 .redroll:hover {
     background: #e54f25;
 }
@@ -470,6 +482,7 @@ body {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     font-size: 18px;
+    line-height: 24px;
 }
 
 h1 {
@@ -684,7 +697,7 @@ ul li {
 
 .feature-box {
     padding: 20px 20px 0px 20px;
-    border: 8px dotted #d8d1cd;
+    border: 2px solid #d8d1cd;
     border-radius: 4px;
 }
 

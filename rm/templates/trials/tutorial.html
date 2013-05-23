@@ -1,13 +1,16 @@
 {% extends 'baser.html' %}
-{% load tabs %}
-{% block extratitle %} - Create your own trial{% endblock %}
-<div class="page">
-  {% tabs 'newtrial' %}
-  <h2>
-    <i class="icon-user yellow"></i>
-    Create a trial
-  </h2>
+{% load terms %}
 
+{% block extratitle %} - Create your own trial{% endblock %}
+{% block content %}
+  {% filter replace_terms %}
+
+<h1>
+  <span class="greyunder">
+    Tutorial
+  </span>
+</h1>
+  <div class="page">
   <form method="POST" id="tutorial-form" action="">
 
   <div class="row-fluid">
@@ -67,3 +70,6 @@
   </form>
 
 </div>
+{% endfilter %}
+
+{% endblock %}

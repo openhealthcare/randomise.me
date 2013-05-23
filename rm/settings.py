@@ -139,13 +139,6 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    # ... include the providers you want to enable:
-#    'allauth.socialaccount.providers.facebook',
- #   'allauth.socialaccount.providers.google',
- #   'allauth.socialaccount.providers.github',
-  #  'allauth.socialaccount.providers.linkedin',
-#    'allauth.socialaccount.providers.openid',
-#    'allauth.socialaccount.providers.twitter',
     'bootstrapform',
     'django_cas',
     'django_extensions',
@@ -156,6 +149,7 @@ INSTALLED_APPS = (
     'grappelli',
 
     'south',
+    'terms',
     # Our Apps
     'rm.trials',
     'rm.userprofiles',
@@ -204,6 +198,9 @@ LOGIN_REDIRECT_URL = '/'
 GRAPPELLI_ADMIN_TITLE = 'Randomise.me'
 SOUTH_TESTS_MIGRATE = True
 ACCOUNT_EMAIL_REQUIRED = True
+TERMS_REPLACE_FIRST_ONLY = False
+
+# Our Settings
 
 BASICAUTH = True
 
