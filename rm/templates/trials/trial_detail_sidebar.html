@@ -40,16 +40,6 @@
           Edit this trial
         </a>
       </li>
-      <li>
-        <i class="icon-question-sign"
-           title="Duplicate Trial"
-           data-content="Create a new trial using this one as a template. This is useful to reproduce the results of a trial, or to speed up the creation of similar trials."
-           >
-        </i>
-        <a href="{% url 'reproduce-trial' trial.pk %}">
-          Reproduce this trial
-        </a>
-      </li>
       {% if not trial.finished %}
         <li>
           <i class="icon-question-sign"
@@ -69,12 +59,14 @@
          data-content="If you're concerned about a trial for any reason you can report it to the Randomise Me staff and we'll take appropriate action."
          >
       </i>
-      <a href="#">Report this trial</a>
+      <a href="#report" role="button" data-toggle="modal">
+        Report this trial
+      </a>
     </li>
     {% endif %}
   </ul>
 
-  <!-- Modal -->
+  <!-- Modal Peek -->
   <div id="peek" class="modal hide fade" tabindex="-1"
        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
        <div class="modal-header">
@@ -91,5 +83,51 @@
          <a href="{% url 'trial-peek' trial.pk%}" class="btn btn-danger">peek</a>
        </div>
   </div>
+
+  <!-- Modal Report -->
+  <div id="report" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Report this trial</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           If you are concerned about this trial and would like to report it
+           to the Randomise Me staff, please do so here:
+         </p>
+         <form method="POST" action="{% url 'contact' %}">
+           {% csrf_token %}
+               <div class="control-group required">
+                 <label class="control-label" for="id_name">Name</label>
+                 <div class="controls">
+                   <input id="id_name" name="name" type="text" />
+                 </div>
+               </div>
+               <div class="control-group required">
+                 <label class="control-label" for="id_email">Email</label>
+                 <div class="controls">
+                   <input id="id_email" name="email" type="text" {% if request.user.is_authenticated %} value="{{request.user.email}} {% endif %}"/>
+                 </div>
+               </div>
+
+               <div class="control-group required">
+                 <label class="control-label" for="id_message">Message</label>
+                 <div class="controls">
+                   <textarea cols="40" id="id_message" name="message" rows="10">
+Dear Randomise Me Team,
+
+I would like to report a concern about the trial "{{trial.title}}" which can be found at {{ trial.get_absolute_url }}
+                   </textarea>
+                 </div>
+               </div>
+           <button class="btn btn-danger" type="submit">Send</button>
+         </form>
+
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+       </div>
+  </div>
+
 
 </div>

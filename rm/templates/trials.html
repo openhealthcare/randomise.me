@@ -14,20 +14,14 @@
         <div class="row-fluid">
           <div class="span12 feature-box">
           {% for trial in active %}
-            <div class="row dashrow">
-              <div class="span6">
-                <h3>
-                  <a href="{{ trial.get_absolute_url }}">
-                    {{ trial.title }}
-                  </a>
-                </h3>
-              </div>
-              <div class="span6">
-                <a href="{{ trial.get_absolute_url }}" class="btn btn-warning">
+            <a href="{{ trial.get_absolute_url }}">
+              <p>
+                  {{ trial.title }}
+                <button class="btn btn-warning pull-right">
                   find out more
-                </a>
-              </div>
-            </div>
+                </button>
+              </p>
+            </a>
           {% endfor %}
           </div>
         </div>
@@ -40,20 +34,14 @@
         <div class="row-fluid">
           <div class="span12 feature-box">
           {% for trial in past %}
-            <div class="row dashrow">
-              <div class="span6">
-                <h3>
-                  <a href="{{ trial.get_absolute_url }}">
-                    {{ trial.title }}
-                  </a>
-                </h3>
-              </div>
-              <div class="span6">
-                <a href="{{ trial.get_absolute_url }}" class="btn btn-warning">
+            <a href="{{ trial.get_absolute_url }}">
+              <p>
+                  {{ trial.title }}
+                <button class="btn btn-warning pull-right">
                   find out more
-                </a>
-              </div>
-            </div>
+                </button>
+              </p>
+            </a>
           {% endfor %}
           </div>
         </div>
