@@ -1,6 +1,19 @@
 <!-- Side panel -->
 <div class="span3 side-panel">
   <ul class="unstyled">
+    {% if participant %}
+    <li>
+      <i class="icon-question-sign"
+         title="Ask a Question"
+         data-content="Not quite sure about this trial? Ask a question to the person running the trial."
+         >
+         </i>
+      <a href="#question" role="button" data-toggle="modal">
+        Ask a question
+      </a>
+    </li>
+    {% endif %}
+
     {% if trial.finished %}
     <li>
       <i class="icon-question-sign"
@@ -118,6 +131,40 @@ Dear Randomise Me Team,
 
 I would like to report a concern about the trial "{{trial.title}}" which can be found at {{ trial.get_absolute_url }}
                    </textarea>
+                 </div>
+               </div>
+           <button class="btn btn-danger" type="submit">Send</button>
+         </form>
+
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+       </div>
+  </div>
+
+  <!-- Modal Question -->
+  <div id="question" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Ask a Question</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           If you have a question for the trial owner, please ask it here:
+         </p>
+         <form method="POST" action="{% url 'trial-question' trial.pk %}">
+           {% csrf_token %}
+           <input id="id_name" name="name" type="hidden" value="{{request.user.username}}"/>
+           <input id="id_email" name="email" type="hidden" {% if request.user.is_authenticated %} value="{{request.user.email}} {% endif %}"/>
+
+               <div class="control-group required">
+                 <label class="control-label" for="id_message">Question</label>
+                 <div class="controls">
+                   <textarea cols="40" id="id_message" name="message" rows="10">
+I would like to ask a question about the trial "{{trial.title}}" which can be found at {{ trial.get_absolute_url }},
+
+
+</textarea>
                  </div>
                </div>
            <button class="btn btn-danger" type="submit">Send</button>

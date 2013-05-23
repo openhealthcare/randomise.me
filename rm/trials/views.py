@@ -15,6 +15,7 @@ from extra_views import CreateWithInlinesView, InlineFormSet
 from extra_views import NamedFormsetsMixin, ModelFormSetView
 from extra_views.advanced import BaseCreateWithInlinesView
 import ffs
+from letter.contrib.contact import ContactView
 
 from rm import exceptions
 from rm.trials.forms import (TrialForm, VariableForm)
@@ -234,6 +235,7 @@ class TrialDetail(DetailView):
                 page_title = 'Participating In'
                 group = trial.participant_set.get(user=self.request.user).group
                 instructions = group.name == 'A' and trial.group_a or trial.group_b
+                context['participant'] = True
                 context['instructions'] = instructions
 
 
@@ -249,6 +251,19 @@ class TrialDetail(DetailView):
         context['detail_template'] = detail_template
         context['page_title'] = page_title
         return context
+
+class TrialQuestion(TrialByPkMixin, ContactView):
+    """
+    Asking a question to the owner of this trial.
+    """
+
+    def form_valid(self, form):
+        """
+        Praise be, someone has spammed us.
+        """
+        self.success_url = self.trial.get_absolute_url()
+        form.send_email(to=self.trial.owner.email)
+        return super(ContactView, self).form_valid(form)
 
 
 class VariableInline(InlineFormSet):

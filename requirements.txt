@@ -1,5 +1,6 @@
 Django==1.5.1
-Jinja2==2.6
+Jinja2==2.7
+MarkupSafe==0.18
 South==0.7.6
 Werkzeug==0.8.3
 amqp==1.0.11
@@ -12,16 +13,17 @@ distribute==0.6.24
 dj-database-url==0.2.1
 django-allauth==0.10.0
 django-bootstrap-form==2.0.5
--e git://github.com/openhealthcare/django-cas2.git#egg=django_cas
+-e git://github.com/openhealthcare/django-cas2.git@4bfa5b708d52c3f4b7ea64ddead2126ad33544b4#egg=django_cas-dev
 django-celery==3.0.17
 django-debug-toolbar==0.9.4
 django-devserver==0.4.0
 django-extensions==1.0.3
-django-extra-views
+django-extra-views==0.6.2
 django-form-utils==0.2.0
 django-grappelli==2.4.4
 django-jinja2==0.1
-ffs==0.0.7.3
+-e git://github.com/BertrandBordage/django-terms.git@e5a60d55f7833fcced74c402f6a5d66728485281#egg=django_terms-dev
+ffs==0.0.7.4
 gevent==0.13.8
 gocardless==0.2.1
 greenlet==0.4.0
@@ -31,7 +33,7 @@ iowait==0.1
 ipdb==0.7
 ipython==0.13.2
 kombu==2.5.10
-letter==0.3
+letter==0.3.1
 lxml==3.1.1
 mailtools==2.1
 meld3==0.6.10
@@ -52,4 +54,3 @@ requests-oauthlib==0.3.0
 six==1.3.0
 supervisor==3.0b1
 wsgiref==0.1.2
--e git://github.com/BertrandBordage/django-terms.git#egg=django_terms

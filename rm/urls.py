@@ -12,7 +12,7 @@ admin.autodiscover()
 from rm.views import HomeView, RMContactView
 from rm.trials.views import (MyTrials,
                              TrialDetail, TrialCreate, TrialReport, JoinTrial,
-                             EditTrial,
+                             EditTrial, TrialQuestion,
                              LeaveTrial, PeekTrial, InviteTrial,
                              ReproduceTrial, TrialAsCsv,
                              AllTrials, FeaturedTrialsList, TrialSearchView)
@@ -71,6 +71,7 @@ urlpatterns = patterns(
     url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),
     url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
     url(r'trials/rm/(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
+    url(r'trials/rm/(?P<pk>\d+)/question', TrialQuestion.as_view(), name='trial-question'),
     url(r'trials/rm/(?P<pk>\d+)/edit$', EditTrial.as_view(), name='edit-trial'),
     url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
     url(r'trials/rm/(?P<pk>\d+)/invite$', InviteTrial.as_view(), name='trial-invite'),

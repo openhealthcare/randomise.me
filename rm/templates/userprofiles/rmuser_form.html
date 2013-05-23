@@ -14,7 +14,7 @@
       </div>
     {% endif %}
 
-    <form method="POST" id="profile-edit-form" action="">
+    <form method="POST" id="profile-edit-form" action="" class="form-horizontal">
       {% csrf_token %}
 
       <div class="row-fluid">
@@ -22,6 +22,10 @@
           <h2>Basic details</h2>
           {{ form.name|bootstrap }}
           {{ form.email|bootstrap }}
+
+          <h2>Preferences</h2>
+          {{ form.receive_questions|bootstrap }}
+
           <h2>Demographic data</h2>
           {{ form.dob|bootstrap }}
           {{ form.gender|bootstrap }}

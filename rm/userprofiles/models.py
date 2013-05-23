@@ -48,6 +48,13 @@ class RMUser(AbstractBaseUser):
         (FEMALE, 'Female')
         )
 
+    QUESTION_LONG = "Receive Questions"
+    QUESTION_HELP = """
+If you elect to receive questions, then participants in your trials can use
+Randomise Me to send you questions about your trial. You'll receive questions
+by email.
+"""
+
     username      = models.CharField(max_length=40, unique=True, db_index=True)
     email         = models.EmailField(max_length=254, unique=True)
     account       = models.CharField(max_length=2, choices=ACCOUNT_CHOICES, default='st')
@@ -55,9 +62,11 @@ class RMUser(AbstractBaseUser):
     is_staff      = models.BooleanField(default=False)
     is_superuser  = models.BooleanField(default=False)
     name          = models.CharField(max_length=200, blank=True, null=True)
-    dob           = models.DateField(blank=True, null=True)
+    dob           = models.DateField(blank=True, null=True, help_text="Your date of birth")
     gender        = models.CharField(max_length=2, blank=True, null=True, choices=GENDERS)
     postcode      = models.CharField(max_length=20, blank=True, null=True)
+    receive_questions = models.BooleanField(QUESTION_LONG, default=True,
+                                            help_text=QUESTION_HELP)
 
     objects = RMUserManager()
 

@@ -1,4 +1,5 @@
 {% load bootstrap %}
+{% load terms %}
 <div class="row-fluid">
 <form id="newtrial_form" method="post"
       action="{% if editing %}{% url 'edit-trial' trial.pk %}{% else %}{% url 'rm-trial-create' %}{% endif %}">
