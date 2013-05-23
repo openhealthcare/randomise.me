@@ -8,12 +8,14 @@
   </a>
    <div class="feature-box join-trial">
         {% for rel in trial.related %}
-          <p>
-            {{ rel.title }}
-            <a href="{{ rel.get_absolute_url }}" class="btn btn-warning pull-right">
-              find out more
-            </a>
-          </p>
+          <a href="{{ rel.get_absolute_url }}" >
+            <p>
+              {{ rel.title }}
+              <button class="btn btn-warning pull-right">
+                find out more
+              </button>
+            </p>
+          </a>
         {% endfor %}
    </div>
    <p class="pull-right drop12">
