@@ -715,6 +715,26 @@ ul li {
     margin: 0px;
 }
 
+.numbered {
+    counter-reset: numbered-counter;
+}
+
+.numbered dt {
+    font-size: 24px;
+    line-height: 32px;
+    margin: 24px 0px;
+}
+
+.numbered dt:before {
+    content: counter(numbered-counter);
+    counter-increment: numbered-counter;
+    color: white;
+    background-color: #ffc711;
+    margin: 13px;
+    padding: 4px 12px;
+    border-radius: 18px;
+}
+
 /* Header */
 html.nologo .masthead #header-logo {
     display: none;

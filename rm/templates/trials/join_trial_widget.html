@@ -5,14 +5,14 @@
    <div class="feature-box join-trial">
 
         {% for trial in recruiting %}
-          <p>
-            <a href="{{ trial.get_absolute_url }}">
+          <a href="{{ trial.get_absolute_url }}">
+            <p>
             {{ trial.title }}
-            </a>
-            <a href="{{ trial.get_absolute_url }}" class="btn btn-warning pull-right">
+            <button class="btn btn-warning pull-right">
               find out more
-            </a>
+            </button>
           </p>
+          </a>
         {% endfor %}
    </div>
    <p class="pull-right drop12">
