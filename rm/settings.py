@@ -132,7 +132,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
     'django.contrib.comments',
     # 3rd Party
 
@@ -142,11 +141,11 @@ INSTALLED_APPS = (
     'bootstrapform',
     'django_cas',
     'django_extensions',
-    'django_jinja2',
     'djcelery',
     'form_utils',
     'rm.gcapp',
     'grappelli',
+    'django.contrib.admin',
 
     'south',
     'terms',

@@ -86,7 +86,7 @@ get the intervention"""
     group_b_impressed = models.IntegerField(blank=True, null=True)
     start_date        = models.DateField(help_text=HELP_START)
     finish_date       = models.DateField(help_text=HELP_FINISH)
-    finished          = models.BooleanField(default=False, editable=False)
+    stopped          = models.BooleanField(default=False)
     owner             = models.ForeignKey(settings.AUTH_USER_MODEL)
     featured          = models.BooleanField(default=False)
     recruiting        = models.BooleanField(default=True)
@@ -153,6 +153,8 @@ get the intervention"""
         Return: bool
         Exceptions: None
         """
+        if self.stopped:
+            return True
         if self.finish_date < td():
             return True
         return False

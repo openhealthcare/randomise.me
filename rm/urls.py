@@ -9,13 +9,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 admin.autodiscover()
 
+from rm.trials.views import TrialSearchView
 from rm.views import HomeView, RMContactView
-from rm.trials.views import (MyTrials,
-                             TrialDetail, TrialCreate, TrialReport, JoinTrial,
-                             EditTrial, TrialQuestion,
-                             LeaveTrial, PeekTrial, InviteTrial,
-                             ReproduceTrial, TrialAsCsv,
-                             AllTrials, FeaturedTrialsList, TrialSearchView)
 from rm.userprofiles.views import RMUserUpdate
 
 urlpatterns = patterns(
@@ -53,12 +48,8 @@ urlpatterns = patterns(
     url(r'about-rcts$', TemplateView.as_view(template_name='rcts.html'), name='about-rcts'),
     url(r'how-do-rcts-work$', TemplateView.as_view(template_name='how-do-rcts-work.html'), name='how-do-rcts-work'),
 
-    # Tabs at the top of a logged-in user's pages
-    url(r'trials/my-trials$', MyTrials.as_view(), name='mytrials'),
-    url(r'trials/new$', TemplateView.as_view(template_name='trials/new.html'),
-        name='trial-create'),
-#    url(r'dash$', TemplateView.as_view(template_name='dash.html'), name='dash'),
-    url(r'dash$', MyTrials.as_view(), name='dash'),
+
+#    url(r'dash$', MyTrials.as_view(), name='dash'),
 
     # profile editor
     url(r'account$', RMUserUpdate.as_view(), name='account-edit'),
@@ -68,22 +59,7 @@ urlpatterns = patterns(
         name='tutorial'),
 
     # Trials on RM Users - CRUD routes
-    url(r'trials/rm/new$', TrialCreate.as_view(), name='rm-trial-create'),
-    url(r'trials/rm/(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
-    url(r'trials/rm/(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
-    url(r'trials/rm/(?P<pk>\d+)/question', TrialQuestion.as_view(), name='trial-question'),
-    url(r'trials/rm/(?P<pk>\d+)/edit$', EditTrial.as_view(), name='edit-trial'),
-    url(r'trials/rm/(?P<pk>\d+)/join$', JoinTrial.as_view(), name='join-trial'),
-    url(r'trials/rm/(?P<pk>\d+)/invite$', InviteTrial.as_view(), name='trial-invite'),
-    url(r'trials/rm/(?P<pk>\d+)/peek$', PeekTrial.as_view(), name='trial-peek'),
-    url(r'trials/rm/(?P<pk>\d+)/leave$', LeaveTrial.as_view(), name='leave-trial'),
-    url(r'trials/rm/(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(),
-        name='reproduce-trial'),
-    url(r'trials/rm/(?P<pk>\d+)/as-csv$', TrialAsCsv.as_view(), name='trial-as-csv'),
-
-    # Multiple ways to see lists of trials
-    url(r'trials/featured$', FeaturedTrialsList.as_view(), name='featured'),
-    url(r'trials$', AllTrials.as_view(), name='trials'),
+    url(r'^trials/', include('rm.trials.urls')),
     url(r'search$', TrialSearchView.as_view(), name='search')
 
 )

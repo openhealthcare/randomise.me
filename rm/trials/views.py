@@ -367,6 +367,16 @@ class InviteTrial(View):
         return HttpResponseForbidden('NO')
 
 
+class StopTrial(TrialByPkMixin, OwnsTrialMixin, View):
+    def post(self, *args, **kw):
+        """
+        Stop this trial.
+        """
+        self.trial.stopped = True
+        self.trial.save()
+        return HttpResponseRedirect(self.trial.get_absolute_url())
+
+
 class JoinTrial(LoginRequiredMixin, TemplateView):
     """
     Allow a user to join a trial
