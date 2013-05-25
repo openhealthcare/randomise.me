@@ -15,7 +15,7 @@ urlpatterns = patterns(
     url(r'new$', TemplateView.as_view(template_name='trials/new.html'),
         name='trial-create'),
 
-    url(r'new$', TrialCreate.as_view(), name='rm-trial-create'),
+    url(r'create$', TrialCreate.as_view(), name='rm-trial-create'),
     url(r'(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
     url(r'(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
     url(r'(?P<pk>\d+)/question', TrialQuestion.as_view(), name='trial-question'),

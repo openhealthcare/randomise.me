@@ -78,7 +78,8 @@ get the intervention"""
     # Step 6
     group_a           = models.TextField("Intervention Group Instructions", help_text=HELP_A)
     group_b           = models.TextField("Control Group Instructions", help_text=HELP_B)
-    instruction_delivery = models.TextField(max_length=2, choices=INSTRUCTION_CHOICES, default=IMMEDIATE)
+    instruction_delivery = models.TextField(max_length=2, choices=INSTRUCTION_CHOICES,
+                                            default=IMMEDIATE)
     instruction_hours_after = models.IntegerField(blank=True, null=True)
     instruction_date = models.DateField(blank=True, null=True)
 
