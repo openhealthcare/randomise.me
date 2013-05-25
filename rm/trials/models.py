@@ -65,8 +65,8 @@ get the intervention"""
                                       choices=FREQ_CHOICES, default=DAILY)
 
     # Step 3
-    min_participants  = models.IntegerField()
-    max_participants  = models.IntegerField()
+    min_participants  = models.IntegerField("I think I need a minimum of x participants for a meaningful answer")
+
     # Step 4
     recruitment       = models.CharField(max_length=2, choices=RECRUITMENT_CHOICES,
                                          default=ANYONE)
