@@ -12,7 +12,7 @@
             <h3>
               Participants
               <span class="bold">
-                {{ trial.participant_set.count }}/{{ trial.min_participants }}-{{ trial.max_participants }}
+                {{ trial.participant_set.count }}/{{ trial.min_participants }}
                 <i class="icon-question-sign"
                    title="Participants"
                    data-content="This shows your current number of participants, as well as the minimum and maximum number of participants for your trial."
@@ -36,12 +36,12 @@
 
         </div> <!-- Inner row 1. -->
 
-        <h3>
-          Active Participants
-          <span class="bold">
-            85 (4%) THIS IS STATIC TEXT BTW
-          </span>
-        </h3>
+        <!-- <h3> -->
+        <!--   Active Participants -->
+        <!--   <span class="bold"> -->
+        <!--     85 (4%) THIS IS STATIC TEXT BTW -->
+        <!--   </span> -->
+        <!-- </h3> -->
 
         <!-- Public private etc -->
         {% if trial.is_invitation_only %}

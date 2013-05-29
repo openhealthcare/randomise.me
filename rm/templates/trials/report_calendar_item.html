@@ -100,8 +100,12 @@
     <div class="span6">
       {% if forloop.first %}
         {% with variable.report_form as form %}
+          {% if trial.reporting_style == trial.ONCE %}
           <input id="id_date" name="date" readonly="true" size="16" type="hidden"
                  value="{{today|date:"d/m/Y"}}">
+           {% else %}
+             {{ form.date|bootstrap }}
+           {% endif %}
            {% if form.Meta.score %}
              {{form.score|bootstrap}}
            {% elif form.Meta.binary %}

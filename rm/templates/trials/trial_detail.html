@@ -9,24 +9,11 @@
     <span class="greyunder">{{ page_title }}</span>
   </h1>
   <div class="row-fluid">
-    <div class="span6">
+    <div class="span9">
       <h2 class="light">
         {{ trial.title }}
       </h2>
     </div>
-    <div class="span3">
-      <h3>
-        {% if trial.time_remaining.days == 0 %}
-          ends today
-        {% elif trial.time_remaining == 'finished' %}
-          finished
-        {% else %}
-        <span class="bold">{{ trial.time_remaining.days }} days</span>
-        <span class="ligt">to end</span>
-        {% endif %}
-      </h3>
-    </div>
-
     <div class="span3">
       <a href="{{ trial.get_absolute_url }}">
         <h3 class="redroll">
