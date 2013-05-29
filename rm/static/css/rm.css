@@ -719,6 +719,10 @@ ul li {
     counter-reset: numbered-counter;
 }
 
+.numbered.startat2 {
+    counter-increment: numbered-counter;
+}
+
 .numbered dt {
     font-size: 24px;
     line-height: 32px;

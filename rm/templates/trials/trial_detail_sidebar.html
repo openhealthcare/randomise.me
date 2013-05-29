@@ -64,6 +64,9 @@
             Peek at the results
           </a>
         </li>
+        <li>
+          <a href="#stopit" role="button" data-toggle="modal" class="btn btn-warning">stop this trial</a>
+        </li>
       {% endif %}
     {% else %}
     <li>
@@ -176,5 +179,25 @@ I would like to ask a question about the trial "{{trial.title}}" which can be fo
        </div>
   </div>
 
+  <!-- Modal stopit -->
+  <div id="stopit" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Stop this Trial?</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           Would you like to stop this trial? Are you shure? This cannot be undone...
+         </p>
+         <form method="POST" action="{% url 'stop-trial' trial.pk %}">
+           {% csrf_token %}
+           <button class="btn btn-danger" type="submit">stop trial</button>
+         </form>
+
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+       </div>
+  </div>
 
 </div>

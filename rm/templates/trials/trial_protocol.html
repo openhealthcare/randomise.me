@@ -1,0 +1,178 @@
+{% load maths %}
+<dl class="numbered startat2">
+  <!-- Step 2 (Outcome) -->
+  {% with trial.main_outcome as outcome %}
+    <dt>
+      <div class="row-fluid">
+        <h3>Measuring ({{outcome.get_style_display}})</h3>
+        <p>
+          <i>
+            {{outcome.question}}
+          </i>
+        </p>
+        <h3>Reporting {{ trial.get_reporting_style_display }}</h3>
+        {% if trial.reporting_style == trial.DATED %}
+          <p>
+            Where X == trial.reporting_date
+          </p>
+        {% elif trial.reporting_style == trial.REGULARLY %}
+          <p> Where regularly == {{trial.get_reporting_freq_display }} </p>
+        {% endif %}
+      </div>
+    </dt>
+  {% endwith %}
+
+  <!-- Step 3 (Size) -->
+  <dt>
+    <div class="row-fluid">
+      <div class="span6"> <!-- Inner frist col -->
+        <h3>
+          Participants
+          <span class="bold">
+            {{ trial.participant_set.count }}/{{ trial.min_participants }}
+            <i class="icon-question-sign"
+               title="Participants"
+               data-content="This shows your current number of participants, as well as the minimum and maximum number of participants for your trial."
+               >
+            </i>
+          </span>
+        </h3>
+      </div>
+      {% if is_owner and not trial.stopped %}
+      <div class="span6"> <!-- Inner second col -->
+        <h3>
+          You need
+          <span class="bold">
+            {{ trial.min_participants|subtract:trial.participant_set.count}}
+          </span>
+          more people
+        </h3>
+      </div>
+      {% endif %}
+    </div> <!-- Inner row 1. -->
+  </dt>
+
+  <!-- Step 4 (Recruiting) -->
+  <dt>
+    {% if trial.is_invitation_only %}
+      <div class="row-fluid">
+        <div class="span6">
+          <h3>
+            This trial
+            {% if trial.stopped %}
+              was
+            {% else %}
+              is
+            {% endif %}
+            <span class="bold">invitation only</span>
+          </h3>
+        </div>
+        {% if not trial.stopped %}
+
+          <div class="span6">
+            <a href="#invite-modal" role="button" data-toggle="modal"
+               class="btn btn-warning">
+               invite people
+            </a>
+          </div>
+
+          <!-- Modal -->
+          <div id="invite-modal" class="modal hide fade" tabindex="-1"
+               role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+               <div class="modal-header">
+                 <h3 id="myModalLabel">Invite people to this trial</h3>
+               </div>
+               <div class="modal-body">
+                 <form method="POST" id="invite-form" action="{% url 'trial-invite' trial.pk %}">
+                   {% csrf_token %}
+                   <input type="hidden" name="trial_pk" value="{{trial.pk}}" />
+                   <p>
+                     <input type="text" name="email" value="" placeholder="larry@example.com"/>
+                     <button id="btn-invite" class="btn btn-danger">invite</button>
+                   </p>
+                 </form>
+                 <h4>Currently invited</h4>
+                 <ul id="invited-list">
+                   {% for invitation in trial.invitation_set.all %}
+                     <li>
+                       {{ invitation.email }}
+                     </li>
+                   {% endfor %}
+                 </ul>
+               </div>
+               <div class="modal-footer">
+                 <button class="btn" data-dismiss="modal" aria-hidden="true">close</button>
+               </div>
+               <script type="text/javascript">
+                 $(document).ready( function(){
+                 RM.forms.init_modalinvite();
+                 });
+               </script>
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="row-fluid">
+        <div class="span9">
+          <h3>
+            This
+            {% if trial.stopped %}
+              was
+            {% else %}
+              is
+            {% endif %}
+            a
+            <span class="bold">
+              {% if trial.private %}private{% else %}public{% endif %}
+            </span> trial that anyone can join
+          </h3>
+        </div>
+        <div class="span6">
+          {% if trial.private %}
+            <a href="#" class="btn btn-warning">make public</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </dt>
+
+  <!-- Step 5 (Participant information) -->
+  <dt>
+    <div class="row-fluid">
+      <h3>Trial Description</h3>
+      <p>
+        <i>
+          {{ trial.description }}
+        </i>
+      </p>
+    </div>
+  </dt>
+
+  <!-- Step 6 (Instructions) -->
+  <dt>
+    <div class="row-fluid">
+      <div class="span6">
+        <h3>Instructions for Group A</h3>
+        <p><i>{{ trial.group_a }}</i></p>
+      </div>
+      <div class="span6">
+        <h3>Instructions for Group B</h3>
+        <p><i>{{ trial.group_b }}</i></p>
+      </div>
+    </div>
+    <div class="span12">
+      <p>
+        Participants will receive these instructions
+        {% if trial.instruction_delivery == trial.IMMEDIATE %}
+          immediately after they join your trial
+        {% elif trial.instruction_delivery == trial.HOURS %}
+          {{ trial.hours_after }} hours after they join your trial
+        {% elif trial.instruction_delivery == trial.DATE %}
+          on {{ trial.instruction_date }}
+        {% endif %}
+      </p>
+    </div>
+  </dt>
+
+
+</dl>

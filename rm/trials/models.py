@@ -201,6 +201,12 @@ get the intervention"""
         """
         return self.recruitment == self.INVITATION
 
+    def main_outcome(self):
+        """
+        Return the trial's main outcome
+        """
+        return self.variable_set.all()[0]
+
     def related(self):
         """
         Get trials possibly related to this one.
