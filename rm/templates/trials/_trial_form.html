@@ -28,7 +28,6 @@
     <li data-target="#myCarousel" data-slide-to="4"></li>
     <li data-target="#myCarousel" data-slide-to="5"></li>
     <li data-target="#myCarousel" data-slide-to="6"></li>
-    <li data-target="#myCarousel" data-slide-to="7"></li>
   </ol>
 
   <!-- Carousel items -->
@@ -88,8 +87,21 @@
         {% endfor %}
         {% endif %} <!-- Editing -->
 
-      <h3>How often would you like your participants to report data?</h3>
-      {{ form.reporting_freq|bootstrap }}
+      <h3>When would you like your participants to report data?</h3>
+
+      <div class="row">
+        <div class="span5">
+          {{form.reporting_style|bootstrap}}
+        </div>
+        <div class="span5">
+          <div class="hidem" id="reporting-freq-container">
+            {{ form.reporting_freq|bootstrap }}
+          </div>
+        </div>
+      </div>
+
+
+
       <p class="muted">
 
       </p>
@@ -209,19 +221,8 @@
       </div>
     </div>
 
-    <div class="item">
-        <!-- Step 7 Trial Duration -->
-
-        <h2>7. <span class="light">TRIAL</span> <span class="red bold">DURATION</span></h2>
-        <h3>How long should your trial last?</h3>
-        {{ form.start_date|bootstrap }}
-        {{ form.finish_date|bootstrap }}
-
-    </div>
-
-
     <div class="item"><!-- End Trial creation steps -->
-      <h2>8. <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span></h2>
+      <h2>7. <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span></h2>
       {% if editing %}
       <button class="btn btn-danger" type="submit">Save Changes</button>
       {% else %}
@@ -248,6 +249,7 @@
 $(document).ready( function(){
   RM.forms.init_instruction_toggles();
   RM.forms.init_enter_sliding();
+  RM.forms.init_focus();
 });
 
 </script>

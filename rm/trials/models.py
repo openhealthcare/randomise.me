@@ -40,9 +40,22 @@ class Trial(models.Model):
         (DATE, 'On this date...')
         )
 
+    ONCE      = 'on'
+    WHENEVER  = 'wh'
+    DATED     = 'da'
+    REGULARLY = 're'
+
+    REPORT_STYLE_CHOICES = (
+        (ONCE,      'Once only'),
+        (WHENEVER,  'Whenever they want'),
+        (DATED,     'On date x'),
+        (REGULARLY, 'Regularly')
+        )
+
     DAILY   = 'da'
     WEEKLY  = 'we'
     MONTHLY = 'mo'
+
     FREQ_CHOICES = (
         (DAILY,   'Once per day'),
         (WEEKLY,  'Once per week'),
@@ -54,14 +67,14 @@ class Trial(models.Model):
     HELP_A = """These are the instructions that will be sent to the group who
 get the intervention"""
     HELP_B = """These are the instructions that will be sent to the control group"""
-    HELP_START = "The date you would like your trial to start"
-    HELP_FINISH = "The date you would like your trial to finish"
 
     # Step 1
     title          = models.CharField(max_length=200, blank=True, null=True)
 
     # Step 2
-    reporting_freq = models.CharField("Reporting frequency", max_length=200,
+    reporting_style = models.CharField("Reporting Style", max_length=2,
+                                       choices=REPORT_STYLE_CHOICES, default=ONCE)
+    reporting_freq = models.CharField("Reporting frequency", max_length=2,
                                       choices=FREQ_CHOICES, default=DAILY)
 
     # Step 3
@@ -75,6 +88,7 @@ get the intervention"""
     description       = models.TextField(blank=True, null=True)
     group_a_desc      = models.TextField("Intervention Group description", blank=True, null=True)
     group_b_desc      = models.TextField("Control Group description", blank=True, null=True)
+
     # Step 6
     group_a           = models.TextField("Intervention Group Instructions", help_text=HELP_A)
     group_b           = models.TextField("Control Group Instructions", help_text=HELP_B)
@@ -85,17 +99,18 @@ get the intervention"""
 
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
-    start_date        = models.DateField(help_text=HELP_START)
-    finish_date       = models.DateField(help_text=HELP_FINISH)
-    stopped          = models.BooleanField(default=False)
+
+
     owner             = models.ForeignKey(settings.AUTH_USER_MODEL)
     featured          = models.BooleanField(default=False)
-    recruiting        = models.BooleanField(default=True)
     participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
-    is_edited         = models.BooleanField(default=False)
 
-#    created           = models.DateTimeField(default=lambda: datetime.datetime.now(), blank=tr)
+    stopped           = models.BooleanField(default=False)
+    recruiting        = models.BooleanField(default=True)
+    is_edited         = models.BooleanField(default=False)
+    created           = models.DateTimeField(default=lambda: datetime.datetime.now())
     private           = models.BooleanField(default=False)
+
     objects = managers.RmTrialManager()
 
     def __unicode__(self):
@@ -157,8 +172,7 @@ get the intervention"""
         """
         if self.stopped:
             return True
-        if self.finish_date < td():
-            return True
+
         return False
 
     @property
@@ -202,9 +216,7 @@ get the intervention"""
         Return: timedelta or str
         Exceptions: None
         """
-        if self.finish_date < td():
-            return 'finished'
-        return self.finish_date - td()
+        return 'No longer appropriate'
 
     def can_join(self):
         """
@@ -214,7 +226,7 @@ get the intervention"""
         We decide that a trial is unjoinable if it's finish date has
         passed, or if it's max participants limit has been met.
         """
-        if self.finish_date < td():
+        if self.stopped == True:
             return False
         return True
 
@@ -420,6 +432,7 @@ class Participant(models.Model):
     user  = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     trial = models.ForeignKey(Trial)
     group = models.ForeignKey(Group, blank=True, null=True)
+    joined = models.DateField(default=lambda: datetime.date.today(), blank=True)
 
     def __unicode__(self):
         """

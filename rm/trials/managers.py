@@ -21,7 +21,7 @@ class ActiveManager(models.Manager):
         Return: Queryset
         Exceptions: None
         """
-        return self.filter(start_date__lte=td(), finish_date__gte=td())
+        return self.filter()
 
     def completed(self):
         """
@@ -30,7 +30,7 @@ class ActiveManager(models.Manager):
         Return: Queryset
         Exceptions: None
         """
-        return self.filter(finish_date__lt=td())
+        return self.filter(stopped=True)
 
     def starting_today(self):
         """
@@ -39,8 +39,7 @@ class ActiveManager(models.Manager):
         Return: Queryset
         Exceptions: None
         """
-        return self.filter(start_date=td())
-
+        return self.filter()
 
 
 class SingleUserTrialManager(ActiveManager):

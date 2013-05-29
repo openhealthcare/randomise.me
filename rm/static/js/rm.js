@@ -41,6 +41,10 @@ var RM = {
             })
         },
 
+        init_focus: function(){
+            $('.item.active input').focus();
+        },
+
         init_enter_sliding: function(){
             $(document).on('keypress', '.item.active input',
                            function(e){
@@ -73,6 +77,25 @@ var RM = {
                     }
                 }
             )
+
+            $('select[name="reporting_style"]').change(
+                function(e){
+                    var hidem = function(){
+                        $('#reporting-freq-container').hide();
+                    }
+                    var showem = function(sel){$(sel).show()}
+
+                    console.log(e)
+                    var src = $(e.target);
+                    if(src.attr('value') != 're'){
+                        hidem()
+                    }else{
+                        showem('#reporting-freq-container');
+                    }
+                }
+            )
+
+
         },
 
         init_modalinvite: function(){

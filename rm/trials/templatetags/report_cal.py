@@ -21,7 +21,7 @@ def report_cal(context):
     participant = trial.participant_set.get(user=user)
     reports = list(trial.report_set.filter(participant=participant))
     items = []
-    start, end = trial.start_date, trial.finish_date
+    start, end = participant.joined, participant.joined + datetime.timedelta(weeks=3)
     period_date = start
 
     delta = datetime.timedelta(days=1)

@@ -13,7 +13,7 @@ class TrialAdmin(admin.ModelAdmin):
     Tweak trials in the admin.
     """
     list_filter = ('owner',)
-    list_display = ['title', 'private', 'finish_date', 'owner', 'featured']
+    list_display = ['title', 'private', 'owner', 'featured']
     list_editable = ['featured',]
     inlines = [VariableInline]
 

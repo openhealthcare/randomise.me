@@ -189,6 +189,9 @@
           $next.removeClass([type, direction].join(' ')).addClass('active')
           $active.removeClass(['active', direction].join(' '))
           that.sliding = false
+          // We've finished sliding, give focus to the first active form element
+            $($('.item.active input,.item.active select,.item.active textarea')[0]).focus()
+
           setTimeout(function () { that.$element.trigger('slid') }, 0)
         })
       } else {

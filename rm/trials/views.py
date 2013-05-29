@@ -321,7 +321,9 @@ class ReproduceTrial(TrialCreate):
         return super(BaseCreateWithInlinesView, self).get(*args, **kw)
 
     def get_form(self, klass):
-        return klass(instance=self.object)
+        form = klass(instance=self.object)
+        form.instance.owner = self.request.user
+        return form
 
     def get_context_data(self, *args, **kw):
         context = super(ReproduceTrial, self).get_context_data(*args, **kw)
