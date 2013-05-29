@@ -1,5 +1,12 @@
 {% load bootstrap %}
-{% for period in items %}
+{% if is_done %}
+  <p>
+    Thanks for reporting data to this trial!
+    You've done your part, and we'll let you know when the trial ends &
+    the results are in!
+  </p>
+{% elif trial.reporting_style == trial.REGULARLY %}
+  {% for period in items %}
   <div class="span2 cal-item">
     <a
        {% if period.reported %}
@@ -84,6 +91,48 @@
   {% endif %}
 
 {% endfor %}
+{% else %} <!-- Report once -->
+    <form id="usertrialreport_form" method="post"
+          action="{% url 'trial-report' trial.pk %}" class="ajaxform">
+          {% csrf_token %}
+
+    {% for variable in trial.variable_set.all %}
+    <div class="span6">
+      {% if forloop.first %}
+        {% with variable.report_form as form %}
+          <input id="id_date" name="date" readonly="true" size="16" type="hidden"
+                 value="{{today|date:"d/m/Y"}}">
+           {% if form.Meta.score %}
+             {{form.score|bootstrap}}
+           {% elif form.Meta.binary %}
+             {{form.binary|bootstrap}}
+           {% elif form.Meta.count %}
+             {{form.count|bootstrap}}
+           {% endif %}
+        {% endwith %}
+      {% endif %}
+    </div>
+    <div class="span6">
+      <h3>
+        <i>
+          {{ variable.question }}
+        </i>
+      </h3>
+    </div>
+    {% endfor %}
+
+      <button class="btn btn-danger">
+        report data
+     </button>
+
+    </form>
+
+
+
+
+{% endif %}
+
+
 
   <script type="text/javascript">
 

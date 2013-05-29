@@ -22,8 +22,8 @@ def my_trials(context):
     completed     = Trial.objects.completed().filter(owner=user)
 
     participated   = user.participant_set
-    participating = participated.filter(trial__recruiting=True, trial__finish_date__gt=td())
-    participated  = participated.filter(trial__finish_date__lt=td())
+    participating = participated.filter(trial__stopped=False)
+    participated  = participated.filter(trial__stopped=True)
 
 
 

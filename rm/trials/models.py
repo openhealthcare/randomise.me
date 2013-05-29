@@ -263,9 +263,6 @@ get the intervention"""
         Make sure that the trial has groups, then randomly assign USER
         to one of those groups.
 
-        Ensure that we haven't gone over the max_participants level,
-        raising TooManyParticipantsError if we have.
-
         Ensure that this user hasn't already joined the trial, raising
         AlreadyJoinedError if we have.
 
@@ -280,13 +277,10 @@ get the intervention"""
         """
         if self.owner == user:
             raise exceptions.TrialOwnerError()
-        today = datetime.date.today()
-        if self.finish_date < today:
+        if self.stopped:
             raise exceptions.TrialFinishedError()
         if Participant.objects.filter(trial=self, user=user).count() > 0:
             raise exceptions.AlreadyJoinedError()
-        if self.participant_set.count() >= self.max_participants:
-            raise exceptions.TooManyParticipantsError()
         part = Participant(trial=self, user=user).randomise()
         part.save()
         if self.instruction_delivery == self.IMMEDIATE:

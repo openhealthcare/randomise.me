@@ -20,6 +20,9 @@ def report_cal(context):
     trial, user = context['trial'], context['request'].user
     participant = trial.participant_set.get(user=user)
     reports = list(trial.report_set.filter(participant=participant))
+    is_done = False
+    if len(reports) > 0 and trial.reporting_style == trial.ONCE:
+        is_done = True
     items = []
     start, end = participant.joined, participant.joined + datetime.timedelta(weeks=3)
     period_date = start
@@ -36,4 +39,9 @@ def report_cal(context):
         items.append(period)
         period_date += delta
 
-    return dict(items=items, trial=trial)
+    return dict(
+        trial=trial,
+        is_done=is_done,
+        today=datetime.date.today(), # single reporting date
+        items=items,                 # regular reporting periods
+        )
