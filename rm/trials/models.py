@@ -406,6 +406,16 @@ class Variable(models.Model):
             )
         return forms.reportform_factory(self, data)
 
+    def duplicate(self):
+        """
+        Return a new variable un-linked to this trial
+
+        Return: Variable
+        Exceptions: None
+        """
+        return Variable(name=self.name, question=self.question, style=self.style)
+
+
 
 class Group(models.Model):
     """

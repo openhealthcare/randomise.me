@@ -316,9 +316,24 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
 
 class ReproduceTrial(TrialCreate):
     def get(self, *args, **kw):
+        self.reproducing = Trial.objects.get(pk=kw['pk'])
         self.object = Trial.objects.reproduce(self.request.user, pk=kw['pk'])
         print self.object
         return super(BaseCreateWithInlinesView, self).get(*args, **kw)
+
+    def construct_inlines(self):
+        """
+        Pass through a copy of the inlines for the previous trial's
+        variable.
+        """
+        inline_formsets = super(ReproduceTrial, self).construct_inlines()
+        old_var = self.reproducing.variable_set.all()[0]
+        duplicated = old_var.duplicate()
+        the_form = inline_formsets[0].forms[0]
+        the_form.instance = duplicated
+        the_form.fields['question'].initial = duplicated.question
+        the_form.fields['style'].initial = duplicated.style
+        return inline_formsets
 
     def get_form(self, klass):
         form = klass(instance=self.object)
