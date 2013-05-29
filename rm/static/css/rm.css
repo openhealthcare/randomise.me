@@ -941,3 +941,15 @@ html.nologo .masthead #header-logo {
     color: #a9ce36;
     font-size: 34px;
 }
+
+
+body {
+    background-color:#f4f0ef;
+}
+
+
+.feature-box {
+    padding: 20px 20px 0px 20px;
+    border: 3px dotted #d8d1cd;
+    background-color:#fff9f7;
+}

@@ -92,7 +92,7 @@ class TrialForm(BetterModelForm):
                                          'instruction_hours_after', 'instruction_date'],
                          'legend': '3. Instructions',
                          'classes': []}),
-            ('Sizing', {'fields': ['min_participants', 'max_participants',
+            ('Sizing', {'fields': ['min_participants',
                                    'recruitment'],
                         'legend': '4. Sizing',
                         'classes': []}),

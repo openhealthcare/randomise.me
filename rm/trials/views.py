@@ -296,6 +296,23 @@ class TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView)
         form.instance.owner = self.request.user
         return form
 
+class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView):
+    model = Trial
+    context_object_name = "trial"
+    model               = Trial
+    form_class          = TrialForm
+    inlines = [VariableInline]
+    inlines_names = ['Variable']
+
+    def get_form(self, klass):
+        """
+        Add ownership details to the trial
+        """
+        form = super(TrialCreate, self).get_form(klass)
+        form.instance.owner = self.request.user
+        return form
+
+
 class ReproduceTrial(TrialCreate):
     def get(self, *args, **kw):
         self.object = Trial.objects.reproduce(self.request.user, pk=kw['pk'])

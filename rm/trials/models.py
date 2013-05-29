@@ -94,6 +94,7 @@ get the intervention"""
     participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
     is_edited         = models.BooleanField(default=False)
 
+#    created           = models.DateTimeField(default=lambda: datetime.datetime.now(), blank=tr)
     private           = models.BooleanField(default=False)
     objects = managers.RmTrialManager()
 
@@ -214,8 +215,6 @@ get the intervention"""
         passed, or if it's max participants limit has been met.
         """
         if self.finish_date < td():
-            return False
-        if self.participant_set.count() >= self.max_participants:
             return False
         return True
 
