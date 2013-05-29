@@ -296,6 +296,7 @@ class TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView)
         form.instance.owner = self.request.user
         return form
 
+
 class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView):
     model = Trial
     context_object_name = "trial"

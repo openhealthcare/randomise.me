@@ -232,7 +232,7 @@
   </div>
   <!-- Carousel nav -->
   <a class="carousel-control left btn btn-danger hidem"
-     href="#myCarousel" data-slide="prev">back</a>
+     href="#myCarousel" data-slide="prev" tabindex="-1">back</a>
   <a class="carousel-control right btn btn-danger"
      href="#myCarousel" data-slide="next">next</a>
 </div>
@@ -247,6 +247,7 @@
 
 $(document).ready( function(){
   RM.forms.init_instruction_toggles();
+  RM.forms.init_enter_sliding();
 });
 
 </script>

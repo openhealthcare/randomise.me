@@ -41,6 +41,16 @@ var RM = {
             })
         },
 
+        init_enter_sliding: function(){
+            $(document).on('keypress', '.item.active input',
+                           function(e){
+                               console.log(e)
+                               if (e.which == 13) {
+                                   $(".carousel-control.right").click()
+                               }
+                           });
+        },
+
         init_instruction_toggles : function(){
             $('input[name="instruction_delivery"]').change(
                 function(e){
