@@ -60,18 +60,10 @@ class TrialForm(ModelForm):
     """
     Custom user presentation of trials
     """
-    # start_date = fields.DateField(
-    #     input_formats = ['%d/%m/%Y',],
-    #     widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',]))
-    # finish_date = fields.DateField(
-    #     input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
-    #     widget=BootstrapDatepickerWidget(
-    #         format=['%d/%m/%Y',],
-    #         attrs={
-    #             'data-rmafterdate':"#id_start_date",
-    #             'data-rmafterdate-message': "Finish date can't be after the start date"
-    #             },
-    #         default=lambda: utils.in_a(week=1)))
+    reporting_date = fields.DateField(
+        input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
+                                         default=lambda: utils.today()))
 
     instruction_date = fields.DateField(
         input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
@@ -81,28 +73,6 @@ class TrialForm(ModelForm):
     class Meta:
         model = Trial
         exclude = ['owner', 'created']
-        # fieldsets = [
-        #     ('Basic', {'fields': ['title', 'reporting_freq'],
-        #                'legend': '1. Hypothesis',
-        #                'description': ''}),
-        #     ('Details', {'fields': ['participants', 'description',
-        #                             'group_a_desc', 'group_b_desc'],
-        #                'legend': '2. Details',
-        #                'classes': []}),
-
-        #     ('Instructions', {'fields': ['group_a', 'group_b', 'instruction_delivery',
-        #                                  'instruction_hours_after', 'instruction_date'],
-        #                  'legend': '3. Instructions',
-        #                  'classes': []}),
-        #     ('Sizing', {'fields': ['min_participants',
-        #                            'recruitment'],
-        #                 'legend': '4. Sizing',
-        #                 'classes': []}),
-        #     ('Duration', {'fields': ['', ''],
-        #                   'legend': '5. Duration',
-        #                   'classes': []})
-        #     ]
-
         widgets = {
             'title': widgets.TextInput(attrs={
                     'data-required' : 'true',

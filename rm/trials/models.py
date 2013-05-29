@@ -76,6 +76,7 @@ get the intervention"""
                                        choices=REPORT_STYLE_CHOICES, default=ONCE)
     reporting_freq = models.CharField("Reporting frequency", max_length=2,
                                       choices=FREQ_CHOICES, default=DAILY)
+    reporting_date = models.DateField('Reporting date', blank=True, null=True)
 
     # Step 3
     min_participants  = models.IntegerField("I think I need a minimum of x participants for a meaningful answer")
@@ -90,8 +91,8 @@ get the intervention"""
     group_b_desc      = models.TextField("Control Group description", blank=True, null=True)
 
     # Step 6
-    group_a           = models.TextField("Intervention Group Instructions", help_text=HELP_A)
-    group_b           = models.TextField("Control Group Instructions", help_text=HELP_B)
+    group_a           = models.TextField("Group A Instructions", help_text=HELP_A)
+    group_b           = models.TextField("Group B Instructions", help_text=HELP_B)
     instruction_delivery = models.TextField(max_length=2, choices=INSTRUCTION_CHOICES,
                                             default=IMMEDIATE)
     instruction_hours_after = models.IntegerField(blank=True, null=True)

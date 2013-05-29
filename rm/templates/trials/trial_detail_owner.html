@@ -115,11 +115,11 @@
 
         <div class="row-fluid">
           <div class="span6">
-            <h3>Instructions for the Intervention Group</h3>
+            <h3>Instructions for Group A</h3>
             <p><i>{{ trial.group_a }}</i></p>
           </div>
           <div class="span6">
-            <h3>Instructions for the Control Group</h3>
+            <h3>Instructions for Group B</h3>
             <p><i>{{ trial.group_b }}</i></p>
           </div>
         </div>
@@ -169,23 +169,4 @@
   <p>
     {{ trial.description }}
   </p>
-  <div class="row-fluid">
-    <div class="span6">
-      <h3 class="light">
-        Control Group description
-      </h3>
-      <p><i>
-        {{ trial.group_a_desc }}
-      </p></i>
-    </div>
-    <div class="span6">
-      <h3 class="light">
-        Intervention Group description
-      </h3>
-      <p><i>
-        {{ trial.group_b_desc }}
-      </p></i>
-    </div>
-
-  </div>
 </div>

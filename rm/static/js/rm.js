@@ -82,15 +82,17 @@ var RM = {
                 function(e){
                     var hidem = function(){
                         $('#reporting-freq-container').hide();
+                        $('#reporting-date-container').hide();
                     }
                     var showem = function(sel){$(sel).show()}
 
                     console.log(e)
                     var src = $(e.target);
-                    if(src.attr('value') != 're'){
-                        hidem()
-                    }else{
+                    hidem();
+                    if(src.attr('value') == 're'){
                         showem('#reporting-freq-container');
+                    }else if(src.attr('value') == 'da'){
+                        showem('#reporting-date-container')
                     }
                 }
             )

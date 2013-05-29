@@ -97,6 +97,9 @@
           <div class="hidem" id="reporting-freq-container">
             {{ form.reporting_freq|bootstrap }}
           </div>
+          <div class="hidem" id="reporting-date-container">
+            {{ form.reporting_date|bootstrap }}
+          </div>
         </div>
       </div>
 
@@ -165,18 +168,6 @@
         </div>
         </div>
 
-      </div>
-
-      <div class="row">
-
-      <div class="span4">
-        <h3>What are you going to do to the Intervention Group?</h3>
-        {{ form.group_a_desc|bootstrap }}
-      </div>
-      <div class="span4">
-        <h3>What are you going to do to the Control Group?</h3>
-        {{ form.group_b_desc|bootstrap }}
-      </div>
       </div>
 
     </div>
