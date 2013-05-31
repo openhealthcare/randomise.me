@@ -98,6 +98,26 @@ var RM = {
             )
 
 
+            $('input[name="ending_style"]').change(
+                function(e){
+                    var hidem = function(){
+                        $('#ending-reports-container').hide();
+                        $('#ending-date-container').hide();
+                    }
+                    var showem = function(sel){$(sel).show()}
+
+                    console.log(e)
+                    var src = $(e.target);
+                    hidem();
+                    if(src.attr('value') == 're'){
+                        showem('#ending-reports-container');
+                    }else if(src.attr('value') == 'da'){
+                        showem('#ending-date-container')
+                    }
+                }
+            )
+
+
         },
 
         init_modalinvite: function(){

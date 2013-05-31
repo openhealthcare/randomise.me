@@ -69,6 +69,10 @@ class TrialForm(ModelForm):
         input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
         widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
                                          default=lambda: utils.today()))
+    ending_date = fields.DateField(
+        input_formats = ['%d/%m/%Y', '%Y-%m-%d'],
+        widget=BootstrapDatepickerWidget(format=['%d/%m/%Y',],
+                                         default=lambda: utils.today()))
 
     class Meta:
         model = Trial
@@ -117,6 +121,11 @@ class TrialForm(ModelForm):
                     'data-greaterthanorequalto-message': "Max participants must be greater than or equal to Min participants"
                     }),
             'recruitment': widgets.RadioSelect(),
+            'ending_style': widgets.RadioSelect(),
+            'ending_reports': widgets.TextInput(attrs={
+                    'data-type': 'digits',
+                    'data-min' : '1'
+                    }),
             }
 
     def clean_finish_date(self):

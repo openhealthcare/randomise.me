@@ -62,6 +62,15 @@ class Trial(models.Model):
         (MONTHLY, 'Once per month')
         )
 
+
+    MANUALLY = 'ma'
+    REPORT_NUM = 're'
+    ENDING_CHOICES = (
+        (MANUALLY, 'Manually'),
+        (REPORT_NUM, 'After X have reported'),
+        (DATED, 'On date Y')
+        )
+
     HELP_PART = """Who can participate in this trial?
 (Everyone? People with an infant under 6 months? People who binge drink Alcohol?)"""
     HELP_A = """These are the instructions that will be sent to the group who
@@ -98,6 +107,12 @@ get the intervention"""
                                             default=IMMEDIATE)
     instruction_hours_after = models.IntegerField(blank=True, null=True)
     instruction_date = models.DateField(blank=True, null=True)
+
+    # Step 7
+    ending_style   = models.TextField(choices=ENDING_CHOICES, default=MANUALLY)
+    ending_reports = models.IntegerField(blank=True, null=True)
+    ending_date    = models.DateField(blank=True, null=True)
+
 
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)

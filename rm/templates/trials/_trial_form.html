@@ -28,6 +28,7 @@
     <li data-target="#myCarousel" data-slide-to="4"></li>
     <li data-target="#myCarousel" data-slide-to="5"></li>
     <li data-target="#myCarousel" data-slide-to="6"></li>
+    <li data-target="#myCarousel" data-slide-to="7"></li>
   </ol>
 
   <!-- Carousel items -->
@@ -227,8 +228,28 @@
       </div>
     </div>
 
+    <!-- Step 7.  -->
+    <div class="item">
+      <h2>7. <span class="red bold">ENDING</span> <span class="light">YOUR TRIAL</span></h2>
+      <div class="row">
+        <div class="span5">
+          {{ form.ending_style|bootstrap }}
+        </div>
+        <div class="span5">
+          <div class="hidem" id="ending-reports-container">
+            {{ form.ending_reports|bootstrap }}
+          </div>
+          <div id="ending-date-container" class="hidem">
+            {{ form.ending_date|bootstrap }}
+          </div><!--ending-date-container-->
+        </div>
+      </div>
+
+    </div>
+
+
     <div class="item"><!-- End Trial creation steps -->
-      <h2>7. <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span></h2>
+      <h2>8. <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span></h2>
       {% if editing %}
       <button class="btn btn-danger" type="submit">Save Changes</button>
       {% else %}
