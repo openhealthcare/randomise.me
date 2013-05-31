@@ -34,10 +34,12 @@ class Trial(models.Model):
     IMMEDIATE = 'im'
     HOURS     = 'ho'
     DATE      = 'da'
+    ON_DEMAND = 'de'
     INSTRUCTION_CHOICES = (
         (IMMEDIATE, 'Straight away after randomisation'),
         (HOURS, 'X hours after randomisation'),
-        (DATE, 'On this date...')
+        (DATE, 'On this date...'),
+        (ON_DEMAND, 'On Demand')
         )
 
     ONCE      = 'on'
@@ -114,19 +116,22 @@ get the intervention"""
     ending_date    = models.DateField(blank=True, null=True)
 
 
+    # Currently unused power calcs
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
 
-
+    # Metadata
     owner             = models.ForeignKey(settings.AUTH_USER_MODEL)
+    n1trial           = models.BooleanField(default=False)
     featured          = models.BooleanField(default=False)
-    participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
-
     stopped           = models.BooleanField(default=False)
-    recruiting        = models.BooleanField(default=True)
     is_edited         = models.BooleanField(default=False)
     created           = models.DateTimeField(default=lambda: datetime.datetime.now())
     private           = models.BooleanField(default=False)
+
+    # Currently unused advanced user participants
+    participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
+
 
     objects = managers.RmTrialManager()
 
@@ -289,17 +294,12 @@ get the intervention"""
         Ensure that this user hasn't already joined the trial, raising
         AlreadyJoinedError if we have.
 
-        Ensure that this user doesn't own the trial, raising
-        TrialOwnerError if they do.
-
         Ensure that this trial isn't already finished, raising
         TrialFinishedError if it is.
 
         If nobody has joined yet, we go to Group A, else Group A if
         the groups are equal, else Group B.
         """
-        if self.owner == user:
-            raise exceptions.TrialOwnerError()
         if self.stopped:
             raise exceptions.TrialFinishedError()
         if Participant.objects.filter(trial=self, user=user).count() > 0:
@@ -414,7 +414,7 @@ class Variable(models.Model):
     trial = models.ForeignKey(Trial)
     name  = models.CharField(max_length=200, blank=True, null=True)
     question = models.TextField(blank=True, null=True)
-    style = models.CharField(max_length=2, choices=STYLE_CHOICES)
+    style = models.CharField(max_length=2, choices=STYLE_CHOICES, default=SCORE)
 
     def __unicode__(self):
         return '<Variable {0} ({1})>'.format(self.name, self.style)

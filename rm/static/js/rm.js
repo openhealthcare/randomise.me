@@ -78,7 +78,7 @@ var RM = {
                 }
             )
 
-            $('select[name="reporting_style"]').change(
+            $('input[name="reporting_style"]').change(
                 function(e){
                     var hidem = function(){
                         $('#reporting-freq-container').hide();

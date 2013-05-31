@@ -1,0 +1,19 @@
+{% load bootstrap %}
+
+<!-- Step 7.  -->
+<div class="item">
+  <h2>7. <span class="red bold">ENDING</span> <span class="light">YOUR TRIAL</span></h2>
+  <div class="row">
+    <div class="span5">
+      {{ form.ending_style|bootstrap }}
+    </div>
+    <div class="span5">
+      <div class="hidem" id="ending-reports-container">
+        {{ form.ending_reports|bootstrap }}
+      </div>
+      <div id="ending-date-container" class="hidem">
+        {{ form.ending_date|bootstrap }}
+      </div><!--ending-date-container-->
+    </div>
+  </div>
+</div>

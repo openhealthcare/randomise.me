@@ -5,6 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.forms.formsets import all_valid
 from django.forms.models import inlineformset_factory
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.utils.decorators import method_decorator
@@ -18,7 +19,7 @@ import ffs
 from letter.contrib.contact import ContactView
 
 from rm import exceptions
-from rm.trials.forms import (TrialForm, VariableForm)
+from rm.trials.forms import (TrialForm, VariableForm, N1TrialForm)
 from rm.trials.models import Trial, Report, Variable, Invitation
 
 def serve_maybe(meth):
@@ -277,6 +278,7 @@ class TrialQuestion(TrialByPkMixin, ContactView):
 class VariableInline(InlineFormSet):
     model = Variable
     form = VariableForm
+    extra = 1
 
 
     def get_formset(self):
@@ -309,17 +311,58 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
     model = Trial
     context_object_name = "trial"
     model               = Trial
-    form_class          = TrialForm
+    form_class          = N1TrialForm
     inlines = [VariableInline]
     inlines_names = ['Variable']
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests, instantiating a form and formset instances with the passed
+        POST variables and then checked for validity.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            self.object = form.save(commit=False)
+
+            # TODO  - Clean this
+            self.object.n1trial = True
+            self.object.reporting_style = self.object.WHENEVER
+            self.object.instruction_delivery = self.object.ON_DEMAND
+            form_validated = True
+        else:
+            form_validated = False
+
+        inlines = self.construct_inlines()
+
+        if all_valid(inlines) and form_validated:
+            response =  self.forms_valid(form, inlines)
+            self.object.join(self.request.user)
+            return response
+
+
+        return self.forms_invalid(form, inlines)
+        # Join up now.
 
     def get_form(self, klass):
         """
         Add ownership details to the trial
         """
-        form = super(TrialCreate, self).get_form(klass)
+        form = super(N1TrialCreate, self).get_form(klass)
         form.instance.owner = self.request.user
         return form
+
+    def get_context_data(self, *args, **kw):
+        """
+        Add a flag to our context so that we know what type of trial we're
+        creating.
+        """
+        context = super(N1TrialCreate, self).get_context_data(*args, **kw)
+        context['n1trial'] = True
+        return context
+
 
 
 class ReproduceTrial(TrialCreate):

@@ -10,13 +10,15 @@
             {{outcome.question}}
           </i>
         </p>
-        <h3>Reporting {{ trial.get_reporting_style_display }}</h3>
-        {% if trial.reporting_style == trial.DATED %}
-          <p>
-            Where X == trial.reporting_date
-          </p>
-        {% elif trial.reporting_style == trial.REGULARLY %}
-          <p> Where regularly == {{trial.get_reporting_freq_display }} </p>
+        {% if not trial.n1trial %}
+          <h3>Reporting {{ trial.get_reporting_style_display }}</h3>
+          {% if trial.reporting_style == trial.DATED %}
+            <p>
+              Where X == trial.reporting_date
+            </p>
+          {% elif trial.reporting_style == trial.REGULARLY %}
+            <p> Where regularly == {{trial.get_reporting_freq_display }} </p>
+          {% endif %}
         {% endif %}
       </div>
     </dt>
@@ -25,30 +27,35 @@
   <!-- Step 3 (Size) -->
   <dt>
     <div class="row-fluid">
-      <div class="span6"> <!-- Inner frist col -->
-        <h3>
-          Participants
-          <span class="bold">
-            {{ trial.participant_set.count }}/{{ trial.min_participants }}
-            <i class="icon-question-sign"
-               title="Participants"
-               data-content="This shows your current number of participants, as well as the minimum and maximum number of participants for your trial."
-               >
-            </i>
-          </span>
-        </h3>
-      </div>
-      {% if is_owner and not trial.stopped %}
-      <div class="span6"> <!-- Inner second col -->
-        <h3>
-          You need
-          <span class="bold">
-            {{ trial.min_participants|subtract:trial.participant_set.count}}
-          </span>
-          more people
-        </h3>
-      </div>
+      {% if trial.n1trial %}
+        Observations: {{ trial.report_set.count }} / {{ trial.ending_reports }}
+      {% else %}
+        <div class="span6"> <!-- Inner frist col -->
+          <h3>
+            Participants
+            <span class="bold">
+              {{ trial.participant_set.count }}/{{ trial.min_participants }}
+              <i class="icon-question-sign"
+                 title="Participants"
+                 data-content="This shows your current number of participants, as well as the minimum and maximum number of participants for your trial."
+                 >
+              </i>
+            </span>
+          </h3>
+        </div>
+        {% if is_owner and not trial.stopped %}
+          <div class="span6"> <!-- Inner second col -->
+            <h3>
+              You need
+              <span class="bold">
+                {{ trial.min_participants|subtract:trial.participant_set.count}}
+              </span>
+              more people
+            </h3>
+          </div>
+        {% endif %}
       {% endif %}
+
     </div> <!-- Inner row 1. -->
   </dt>
 
@@ -124,7 +131,10 @@
             a
             <span class="bold">
               {% if trial.private %}private{% else %}public{% endif %}
-            </span> trial that anyone can join
+            </span> trial
+            {% if not trial.n1trial %}
+              that anyone can join
+            {% endif %}
           </h3>
         </div>
         <div class="span6">
@@ -172,13 +182,20 @@
     </div>
     <div class="span12">
       <p>
-        Participants will receive these instructions
+        {% if trial.n1trial %}
+          You
+        {% else %}
+          Participants
+        {% endif %}
+        will receive these instructions
         {% if trial.instruction_delivery == trial.IMMEDIATE %}
           immediately after they join your trial
         {% elif trial.instruction_delivery == trial.HOURS %}
           {{ trial.hours_after }} hours after they join your trial
         {% elif trial.instruction_delivery == trial.DATE %}
           on {{ trial.instruction_date }}
+        {% elif trial.instruction_delivery == trial.ON_DEMAND %}
+          on demand
         {% endif %}
       </p>
     </div>

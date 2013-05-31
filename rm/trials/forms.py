@@ -87,7 +87,7 @@ class TrialForm(ModelForm):
                 attrs={
                     'data-required': 'true'
                     }),
-            'style': widgets.Select(attrs={
+            'reporting_style': widgets.RadioSelect(attrs={
                     'data-required': 'true'
                     }),
             'description': widgets.Textarea(attrs={
@@ -129,13 +129,31 @@ class TrialForm(ModelForm):
                     }),
             }
 
-    def clean_finish_date(self):
-        """
-        Can we validate that the finish_date isn't in the past please?
-        """
-        if validators.not_historic(self.cleaned_data['finish_date']):
-            return self.cleaned_data['finish_date']
 
+
+class N1TrialForm(ModelForm):
+    """
+    Setup for N1 trial specifics.
+    """
+    ending_reports = fields.IntegerField(
+        label="Number of observations",
+        widget=widgets.TextInput(attrs={
+                'data-type': 'digits',
+                'data-min' : '1'
+                }))
+
+    class Meta:
+        model = Trial
+        exclude = ['owner', 'created']
+        widgets = {
+            'title': widgets.TextInput(attrs={
+                    'class': 'wider',
+                    'data-required' : 'true',
+                    'data-maxlength': '200'
+                    }),
+            'instruction_delivery': widgets.HiddenInput(),
+            'ending_style': widgets.HiddenInput(),
+            }
 
 class VariableForm(ModelForm):
 

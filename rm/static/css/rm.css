@@ -510,6 +510,10 @@ ul.parsley-error-list {
     color: #e54f25;
 }
 
+.controls ul li {
+    list-style-type: none;
+}
+
 /* Graph Stuffs */
 .chart div {
   font: 10px sans-serif;

@@ -1,0 +1,83 @@
+{% load bootstrap %}
+
+<div class="item"><!-- Step 2 measures. -->
+  <h2>2. <span class="light">YOUR</span> <span class="red bold">MAIN OUTCOME</span> </h2>
+  {% if editing %}
+    {% for var in form.instance.variable_set.all %}
+      {% if forloop.first %}
+        <h3>({{ var.get_style_display }} )</h3>
+  <p>
+    <i>
+      {{ var.question }}
+    </i>
+  </p>
+  <p class="muted">
+    You can't edit the outcome variables on a trial. If you want to
+    change these, you should either create a new trial, or duplicate
+    an existing trial.
+  </p>
+{% endif %}
+{% endfor %}
+{% else %}
+  {% for var in Variable %}
+    {% if forloop.first %}
+      <h3>What kind of measure is your main outcome? </h3>
+      {{ var.style|bootstrap }}
+      <p class="muted">
+        -       Score: these are measures that are scored with a number. For example,
+        headache pain can be measured on a severity scale from 0 to 10.<br>
+        -       Binary: these are outcomes that are either present or absent. For example,
+        you could have vomited, or not vomited.<br>
+        -       Count: these are variables that are counted. For example, the number of
+        wees you have in 24 hours.
+      </p>
+      <h3>
+        {% if n1trial %}
+          What is the question you'll be answering?
+        {% else %}
+          What question should we ask?
+        {% endif %}
+      </h3>
+      {{ var.question }}
+      <p class="muted">
+        {% if n1trial %}
+          We will make a drop down
+          menu for you to give your answer (for binary it's yes/no, for
+          score it‟s 0-10, etc).
+        {% else %}
+          Tell us what question to ask, next to this measure, for your participants to
+          see when you collect your results from them. We will make a drop down
+          menu for participants to give you an answer (for binary it's yes/no, for
+          score it‟s 0-10, etc).
+        {% endif %}
+      </p>
+    {% else %}
+      <span class="hidem">{{var.style}}{{var.question}}</span>
+    {% endif %}
+  {% endfor %}
+{% endif %} <!-- Editing -->
+
+{% if n1trial %}
+  <div class="hidem">
+    {{ form.reporting_style }}
+  </div>
+{% else %}
+  <h3>
+    When will you be reporting data?
+  </h3>
+
+  <div class="row">
+    <div class="span5">
+      {{form.reporting_style|bootstrap}}
+    </div>
+    <div class="span5">
+      <div class="hidem" id="reporting-freq-container">
+        {{ form.reporting_freq|bootstrap }}
+      </div>
+      <div class="hidem" id="reporting-date-container">
+        {{ form.reporting_date|bootstrap }}
+      </div>
+    </div>
+  </div>
+{% endif %}
+</div>

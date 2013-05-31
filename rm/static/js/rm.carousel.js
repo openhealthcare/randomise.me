@@ -57,7 +57,12 @@
           }
           return _.every($('.item.active '+tag),
                          function(el){
-                             return $(el).parsley('destroy').parsley('validate') !== false
+                             // Ignore hidden inputs - they're not for user validating
+                             var el = $(el)
+                             if(el.attr('type') == 'hidden'){
+                                 return true;
+                             }
+                             return el.parsley('destroy').parsley('validate') !== false
                          } )
       }
 

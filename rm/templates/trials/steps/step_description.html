@@ -1,0 +1,60 @@
+{% load bootstrap %}
+
+<div class="item">
+  <!-- Step 5. Participant information -->
+  <h2>
+    {% if n1trial %}
+      4. <span class="light">TRIAL</span> <span class="red bold">DESCRIPTION</span>
+    {% else %}
+      5. <span class="red bold">PARTICIPANT</span> <span class="light">INFORMATION</span>
+    {% endif %}
+  </h2>
+
+  <div class="control-group">
+    <label class="control-label" for="id_description">Description</label>
+    <div class="row">
+      <div class="controls span4">
+        {{ form.description }}
+      </div>
+      <div class="span4">
+        {% if n1trial %}
+          <p class="muted">
+            Write your description of the trial here. If you publish this trial,
+            this is the description that other users will see when they're looking
+            at your trial and thinking about running something similar themselves.
+          </p>
+        {% else %}
+          <p class="muted">
+            Write your information for participants here. Consider telling them what
+            question you‟re interested in answering (you may wish that to be a
+            secret), and what kind of intervention you‟re going to give to each group.
+          </p>
+        <p class="muted">
+          If your trial is open to Randomise Me users this will be like an advert
+          explaining what your trial is about and why people should join - so try
+          and make it enticing!
+        </p>
+      {% endif %}
+      </div>
+    </div> <!-- Row -->
+
+    {% if not n1trial %}
+      <h3>Any secret information?</h3>
+      <div class="row">
+        <div class="controls span4">
+          {{ form.secret_info }}
+        </div>
+        <div class="span4">
+          <p class="muted">
+            Do you have any extra information about what you're trying to find out
+            from your trial that you don't want to share with your participants
+            until it's over? Add it here and we'll only publish it once the trial
+            ends.
+          </p>
+        </div>
+
+      </div>
+      {% endif %}
+  </div>
+
+</div>

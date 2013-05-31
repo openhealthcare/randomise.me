@@ -54,7 +54,7 @@ class RmTrialManager(ActiveManager):
         Return: Queryset
         Exceptions: None
         """
-        return self.active().filter(private=False, recruiting=True)
+        return self.active().filter(private=False, stopped=True)
 
     def ending_today(self):
         """

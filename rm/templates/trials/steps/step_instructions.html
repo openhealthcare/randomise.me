@@ -1,0 +1,59 @@
+{% load bootstrap %}
+
+<div class="item">
+  <!-- Step 6. Instructions -->
+  <h2>
+    {% if n1trial %}5{% else %}6{% endif %}.
+    <span class="light">TRIAL </span><span class="red bold">INSTRUCTIONS</span>
+  </h2>
+  <h3>
+    {% if n1trial %}
+      What are the instructions for the two arms?
+    {% else %}
+      Do you have instructions for your participants?
+    {% endif %}
+  </h3>
+
+  {% if not n1trial %}
+    <p class="muted">
+      Do you want us to send some specific instructions to participants after
+      they have been randomised to group A or B?
+      if so, write them here:
+    </p>
+  {% endif %}
+
+  <div class="row">
+    <div class="span5">
+      {{ form.group_a|bootstrap }}
+    </div>
+    <div class="span5">
+      {{ form.group_b|bootstrap }}
+    </div>
+  </div>
+
+  {% if n1trial %}
+    {{ form.instruction_delivery }}
+  {% else %}
+  <p class="muted">
+    As your individual subjects report their outcome, we will calculate the
+    difference between the two groups, and calculate the statistical
+    significance of this difference (if any!). We will hide these results from you
+    until your participant response rate is 90%, or until you press “peek”.
+  </p>
+  <h3>When do you want your participants to receive their instructions?</h3>
+  <div class="row">
+    <div class="span5">
+      {{ form.instruction_delivery|bootstrap }}
+    </div>
+    <div class="span5">
+      <div class="hidem" id="hours-after-container">
+        {{ form.instruction_hours_after|bootstrap }}
+      </div>
+      <div id="instruction-date-container" class="hidem">
+        {{ form.instruction_date|bootstrap }}
+      </div><!--instruction-date-container-->
+    </div>
+  </div>
+  {% endif %}
+
+</div>

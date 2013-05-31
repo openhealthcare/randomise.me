@@ -1,0 +1,30 @@
+{% load bootstrap %}
+
+<div class="active item"> <!-- Step 1 - question/title -->
+  <h2>1. <span class="light">YOUR</span> <span class="red bold">TRIAL</span></h2>
+  <h3>What is the title of your trial?</h3>
+  {{ form.title|bootstrap }}
+  <p class="muted">
+    This is the question that you're trying to answer.
+    {% if n1trial %}
+      If you publish your trial, this will be displayed prominently on the site
+    {% else %}
+      It will be displayed prominently on the site, so try and make it interesting to get more
+      people to join your trial!
+    {% endif %}
+  </p>
+  <p class="muted">
+    Here are some examples of good titles to get you started:
+  </p>
+  <ul class="muted">
+    <li>
+      Does having a power-nap help the afternoon lull?
+    </li>
+    <li>
+      Nightmare on edam street - does eating cheese induce nightmares?
+    </li>
+    <li>
+      Does drinking sherry just before bed make me sleep well?
+    </li>
+  </ul>
+</div>
