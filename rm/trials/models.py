@@ -87,6 +87,7 @@ get the intervention"""
 
     # Step 5
     description       = models.TextField(blank=True, null=True)
+    secret_info       = models.TextField(blank=True, null=True)
     group_a_desc      = models.TextField("Intervention Group description", blank=True, null=True)
     group_b_desc      = models.TextField("Control Group description", blank=True, null=True)
 

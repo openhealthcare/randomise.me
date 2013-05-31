@@ -146,6 +146,16 @@
         </i>
       </p>
     </div>
+    {% if trial.secret_info %}
+      <div class="row-fluid">
+        <h3>Secret info</h3>
+        <p>
+          <i>
+            {{ trial.secret_info }}
+          </i>
+        </p>
+      </div>
+    {% endif %}
   </dt>
 
   <!-- Step 6 (Instructions) -->
