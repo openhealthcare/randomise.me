@@ -50,21 +50,24 @@ for an account{% endblocktrans %}</p>
       <button class="btn btn-warning" type="submit">{% trans "Sign In" %}</button>
       <a class="btn btn-danger" href="{% url 'account_reset_password' %}">Forgot Password?</a>
     </p>
-    <p>
-      Don't have an account?
-      <a href="{% url 'account_signup' %}" class="btn btn-warning">sign up</a>
-    </p>
   </div>
 </form>
   </div>
 
   <div class="span6 offset2">
-    <h4>Or sign in with an existing account...</h4>
+    <h3 class="light">
+      Don't have an account?
+    </h3>
     <p>
-      <a href="{% url 'cas-login' %}" class="img">
-        <img src="{{ STATIC_URL }}img/ohc.logo.png" class="" alt="Open Healthcare Account" />
-      </a>
+      <a href="{% url 'account_signup' %}" class="btn btn-warning">sign up</a>
     </p>
+
+    <!-- <h4>Or sign in with an existing account...</h4> -->
+    <!-- <p> -->
+    <!--   <a href="{% url 'cas-login' %}" class="img"> -->
+    <!--     <img src="{{ STATIC_URL }}img/ohc.logo.png" class="" alt="Open Healthcare Account" /> -->
+    <!--   </a> -->
+    <!-- </p> -->
   </div>
 
 </div>
