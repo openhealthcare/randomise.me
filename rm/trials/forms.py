@@ -79,6 +79,7 @@ class TrialForm(ModelForm):
         exclude = ['owner', 'created']
         widgets = {
             'title': widgets.TextInput(attrs={
+                    'class': 'wider',
                     'data-required' : 'true',
                     'data-maxlength': '200'
                     }),
