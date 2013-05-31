@@ -103,13 +103,13 @@ get the intervention"""
     # Step 6
     group_a           = models.TextField("Group A Instructions", help_text=HELP_A)
     group_b           = models.TextField("Group B Instructions", help_text=HELP_B)
-    instruction_delivery = models.TextField(max_length=2, choices=INSTRUCTION_CHOICES,
+    instruction_delivery = models.CharField(max_length=2, choices=INSTRUCTION_CHOICES,
                                             default=IMMEDIATE)
     instruction_hours_after = models.IntegerField(blank=True, null=True)
     instruction_date = models.DateField(blank=True, null=True)
 
     # Step 7
-    ending_style   = models.TextField(choices=ENDING_CHOICES, default=MANUALLY)
+    ending_style   = models.CharField(max_length=2, choices=ENDING_CHOICES, default=MANUALLY)
     ending_reports = models.IntegerField(blank=True, null=True)
     ending_date    = models.DateField(blank=True, null=True)
 
@@ -346,6 +346,17 @@ get the intervention"""
         for participant in self.participant_set.all():
             participant.send_instructions()
         return
+
+    def stop(self):
+        """
+        Stop this trial please.
+
+        Return: None
+        Exceptions: None
+        """
+        # For now we just toggle the flag, placeholder to implement a protocol - #127
+        self.stopped = True
+        self.save()
 
 
 class Invitation(models.Model):

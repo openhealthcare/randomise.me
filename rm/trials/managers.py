@@ -56,6 +56,16 @@ class RmTrialManager(ActiveManager):
         """
         return self.active().filter(private=False, recruiting=True)
 
+    def ending_today(self):
+        """
+        Return a queryset of those trials that are ending today.
+
+        Return: Queryset
+        Exceptions: None
+        """
+        from rm.trials.models import Trial
+        return self.filter(ending_style=Trial.DATED, ending_date=td())
+
     def reproduce(self, owner, **kwargs):
         """
         Return a cleaned version of a trial to reproduce.

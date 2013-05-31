@@ -44,3 +44,16 @@ def instruct_later(participant_pk):
     participant = models.Participant.objects.get(pk=participant_pk)
     participant.send_instructions()
     return True
+
+@task
+def close_dated_trials():
+    """
+    Look for trials that should close today and close them.
+
+    Return: None
+    Exceptions: None
+    """
+    from rm.trials.models import Trial
+    for trial in Trial.objects.ending_today():
+        trial.stop()
+    return

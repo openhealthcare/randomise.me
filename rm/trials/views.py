@@ -143,9 +143,11 @@ class ReportView(CreateView):
 
     def post(self, *args,**kw):
         """
-        Store the trial isntance
-        """
+        Add a particular report's data.
 
+        Check to see if this report means we need to stop the trial.
+        If we do, stop it.
+        """
         self.trial = self.trial_model.objects.get(pk=kw['pk'])
         date = datetime.datetime.strptime(self.request.POST['date'], '%d/%m/%Y').date()
         participant = self.trial.participant_set.get(user=self.request.user)
@@ -163,6 +165,12 @@ class ReportView(CreateView):
         elif variable.style == variable.COUNT:
             report.count = int(self.request.POST['count'])
         report.save()
+
+        # Checking for closing criteria
+        if self.trial.ending_style == self.trial.REPORT_NUM:
+            if self.trial.report_set.count() >= self.trial.ending_reports:
+                self.trial.stop()
+
 
         return HttpResponseRedirect(self.trial.get_absolute_url())
 
