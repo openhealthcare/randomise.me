@@ -4,46 +4,44 @@ Unittests for the trial managers
 import datetime
 import unittest
 
-from mock import patch
+from mock import MagicMock, patch
 
 from rm.trials import managers
+from rm.trials.models import Trial
 
-class TemporalTestCase(unittest.TestCase):
+class RmTrialManagerTestCase(unittest.TestCase):
+
     def setUp(self):
-        super(TemporalTestCase, self).setUp()
+        super(RmTrialManagerTestCase, self).setUp()
         self.today = datetime.date.today()
+        self.manager = managers.RmTrialManager()
 
-class SingleUserTrialManagerTestCase(TemporalTestCase):
+    def test_completed(self):
+        "Get stopped"
+        with patch.object(self.manager, 'filter') as pfilt:
+            self.manager.completed()
+            pfilt.assert_called_once_with(stopped=True)
 
-    def test_active(self):
-        "Return the currently active models"
-        manager = managers.SingleUserTrialManager()
-        with patch.object(manager, 'filter') as pfilt:
-            manager.active()
-            pfilt.assert_called_once_with(start_date__lte=self.today,
-                                          finish_date__gte=self.today)
+    def test_recruiting(self):
+        "Get recruiting trials"
+        with patch.object(self.manager, 'filter') as pfilt:
+            self.manager.recruiting()
+            pfilt.assert_called_once_with(private=False, stopped=False,
+                                          n1trial=False, recruitment=Trial.ANYONE)
 
-    def test_starting_today(self):
-        "Return trials that start today"
-        manager = managers.SingleUserTrialManager()
-        with patch.object(manager, 'filter') as pfilt:
-            manager.starting_today()
-            pfilt.assert_called_once_with(start_date=self.today)
+    def test_ending_today(self):
+        "Get ends"
+        with patch.object(self.manager, 'filter') as pfilt:
+            self.manager.ending_today()
+            pfilt.assert_called_once_with(ending_style=Trial.DATED,
+                                          ending_date=datetime.date.today())
 
-
-class RmTrialManagerTestCase(TemporalTestCase):
-
-    def test_active(self):
-        "Return the currently active models"
-        manager = managers.RmTrialManager()
-        with patch.object(manager, 'filter') as pfilt:
-            manager.active()
-            pfilt.assert_called_once_with(start_date__lte=self.today,
-                                          finish_date__gte=self.today)
-
-    def test_starting_today(self):
-        "Return trials that start today"
-        manager = managers.RmTrialManager()
-        with patch.object(manager, 'filter') as pfilt:
-            manager.starting_today()
-            pfilt.assert_called_once_with(start_date=self.today)
+    def test_reproduce(self):
+        "Kill non-reproduced fields"
+        mock_user = MagicMock(name='Mock User')
+        with patch.object(self.manager, 'get') as pget:
+            new = self.manager.reproduce(mock_user, pk=1)
+            pget.assert_called_once_with(pk=1)
+            self.assertEqual(new.pk, None)
+            self.assertEqual(new.instruction_date, None)
+            self.assertEqual(new.featured, None)

@@ -26,9 +26,6 @@ class DetailTestCase(test.TestCase):
        trial = models.Trial(
            owner=myuser,
            title='Dummy Trial',
-           start_date=td(),
-           finish_date=td(),
-           max_participants=1,
            min_participants=1
            )
 
@@ -42,17 +39,17 @@ class CreateRMTrialTestCase(test.TestCase):
 
     def test_form_action(self):
         "Regression test #33"
-        myuser = RMUser(email='larry@example.com')
+        myuser = RMUser(email='larry@example.com', username='larry')
         myuser.set_password('thepass')
         myuser.save()
-        self.client.login(username='larry@example.com', password='thepass')
+        self.client.login(username='larry', password='thepass')
 
         with self.settings(BASICAUTH=False):
-            resp = self.client.get('/trials/rm/new')
+            resp = self.client.get('/trials/create')
             self.assertEqual(200, resp.status_code)
             dom = html.fromstring(resp.content)
             form = dom.cssselect('form#newtrial_form')[0]
-            self.assertEqual('/trials/rm/new', form.get('action'))
+            self.assertEqual('/trials/create', form.get('action'))
 
 
 class JoinTrialTestCase(test.TestCase):

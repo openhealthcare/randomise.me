@@ -18,7 +18,7 @@ def my_trials(context):
     to be rendered.
     """
     user          = context['request'].user
-    running       = Trial.objects.active().filter(owner=user)
+    running       = Trial.objects.filter(owner=user)
     completed     = Trial.objects.completed().filter(owner=user)
 
     participated   = user.participant_set

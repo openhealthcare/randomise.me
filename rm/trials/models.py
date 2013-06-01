@@ -291,6 +291,9 @@ get the intervention"""
         Make sure that the trial has groups, then randomly assign USER
         to one of those groups.
 
+        If this is a public n>1 trial and the USER is also the trial's
+        owner, raise TrialOwnerError
+
         Ensure that this user hasn't already joined the trial, raising
         AlreadyJoinedError if we have.
 
@@ -300,6 +303,9 @@ get the intervention"""
         If nobody has joined yet, we go to Group A, else Group A if
         the groups are equal, else Group B.
         """
+        if not self.n1trial:
+            if self.owner == user:
+                raise exceptions.TrialOwnerError()
         if self.stopped:
             raise exceptions.TrialFinishedError()
         if Participant.objects.filter(trial=self, user=user).count() > 0:
@@ -339,9 +345,9 @@ get the intervention"""
             - TrialFinishedError: The trial has finished
             - TrialNotStartedError: The trial is yet to start
         """
-        if self.start_date is not None and self.start_date > td():
-            raise exceptions.TrialNotStartedError()
-        if self.finish_date is not None and self.finish_date < td():
+        # if self.start_date is not None and self.start_date > td():
+        #     raise exceptions.TrialNotStartedError()
+        if self.stopped:
             raise exceptions.TrialFinishedError()
         for participant in self.participant_set.all():
             participant.send_instructions()

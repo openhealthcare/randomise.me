@@ -7,21 +7,7 @@ from django.db import models
 
 td = lambda: datetime.date.today()
 
-class ActiveManager(models.Manager):
-    """
-    Custom manager for single user trials.
-
-    Mostly API sugar
-    """
-
-    def active(self):
-        """
-        Return a queryset representing currently active trials.
-
-        Return: Queryset
-        Exceptions: None
-        """
-        return self.filter()
+class RmTrialManager(models.Manager):
 
     def completed(self):
         """
@@ -32,21 +18,6 @@ class ActiveManager(models.Manager):
         """
         return self.filter(stopped=True)
 
-    def starting_today(self):
-        """
-        Return a queryset representing trials that start today.
-
-        Return: Queryset
-        Exceptions: None
-        """
-        return self.filter()
-
-
-class SingleUserTrialManager(ActiveManager):
-    pass
-
-class RmTrialManager(ActiveManager):
-
     def recruiting(self):
         """
         Return a queryset representing the trials that are recruiting.
@@ -54,7 +25,8 @@ class RmTrialManager(ActiveManager):
         Return: Queryset
         Exceptions: None
         """
-        return self.active().filter(private=False, stopped=True)
+        from rm.trials.models import Trial
+        return self.filter(private=False, stopped=False, n1trial=False, recruitment=Trial.ANYONE)
 
     def ending_today(self):
         """
@@ -78,8 +50,6 @@ class RmTrialManager(ActiveManager):
         """
         trial = self.get(**kwargs)
         trial.pk          = None
-        trial.start_date  = None
-        trial.finish_date = None
         trial.instruction_date = None
         trial.featured    = None
         trial.owner       = owner

@@ -81,10 +81,10 @@ class ConfirmTestCase(TestCase):
 
     def test_subscribe_logged_in(self):
         "Should upgrade account"
-        myuser = RMUser(email='larry@example.com')
+        myuser = RMUser(username='larry', email='larry@example.com')
         myuser.set_password('thepass')
         myuser.save()
-        self.assertTrue(self.client.login(username='larry@example.com', password='thepass'))
+        self.assertTrue(self.client.login(username='larry', password='thepass'))
         GET = {'resource_type': 'subscription'}
 
         with patch.object(views.User, 'upgrade') as pup:

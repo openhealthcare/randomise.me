@@ -27,35 +27,17 @@ class TemporalTestCase(TestCase):
 
 class TrialTestCase(TemporalTestCase):
 
-    def test_time_remaining(self):
-        "How much remaining time is there?"
-        trial = models.Trial(finish_date=self.tomorrow)
-        self.assertEqual(datetime.timedelta(days=1), trial.time_remaining())
-
-    def test_time_remaining_finished(self):
-        "Finished string"
-        trial = models.Trial(finish_date=self.yesterday)
-        self.assertEqual('finished', trial.time_remaining())
-
     def test_can_join_finished(self):
         "Can't join a finished trial"
-        trial = models.Trial(finish_date=self.yesterday)
+        trial = models.Trial(stopped=True)
         self.assertEqual(False, trial.can_join())
 
     @patch.object(models.Trial, 'participant_set')
-    def test_can_join_open(self, pset):
+    def test_can_join_with_participants(self, pset):
         "Can join an open trial"
-        trial = models.Trial(finish_date=self.tomorrow, max_participants=2)
+        trial = models.Trial()
         pset.count.return_value = 1
         self.assertEqual(True, trial.can_join())
-
-    @patch.object(models.Trial, 'participant_set')
-    def test_can_join_full(self, pset):
-        "Can join an open trial"
-        trial = models.Trial(finish_date=self.tomorrow, max_participants=2)
-        pset.count.return_value = 2
-        self.assertEqual(2, trial.participant_set.count())
-        self.assertEqual(False, trial.can_join())
 
     def test_ensure_groups(self):
         "Get or greate for a & b groups"
@@ -68,8 +50,11 @@ class TrialTestCase(TemporalTestCase):
 
     def test_join_is_owner(self):
         "Should raise"
-        user = models.User()
-        trial = models.Trial(owner=user)
+        user = models.User(pk=2, email='larry@example.com')
+        trial = models.Trial(owner=user, min_participants=20)
+        trial.save()
+        variable = models.Variable(question="Why", trial=trial)
+        variable.save()
         with self.assertRaises(exceptions.TrialOwnerError):
             trial.join(user)
 
@@ -77,7 +62,7 @@ class TrialTestCase(TemporalTestCase):
         "Should raise"
         owner = models.User(pk=1)
         user = models.User(pk=2)
-        trial = models.Trial(owner=owner, finish_date=self.yesterday)
+        trial = models.Trial(owner=owner, stopped=True)
         with self.assertRaises(exceptions.TrialFinishedError):
             trial.join(user)
 
@@ -86,27 +71,16 @@ class TrialTestCase(TemporalTestCase):
         owner = models.User(pk=1)
         with patch.object(models.Participant.objects, 'filter') as pfilt:
             pfilt.return_value.count.return_value = 1
-            trial = models.Trial(owner=owner, finish_date=self.tomorrow)
+            trial = models.Trial(owner=owner)
             user = models.User()
             with self.assertRaises(exceptions.AlreadyJoinedError):
                 trial.join(user)
             pfilt.assert_called_once_with(trial=trial, user=user)
 
-    @patch.object(models.Trial, 'participant_set')
-    def test_join_too_many_participants(self, pset):
-        "should raise"
-        owner = models.User(pk=1)
-        trial = models.Trial(owner=owner, max_participants=2, finish_date=self.tomorrow)
-        pset.count.return_value = 2
-        with self.assertRaises(exceptions.TooManyParticipantsError):
-            trial.join(models.User())
-
     def test_join(self):
         "Should create participant"
         owner = models.User(pk=1)
-        trial = models.Trial(owner=owner, finish_date=self.tomorrow,
-                             min_participants=2, max_participants=2,
-                             start_date=self.today)
+        trial = models.Trial(owner=owner, min_participants=2)
         trial.save()
         user = models.User(pk=2)
         with patch.object(models, 'Participant') as ppart:
@@ -147,14 +121,8 @@ class TrialTestCase(TemporalTestCase):
 
     def test_send_instructions_finished(self):
         "Should raise"
-        trial = models.Trial(finish_date=self.yesterday)
+        trial = models.Trial(stopped=True)
         with self.assertRaises(exceptions.TrialFinishedError):
-            trial.send_instructions()
-
-    def test_send_instructions_not_started(self):
-        "Should raise"
-        trial = models.Trial(start_date=self.tomorrow)
-        with self.assertRaises(exceptions.TrialNotStartedError):
             trial.send_instructions()
 
     @patch.object(models.Trial, 'participant_set')
@@ -181,8 +149,11 @@ class ParticipantTestCase(TestCase):
 
     def setUp(self):
         super(ParticipantTestCase, self).setUp()
-        self.user = models.User(email='larry@example.com')
-        self.trial = models.Trial(pk=1, title='This', group_a='Do it')
+        self.user = models.User(email='larry@example.com', pk=1)
+        self.trial = models.Trial(pk=1, title='This', group_a='Do it', min_participants=20, owner=self.user)
+        self.trial.save()
+        self.variable = models.Variable(question='Why?', trial=self.trial)
+        self.variable.save()
         self.group = models.Group(trial=self.trial, name='A')
         self.participant = models.Participant(user=self.user,
                                               trial=self.trial,
@@ -223,213 +194,6 @@ class ParticipantTestCase(TestCase):
         self.assertEqual(1, len(mail.outbox))
         self.assertEqual(['larry@example.com'], mail.outbox[0].to)
 
-
-# class SingleUserTrialTestCase(TemporalTestCase):
-
-#     def setUp(self):
-#         super(SingleUserTrialTestCase, self).setUp()
-#         self.user = models.User(email='larry@example.com')
-
-#     def tearDown(self):
-#         super(SingleUserTrialTestCase, self).tearDown()
-#         mail.outbox = []
-
-#     def test_started(self):
-#         "Check to see if we can tell a trial has started"
-#         today = datetime.date.today()
-#         past = today - datetime.timedelta(days=1)
-#         future = today + datetime.timedelta(days=1)
-#         trial = models.SingleUserTrial(start_date=past)
-#         self.assertEqual(True, trial.started)
-#         trial = models.SingleUserTrial(start_date=future)
-#         self.assertEqual(False, trial.started)
-
-#     def test_started_no_start_date(self):
-#         "If there's no start date, we've implicitly not started yet"
-#         trial = models.SingleUserTrial()
-#         self.assertEqual(False, trial.started)
-
-#     def test_finished(self):
-#         "Have we finished this trial yet?"
-#         trial = models.SingleUserTrial(finish_date=self.yesterday)
-#         self.assertEqual(True, trial.finished)
-
-#     def test_active(self):
-#         "Is the trial active?"
-#         trial = models.SingleUserTrial(start_date=self.yesterday, finish_date=self.tomorrow)
-#         self.assertEqual(True, trial.active)
-
-#     def test_active_starts_today(self):
-#         "Is active"
-#         trial = models.SingleUserTrial(start_date=self.today, finish_date=self.tomorrow)
-#         self.assertEqual(True, trial.active)
-
-#     def test_active_finishes_today(self):
-#         "Is active"
-#         trial = models.SingleUserTrial(start_date=self.yesterday, finish_date=self.today)
-#         self.assertEqual(True, trial.active)
-
-#     def test_active_not_started(self):
-#         "Not active"
-#         trial = models.SingleUserTrial(start_date=self.tomorrow, finish_date=self.tomorrow)
-#         self.assertEqual(False, trial.active)
-
-#     def test_active_finished(self):
-#         "Not active"
-#         trial = models.SingleUserTrial(start_date=self.yesterday, finish_date=self.yesterday)
-#         self.assertEqual(False, trial.active)
-
-#     def test_email_instructions_no_to_email(self):
-#         "Should raise"
-#         trial = models.SingleUserTrial(owner=models.User())
-#         with self.assertRaises(exceptions.NoEmailError):
-#             trial._email_instructions('Do it', self.today)
-
-#     def test_email_instructions_subject(self):
-#         "Should send email"
-#         trial = models.SingleUserTrial(name="This", owner=self.user, pk=1)
-#         trial._email_instructions('Do it', datetime.date(1984, 12, 22))
-#         self.assertEqual(1, len(mail.outbox))
-#         self.assertEqual(
-#             'Randomise.me - instructions for This 22/12/1984',
-#             mail.outbox[0].subject)
-
-#     def test_email_instructions_body(self):
-#         "Should include instructions"
-#         trial = models.SingleUserTrial(owner=self.user, pk=1)
-#         trial._email_instructions('Do it', datetime.date(1984, 12, 22))
-#         self.assertEqual(1, len(mail.outbox))
-#         for content in [mail.outbox[0].body, mail.outbox[0].alternatives[0][0]]:
-#             self.assertNotEqual(-1, content.find('Do it'))
-#             self.assertNotEqual(-1, content.find('22/12/1984'))
-
-#     def test_email_instructions_from(self):
-#         "Should be from email"
-#         trial = models.SingleUserTrial(owner=self.user, pk=1)
-#         with self.settings(DEFAULT_FROM_EMAIL='from@example.com'):
-#             trial._email_instructions('Do it', datetime.date(1984, 12, 22))
-#         self.assertEqual(1, len(mail.outbox))
-#         self.assertEqual('from@example.com', mail.outbox[0].from_email)
-
-#     def test_email_instructions_to(self):
-#         "Should be the owner's email"
-#         user = models.User(email = 'larry@example.com')
-#         trial = models.SingleUserTrial(owner=user, pk=1)
-#         trial._email_instructions('Do it', datetime.datetime(1984, 12, 22))
-#         self.assertEqual(1, len(mail.outbox))
-#         self.assertEqual(['larry@example.com'], mail.outbox[0].to)
-
-#     def test_send_instructions(self):
-#         "Should send instructions to our owner"
-#         trial = models.SingleUserTrial(
-#             start_date=self.yesterday,
-#             finish_date=self.tomorrow,
-#             )
-#         with patch.object(models.SingleUserTrial, '_email_instructions') as pemail:
-#             with patch.object(models.SingleUserTrial, 'instructions_on') as pinst:
-#                 pinst.return_value = 'Foo a'
-#                 trial.send_instructions()
-#                 pemail.assert_called_once_with('Foo a', self.today)
-
-#     def test_send_instructions_finished(self):
-#         "Should raise"
-#         trial = models.SingleUserTrial(finish_date=self.yesterday)
-#         with self.assertRaises(exceptions.TrialFinishedError):
-#             trial.send_instructions()
-
-#     def test_send_instructions_not_started(self):
-#         "Should raise"
-#         trial = models.SingleUserTrial(start_date=self.tomorrow)
-#         with self.assertRaises(exceptions.TrialNotStartedError):
-#             trial.send_instructions()
-
-#     def test_instructions_on(self):
-#         "Get the instructions for a particular day"
-#         trial = models.SingleUserTrial(finish_date=self.tomorrow)
-#         with patch.object(models.SingleUserAllocation, 'instructions_on') as pfor:
-#             pfor.return_value = 'foo bar'
-#             instructions = trial.instructions_on(self.today)
-#             self.assertEqual('foo bar', instructions)
-#             pfor.assert_called_once_with(trial, self.today)
-
-#     def test_instructions_on_too_early(self):
-#         "Should raise"
-#         trial = models.SingleUserTrial(start_date=self.tomorrow)
-#         with self.assertRaises(exceptions.TrialNotStartedError):
-#             trial.instructions_on(self.today)
-
-#     def test_instructions_on_too_late(self):
-#         "Should raise"
-#         trial = models.SingleUserTrial(finish_date=self.yesterday)
-#         with self.assertRaises(exceptions.TrialFinishedError):
-#             trial.instructions_on(self.today)
-
-#     def test_instructions_today(self):
-#         "Pass to other meth."
-#         trial = models.SingleUserTrial()
-#         with patch.object(trial, 'instructions_on') as pinst:
-#             pinst.return_value = 'Do it'
-#             instructions = trial.instructions_today()
-#             self.assertEqual('Do it', instructions)
-#             pinst.assert_called_once_with(models.td())
-
-
-
-
-# class SingleUserAllocationTestCase(TemporalTestCase):
-
-#     def setUp(self):
-#         super(SingleUserAllocationTestCase, self).setUp()
-#         self.trial = models.SingleUserTrial(
-#             start_date=self.yesterday,
-#             finish_date=self.tomorrow,
-#             group_a='Foo a',
-#             group_b='Foo b'
-#             )
-
-#     def test_instructions_on(self):
-#         "Allocate"
-#         mock_allocation = MagicMock(name='Mock Single User Allocation')
-#         mock_allocation.group = 'A'
-#         with patch.object(models.SingleUserAllocation.objects, 'get_or_create') as pget:
-#             pget.return_value = [mock_allocation]
-
-#             instructions = models.SingleUserAllocation.instructions_on(self.trial, self.today)
-#             self.assertEqual('Foo a', instructions)
-#             pget.assert_called_once_with(trial=self.trial, date=self.today)
-
-#     def test_instructions_on_create(self):
-#         "Allocate"
-#         mock_allocation = MagicMock(name='Mock Single User Allocation')
-#         mock_allocation.group = None
-#         def randomise():
-#             mock_allocation.group = 'A'
-
-#         mock_allocation.randomise.side_effect = randomise
-
-#         with patch.object(models.SingleUserAllocation.objects, 'get_or_create') as pget:
-#             pget.return_value = [mock_allocation]
-
-#             instructions = models.SingleUserAllocation.instructions_on(self.trial, self.today)
-#             self.assertEqual('Foo a', instructions)
-#             pget.assert_called_once_with(trial=self.trial, date=self.today)
-#             mock_allocation.randomise.assert_called_once_with()
-#             mock_allocation.save.assert_called_once_with()
-
-#     def test_randomise(self):
-#         "Allocate the instance."
-#         allocation = models.SingleUserAllocation()
-#         with patch.object(models.random, 'choice') as pchoice:
-#             pchoice.return_value = 'A'
-#             allocation.randomise()
-#             pchoice.assert_called_once_with(['A', 'B'])
-#             self.assertEqual('A', allocation.group)
-
-#     def test_already_random(self):
-#         "Raises"
-#         allocation = models.SingleUserAllocation(group="A")
-#         with self.assertRaises(exceptions.AlreadyRandomisedError):
-#             allocation.randomise()
 
 if __name__ == '__main__':
     unittest.main()

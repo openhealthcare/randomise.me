@@ -195,10 +195,6 @@ class TrialReport(ReportView):
     trial_model = Trial
 
 
-
-
-# Views for user tabs
-
 class MyTrials(TemplateView):
     """
     Trials associated with this user
@@ -246,7 +242,6 @@ class TrialDetail(DetailView):
                 instructions = group.name == 'A' and trial.group_a or trial.group_b
                 context['participant'] = True
                 context['instructions'] = instructions
-
 
         if trial.recruitment == trial.INVITATION:
             can_join = trial.can_join()
@@ -593,7 +588,7 @@ class AllTrials(TemplateView):
         """
         context = super(AllTrials, self).get_context_data(**kw)
         today = datetime.datetime.today()
-        context['active'] = Trial.objects.active().filter(recruitment=Trial.ANYONE)
+        context['active'] = Trial.objects.filter(recruitment=Trial.ANYONE)
         context['past'] = Trial.objects.completed()
         return context
 
