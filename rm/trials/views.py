@@ -211,6 +211,18 @@ class TrialDetail(DetailView):
     context_object_name = "trial"
     model               = Trial
 
+    def get(self, *args, **kw):
+        """
+        Make sure that we adhere to the right privacy concerns.
+
+        * N=1 private trials == you must be the owner
+        """
+        trial = self.get_object()
+        if trial.private and trial.n1trial:
+            if self.request.user != trial.owner:
+                return HttpResponse('Unauthorized', status=401)
+        return super(TrialDetail, self).get(*args, **kw)
+
     def get_context_data(self, **kw):
         """
         Determine the detail template appropriate for this user
