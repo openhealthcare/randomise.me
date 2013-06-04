@@ -363,9 +363,11 @@ get the intervention"""
         Return: None
         Exceptions: None
         """
-        # For now we just toggle the flag, placeholder to implement a protocol - #127
         self.stopped = True
         self.save()
+        for participant in self.participant_set.exclude(user=self.owner):
+            participant.send_ended_notification()
+        return
 
 
 class Invitation(models.Model):
@@ -531,6 +533,32 @@ class Participant(models.Model):
 
         Message.send()
         return
+
+    def send_ended_notification(self):
+        """
+        Send an email notification to participants of a trial when
+        it's been stopped.
+
+        Return: None
+        Exceptions: None
+        """
+        subject = 'Randomise Me - Trial {0} has ended'.format(self.trial.title)
+        class Message(letter.Letter):
+            Postie   = POSTIE
+
+            From     = settings.DEFAULT_FROM_EMAIL
+            To       = self.user.email
+            Subject  = subject
+            Template = 'email/rm_ended'
+            Context  = {
+                'href'        : settings.DEFAULT_DOMAIN + self.trial.get_absolute_url(),
+                'name'        : self.trial.title,
+                }
+
+        Message.send()
+        return
+
+
 
 
 class Report(models.Model):

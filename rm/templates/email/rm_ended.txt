@@ -1,0 +1,5 @@
+{{name}} Has ended!
+-------------------------
+
+View the report at the following URL:
+{{href}}

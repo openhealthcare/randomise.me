@@ -510,8 +510,7 @@ class StopTrial(TrialByPkMixin, OwnsTrialMixin, View):
         """
         Stop this trial.
         """
-        self.trial.stopped = True
-        self.trial.save()
+        self.trial.stop()
         return HttpResponseRedirect(self.trial.get_absolute_url())
 
 
