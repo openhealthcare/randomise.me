@@ -216,11 +216,28 @@ class TrialDetail(DetailView):
         Make sure that we adhere to the right privacy concerns.
 
         * N=1 private trials == you must be the owner
+        * N>1 private trials == you must:
+                                * be the owner
+                                * be participating
+                                * have an email address that matches an
+                                  invitation for this trial
         """
         trial = self.get_object()
-        if trial.private and trial.n1trial:
+        if trial.private:
             if self.request.user != trial.owner:
-                return HttpResponse('Unauthorized', status=401)
+                if trial.n1trial: # n1 private, non owner -> Go home
+                    return HttpResponse('Unauthorized', status=401)
+
+                # private trial, no auth -> go home
+                elif not self.request.user.is_authenticated():
+                    return HttpResponse('Unauthorized', status=401)
+                elif trial.participant_set.filter(user=self.request.user).count() > 0:
+                    pass # private but we're a participant -> Collect $200
+                elif trial.invitation_set.filter(email=self.request.user.email).count() >0:
+                    pass # private but we're invited -> Collect $200
+                else:            # private, authenticated, not authorized -> Go home
+                    return HttpResponse('Unauthorized', status=401)
+
         return super(TrialDetail, self).get(*args, **kw)
 
     def get_context_data(self, **kw):
@@ -251,9 +268,10 @@ class TrialDetail(DetailView):
                 detail_template = 'trials/trial_detail_participant.html'
                 page_title = 'Participating In'
                 group = trial.participant_set.get(user=self.request.user).group
-                instructions = group.name == 'A' and trial.group_a or trial.group_b
+                if group is not None:
+                    instructions = group.name == 'A' and trial.group_a or trial.group_b
+                    context['instructions'] = instructions
                 context['participant'] = True
-                context['instructions'] = instructions
 
         if trial.recruitment == trial.INVITATION:
             can_join = trial.can_join()
@@ -358,6 +376,7 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
         Add ownership details to the trial
         """
         form = super(N1TrialCreate, self).get_form(klass)
+        f2 = klass(data=self.request.POST)
         form.instance.owner = self.request.user
         return form
 
@@ -370,22 +389,22 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
         context['n1trial'] = True
         return context
 
-
-
-class ReproduceTrial(TrialCreate):
-    def get(self, *args, **kw):
-        self.reproducing = Trial.objects.get(pk=kw['pk'])
-        self.object = Trial.objects.reproduce(self.request.user, pk=kw['pk'])
-        print self.object
-        return super(BaseCreateWithInlinesView, self).get(*args, **kw)
+class ReproductionMixin(object):
+    """
+    Common functionality for reproducing any trial
+    """
+    def dispatch(self, *args, **kw):
+        self.parent = Trial.objects.get(pk=kw['pk'])
+        self.reproducee = Trial.objects.reproduce(self.request.user, pk=kw['pk'])
+        return super(ReproductionMixin, self).dispatch(*args, **kw)
 
     def construct_inlines(self):
         """
         Pass through a copy of the inlines for the previous trial's
         variable.
         """
-        inline_formsets = super(ReproduceTrial, self).construct_inlines()
-        old_var = self.reproducing.variable_set.all()[0]
+        inline_formsets = super(ReproductionMixin, self).construct_inlines()
+        old_var = self.parent.variable_set.all()[0]
         duplicated = old_var.duplicate()
         the_form = inline_formsets[0].forms[0]
         the_form.instance = duplicated
@@ -394,14 +413,30 @@ class ReproduceTrial(TrialCreate):
         return inline_formsets
 
     def get_form(self, klass):
-        form = klass(instance=self.object)
+        if self.request.method == 'GET':
+            form = klass(instance=self.reproducee)
+        else:
+            form = super(ReproductionMixin, self).get_form(klass)
         form.instance.owner = self.request.user
         return form
 
     def get_context_data(self, *args, **kw):
-        context = super(ReproduceTrial, self).get_context_data(*args, **kw)
+        context = super(ReproductionMixin, self).get_context_data(*args, **kw)
         context['reproducing'] = True
+        context['parent'] = self.parent
+        context['reproducee'] = self.reproducee
         return context
+
+
+class ReproduceTrial(ReproductionMixin, TrialCreate):
+    """
+    Reproduce a N>=1 trial for whatever reason.
+    """
+
+class ReproduceN1Trial(ReproductionMixin, N1TrialCreate):
+    """
+    Reproduce a N=1 trial in order to run it on ourself.
+    """
 
 
 class EditTrial(TrialByPkMixin, OwnsTrialMixin, UpdateView):

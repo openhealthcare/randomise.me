@@ -1,11 +1,16 @@
 {% load bootstrap %}
 {% load terms %}
+
 <div class="row-fluid">
 <form id="newtrial_form" method="post"
       {% if editing %}
         action="{% url 'edit-trial' trial.pk %}"
       {% elif n1trial %}
-        action="{%url 'n1-trial-create' %}"
+        {% if reproducing %}
+          action="{%url 'reproduce-n1-trial' parent.pk %}"
+        {% else %}
+          action="{%url 'n1-trial-create' %}"
+        {% endif %}
       {% else %}
         action="{% url 'rm-trial-create' %}"
       {% endif %}

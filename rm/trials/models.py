@@ -99,8 +99,6 @@ get the intervention"""
     # Step 5
     description       = models.TextField(blank=True, null=True)
     secret_info       = models.TextField(blank=True, null=True)
-    group_a_desc      = models.TextField("Intervention Group description", blank=True, null=True)
-    group_b_desc      = models.TextField("Control Group description", blank=True, null=True)
 
     # Step 6
     group_a           = models.TextField("Group A Instructions", help_text=HELP_A)
@@ -128,6 +126,8 @@ get the intervention"""
     is_edited         = models.BooleanField(default=False)
     created           = models.DateTimeField(default=lambda: datetime.datetime.now())
     private           = models.BooleanField(default=False)
+    parent            = models.ForeignKey('self', blank=True, null=True,
+                                          related_name='child')
 
     # Currently unused advanced user participants
     participants      = models.TextField(help_text=HELP_PART, blank=True, null=True)
@@ -139,7 +139,7 @@ get the intervention"""
         """
         Nice printing representation
         """
-        return '<{0}>'.format(self.title)
+        return '#({0}) {1}'.format(self.pk, self.title)
 
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.pk})
@@ -226,7 +226,10 @@ get the intervention"""
         """
         Return the trial's main outcome
         """
-        return self.variable_set.all()[0]
+        try:
+            return self.variable_set.all()[0]
+        except IndexError:
+            return []
 
     def related(self):
         """
@@ -254,7 +257,7 @@ get the intervention"""
         We decide that a trial is unjoinable if it's finish date has
         passed, or if it's max participants limit has been met.
         """
-        if self.stopped == True:
+        if self.stopped == True or self.n1trial == True:
             return False
         return True
 

@@ -32,6 +32,11 @@ class TrialTestCase(TemporalTestCase):
         trial = models.Trial(stopped=True)
         self.assertEqual(False, trial.can_join())
 
+    def test_can_join_n1trial(self):
+        "Can't join a n=1 trial"
+        trial = models.Trial(n1trial=True)
+        self.assertEqual(False, trial.can_join())
+
     @patch.object(models.Trial, 'participant_set')
     def test_can_join_with_participants(self, pset):
         "Can join an open trial"

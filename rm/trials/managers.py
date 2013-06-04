@@ -48,9 +48,12 @@ class RmTrialManager(models.Manager):
         Return: Trial
         Exceptions: None
         """
+
         trial = self.get(**kwargs)
+        parent = self.get(**kwargs)
         trial.pk          = None
         trial.instruction_date = None
         trial.featured    = None
         trial.owner       = owner
+        trial.parent      = parent
         return trial

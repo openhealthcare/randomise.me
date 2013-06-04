@@ -8,6 +8,7 @@ from mock import MagicMock, patch
 
 from rm.trials import managers
 from rm.trials.models import Trial
+from rm.userprofiles.models import RMUser
 
 class RmTrialManagerTestCase(unittest.TestCase):
 
@@ -38,10 +39,13 @@ class RmTrialManagerTestCase(unittest.TestCase):
 
     def test_reproduce(self):
         "Kill non-reproduced fields"
-        mock_user = MagicMock(name='Mock User')
+        mock_user = RMUser(email='larry@example.com', username='larry')
         with patch.object(self.manager, 'get') as pget:
+            pget.side_effect = lambda *a, **k: Trial(pk=100)
+
             new = self.manager.reproduce(mock_user, pk=1)
-            pget.assert_called_once_with(pk=1)
             self.assertEqual(new.pk, None)
             self.assertEqual(new.instruction_date, None)
             self.assertEqual(new.featured, None)
+            self.assertEqual(new.parent.pk, 100)
+            self.assertEqual(new.owner, mock_user)

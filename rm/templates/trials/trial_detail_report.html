@@ -3,37 +3,39 @@
   <span class="light">TRIAL</span> <span class="red bold">RESULTS</span>
 </h3>
 <div class="feature-box">
+
   <div class="row-fluid">
+    <div class="span12">
+      <div id="mainbar-{{trial.pk}}" class="">
+      </div><!--mainbar-{{trial.pk}}-->
+    </div>
+  </div>
+
+  <h3>
+    <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
+  </h3>
+
+  <div class="feature-box">
+
+    <div class="row-fluid">
       <!-- Main panel -->
       <div class="span9">
-        <div class="row-fluid">
-          <div class="span12">
-            <div id="mainbar-{{trial.pk}}" class="">
-            </div><!--mainbar-{{trial.pk}}-->
-          </div>
-        </div>
+        {% include 'trials/trial_protocol.html' %}
       </div>
       {% include 'trials/trial_detail_sidebar.html' %}
     </div>
   </div> <!-- Row Fluid -->
 
-
-<h3>
-  <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
-</h3>
-
-<div class="feature-box">
-  {% include 'trials/trial_protocol.html' %}
 </div>
 
 
 <script type="text/javascript">
   {% autoescape off %}
     $(document).ready( function(){
-     RM.graphs.trial_report(
-         "{{trial.pk}}",
-         {{trial.results|json}}
-       );
+    RM.graphs.trial_report(
+    "{{trial.pk}}",
+    {{trial.results|json}}
+    );
     });
   {% endautoescape %}
 </script>

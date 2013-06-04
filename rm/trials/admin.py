@@ -12,10 +12,14 @@ class TrialAdmin(admin.ModelAdmin):
     """
     Tweak trials in the admin.
     """
-    list_filter = ('owner',)
-    list_display = ['title', 'private', 'owner', 'featured']
+    list_filter = ('owner__email', 'n1trial')
+    list_display = ['title', 'private', 'owner', 'featured', 'n1trial']
     list_editable = ['featured',]
     inlines = [VariableInline]
+
+class VariableAdmin(admin.ModelAdmin):
+    list_display = ('trial', 'question', 'style')
+    list_filter = ['trial', 'style']
 
 class ParticipantAdmin(admin.ModelAdmin):
     """
@@ -33,3 +37,4 @@ class ReportAdmin(admin.ModelAdmin):
 admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(Trial, TrialAdmin)
 admin.site.register(Report, ReportAdmin)
+admin.site.register(Variable, VariableAdmin)

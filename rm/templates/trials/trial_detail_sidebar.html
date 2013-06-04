@@ -31,7 +31,15 @@
          data-content="Create a new trial using this one as a template. This is useful to reproduce the results of a trial, or to speed up the creation of similar trials."
          >
      </i>
-      <a href="{% url 'reproduce-trial' trial.pk %}">Duplicate Trial</a>
+      <a
+         {% if trial.n1trial %}
+           href="{% url 'reproduce-n1-trial' trial.pk %}"
+         {% else %}
+           href="{% url 'reproduce-trial' trial.pk %}">
+         {% endif %}
+         >
+         Duplicate Trial
+      </a>
     </li>
     <li>
       <i class="icon-question-sign"

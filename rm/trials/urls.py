@@ -3,7 +3,8 @@ from django.views.generic import TemplateView
 
 from rm.trials.views import (MyTrials,
                              TrialDetail,
-                             TrialCreate, N1TrialCreate,
+                             TrialCreate,
+                             N1TrialCreate, ReproduceN1Trial,
                              TrialReport, JoinTrial,
                              EditTrial, TrialQuestion, StopTrial,
                              LeaveTrial, PeekTrial, InviteTrial,
@@ -20,6 +21,8 @@ urlpatterns = patterns(
     url(r'create$', TrialCreate.as_view(), name='rm-trial-create'),
 
     url(r'create-n1$', N1TrialCreate.as_view(), name='n1-trial-create'),
+    url(r'n1/(?P<pk>\d+)/reproduce$', ReproduceN1Trial.as_view(),
+        name='reproduce-n1-trial'),
     url(r'(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
     url(r'(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
     url(r'(?P<pk>\d+)/question', TrialQuestion.as_view(), name='trial-question'),

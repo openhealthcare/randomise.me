@@ -3,39 +3,76 @@
 </h3>
 <div class="feature-box">
   <div class="row-fluid">
-      <!-- Main panel -->
-      <div class="span9">
-        {% if trial.is_edited %}
-          <h4>
-            <i>
-              This trial has been edited!
-            </i>
-          </h4>
-        {% endif %}
+    <!-- Main panel -->
+    <div class="span9">
+      {% if trial.is_edited %}
+        <h4>
+          <i>
+            This trial has been edited!
+          </i>
+        </h4>
+      {% endif %}
 
+      {% if not trial.n1trial %}
         <h3>
           Participants
           <span class="bold">
             {{ trial.participant_set.count }}/{{ trial.min_participants }}
-            </span>
+          </span>
         </h3>
-        <p>
-          {{ trial.description }}
-        </p>
+      {% endif %}
+
+      <p>
+        {{ trial.description }}
+      </p>
+      {% if not trial.n1trial %}
+
         {% if trial.recruitment == trial.INVITATION %}
           {% if can_join %}
             <a href="{% url 'join-trial' trial.pk %}" class="btn btn-warning">
               join trial
-              </a>
+            </a>
           {% else %}
-          <p>Participation in this trial is by invitation only</p>
+            <p>Participation in this trial is by invitation only</p>
           {% endif %}
         {% else %}
-        <a href="{% url 'join-trial' trial.pk %}" class="btn btn-warning">
-          join trial
+          <a href="{% url 'join-trial' trial.pk %}" class="btn btn-warning">
+            join trial
           </a>
         {% endif %}
-      </div>
-      {% include 'trials/trial_detail_sidebar.html' %}
+      {% endif %}
+
+      {% if trial.n1trial %}
+        {% with trial.main_outcome as outcome %}
+        <div class="row-fluid">
+          <h3>Measuring ({{outcome.get_style_display}})</h3>
+          <p>
+            <i>
+              {{outcome.question}}
+            </i>
+          </p>
+        </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <h3>Instructions for Group A</h3>
+            <p><i>{{ trial.group_a }}</i></p>
+          </div>
+          <div class="span6">
+            <h3>Instructions for Group B</h3>
+            <p><i>{{ trial.group_b }}</i></p>
+          </div>
+        </div>
+        {% endwith %}
+
+        <a href="{% url 'reproduce-n1-trial' trial.pk %}" class="btn btn-danger">
+          run this trial on yourself
+        </a>
+      {% endif %}
+
+
     </div>
-  </div> <!-- Row Fluid -->
+    {% include 'trials/trial_detail_sidebar.html' %}
+  </div>
+
+
+</div> <!-- Row Fluid -->
