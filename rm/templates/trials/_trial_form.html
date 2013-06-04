@@ -7,7 +7,7 @@
         action="{% url 'edit-trial' trial.pk %}"
       {% elif n1trial %}
         {% if reproducing %}
-          action="{%url 'reproduce-n1-trial' parent.pk %}"
+          action="{%url 'n1-trial-create' %}"
         {% else %}
           action="{%url 'n1-trial-create' %}"
         {% endif %}
@@ -27,6 +27,9 @@
       {{ form.reporting_freq }}
       {{ form.reporting_date }}
       {{ form.ending_date }}
+      {% if parent %}
+        <input id="id_parent" name="parent" type="text" value="{{parent.pk}}">
+      {% endif %}
       <input id="id_ending_style" name="ending_style" type="text" value="{{form.instance.MANUALLY}}">
     </span>
   {% endif %}

@@ -367,7 +367,6 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
             self.object.join(self.request.user)
             return response
 
-
         return self.forms_invalid(form, inlines)
         # Join up now.
 

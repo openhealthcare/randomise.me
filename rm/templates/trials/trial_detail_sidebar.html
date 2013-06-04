@@ -33,11 +33,11 @@
      </i>
       <a
          {% if trial.n1trial %}
-           href="{% url 'reproduce-n1-trial' trial.pk %}"
+           href="{% url 'reproduce-n1-trial' trial.pk %}">
          {% else %}
            href="{% url 'reproduce-trial' trial.pk %}">
          {% endif %}
-         >
+
          Duplicate Trial
       </a>
     </li>
