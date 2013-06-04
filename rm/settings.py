@@ -99,7 +99,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
-    'django_cas.backends.CASBackend',
+    # 'django_cas.backends.CASBackend',
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
@@ -112,7 +112,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_cas.middleware.CASMiddleware',
+    # 'django_cas.middleware.CASMiddleware',
     'rm.middleware.BasicAuthMiddleware'
 )
 
@@ -139,7 +139,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'bootstrapform',
-    'django_cas',
+    # 'django_cas',
     'django_extensions',
     'djcelery',
     'form_utils',

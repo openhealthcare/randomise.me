@@ -19,12 +19,12 @@ urlpatterns = patterns(
     (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^comments/', include('django.contrib.comments.urls')),
-    url(r'^logout/$', 'django.contrib.auth.views.logout'),
-
+    url(r'^logout/$', 'django.contrib.auth.views.logout',
+                          {'next_page': '/'}),
     # Accounts, profiles, login
     (r'^accounts/', include('allauth.urls')),
-    url(r'^cas/login/$', 'django_cas.views.login', name='cas-login'),
-    url(r'^cas/logout/$', 'django_cas.views.logout', name='cas-logout'),
+    # url(r'^cas/login/$', 'django_cas.views.login', name='cas-login'),
+    # url(r'^cas/logout/$', 'django_cas.views.logout', name='cas-logout'),
     url(r'^profile/', include('rm.userprofiles.urls')),
 
     # Payment
