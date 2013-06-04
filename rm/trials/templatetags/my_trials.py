@@ -25,9 +25,10 @@ def my_trials(context):
     participating = participated.filter(trial__stopped=False)
     participated  = participated.filter(trial__stopped=True)
 
+    new = running.count() == 0 and completed.count() == 0 and participating.count() == 0 and participated.count() == 0
 
-
-    return dict(running=running,
+    return dict(new=new,
+                running=running,
                 completed=completed,
                 participating=participating,
                 participated=participated)

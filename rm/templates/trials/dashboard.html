@@ -1,5 +1,5 @@
 {% load json_filters join_trial%}
-{% if participating.count == 0 and running.count == 0 and usertrials.count == 0 %}
+{% if new %}
   <p>
     Looks like you haven't <a href="{% url 'trial-create' %}">created</a>
     or <a href="{% url 'trials' %}">joined</a> any trials yet!
