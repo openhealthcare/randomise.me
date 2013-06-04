@@ -17,22 +17,21 @@
       >
   {{ Variable.management_form }}
   {% csrf_token %}
+  <span class="hidem">
   {% if n1trial %}
     <!-- TODO solve this -->
-    <span class="hidem">
-
       <input id="id_min_participants" name="min_participants" type="hidden" value="1"/>
       {{ form.recruitment }}
       {{ form.instruction_date }}
       {{ form.reporting_freq }}
       {{ form.reporting_date }}
       {{ form.ending_date }}
-      {% if parent %}
-        <input id="id_parent" name="parent" type="text" value="{{parent.pk}}">
-      {% endif %}
       <input id="id_ending_style" name="ending_style" type="text" value="{{form.instance.MANUALLY}}">
+    {% endif %}
+    {% if parent %}
+      <input id="id_parent" name="parent" type="text" value="{{parent.pk}}">
+    {% endif %}
     </span>
-  {% endif %}
 
 
   {% if form.errors or Variable.errors %}
