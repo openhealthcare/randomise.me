@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
 from rm.trials.views import (MyTrials,
-                             TrialDetail,
+                             TrialDetail, RandomiseMeView,
                              TrialCreate,
                              N1TrialCreate, ReproduceN1Trial,
                              TrialReport, JoinTrial,
@@ -35,6 +35,7 @@ urlpatterns = patterns(
     url(r'(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(),
         name='reproduce-trial'),
     url(r'(?P<pk>\d+)/as-csv$', TrialAsCsv.as_view(), name='trial-as-csv'),
+    url(r'(?P<pk>\d+)/randomise-me', RandomiseMeView.as_view(), name='randomise-me'),
 
     # Multiple ways to see lists of trials
     url(r'featured$', FeaturedTrialsList.as_view(), name='featured'),

@@ -245,5 +245,42 @@ var RM = {
                 .text(function(d) { return d.name + ' (' + d.avg + ')' })
 
         }
+    },
+
+    interactions: {
+
+        report_template: _.template('<tr><td>*</td><td><%=group_name %></td><td><a href="#report-data" class="btn btn-danger" data-toggle="modal" role="button">report data</a></td></tr>'),
+
+        // Initialise the randomisation functionality for n=1 trials.
+        randomise_me: function(){
+
+            // The randomise me button itself
+            $('#randomiseme-form').ajaxForm({
+                success: function(data){
+                    var instructions = $('#group' + data + '-instructions').text();
+                    if(data == 'a'){
+                        var group_name = 'Group A';
+                    }else{
+                        var group_name = 'Group B';
+                    }
+                    $('#active-instructions').text(instructions);
+                    $('#instruction-container').slideDown();
+                    $('#randomiseme-button').slideToggle();
+                    var row = RM.interactions.report_template({group_name:group_name})
+                    $('#report-table').append(row);
+                }
+            });
+
+
+            // $('#randomise-me').on('click', function(){
+            //     $.get('/random/group/', function(data){
+            //     })
+            //     return false;
+            // });
+
+
+        }
+
     }
+
 }

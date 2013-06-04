@@ -2,6 +2,7 @@
 A create trial view?
 """
 import datetime
+import random
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -156,9 +157,20 @@ class ReportView(CreateView):
 
         variable = self.trial.variable_set.all()[0]
 
-        report = Report.objects.get_or_create(trial=self.trial, date=date,
-                                              participant=participant,
-                                              group=group, variable=variable)[0]
+        if self.trial.n1trial:
+
+            report = Report.objects.get(trial=self.trial,
+                                        date__isnull=True)
+            d, m, y = self.request.POST['date'].split('/')
+            d, m, y = int(d), int(m), int(y)
+            date = datetime.date(y, m, d)
+            report.date  = date
+            report.save()
+
+        else:
+            report = Report.objects.get_or_create(trial=self.trial, date=date,
+                                                  participant=participant,
+                                                  group=group, variable=variable)[0]
         if variable.style == variable.SCORE:
             report.score = int(self.request.POST['score'])
         elif variable.style == variable.BINARY:
@@ -201,7 +213,6 @@ class MyTrials(TemplateView):
     """
     template_name = 'trials/my_trials.html'
 
-# Views for trials on RM users.
 
 class TrialDetail(DetailView):
     """
@@ -667,3 +678,27 @@ class TrialSearchView(ListView):
         if not q:
             return Trial.objects.all()
         return Trial.objects.filter(title__icontains=q)
+
+
+class RandomiseMeView(TrialByPkMixin, LoginRequiredMixin, View):
+    """
+    A user has requested the latest set of instructions in
+    a N=1 trial. Randomise them and initialise the report.
+    """
+    def post(self, *args, **kw):
+        """
+        Create a report, randomise the user and tell them their
+        latest group!
+
+        Return: HttpResponse
+        Exceptions: None
+        """
+        group = random.choice(self.trial.ensure_groups())
+        participant = self.trial.participant_set.get(user=self.request.user)
+        report = Report(trial=self.trial,
+                        participant=participant,
+                        group=group,
+                        variable=self.trial.variable_set.all()[0])
+        report.save()
+
+        return HttpResponse(group.name.lower())

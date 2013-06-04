@@ -3,9 +3,11 @@ Top level views for Randomise Me.
 
 Static-ish pages etc.
 """
+import random
+
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import TemplateView, View
 from letter.contrib.contact import ContactView
 
 from rm.trials.models import Trial

@@ -1,0 +1,125 @@
+{% load bootstrap %}
+<h3>
+  <span class="light">RANDOMISE</span> <span class="red bold">ME</span>
+</h3>
+<div class="feature-box">
+  <div class="row-fluid">
+    <div class="span12 hidem" id="instruction-container">
+      <p>
+        <i>
+          <span id="active-instructions">
+            {% if active_instructions %}{{active_instructions}}{% endif %}
+          </span>
+        </i>
+      </p>
+    </div>
+  </div>
+  <div class="row-fluid {% if pending %} hidem {% endif %}" id="randomiseme-button">
+    <form method="POST" id="randomiseme-form" action="{% url 'randomise-me' trial.pk %}">
+      {% csrf_token %}
+      <input type="hidden" name="randomise" value="me" />
+    <button class="btn btn-danger" id="randomise-me">
+      randomise me
+    </button>
+    </form>
+  </div>
+  <div class="row-fluid">
+    <table width="" cellspacing="" cellpadding="" border=""
+           class="table table-bordered table-hover table-striped"
+           id="report-table"
+           >
+      <tr>
+        <th>Date</th>
+        <th>Group</th>
+        <th>Status</th>
+      </tr>
+      {% for report in reports %}
+        <tr>
+          <td>
+            {% if report.date %}
+              {{ report.date }}
+            {% else %}
+              *
+            {% endif %}
+          </td>
+          <td>
+            {% if report.group.name == report.group.GROUP_A %}
+              Group A
+            {% else %}
+              Group B
+            {% endif %}
+          </td>
+          <td>
+            {% if report.reported %}
+              {{ report.get_value }}
+            {% else %}
+              <a href="#report-data" class="btn btn-danger" role="button" data-toggle="modal">
+                report data
+              </a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+
+<div id="report-data" class="modal hide fade" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+      <h3 id="myModalLabel">
+        Report data for your trial
+      </h3>
+    </div>
+    <form id="usertrialreport_form" method="post"
+          action="{% url 'trial-report' trial.pk %}" class="ajaxform">
+          {% csrf_token %}
+    <div class="modal-body">
+      <div class="row-fluid">
+
+    {% for variable in trial.variable_set.all %}
+    <div class="span6">
+      {% if forloop.first %}
+        {% with variable.report_form as form %}
+          {{ form.date| bootstrap }}
+           {% if form.Meta.score %}
+             {{form.score|bootstrap}}
+           {% elif form.Meta.binary %}
+             {{form.binary|bootstrap}}
+           {% elif form.Meta.count %}
+             {{form.count|bootstrap}}
+           {% endif %}
+        {% endwith %}
+      {% endif %}
+    </div>
+    <div class="span6">
+      <h3>
+        <i>
+          {{ variable.question }}
+        </i>
+      </h3>
+    </div>
+    {% endfor %}
+
+      </div> <!-- row fluid -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-warning" data-dismiss="modal" aria-hidden="true">cancel</button>
+      <button class="btn btn-danger">
+        report data
+     </button>
+
+    </div>
+    </form>
+  </div><!--report-{{period.date.isoformat}}-->
+
+
+<span id="groupa-instructions">{{trial.group_a}}</span>
+<span id="groupb-instructions">{{trial.group_b}}</span>
+<script type="text/javascript">
+  $(document).ready( function(){
+    RM.interactions.randomise_me();
+  })
+</script>

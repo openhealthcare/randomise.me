@@ -453,7 +453,6 @@ class Variable(models.Model):
         return Variable(name=self.name, question=self.question, style=self.style)
 
 
-
 class Group(models.Model):
     """
     The randomised groups of participants, automatically
@@ -471,6 +470,7 @@ class Group(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Participant(models.Model):
     """
@@ -539,7 +539,7 @@ class Report(models.Model):
     trial        = models.ForeignKey(Trial)
     participant  = models.ForeignKey(Participant, blank=True, null=True)
     group        = models.ForeignKey(Group, blank=True, null=True)
-    date         = models.DateField()
+    date         = models.DateField(blank=True, null=True)
     variable     = models.ForeignKey(Variable)
     score        = models.IntegerField(blank=True, null=True)
     binary       = models.NullBooleanField(blank=True)
@@ -552,3 +552,31 @@ class Report(models.Model):
 
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.trial.pk})
+
+    def reported(self):
+        """
+        Predicate method to determine whether this report instance
+        has already reported data.
+
+        Return: bool
+        Exceptions: None
+        """
+        if self.variable.style == Variable.SCORE and self.score is not None:
+            return True
+        if self.variable.style == Variable.BINARY and self.binary is not None:
+            return True
+        if self.variable.style == Variable.COUNT and self.count is not None:
+            return True
+        return False
+
+    def get_value(self):
+        """
+        Return the value of this report according to the style or None.
+        """
+        if self.variable.style == Variable.SCORE:
+            return self.score
+        if self.variable.style == Variable.BINARY:
+            return self.binary
+        if self.variable.style == Variable.COUNT:
+            return self.count
+        return

@@ -200,5 +200,64 @@ class ParticipantTestCase(TestCase):
         self.assertEqual(['larry@example.com'], mail.outbox[0].to)
 
 
+class ReportTestCase(TestCase):
+
+    def test_reported_score(self):
+        "predicateability"
+        trial = models.Trial(pk=1)
+        variable = models.Variable(style=models.Variable.SCORE)
+        report = models.Report(trial=trial, variable=variable)
+        self.assertEqual(False, report.reported())
+        report.score = 3
+        self.assertEqual(True, report.reported())
+
+    def test_reported_binary(self):
+        "predicateability"
+        trial = models.Trial(pk=1)
+        variable = models.Variable(style=models.Variable.BINARY)
+        report = models.Report(trial=trial, variable=variable)
+        self.assertEqual(False, report.reported())
+        report.binary = True
+        self.assertEqual(True, report.reported())
+
+    def test_reported_count(self):
+        "predicateability"
+        trial = models.Trial(pk=1)
+        variable = models.Variable(style=models.Variable.COUNT)
+        report = models.Report(trial=trial, variable=variable)
+        self.assertEqual(False, report.reported())
+        report.count = 2
+        self.assertEqual(True, report.reported())
+
+
+    def test_get_value_score(self):
+        "predicateability"
+        trial = models.Trial(pk=1)
+        variable = models.Variable(style=models.Variable.SCORE)
+        report = models.Report(trial=trial, variable=variable)
+        self.assertEqual(None, report.get_value())
+        report.score = 3
+        self.assertEqual(3, report.get_value())
+
+    def test_get_value_binary(self):
+        "predicateability"
+        trial = models.Trial(pk=1)
+        variable = models.Variable(style=models.Variable.BINARY)
+        report = models.Report(trial=trial, variable=variable)
+        self.assertEqual(None, report.get_value())
+        report.binary = True
+        self.assertEqual(True, report.get_value())
+
+    def test_get_value_count(self):
+        "predicateability"
+        trial = models.Trial(pk=1)
+        variable = models.Variable(style=models.Variable.COUNT)
+        report = models.Report(trial=trial, variable=variable)
+        self.assertEqual(None, report.get_value())
+        report.count = 2
+        self.assertEqual(2, report.get_value())
+
+
+
 if __name__ == '__main__':
     unittest.main()

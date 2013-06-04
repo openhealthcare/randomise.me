@@ -60,7 +60,7 @@ urlpatterns = patterns(
 
     # Trials on RM Users - CRUD routes
     url(r'^trials/', include('rm.trials.urls')),
-    url(r'search$', TrialSearchView.as_view(), name='search')
+    url(r'search$', TrialSearchView.as_view(), name='search'),
 
 )
 
