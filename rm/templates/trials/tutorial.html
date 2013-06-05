@@ -62,9 +62,7 @@
       We'll need an email address and a password from you...
     <p>
 
-      <input name="email" type="text" />
-      <input maxlength="200" name="password" type="password" />
-      <input maxlength="200" name="password_confirmation" type="password" />
+      {{ form.email }} {{ form.password }} {{ form.password_confirmation }}
 
       <i class="icon-question-sign"
          title="Your account"
