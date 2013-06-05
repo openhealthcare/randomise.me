@@ -50,6 +50,7 @@
   </div>
 
   <h3>3. Get started</h3>
+  {% if not request.user.is_authenticated %}
   <div class="row-fluid">
     <p>
       You're almost ready to start, but we'll need to give you an account
@@ -66,6 +67,11 @@
            >
         </i>
     </p>
+
+  </div>
+
+  {% endif %}
+  <div class="row-fluid">
     <p>
       <button class="btn btn-danger" type="submit">Create Trial</button>
     </p>
