@@ -18,8 +18,34 @@
         </p>
       </div>
       <div class="span6 offset1">
-        <img src="{{ STATIC_URL }}img/video-placeholder-large.jpg" class="" alt="" />
+        <a href="{% url 'tutorial' %}" class="feature-heading">
+          <h2><span class="bold red">CREATE</span> <span class="light">A TRIAL</span></h2>
+        </a>
+        <div class="feature-box">
+      <dl class="numbered">
+        <dt>
+          Have a question
+        </dt>
+        <dt>
+          Create a trial in minutes
+        </dt>
+        <dt>
+          Get pretty results
+        </dt>
+      </dl>
+
+        </div>
+        <p class="drop12">
+          <a href="{% url 'how-do-rcts-work' %}" class="red weight400">How does it work?</a>
+          <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
+            get started
+          </a>
+        </p>
       </div>
+
+      <!-- <div class="span6 offset1"> -->
+      <!--   <img src="{{ STATIC_URL }}img/video-placeholder-large.jpg" class="" alt="" /> -->
+      <!-- </div> -->
     </div>
 
     <!-- Second row - What do you get out of running a trial? -->
@@ -57,31 +83,6 @@
 
     <!-- Third row, Create/join trials -->
     <div class="row-fluid clearem">
-      <div class="span6">
-        <a href="{% url 'tutorial' %}" class="feature-heading">
-          <h2><span class="bold red">CREATE</span> <span class="light">A TRIAL</span></h2>
-        </a>
-        <div class="feature-box">
-      <dl class="numbered">
-        <dt>
-          Have a question
-        </dt>
-        <dt>
-          Create a trial in minutes
-        </dt>
-        <dt>
-          Get pretty results
-        </dt>
-      </dl>
-
-        </div>
-        <p class="drop12">
-          <a href="{% url 'how-do-rcts-work' %}" class="red weight400">How does it work?</a>
-          <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
-            get started
-          </a>
-        </p>
-      </div>
 
       {% join_trial_widget %}
     </div>
