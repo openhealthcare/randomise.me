@@ -11,8 +11,9 @@
   </span>
 </h1>
   <div class="page">
-  <form method="POST" id="tutorial-form" action="" class="nolabels">
-
+  <form method="POST" id="tutorial-form" action="" class="nolabels form-inline"
+        data-validate="parsley">
+    {% csrf_token %}
   <div class="row-fluid">
     <h3>1. What's your question</h3>
     <h4>
@@ -51,6 +52,8 @@
 
   <h3>3. Get started</h3>
   {% if not request.user.is_authenticated %}
+
+
   <div class="row-fluid">
     <p>
       You're almost ready to start, but we'll need to give you an account
@@ -58,9 +61,11 @@
     </p>
       We'll need an email address and a password from you...
     <p>
-      <input type="text" name="email" value="" placeholder="you@example.com" />
-      <input type="password" name="password" placeholder="password" value="" />
-      <input type="password" name="confirm-password" placeholder="confirm password" value="" />
+
+      <input name="email" type="text" />
+      <input maxlength="200" name="password" type="password" />
+      <input maxlength="200" name="password_confirmation" type="password" />
+
       <i class="icon-question-sign"
          title="Your account"
          data-content="We'll use your email as a login for the site and to send you updates on your trials. Don't worry, we won't share your email with anyone without your permission"

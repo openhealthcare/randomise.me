@@ -6,13 +6,14 @@ import random
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import all_valid
 from django.forms.models import inlineformset_factory
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
-from django.views.generic.edit import CreateView, BaseCreateView, UpdateView
+from django.views.generic.edit import CreateView, BaseCreateView, UpdateView, FormView
 from django.utils import simplejson
 from extra_views import CreateWithInlinesView, InlineFormSet
 from extra_views import NamedFormsetsMixin, ModelFormSetView
@@ -23,6 +24,9 @@ from letter.contrib.contact import ContactView
 from rm import exceptions
 from rm.trials.forms import (TrialForm, VariableForm, N1TrialForm, TutorialForm)
 from rm.trials.models import Trial, Report, Variable, Invitation
+from rm.trials.utils import n1_with_sane_defaults
+from rm.userprofiles.models import RMUser
+from rm.userprofiles.utils import sign_me_up
 
 def serve_maybe(meth):
     """
@@ -374,6 +378,9 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
             self.object = form.save(commit=False)
 
             # TODO  - Clean this
+            # TODO - Read the Django documentation
+            # TODO - Convert this nonsense to the *actual* mixin hooks
+            # FFS
             self.object.n1trial = True
             self.object.reporting_style = self.object.WHENEVER
             self.object.instruction_delivery = self.object.ON_DEMAND
@@ -713,7 +720,7 @@ class RandomiseMeView(TrialByPkMixin, LoginRequiredMixin, View):
         return HttpResponse(group.name.lower())
 
 
-class TutorialView(CreateView):
+class TutorialView(FormView):
     """
     Ultra-simple process for creating a N=1 trial for people
     """
@@ -727,5 +734,40 @@ class TutorialView(CreateView):
         """
         kwargs = super(TutorialView, self).get_form_kwargs(*args, **kw)
         kwargs['auto_id'] = False
-        print kwargs
+        kwargs['request'] = self.request
         return kwargs
+
+    def _login_or_signup(self, form):
+        """
+        Given the valid FORM, return a user, signing them up if required,
+        and logging them in
+
+        Return: RMUser
+        Exceptions: None
+        """
+        email, pw, pw2 = [form.data.get(x) for x in ['email', 'password', 'password_confirmation']]
+        if form.user is None:
+            # We need to sign 'em up!
+            sign_me_up(self.request, email, pw, pw2)
+
+        user = authenticate(username=email, password=pw)
+        login(self.request, user)
+        return user
+
+    def form_valid(self, form):
+        """
+        Create the user if required then create the trial.
+
+        If the user already exists we can just log them in as password
+        verification for email addresses we already know about is handled by the form.
+        """
+        if self.request.user.is_authenticated():
+            user = self.request.user
+        else:
+            user = self._login_or_signup(form)
+
+        title = form.data['title']
+        group_a, group_b = form.data['group_a'], form.data['group_b']
+
+        trial = n1_with_sane_defaults(user, title, group_a, group_b)
+        return HttpResponseRedirect(trial.get_absolute_url())

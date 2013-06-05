@@ -4,6 +4,7 @@ Custom forms for the creation of Trials
 import datetime
 
 from django.core.exceptions import ValidationError
+from django import forms
 from django.forms import fields, widgets
 from django.forms.models import inlineformset_factory
 from django.forms.models import ModelForm
@@ -13,6 +14,7 @@ from form_utils.forms import BetterModelForm
 from rm import utils
 from rm.trials.models import Trial, Report, Variable
 from rm.trials import validators
+from rm.userprofiles.models import RMUser
 
 class BootstrapDatepickerWidget(widgets.DateInput):
     """
@@ -288,27 +290,82 @@ def reportform_factory(variable, initial):
     raise ValueError('No variable style - what the what?')
 
 
-class TutorialForm(ModelForm):
+class TutorialForm(forms.Form):
     """
     The form we use to create v.simple trials from the get started page
     """
-    class Meta:
-        model = Trial
-        widgets = {
-            'title': widgets.TextInput(attrs={
-                    'class': 'wider',
-                    'placeholder': "What's your question?",
-                    'data-required' : 'true',
-                    'data-maxlength': '200'
-                    }),
-            'group_a': widgets.Textarea(attrs={
-                    'data-required': 'true',
-                    'class': 'wider',
-                    'placeholder': 'Group A instructions'
-                    }),
-            'group_b': widgets.Textarea(attrs={
+    title = forms.CharField(max_length=100,
+                            widget=widgets.TextInput(attrs={
+                'class': 'wider',
+                'placeholder': "What's your question?",
+                'data-required' : 'true',
+                'data-maxlength': '200'
+                }))
+
+    group_a = forms.CharField(widget=widgets.Textarea(attrs={
+                'data-required': 'true',
+                'class': 'wider',
+                'placeholder': 'Group A instructions'
+                }))
+
+    group_b = forms.CharField(widget=widgets.Textarea(attrs={
                     'data-required': 'true',
                     'class': 'wider',
                     'placeholder': 'Group B instructions'
-                    }),
-            }
+                    }))
+
+    email = forms.EmailField(widget=widgets.TextInput(attrs={
+                'data-required': 'true',
+                'data-type': 'email',
+                'placeholder': 'email'
+                }),
+                             required=False)
+    password = forms.CharField(max_length=200, widget=forms.PasswordInput(attrs={
+                'data-required': 'true',
+                'id': 'password1',
+                'placeholder': 'password',
+                }),
+                               required=False)
+    password_confirmation = forms.CharField(max_length=200, widget=forms.PasswordInput(attrs={
+                'data-required': 'true',
+                'data-equalto': '#password1',
+                'placeholder': 'password confirmation',
+                }),
+                                            required=False)
+
+    def __init__(self, *args, **kw):
+        self.user = None
+        self.request = kw['request']
+        del kw['request']
+        super(TutorialForm, self).__init__(*args, **kw)
+
+    def clean(self):
+        """"
+        Check that the credentials supplied are valid:
+
+        * If the user is logged in, just bail - we're cool.
+        * If the email is new to us, that's cool, we'll sign 'em up
+        * If the email is known and the password is correct, we'll log 'em in
+        * If the email is taken and the password is wrong, we'll add an error
+        * We rely on Parsley.js to make sure the password && confirmation are accurate
+        """
+        cleaned_data = super(TutorialForm, self).clean()
+        if self.request.user.is_authenticated():
+            return cleaned_data
+        email, password = cleaned_data['email'], cleaned_data['password']
+        if RMUser.objects.filter(email=email).count() > 0:
+            user = RMUser.objects.get(email=email)
+            if not user.check_password(password):
+                # Manually ovveride dependant fields with errors here.
+                # see https://docs.djangoproject.com/en/dev/ref/forms/validation/\
+                # #cleaning-and-validating-fields-that-depend-on-each-other
+                msg = u"This email address has already been used for a Randomise Me account, and the password didn't match the one we have associated with it - check your typing and try again"
+                self._errors['password'] = self.error_class([msg])
+
+                # need to take these out for downstream processing
+                del cleaned_data['password']
+                del cleaned_data['password_confirmation']
+            else:
+                self.user = user
+
+        return cleaned_data
