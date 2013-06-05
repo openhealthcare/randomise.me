@@ -69,7 +69,7 @@ class DetailTestCase(test.TestCase):
         trial.save()
         var = models.Variable(question='Why?', trial=trial)
         var.save()
-        self.assertTrue(self.client.login(username='larry', password='thepass'))
+        self.assertTrue(self.client.login(username='larry@example.com', password='thepass'))
 
         with self.settings(BASICAUTH=False):
             response = self.client.get('/trials/rm/{0}'.format(trial.pk))
@@ -91,7 +91,7 @@ class DetailTestCase(test.TestCase):
         part = models.Participant(user=part_user, trial=trial)
         part.save()
 
-        self.assertTrue(self.client.login(username='bill', password='pass'))
+        self.assertTrue(self.client.login(username='bill@example.com', password='pass'))
 
         with self.settings(BASICAUTH=False):
             response = self.client.get('/trials/rm/{0}'.format(trial.pk))
@@ -113,7 +113,7 @@ class DetailTestCase(test.TestCase):
         invitation = models.Invitation(email=invitee.email, trial=trial, sent=True)
         invitation.save()
 
-        self.assertTrue(self.client.login(username='bill', password='pass'))
+        self.assertTrue(self.client.login(username='bill@example.com', password='pass'))
 
         with self.settings(BASICAUTH=False):
             response = self.client.get('/trials/rm/{0}'.format(trial.pk))
@@ -147,7 +147,7 @@ class CreateRMTrialTestCase(test.TestCase):
         myuser = RMUser(email='larry@example.com', username='larry')
         myuser.set_password('thepass')
         myuser.save()
-        self.client.login(username='larry', password='thepass')
+        self.client.login(username='larry@example.com', password='thepass')
 
         with self.settings(BASICAUTH=False):
             resp = self.client.get('/trials/create')

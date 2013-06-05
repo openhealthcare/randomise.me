@@ -84,7 +84,7 @@ class ConfirmTestCase(TestCase):
         myuser = RMUser(username='larry', email='larry@example.com')
         myuser.set_password('thepass')
         myuser.save()
-        self.assertTrue(self.client.login(username='larry', password='thepass'))
+        self.assertTrue(self.client.login(username='larry@example.com', password='thepass'))
         GET = {'resource_type': 'subscription'}
 
         with patch.object(views.User, 'upgrade') as pup:
