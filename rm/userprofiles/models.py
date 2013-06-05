@@ -70,8 +70,8 @@ by email.
 
     objects = RMUserManager()
 
-#    USERNAME_FIELD = 'email'
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
+#    USERNAME_FIELD = 'username'
 
     def __unicode__(self):
         return self.email
