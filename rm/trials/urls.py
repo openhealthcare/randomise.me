@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
-from rm.trials.views import (MyTrials,
+from rm.trials.views import (MyTrials, TrialCreateLanding,
                              TrialDetail, RandomiseMeView,
                              TrialCreate,
                              N1TrialCreate, ReproduceN1Trial,
@@ -15,11 +15,8 @@ from rm.trials.views import (MyTrials,
 urlpatterns = patterns(
     '',
     url(r'my-trials$', MyTrials.as_view(), name='mytrials'),
-    url(r'new$', TemplateView.as_view(template_name='trials/new.html'),
-        name='trial-create'),
-
+    url(r'new$', TrialCreateLanding.as_view(), name='trial-create'),
     url(r'create$', TrialCreate.as_view(), name='rm-trial-create'),
-
     url(r'create-n1$', N1TrialCreate.as_view(), name='n1-trial-create'),
     url(r'n1/(?P<pk>\d+)/reproduce$', ReproduceN1Trial.as_view(),
         name='reproduce-n1-trial'),

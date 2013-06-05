@@ -5,6 +5,7 @@ import datetime
 import random
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import all_valid
 from django.forms.models import inlineformset_factory
@@ -325,6 +326,15 @@ class VariableInline(InlineFormSet):
         kwargs['form'] = VariableForm
         return inlineformset_factory(self.model, self.get_inline_model(), **kwargs)
 
+class TrialCreateLanding(TemplateView):
+    """
+    Redirect to the tutorial if anonymous
+    """
+    template_name = 'trials/new.html'
+    def dispatch(self, *args, **kw):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('tutorial'))
+        return super(TrialCreateLanding, self).dispatch(*args, **kw)
 
 class TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesView):
     model = Trial
