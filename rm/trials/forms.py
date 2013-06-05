@@ -286,3 +286,29 @@ def reportform_factory(variable, initial):
     elif variable.style == variable.COUNT:
         return CountReportForm()
     raise ValueError('No variable style - what the what?')
+
+
+class TutorialForm(ModelForm):
+    """
+    The form we use to create v.simple trials from the get started page
+    """
+    class Meta:
+        model = Trial
+        widgets = {
+            'title': widgets.TextInput(attrs={
+                    'class': 'wider',
+                    'placeholder': "What's your question?",
+                    'data-required' : 'true',
+                    'data-maxlength': '200'
+                    }),
+            'group_a': widgets.Textarea(attrs={
+                    'data-required': 'true',
+                    'class': 'wider',
+                    'placeholder': 'Group A instructions'
+                    }),
+            'group_b': widgets.Textarea(attrs={
+                    'data-required': 'true',
+                    'class': 'wider',
+                    'placeholder': 'Group B instructions'
+                    }),
+            }

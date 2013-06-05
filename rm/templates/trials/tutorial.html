@@ -1,5 +1,5 @@
 {% extends 'baser.html' %}
-{% load terms %}
+{% load terms bootstrap %}
 
 {% block extratitle %} - Create your own trial{% endblock %}
 {% block content %}
@@ -11,7 +11,7 @@
   </span>
 </h1>
   <div class="page">
-  <form method="POST" id="tutorial-form" action="">
+  <form method="POST" id="tutorial-form" action="" class="nolabels">
 
   <div class="row-fluid">
     <h3>1. What's your question</h3>
@@ -24,36 +24,47 @@
     <p>
       Having constipation is the primary outcome. It's the thing you care about.
     </p>
+    {{ form.title|bootstrap }}
   </div>
 
+  <h3>2. To test this hypothesis we'll create two different sets of instructions</h3>
   <div class="row-fluid">
-    <h3>2. To test this hypothesis we'll send two different sets of instructions</h3>
-    <p>Group 1 "Eat Concrete" Group 2 "Don't Eat Concrete"</p>
-    <p>What are your instructions?</p>
+    <div class="span6">
+      <h4>Group A</h4>
+      <p>Eat Concrete</p>
+    </div>
+    <div class="span6">
+      <h4>Group B</h4>
+      <p>Don't eat Concrete </p>
+    </div>
   </div>
+  <p>What are your instructions?</p>
 
   <div class="row-fluid">
     <div class="span6">
-      <textarea name="" id="" rows="" cols="" tabindex="">
-        Instructions One
-        </textarea>
+      {{ form.group_a|bootstrap }}
     </div>
     <div class="span6">
-      <textarea name="" id="" rows="" cols="" tabindex="">
-        Instructions Two
-        </textarea>
+      {{ form.group_b|bootstrap }}
     </div>
   </div>
 
+  <h3>3. Get started</h3>
   <div class="row-fluid">
-    <h3>3. Get started</h3>
     <p>
-      We'll need to give you an account so you can check up on your
-      trial - you're almost ready to start, we'll need an email address
-      from you...
+      You're almost ready to start, but we'll need to give you an account
+      so you can check up on your trial...
     </p>
+      We'll need an email address and a password from you...
     <p>
       <input type="text" name="email" value="" placeholder="you@example.com" />
+      <input type="password" name="password" placeholder="password" value="" />
+      <input type="password" name="confirm-password" placeholder="confirm password" value="" />
+      <i class="icon-question-sign"
+         title="Your account"
+         data-content="We'll use your email as a login for the site and to send you updates on your trials. Don't worry, we won't share your email with anyone without your permission"
+           >
+        </i>
     </p>
     <p>
       <button class="btn btn-danger" type="submit">Create Trial</button>

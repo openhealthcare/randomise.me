@@ -75,9 +75,8 @@ class Trial(models.Model):
 
     HELP_PART = """Who can participate in this trial?
 (Everyone? People with an infant under 6 months? People who binge drink Alcohol?)"""
-    HELP_A = """These are the instructions that will be sent to the group who
-get the intervention"""
-    HELP_B = """These are the instructions that will be sent to the control group"""
+    HELP_A = """These are the instructions that will be sent to group A"""
+    HELP_B = """These are the instructions that will be sent to group B"""
 
     # Step 1
     title          = models.CharField(max_length=200, blank=True, null=True)
@@ -151,7 +150,8 @@ get the intervention"""
         Return: None
         Exceptions: None
         """
-        self.recruiting = self.can_join()
+        if self.recruitment == self.INVITATION:
+            self.private = True
         return super(Trial, self).save()
 
     def results(self):

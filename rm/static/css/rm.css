@@ -468,6 +468,10 @@ html.nologo .masthead #header-logo {
 }
 /* Form stuffs */
 
+form.nolabels label {
+    display: none;
+}
+
 .item {
     min-height: 600px;
 }

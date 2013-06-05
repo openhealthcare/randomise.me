@@ -9,7 +9,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 admin.autodiscover()
 
-from rm.trials.views import TrialSearchView
+from rm.trials.views import TrialSearchView, TutorialView
 from rm.views import HomeView, RMContactView
 from rm.userprofiles.views import RMUserUpdate
 
@@ -54,9 +54,7 @@ urlpatterns = patterns(
     # profile editor
     url(r'account$', RMUserUpdate.as_view(), name='account-edit'),
 
-    url(r'tutorial',
-        TemplateView.as_view(template_name='trials/tutorial.html'),
-        name='tutorial'),
+    url(r'tutorial', TutorialView.as_view(), name='tutorial'),
 
     # Trials on RM Users - CRUD routes
     url(r'^trials/', include('rm.trials.urls')),

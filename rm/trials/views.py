@@ -20,7 +20,7 @@ import ffs
 from letter.contrib.contact import ContactView
 
 from rm import exceptions
-from rm.trials.forms import (TrialForm, VariableForm, N1TrialForm)
+from rm.trials.forms import (TrialForm, VariableForm, N1TrialForm, TutorialForm)
 from rm.trials.models import Trial, Report, Variable, Invitation
 
 def serve_maybe(meth):
@@ -701,3 +701,21 @@ class RandomiseMeView(TrialByPkMixin, LoginRequiredMixin, View):
         report.save()
 
         return HttpResponse(group.name.lower())
+
+
+class TutorialView(CreateView):
+    """
+    Ultra-simple process for creating a N=1 trial for people
+    """
+    model = Trial
+    form_class = TutorialForm
+    template_name='trials/tutorial.html'
+
+    def get_form_kwargs(self, *args, **kw):
+        """
+        Add auto_id=False
+        """
+        kwargs = super(TutorialView, self).get_form_kwargs(*args, **kw)
+        kwargs['auto_id'] = False
+        print kwargs
+        return kwargs
