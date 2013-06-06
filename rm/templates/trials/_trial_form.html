@@ -105,12 +105,60 @@
 
 </form>
 
+  <!-- Modal power -->
+  <div id="power" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">How many people do you need?</h3>
+       </div>
+       <div class="modal-body">
+         <form method="POST" action="{% url 'power-calc' %}"
+               id="power-form"
+               data-validate="parsley">
+           {% csrf_token %}
+           <p class="muted">
+             Roughly what score/proportion/count do you expect in group A?
+           </p>
+           <input type="text" name="estimated" value=""
+                  placeholder="estimated number"
+                  data-required="true" data-type="digits"
+                  />
+           <p class="muted">
+             What score in treatment group B would be meaningfully different enough
+             for you to be impressed?
+           </p>
+           <input type="text" name="impressive" value=""
+                  placeholder="impressive number"
+                  data-required="true" data-type="digits"
+                  />
+            <p>
+              <button class="btn btn-danger" type="submit" id="power-btn">
+                run the numbers
+              </button>
+            </p>
+            <h3 id="power-answer">How many participants do you need?</h3>
+         </form>
+
+       </div>
+       <div class="modal-footer">
+         <button id="power-done" class="btn" data-dismiss="modal" aria-hidden="true">
+           cancel
+         </button>
+       </div>
+  </div>
+
+
 <script type="text/javascript">
 
 $(document).ready( function(){
   RM.forms.init_instruction_toggles();
   RM.forms.init_enter_sliding();
   RM.forms.init_focus();
+  RM.forms.init_power();
+  if(window.location.search.search(/step=(\d+)/) != -1){
+     var step = (parseInt(window.location.search.match(/step=(\d+)/)[1]) -1);
+     $('.carousel').carousel(step, true).carousel('pause');
+  }
 });
 
 </script>

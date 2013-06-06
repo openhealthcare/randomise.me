@@ -87,10 +87,12 @@
       return this.$items.index(this.$active)
     }
 
-  , to: function (pos) {
+  , to: function (pos, force) {
 
-      if(!this.validp()){
-          return this.pause().cycle()
+      if(!force){
+          if(!this.validp()){
+              return this.pause().cycle()
+          }
       }
       var activeIndex = this.getActiveIndex()
         , that = this
@@ -221,14 +223,14 @@
 
   var old = $.fn.carousel
 
-  $.fn.carousel = function (option) {
+  $.fn.carousel = function (option, force) {
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('carousel')
         , options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option)
         , action = typeof option == 'string' ? option : options.slide
       if (!data) $this.data('carousel', (data = new Carousel(this, options)))
-      if (typeof option == 'number') data.to(option)
+      if (typeof option == 'number') data.to(option, force)
       else if (action) data[action]()
       else if (options.interval) data.pause().cycle()
     })

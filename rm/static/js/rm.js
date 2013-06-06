@@ -144,6 +144,41 @@ var RM = {
             })
         },
 
+        // Bind the power calculation form to an ajax call
+        init_power: function(){
+
+            $('form#power-form').ajaxForm({
+
+                beforeSubmit: function(){
+                    if(!$('form#power-form').parsley().validate()){
+                        return false
+                    }
+                    $('#power-btn').attr('disabled', true).text(
+                        'calculating required participants...')
+                },
+
+                success: function(data){
+                    var msg = 'You need ' + data + ' participant';
+                    if(parseInt(data) > 1){
+                        msg += 's'
+                    }
+                    $('#power-btn').attr('disabled', false).text(
+                    'run the numbers');
+                    $('#power-answer').text(msg);
+                    $('#id_min_participants').attr('value', data);
+                    $('#power-done').text('done')
+                },
+
+                error: function(data){
+                    console.log(data);
+                    console.log('Power calculation - something went wrong :()')
+                    $('#power-btn').attr('disabled', false).text(
+                    'run the numbers');
+                },
+
+            })
+        },
+
     },
 
     graphs: {

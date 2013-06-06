@@ -3,6 +3,7 @@
 <div class="item">
   <h2>3. <span class="red bold">SIZE</span> <span class="light">OF YOUR TRIAL</span></h2>
   {% if n1trial %}
+
     <h3>Would you like help to decide how many observations you'll need?</h3>
     <p class="muted">
       IMPLEMENT THIS PLEASE.
@@ -11,15 +12,24 @@
     {{ form.ending_reports|bootstrap }}
 
   {% else %}
+
+      <h3>Minimum number of participants</h3>
+      {{ form.min_participants|bootstrap }}
+      <p class="muted">
+        This is the minimum number of people you need in your trial
+        in order to obtain statistically significant results
+      </p>
+
+
     <h3>Would you like help to decide how many people you will need in your trial? </h3>
-    <p class="muted">
-      Roughly what score/proportion/count do you expect in group A?
-      What score in treatment group B would be meaningfully different enough
-      for you to be impressed? <br>
-      > simple power calculation
-    </p>
-  <p>IMPLEMENT THIS</p>
-  <h3>No, you think you've got it?</h3>
-  {{ form.min_participants|bootstrap }}
+
+    <a href="#power" class="btn btn-warning" data-toggle="modal" role="button">
+      help me decide
+    </a>
+
+
 {% endif %}
+
+
+
 </div>

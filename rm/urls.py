@@ -60,6 +60,7 @@ urlpatterns = patterns(
     url(r'^trials/', include('rm.trials.urls')),
     url(r'search$', TrialSearchView.as_view(), name='search'),
 
+    url(r'^stats/', include('rm.stats.urls')),
 )
 
 urlpatterns += staticfiles_urlpatterns()
