@@ -109,7 +109,9 @@
   <div id="power" class="modal hide fade" tabindex="-1"
        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
        <div class="modal-header">
-         <h3 id="myModalLabel">How many people do you need?</h3>
+         <h3 id="myModalLabel">
+           How many {% if n1trial %}observations{% else %}people{% endif %} do you need?
+         </h3>
        </div>
        <div class="modal-body">
          <form method="POST" action="{% url 'power-calc' %}"
@@ -136,7 +138,9 @@
                 run the numbers
               </button>
             </p>
-            <h3 id="power-answer">How many participants do you need?</h3>
+            <h3 id="power-answer">
+              How many {% if n1trial %}observations{% else %}participants{% endif %} do you need?
+            </h3>
          </form>
 
        </div>
@@ -154,7 +158,7 @@ $(document).ready( function(){
   RM.forms.init_instruction_toggles();
   RM.forms.init_enter_sliding();
   RM.forms.init_focus();
-  RM.forms.init_power();
+  RM.forms.init_power({n1trial: {% if n1trial%}true{% else %}false{% endif %}});
   if(window.location.search.search(/step=(\d+)/) != -1){
      var step = (parseInt(window.location.search.match(/step=(\d+)/)[1]) -1);
      $('.carousel').carousel(step, true).carousel('pause');

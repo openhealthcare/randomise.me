@@ -145,8 +145,15 @@ var RM = {
         },
 
         // Bind the power calculation form to an ajax call
-        init_power: function(){
-
+        init_power: function(options){
+            var n1trial = options.n1trial;
+            if(n1trial){
+                var varname = 'observations';
+                var target_input = '#id_ending_reports'
+            }else{
+                var varname = 'participants';
+                var target_input = '#id_min_participants';
+            }
             $('form#power-form').ajaxForm({
 
                 beforeSubmit: function(){
@@ -154,18 +161,15 @@ var RM = {
                         return false
                     }
                     $('#power-btn').attr('disabled', true).text(
-                        'calculating required participants...')
+                        'calculating required ' + varname + '...')
                 },
 
                 success: function(data){
-                    var msg = 'You need ' + data + ' participant';
-                    if(parseInt(data) > 1){
-                        msg += 's'
-                    }
+                    var msg = 'You need ' + data + ' ' + varname;
                     $('#power-btn').attr('disabled', false).text(
                     'run the numbers');
                     $('#power-answer').text(msg);
-                    $('#id_min_participants').attr('value', data);
+                    $(target_input).attr('value', data);
                     $('#power-done').text('done')
                 },
 
