@@ -23,8 +23,8 @@
      {% endif %}
    {% else %}
      <p>
-       ARE YOU SHURE YOU WANT TO LEAVE THIS TRIAL? WE HAVE TO USE ANY
-       PREVIOUSLY REPORTED DATA. EXPLAIN WHY HERE PLEASE.
+       Are you sure you want to leave this trial? This action cannot be
+       undone, and we will continue to use any reported data in the trial.
      </p>
      <form method="POST" id="leave-form" action="{% url 'leave-trial' trial.pk %}">
        {% csrf_token %}
