@@ -306,7 +306,15 @@ a.term:hover {
     text-decoration: underline;
     color: #a9ce36;
 }
-
+a.helpful {
+    color: #a9ce36;
+    font-weight: bold;
+}
+a.helpful:hover {
+    background: transparent;
+    text-decoration: underline;
+    color: #a9ce36;
+}
 
 .popover {
     border: 2px solid #a9ce36;

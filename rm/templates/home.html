@@ -13,31 +13,12 @@
           a technique used by scientists and researchers for finding out about
           the world.
         </p>
+        <p class="larger">
+          <a href="{% url 'about-rcts' %}" class="helpful">More about RCTs</a>...
+        </p>
       </div>
       <div class="span6 offset1">
-        <a href="{% url 'tutorial' %}" class="feature-heading">
-          <h2><span class="bold red">CREATE</span> <span class="light">A TRIAL</span></h2>
-        </a>
-        <div class="feature-box">
-          <dl class="numbered">
-            <dt>
-              Have a question
-            </dt>
-            <dt>
-              Create a trial in minutes
-            </dt>
-            <dt>
-              Get pretty results
-            </dt>
-          </dl>
-
-        </div>
-        <p class="drop12">
-          <a href="{% url 'how-do-rcts-work' %}" class="red weight400">How does it work?</a>
-          <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
-            get started
-          </a>
-        </p>
+        {% include 'get_started.html' %}
       </div>
 
       <!-- <div class="span6 offset1"> -->
