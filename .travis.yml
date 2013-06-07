@@ -7,4 +7,6 @@ before_install:
 install:
     - pip install -r requirements.txt --use-mirrors
     - python manage.py syncdb --migrate --noinput
+    - git clone https://www.github.com/statsmodels/statsmodels
+    - cd statsmodels && python setup.py build && python setup.py install
 script: rake test
