@@ -203,6 +203,13 @@ input.wider { width: 600px; }
 .justified { text-align: justified; }
 .darkback { background: #393632; }
 
+.row-fluid.darkback .btn {
+    margin: 20px;
+}
+.row-fluid.darkback p {
+    padding: 10px;
+}
+
 .btn {
   display: inline-block;
   *display: inline;
@@ -258,6 +265,14 @@ input.wider { width: 600px; }
     background-color: #393632;
     *background-color: #393632;
 }
+
+.darkback .btn-warning:hover,
+.darkback .btn-danger:hover,
+.darkback .btn:hover     {
+    background-color: #ffc711;
+    *background-color: #ffc711;
+}
+
 
 .btn:hover,
 .btn:focus {

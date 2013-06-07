@@ -23,3 +23,13 @@ def nobs(estimated=None, impressive=None):
         effect_size = abs(impressive/estimated)
     num = tt_ind_solve_power(effect_size=effect_size, alpha=0.05, power=0.8, nobs1=None)
     return int(num) * 2
+
+def sdiff(est, imp):
+    diff = abs(est - imp)
+    sd = 9.0/4.0
+    sdiff = diff/sd
+    return sdiff
+
+def solve(eff):
+    nobs = tt_ind_solve_power(effect_size=eff, alpha=0.05, power=0.8, nobs1=None)
+    return int(nobs*2)

@@ -19,17 +19,17 @@
           <h2><span class="bold red">CREATE</span> <span class="light">A TRIAL</span></h2>
         </a>
         <div class="feature-box">
-      <dl class="numbered">
-        <dt>
-          Have a question
-        </dt>
-        <dt>
-          Create a trial in minutes
-        </dt>
-        <dt>
-          Get pretty results
-        </dt>
-      </dl>
+          <dl class="numbered">
+            <dt>
+              Have a question
+            </dt>
+            <dt>
+              Create a trial in minutes
+            </dt>
+            <dt>
+              Get pretty results
+            </dt>
+          </dl>
 
         </div>
         <p class="drop12">
@@ -47,39 +47,35 @@
 
     {% if featured.count > 0 %}
 
-    <!-- Second row - What do you get out of running a trial? -->
-    <a href="#" class="feature-heading">
-      <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
-    </a>
-        <div class="feature-box">
+      <!-- Second row - What do you get out of running a trial? -->
+      <a href="#" class="feature-heading">
+        <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
+      </a>
+      <div class="feature-box">
 
-          {% for trial in featured %}
+        {% for trial in featured %}
+          <a href="{{ trial.get_absolute_url }}" class="whiteroll">
           <div class="row-fluid darkback">
             <div class="span8">
               <p class="larger white redroll">
-                <a href="{{ trial.get_absolute_url }}" class="whiteroll">
                   {{ trial.title }}
-                </a>
               </p>
+              <p class="white smaller">{{ trial.description }}</p>
             </div>
+          </a>
             <div class="span3">
-              <div id="vis{{trial.pk}}"></div>
+              <a href="{{trial.get_absolute_url}}" class="btn btn-warning">
+                find out more
+              </a>
             </div>
           </div>
-          <script type="text/javascript">
-          {% autoescape off %}
-            $(document).ready( function(){
-              RM.graphs.trial_thumbnail("#vis{{trial.pk}}", {{trial.results|json}});
-            });
-          {% endautoescape %}
-          </script>
-          {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
     {% endif %}
 
-        <p class="pull-right drop12">
-          <a href="{% url 'featured' %}" class="red weight400">See more trials</a>
-        </p>
+    <p class="pull-right drop12">
+      <a href="{% url 'featured' %}" class="red weight400">See more trials</a>
+    </p>
 
     <!-- Third row, Create/join trials -->
     <!-- <div class="row-fluid clearem"> -->
