@@ -197,9 +197,10 @@ input.wider { width: 600px; }
 .bold { font-weight: 700; }
 .light { font-weight: 300; }
 .weight400 { font-weight: 400; }
-.larger { font-size: 24px; }
+.larger { font-size: 24px; line-height: 32px;}
 .smaller { font-size: 0.8em; line-height: 1em;}
 
+.justified { text-align: justified; }
 .darkback { background: #393632; }
 
 .btn {

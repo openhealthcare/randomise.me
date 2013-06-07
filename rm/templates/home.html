@@ -8,10 +8,7 @@
     <div class="row-fluid">
       <div class="span5">
         <h2>Randomise Me</h2>
-        <p>
-          Have you ever wondered about whether something was true?
-        </p>
-        <p>
+        <p class="larger justified">
           Randomise Me is a platform for running Randomised Controlled Trials -
           a technique used by scientists and researchers for finding out about
           the world.
@@ -48,6 +45,8 @@
       <!-- </div> -->
     </div>
 
+    {% if featured.count > 0 %}
+
     <!-- Second row - What do you get out of running a trial? -->
     <a href="#" class="feature-heading">
       <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
@@ -76,16 +75,17 @@
           </script>
           {% endfor %}
     </div>
+    {% endif %}
 
         <p class="pull-right drop12">
           <a href="{% url 'featured' %}" class="red weight400">See more trials</a>
         </p>
 
     <!-- Third row, Create/join trials -->
-    <div class="row-fluid clearem">
+    <!-- <div class="row-fluid clearem"> -->
 
-      {% join_trial_widget %}
-    </div>
+    <!--   {% join_trial_widget %} -->
+    <!-- </div> -->
 
   </div>
 
