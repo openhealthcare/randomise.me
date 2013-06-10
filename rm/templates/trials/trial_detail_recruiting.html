@@ -36,9 +36,11 @@
             <p>Participation in this trial is by invitation only</p>
           {% endif %}
         {% else %}
-          <a href="{% url 'join-trial' trial.pk %}" class="btn btn-warning">
+          <center>
+          <a href="{% url 'join-trial' trial.pk %}" class="btn btn-danger">
             join trial
           </a>
+          </center>
         {% endif %}
       {% endif %}
 

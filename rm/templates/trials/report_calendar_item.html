@@ -135,11 +135,21 @@
 {% endfor %}
 {% else %} <!-- Report once -->
     <form id="usertrialreport_form" method="post"
-          action="{% url 'trial-report' trial.pk %}" class="ajaxform">
+          action="{% url 'trial-report' trial.pk %}" class="">
           {% csrf_token %}
 
-    {% for variable in trial.variable_set.all %}
+
+  <div class="row-fluid">
     <div class="span6">
+      <h3>New data</h3>
+    {% for variable in trial.variable_set.all %}
+      <h3>
+        <i>
+          {{ variable.question }}
+        </i>
+      </h3>
+
+      <p>
       {% if forloop.first %}
         {% with variable.report_form as form %}
           {% if trial.reporting_style == trial.ONCE %}
@@ -157,19 +167,38 @@
            {% endif %}
         {% endwith %}
       {% endif %}
-    </div>
-    <div class="span6">
-      <h3>
-        <i>
-          {{ variable.question }}
-        </i>
-      </h3>
-    </div>
-    {% endfor %}
-
+    </p>
+      <center>
       <button class="btn btn-danger">
         report data
-     </button>
+      </button>
+      </center>
+    {% endfor %}
+
+    </div>
+    <div class="span6">
+      <h3>Old reports</h3>
+      <table width="" cellspacing="" cellpadding="" border="" class="table table-bordered table-striped">
+        <tr>
+          <th>Date</th>
+          <th>Value</th>
+        </tr>
+        {% for report in reports %}
+          <tr>
+            <td>
+              {{ report.date }}
+            </td>
+            <td>
+              {{ report.reported }}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+
+
 
     </form>
 {% endif %}

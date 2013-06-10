@@ -33,7 +33,9 @@
      </p>
      <form method="POST" id="join-form" action="{% url 'join-trial' trial.pk %}">
        {% csrf_token %}
+       <center>
        <button class="btn btn-danger">Join this Trial</button>
+       </center>
      </form>
    {% endif %}
   </div>

@@ -21,6 +21,7 @@ def report_cal(context):
     participant = trial.participant_set.get(user=user)
     reports = list(trial.report_set.filter(participant=participant))
     is_done = False
+
     if len(reports) > 0 and trial.reporting_style == trial.ONCE:
         is_done = True
     items = []
@@ -44,4 +45,5 @@ def report_cal(context):
         is_done=is_done,
         today=datetime.date.today(), # single reporting date
         items=items,                 # regular reporting periods
+        reports=reports,             # our set of reports by this participant
         )
