@@ -3,6 +3,13 @@
 {% load trial_cta %}
 
 {% block extratitle %} - Trials - {{ trial.title }}{% endblock %}
+{% block admin_nav %}
+  {% if request.user.is_staff %}
+    <li>
+      <a href="/admin/trials/trial/{{trial.pk}}">Edit this trial</a>
+    </li>
+  {% endif %}
+{% endblock %}
 {% block content %}
 <div class="page">
   <h1>

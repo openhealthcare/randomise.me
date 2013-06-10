@@ -1,5 +1,8 @@
 {% extends 'basest.html' %}
 {% block body %}
+  <ul class="inline">
+    {% block admin_nav %}      {% endblock %}
+  </ul>
     {% include 'nav.html' %}
     <div class="container">
       {% block content %}{% endblock %}

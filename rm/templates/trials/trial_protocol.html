@@ -1,4 +1,10 @@
+{% load thumbnail %}
 {% load maths %}
+{% if trial.image %}
+  {% thumbnail trial.image "300x200" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+  {% endthumbnail %}
+{% endif %}
 <dl class="numbered startat2">
   <!-- Step 2 (Outcome) -->
   {% with trial.main_outcome as outcome %}

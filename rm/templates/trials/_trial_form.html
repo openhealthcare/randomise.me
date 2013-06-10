@@ -3,6 +3,7 @@
 
 <div class="row-fluid">
 <form id="newtrial_form" method="post"
+      enctype="multipart/form-data"
       {% if editing %}
         action="{% url 'edit-trial' trial.pk %}"
       {% elif n1trial %}

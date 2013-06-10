@@ -29,14 +29,28 @@
             question you‟re interested in answering (you may wish that to be a
             secret), and what kind of intervention you‟re going to give to each group.
           </p>
-        <p class="muted">
-          If your trial is open to Randomise Me users this will be like an advert
-          explaining what your trial is about and why people should join - so try
-          and make it enticing!
-        </p>
-      {% endif %}
+          <p class="muted">
+            If your trial is open to Randomise Me users this will be like an advert
+            explaining what your trial is about and why people should join - so try
+            and make it enticing!
+          </p>
+        {% endif %}
       </div>
     </div> <!-- Row -->
+
+    <div class="row-fluid">
+      <div class="span4">
+        {{ form.image|bootstrap }}
+      </div>
+      <div class="span4">
+        <p class="muted">
+          You can also upload an image to go along with your trial.
+          This will be displayed on the advert page for your trial, and should
+          be a .png or .jpg file.
+        </p>
+      </div>
+    </div>
+
 
     {% if not n1trial %}
       <h3>Any secret information?</h3>
@@ -54,7 +68,7 @@
         </div>
 
       </div>
-      {% endif %}
+    {% endif %}
   </div>
 
 </div>

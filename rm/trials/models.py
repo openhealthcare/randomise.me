@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
 import letter
+from sorl import thumbnail
 
 from rm import exceptions
 from rm.trials import managers, tasks
@@ -98,6 +99,7 @@ class Trial(models.Model):
 
     # Step 5
     description       = models.TextField(blank=True, null=True)
+    image             = thumbnail.ImageField(upload_to='uploads', blank=True, null=True)
     secret_info       = models.TextField(blank=True, null=True)
 
     # Step 6
@@ -154,6 +156,18 @@ class Trial(models.Model):
         if self.recruitment == self.INVITATION:
             self.private = True
         return super(Trial, self).save()
+
+    def image_url(self):
+        """
+        Return the url for SELF.image or None
+
+        Return: str or None
+        Exceptions: None
+        """
+        if not self.image:
+            return
+        return settings.MEDIA_URL + self.image.file.name.split('/')[-1]
+
 
     def results(self):
         """

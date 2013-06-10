@@ -1,3 +1,4 @@
+{% load thumbnail %}
 <h3>
   <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
 </h3>
@@ -14,6 +15,12 @@
       {% endif %}
 
       {% if not trial.n1trial %}
+        {% if trial.image %}
+          {% thumbnail trial.image "300x200" crop="center" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+          {% endthumbnail %}
+        {% endif %}
+
         <h3>
           Participants
           <span class="bold">
