@@ -19,16 +19,43 @@
     <h4>
       Does eating concrete give you constipation?
     </h4>
+    {{ form.title|bootstrap }}
     <p>
       Eating concrete is the intervention. An intervention is some thing...
     </p>
     <p>
       Having constipation is the primary outcome. It's the thing you care about.
     </p>
-    {{ form.title|bootstrap }}
+
+    <h3>2. What are you going to be measuring?</h3>
+    <p>
+      {{ form.measure_style }}
+      <i class="icon-question-sign"
+         title="Measure Style"
+         data-html="true"
+         data-content="<ul>
+         <li>Score: these are measures that are scored with a number. For example, headache pain can be measured on a severity scale from 0 to 10.</li>
+         <li>Binary: these are outcomes that are either present or absent. For example, you could have vomited, or not vomited.</li>
+         <li>Count: these are variables that are counted. For example, the number of wees you have in 24 hours.</li>"
+           >
+        </i>
+
+    </p>
+    <p>
+      {{ form.measure_question }}
+      <i class="icon-question-sign"
+         title="Measure Question"
+         data-html="true"
+         data-content="This is the question that you will get when making a report. e.g. 'Did you get constipation Y/N'"
+           >
+        </i>
+    </p>
+    <p>
+      The question
+    </p>
   </div>
 
-  <h3>2. To test this hypothesis we'll create two different sets of instructions</h3>
+  <h3>3. To test this hypothesis we'll create two different sets of instructions</h3>
   <div class="row-fluid">
     <div class="span6">
       <h4>Group A</h4>
@@ -50,7 +77,7 @@
     </div>
   </div>
 
-  <h3>3. Get started</h3>
+  <h3>4. Get started</h3>
   {% if not request.user.is_authenticated %}
 
 
@@ -81,7 +108,7 @@
   </div>
 
   <div class="row-fluid">
-    <h3>4. At the end you'll get some graphs that answer your question</h3>
+    <h3>5. At the end you'll get some graphs that answer your question</h3>
     <p>
       Placeholder for pretty graph
     </p>

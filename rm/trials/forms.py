@@ -302,6 +302,18 @@ class TutorialForm(forms.Form):
                 'data-maxlength': '200'
                 }))
 
+    measure_style = forms.ChoiceField(choices=Variable.STYLE_CHOICES,
+                                      widget=widgets.Select(attrs={
+                'data-required': 'true',
+                }),
+                                      initial=Variable.SCORE)
+
+    measure_question = forms.CharField(widget=widgets.Textarea(attrs={
+                'data-required': 'true',
+                'class': 'wider',
+                'placeholder': 'What is the question that lets you measure your outcome?'
+                }))
+
     group_a = forms.CharField(widget=widgets.Textarea(attrs={
                 'data-required': 'true',
                 'class': 'wider',
@@ -326,7 +338,8 @@ class TutorialForm(forms.Form):
                 'placeholder': 'password',
                 }),
                                required=False)
-    password_confirmation = forms.CharField(max_length=200, widget=forms.PasswordInput(attrs={
+    password_confirmation = forms.CharField(max_length=200,
+                                            widget=forms.PasswordInput(attrs={
                 'data-required': 'true',
                 'data-equalto': '#password1',
                 'placeholder': 'password confirmation',

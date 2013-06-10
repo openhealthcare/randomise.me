@@ -768,6 +768,10 @@ class TutorialView(FormView):
 
         title = form.data['title']
         group_a, group_b = form.data['group_a'], form.data['group_b']
+        measure_style, measure_question = [form.data[v]
+                                           for v in ['measure_style',
+                                                     'measure_question']]
 
-        trial = n1_with_sane_defaults(user, title, group_a, group_b)
+        trial = n1_with_sane_defaults(user, title, group_a, group_b,
+                                      measure_style, measure_question)
         return HttpResponseRedirect(trial.get_absolute_url())

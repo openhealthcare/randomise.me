@@ -1,9 +1,10 @@
 """
 Utilities for Trials
 """
-from rm.trials.models import Trial
+from rm.trials.models import Trial, Variable
 
-def n1_with_sane_defaults(owner, title, group_a, group_b):
+def n1_with_sane_defaults(owner, title, group_a, group_b, measure_style,
+                          measure_question):
     """
     Create A N=1 trial with sane defaults
 
@@ -14,6 +15,8 @@ def n1_with_sane_defaults(owner, title, group_a, group_b):
     - `title`: str
     - `group_a`: str
     - `group_b`: str
+    - `measure_style`: str
+    - `measure_question`: str
 
     Return: Trial
     Exceptions: None
@@ -36,4 +39,6 @@ tutorial...'.format(title)
         )
     trial.save()
     trial.join(owner)
+    variable = Variable(trial=trial, question=measure_question, style=measure_style)
+    variable.save()
     return trial

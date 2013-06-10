@@ -89,7 +89,8 @@ class Trial(models.Model):
     reporting_date = models.DateField('Reporting date', blank=True, null=True)
 
     # Step 3
-    min_participants  = models.IntegerField("I think I need a minimum of x participants for a meaningful answer")
+    min_participants  = models.IntegerField(
+        "I think I need a minimum of x participants for a meaningful answer")
 
     # Step 4
     recruitment       = models.CharField(max_length=2, choices=RECRUITMENT_CHOICES,
