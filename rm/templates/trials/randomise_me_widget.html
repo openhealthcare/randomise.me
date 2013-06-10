@@ -1,4 +1,5 @@
 {% load bootstrap %}
+{% load thumbnail %}
 <h3>
   <span class="light">RANDOMISE</span> <span class="red bold">ME</span>
 </h3>
@@ -100,6 +101,11 @@
           {{ variable.question }}
         </i>
       </h3>
+        {% if variable.image %}
+          {% thumbnail variable.image "300x200" crop="center" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+          {% endthumbnail %}
+        {% endif %}
     </div>
     {% endfor %}
 

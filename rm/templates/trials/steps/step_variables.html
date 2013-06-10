@@ -54,6 +54,12 @@
     {% else %}
       <span class="hidem">{{var.style}}{{var.question}}</span>
     {% endif %}
+    <h3>Would you like an image to go with your variable?</h3>
+    {{ var.image|bootstrap }}
+    <p class="muted">
+      This is an image that can help your participants to report data accurately,
+      e.g. a stretch-marks scale.
+    </p>
   {% endfor %}
 {% endif %} <!-- Editing -->
 

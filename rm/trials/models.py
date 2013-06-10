@@ -441,6 +441,7 @@ class Variable(models.Model):
     name  = models.CharField(max_length=200, blank=True, null=True)
     question = models.TextField(blank=True, null=True)
     style = models.CharField(max_length=2, choices=STYLE_CHOICES, default=SCORE)
+    image = thumbnail.ImageField(upload_to='variableuploads', blank=True, null=True)
 
     def __unicode__(self):
         return '<Variable {0} ({1})>'.format(self.name, self.style)
