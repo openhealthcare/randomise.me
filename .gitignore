@@ -2,6 +2,8 @@ bin/
 lib/
 include/
 local/
+share/
+src/
 
 *.pyc
 *.sqlite
