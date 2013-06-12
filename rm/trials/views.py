@@ -23,7 +23,7 @@ from letter.contrib.contact import ContactView
 
 from rm import exceptions
 from rm.trials.forms import (TrialForm, VariableForm, N1TrialForm, TutorialForm)
-from rm.trials.models import Trial, Report, Variable, Invitation
+from rm.trials.models import Trial, Report, Variable, Invitation, TutorialExample
 from rm.trials.utils import n1_with_sane_defaults
 from rm.userprofiles.models import RMUser
 from rm.userprofiles.utils import sign_me_up
@@ -661,8 +661,12 @@ class AllTrials(TemplateView):
         """
         context = super(AllTrials, self).get_context_data(**kw)
         today = datetime.datetime.today()
-        context['active'] = Trial.objects.filter(recruitment=Trial.ANYONE)
-        context['past'] = Trial.objects.completed()
+        active = Trial.objects.filter(recruitment=Trial.ANYONE, private=False, n1trial=False)
+
+        if self.request.user.is_authenticated():
+            active = active.exclude(owner=self.request.user).exclude(participant__user=self.request.user)
+        context['active'] = active
+        # context['past'] = Trial.objects.completed()
         return context
 
 
@@ -711,10 +715,12 @@ class RandomiseMeView(TrialByPkMixin, LoginRequiredMixin, View):
         """
         group = random.choice(self.trial.ensure_groups())
         participant = self.trial.participant_set.get(user=self.request.user)
-        report = Report(trial=self.trial,
-                        participant=participant,
-                        group=group,
-                        variable=self.trial.variable_set.all()[0])
+        report = Report.objects.get_or_create(
+            trial=self.trial,
+            participant=participant,
+            date__isnull=True,
+            variable=self.trial.variable_set.all()[0])[0]
+        report.group = group
         report.save()
 
         return HttpResponse(group.name.lower())
@@ -775,3 +781,22 @@ class TutorialView(FormView):
         trial = n1_with_sane_defaults(user, title, group_a, group_b,
                                       measure_style, measure_question)
         return HttpResponseRedirect(trial.get_absolute_url())
+
+
+class TutorialFromExampleView(TutorialView):
+    """
+    Let the user take the tutorial, but this is a worked example, with
+    defaults pre-filled
+    """
+    def get_initial(self):
+        tutorial = TutorialExample.objects.get(**self.kwargs)
+        print tutorial
+        initial = dict(
+            title=tutorial.question,
+            measure_style=tutorial.measure_style,
+            measure_question=tutorial.measure_question,
+            group_a=tutorial.group_a,
+            group_b=tutorial.group_b
+            )
+        print initial
+        return initial

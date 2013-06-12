@@ -1,0 +1,25 @@
+    {% if featured.count > 0 %}
+      <a href="#" class="feature-heading">
+        <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
+      </a>
+      <div class="feature-box">
+
+        {% for trial in featured %}
+          <a href="{{ trial.get_absolute_url }}" class="whiteroll">
+          <div class="row-fluid darkback">
+            <div class="span8">
+              <p class="larger white redroll">
+                  {{ trial.title }}
+              </p>
+              <p class="white smaller">{{ trial.description|truncatewords:34 }}</p>
+            </div>
+          </a>
+            <div class="span3">
+              <a href="{{trial.get_absolute_url}}" class="btn btn-warning">
+                find out more
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}

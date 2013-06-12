@@ -2,53 +2,53 @@
 {% load terms %}
 
 <div class="row-fluid">
-<form id="newtrial_form" method="post"
-      enctype="multipart/form-data"
-      {% if editing %}
-        action="{% url 'edit-trial' trial.pk %}"
-      {% elif n1trial %}
-        {% if reproducing %}
-          action="{%url 'n1-trial-create' %}"
+  <form id="newtrial_form" method="post"
+        enctype="multipart/form-data"
+        {% if editing %}
+          action="{% url 'edit-trial' trial.pk %}"
+        {% elif n1trial %}
+          {% if reproducing %}
+            action="{%url 'n1-trial-create' %}"
+          {% else %}
+            action="{%url 'n1-trial-create' %}"
+          {% endif %}
         {% else %}
-          action="{%url 'n1-trial-create' %}"
+          action="{% url 'rm-trial-create' %}"
         {% endif %}
-      {% else %}
-        action="{% url 'rm-trial-create' %}"
-      {% endif %}
-      >
-  {{ Variable.management_form }}
-  {% csrf_token %}
-  <span class="hidem">
-  {% if n1trial %}
-    <!-- TODO solve this -->
-      <input id="id_min_participants" name="min_participants" type="hidden" value="1"/>
-      {{ form.recruitment }}
-      {{ form.instruction_date }}
-      {{ form.reporting_freq }}
-      {{ form.reporting_date }}
-      {{ form.ending_date }}
-      <input id="id_ending_style" name="ending_style" type="text" value="{{form.instance.MANUALLY}}">
-    {% endif %}
-    {% if parent %}
-      <input id="id_parent" name="parent" type="text" value="{{parent.pk}}">
-    {% endif %}
-    </span>
+        >
+        {{ Variable.management_form }}
+        {% csrf_token %}
+        <span class="hidem">
+          {% if n1trial %}
+            <!-- TODO solve this -->
+            <input id="id_min_participants" name="min_participants" type="hidden" value="1"/>
+            {{ form.recruitment }}
+            {{ form.instruction_date }}
+            {{ form.reporting_freq }}
+            {{ form.reporting_date }}
+            {{ form.ending_date }}
+            <input id="id_ending_style" name="ending_style" type="text" value="{{form.instance.MANUALLY}}">
+          {% endif %}
+          {% if parent %}
+            <input id="id_parent" name="parent" type="text" value="{{parent.pk}}">
+          {% endif %}
+        </span>
 
 
-  {% if form.errors or Variable.errors %}
-    <div class="control-group error">
-      <p class="help-block">
-        There were some problems with your trial - see below
-        </p>
-      {{ form.errors }}
-      {{ Variable.errors}}
-    </div>
-  {% endif %}
+        {% if form.errors or Variable.errors %}
+          <div class="control-group error">
+            <p class="help-block">
+              There were some problems with your trial - see below
+            </p>
+            {{ form.errors }}
+            {{ Variable.errors}}
+          </div>
+        {% endif %}
 
 
-  {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+        {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 
-  <!-- Begin Trial creation steps -->
+        <!-- Begin Trial creation steps -->
 </div>
 
 <div id="myCarousel" class="carousel slide">
@@ -60,9 +60,9 @@
     <li data-target="#myCarousel" data-slide-to="4"></li>
     <li data-target="#myCarousel" data-slide-to="5"></li>
     {% if not n1trial %}
-    <li data-target="#myCarousel" data-slide-to="6"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
     <li data-target="#myCarousel" data-slide-to="7"></li>
-    {% endif %}
+  {% endif %}
   </ol>
 
   <!-- Carousel items -->
@@ -86,9 +86,9 @@
         <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span>
       </h2>
       {% if editing %}
-      <button class="btn btn-danger" type="submit">Save Changes</button>
+        <button class="btn btn-danger" type="submit">Save Changes</button>
       {% else %}
-      <button class="btn btn-danger" type="submit">Create Trial</button>
+        <button class="btn btn-danger" type="submit">Create Trial</button>
       {% endif %}
     </div>
 
@@ -96,74 +96,83 @@
   <!-- Carousel nav -->
   <a class="carousel-control left btn btn-danger hidem"
      href="#myCarousel" data-slide="prev" tabindex="-1">back</a>
-  <a class="carousel-control right btn btn-danger"
-     href="#myCarousel" data-slide="next">next</a>
+     <a class="carousel-control right btn btn-danger"
+        href="#myCarousel" data-slide="next">next</a>
 </div>
 
 {% if editing %}
-        <button class="btn btn-danger" type="submit">Save Changes</button>
+  <button class="btn btn-danger" type="submit">Save Changes</button>
 {% endif %}
 
 </form>
 
-  <!-- Modal power -->
-  <div id="power" class="modal hide fade" tabindex="-1"
-       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-       <div class="modal-header">
-         <h3 id="myModalLabel">
-           How many {% if n1trial %}observations{% else %}people{% endif %} do you need?
-         </h3>
-       </div>
-       <div class="modal-body">
-         <form method="POST" action="{% url 'power-calc' %}"
-               id="power-form"
-               data-validate="parsley">
-           {% csrf_token %}
-           <p class="muted">
-             Roughly what score/proportion/count do you expect in group A?
-           </p>
-           <input type="text" name="estimated" value=""
-                  placeholder="estimated number"
-                  data-required="true" data-type="digits"
-                  />
-           <p class="muted">
-             What score in treatment group B would be meaningfully different enough
-             for you to be impressed?
-           </p>
-           <input type="text" name="impressive" value=""
-                  placeholder="impressive number"
-                  data-required="true" data-type="digits"
-                  />
-            <p>
-              <button class="btn btn-danger" type="submit" id="power-btn">
-                run the numbers
-              </button>
-            </p>
-            <h3 id="power-answer">
-              How many {% if n1trial %}observations{% else %}participants{% endif %} do you need?
-            </h3>
-         </form>
+<!-- Modal power -->
+<div id="power" class="modal hide fade wider" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+     <div class="modal-header">
+       <h3 id="myModalLabel">
+         How many {% if n1trial %}observations{% else %}people{% endif %} do you need?
+           <i class="icon-question-sign"
+              title="How does this work?"
+              data-placement="left"
+              data-html="true"
+              data-content='We use these numbers to conduct a power calculation.
+              <a href="#">Link to power calculation article here</a>'
+              >
+           </i>
+       </h3>
 
-       </div>
-       <div class="modal-footer">
-         <button id="power-done" class="btn" data-dismiss="modal" aria-hidden="true">
-           cancel
-         </button>
-       </div>
-  </div>
+     </div>
+     <div class="modal-body">
+           <form method="POST" action="{% url 'power-calc' %}"
+                 id="power-form"
+                 data-validate="parsley">
+             {% csrf_token %}
+             <p class="muted">
+               Roughly what score/proportion/count do you expect in group A?
+             </p>
+             <input type="text" name="estimated" value=""
+                    placeholder="estimated number"
+                    data-required="true" data-type="digits"
+                    />
+             <p class="muted">
+               What score in treatment group B would be meaningfully different enough
+               for you to be impressed?
+             </p>
+             <input type="text" name="impressive" value=""
+                    placeholder="impressive number"
+                    data-required="true" data-type="digits"
+                    />
+             <p>
+               <button class="btn btn-danger" type="submit" id="power-btn">
+                 run the numbers
+               </button>
+             </p>
+             <h3 id="power-answer">
+               How many {% if n1trial %}observations{% else %}participants{% endif %} do you need?
+               </h3>
+           </form>
+     </div> <!-- Modal body -->
+
+     <div class="modal-footer">
+       <button id="power-done" class="btn" data-dismiss="modal" aria-hidden="true">
+         cancel
+       </button>
+     </div>
+</div>
 
 
 <script type="text/javascript">
 
-$(document).ready( function(){
+  $(document).ready( function(){
   RM.forms.init_instruction_toggles();
   RM.forms.init_enter_sliding();
   RM.forms.init_focus();
   RM.forms.init_power({n1trial: {% if n1trial%}true{% else %}false{% endif %}});
   if(window.location.search.search(/step=(\d+)/) != -1){
-     var step = (parseInt(window.location.search.match(/step=(\d+)/)[1]) -1);
-     $('.carousel').carousel(step, true).carousel('pause');
+  var step = (parseInt(window.location.search.match(/step=(\d+)/)[1]) -1);
+  $('.carousel').carousel(step, true).carousel('pause');
   }
-});
+  });
 
 </script>

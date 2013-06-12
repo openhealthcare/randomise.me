@@ -1,5 +1,7 @@
 {% extends 'baser.html' %}
 {% load  join_trial json_filters %}
+{% load featured_trials %}
+
 {% block htmlclass%}  {% endblock %}
 {% block content %}
   <div class="page">
@@ -20,50 +22,13 @@
       <div class="span6 offset1">
         {% include 'get_started.html' %}
       </div>
-
-      <!-- <div class="span6 offset1"> -->
-      <!--   <img src="{{ STATIC_URL }}img/video-placeholder-large.jpg" class="" alt="" /> -->
-      <!-- </div> -->
     </div>
 
-    {% if featured.count > 0 %}
-
-      <!-- Second row - What do you get out of running a trial? -->
-      <a href="#" class="feature-heading">
-        <h2><span class="bold red">FEATURED</span> <span class="light">TRIALS</span></h2>
-      </a>
-      <div class="feature-box">
-
-        {% for trial in featured %}
-          <a href="{{ trial.get_absolute_url }}" class="whiteroll">
-          <div class="row-fluid darkback">
-            <div class="span8">
-              <p class="larger white redroll">
-                  {{ trial.title }}
-              </p>
-              <p class="white smaller">{{ trial.description|truncatewords:34 }}</p>
-            </div>
-          </a>
-            <div class="span3">
-              <a href="{{trial.get_absolute_url}}" class="btn btn-warning">
-                find out more
-              </a>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
+    {% featured_trials_widget 2 %}
 
     <p class="pull-right drop12">
       <a href="{% url 'featured' %}" class="red weight400">See more trials</a>
     </p>
-
-    <!-- Third row, Create/join trials -->
-    <!-- <div class="row-fluid clearem"> -->
-
-    <!--   {% join_trial_widget %} -->
-    <!-- </div> -->
-
   </div>
 
 {% endblock %}

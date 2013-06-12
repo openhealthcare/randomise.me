@@ -624,3 +624,28 @@ class Report(models.Model):
         if self.variable.style == Variable.COUNT:
             return self.count
         return
+
+
+class TutorialExample(models.Model):
+    """
+    Pre-filled examples for the tutorial.
+    """
+    SCORE  = 'sc'
+    BINARY = 'bi'
+    COUNT  = 'co'
+
+    STYLE_CHOICES = (
+        (SCORE,  'Score'),
+        (BINARY, 'Binary'),
+        (COUNT,  'Count')
+        )
+
+    name = models.CharField(max_length=200)
+    question = models.CharField(max_length=200)
+    measure_style = models.CharField(max_length=2, choices=STYLE_CHOICES, default=SCORE)
+    measure_question = models.TextField()
+    group_a = models.TextField()
+    group_b = models.TextField()
+
+    def get_absolute_url(self):
+        return reverse('tutorial-from-example', kwargs={'pk': self.pk})

@@ -310,15 +310,25 @@ var RM = {
                 }
             });
 
+        },
 
-            // $('#randomise-me').on('click', function(){
-            //     $.get('/random/group/', function(data){
-            //     })
-            //     return false;
-            // });
+        // Make sure that nof1 report forms validate please.
+        nof1_reporting: function(){
 
+            // Handle enter in the form
+            $(document).on('keypress', '.ajaxform:visible',
+                           function(e){
+                               if (e.which == 13) {
+                                   $("form.ajaxform:visible").submit();
+                                   return false;
+                               }
+                               return true;
+                           });
 
-        }
+            $('form.ajaxform').on('submit', function(){
+                return $('form.ajaxform:visible').parsley('validate');
+            });
+        },
 
     }
 

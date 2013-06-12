@@ -1,0 +1,18 @@
+<a href="{% url 'tutorial' %}" class="feature-heading">
+  <h2><span class="bold red">EXAMPLE</span> <span class="light">TRIALS</span></h2>
+</a>
+<div class="feature-box">
+  <dl class="numbered">
+    {% for ex in examples %}
+      <dt>
+        <a href="{{ ex.get_absolute_url }}">
+          {{ ex.name }}
+        </a>
+      </dt>
+    {% endfor %}
+  </dl>
+
+</div>
+<p class="drop12">
+  <!-- <a href="{% url 'how-does-rm-work' %}" class="red weight400">How does it work?</a> -->
+</p>
