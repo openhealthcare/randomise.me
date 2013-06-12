@@ -6,19 +6,23 @@
 <div class="container controls">
     <h1><span class="greyunder">Frequently asked questions</span></h1>
 
-    <ul>
-      {% for topic in topics %}
-        <li id="faq-{{topic.slug}}">
-            <h3><span class="bold red">{{ topic }}</span></h3>
-            {% for q in topic.questions.all %}
-                <p id="faq-{{ q.slug }}" class="bold">{{ q }}</p>
-                <p>
-                    {{ q.answer }}
-                </p>
-            {% endfor %}
-        </li>
-        <br/>        
-      {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="span8">
+            <ul>
+              {% for topic in topics %}
+                <li id="faq-{{topic.slug}}">
+                    <h3><span class="bold red">{{ topic }}</span></h3>
+                    {% for q in topic.questions.all %}
+                        <p id="faq-{{ q.slug }}" class="bold">{{ q }}</p>
+                        <p>
+                            {{ q.answer|safe }}
+                        </p>
+                    {% endfor %}
+                </li>
+                <br/>        
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
 {% endblock %}
