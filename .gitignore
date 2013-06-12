@@ -11,3 +11,4 @@ src/
 build/*
 /rm/static/css/#rm.css#
 /rm/trials/#views.py#
+/tuts

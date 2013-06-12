@@ -661,8 +661,12 @@ class AllTrials(TemplateView):
         """
         context = super(AllTrials, self).get_context_data(**kw)
         today = datetime.datetime.today()
-        context['active'] = Trial.objects.filter(recruitment=Trial.ANYONE)
-        context['past'] = Trial.objects.completed()
+        active = Trial.objects.filter(recruitment=Trial.ANYONE, private=False, n1trial=False)
+
+        if self.request.user.is_authenticated():
+            active = active.exclude(owner=self.request.user).exclude(participant__user=self.request.user)
+        context['active'] = active
+        # context['past'] = Trial.objects.completed()
         return context
 
 
