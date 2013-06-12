@@ -147,7 +147,7 @@ INSTALLED_APPS = (
     'rm.gcapp',
     'grappelli',
     'django.contrib.admin',
-
+    'faq',
     'south',
     'terms',
     # Our Apps

@@ -14,6 +14,8 @@ from rm.trials.views import TrialSearchView, TutorialView
 from rm.views import HomeView, RMContactView
 from rm.userprofiles.views import RMUserUpdate
 
+from faq import views as faq_views
+
 urlpatterns = patterns(
     '',
     # Boilerplates - not really our app.
@@ -50,6 +52,15 @@ urlpatterns = patterns(
     url(r'how-do-rcts-work$', TemplateView.as_view(template_name='how-do-rcts-work.html'), name='how-do-rcts-work'),
     url(r'how-does-rm-work$', TemplateView.as_view(template_name='how-does-rm-work.html'), name='how-does-rm-work'),
 
+    # Explicitly include only the FAQ views we want
+    url(regex = r'faq$',
+        view  = faq_views.TopicList.as_view(),
+        name  = 'faq_topic_list',
+    ),
+    url(regex = r'faq/(?P<slug>[\w-]+)/$',
+        view  = faq_views.TopicDetail.as_view(),
+        name  = 'faq_topic_detail',
+    ),
 
 #    url(r'dash$', MyTrials.as_view(), name='dash'),
 

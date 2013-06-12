@@ -1,0 +1,21 @@
+{% extends "baser.html" %}
+
+{% block title %}{{ block.super }}: {{topic}} {% endblock %}
+
+
+{% block content %}
+<div class="container controls">
+    <h1><span class="greyunder">Frequently asked questions</span></h1>
+    <ul>
+    <li id="faq-{{topic.slug}}">
+        <h3><span class="bold red">{{ topic }}</span></h3>
+        {% for q in questions %}
+            <p id="faq-{{ q.slug }}" class="bold">{{ q }}</p>
+            <p>
+                {{ q.answer }}
+            </p>
+        {% endfor %}
+    </li>
+    </ul>
+</div>
+{% endblock %}
