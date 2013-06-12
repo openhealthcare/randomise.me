@@ -711,10 +711,12 @@ class RandomiseMeView(TrialByPkMixin, LoginRequiredMixin, View):
         """
         group = random.choice(self.trial.ensure_groups())
         participant = self.trial.participant_set.get(user=self.request.user)
-        report = Report(trial=self.trial,
-                        participant=participant,
-                        group=group,
-                        variable=self.trial.variable_set.all()[0])
+        report = Report.objects.get_or_create(
+            trial=self.trial,
+            participant=participant,
+            date__isnull=True,
+            variable=self.trial.variable_set.all()[0])[0]
+        report.group = group
         report.save()
 
         return HttpResponse(group.name.lower())
