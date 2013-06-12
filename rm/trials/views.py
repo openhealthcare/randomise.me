@@ -23,7 +23,7 @@ from letter.contrib.contact import ContactView
 
 from rm import exceptions
 from rm.trials.forms import (TrialForm, VariableForm, N1TrialForm, TutorialForm)
-from rm.trials.models import Trial, Report, Variable, Invitation
+from rm.trials.models import Trial, Report, Variable, Invitation, TutorialExample
 from rm.trials.utils import n1_with_sane_defaults
 from rm.userprofiles.models import RMUser
 from rm.userprofiles.utils import sign_me_up
@@ -775,3 +775,22 @@ class TutorialView(FormView):
         trial = n1_with_sane_defaults(user, title, group_a, group_b,
                                       measure_style, measure_question)
         return HttpResponseRedirect(trial.get_absolute_url())
+
+
+class TutorialFromExampleView(TutorialView):
+    """
+    Let the user take the tutorial, but this is a worked example, with
+    defaults pre-filled
+    """
+    def get_initial(self):
+        tutorial = TutorialExample.objects.get(**self.kwargs)
+        print tutorial
+        initial = dict(
+            title=tutorial.question,
+            measure_style=tutorial.measure_style,
+            measure_question=tutorial.measure_question,
+            group_a=tutorial.group_a,
+            group_b=tutorial.group_b
+            )
+        print initial
+        return initial

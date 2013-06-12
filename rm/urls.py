@@ -10,7 +10,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 admin.autodiscover()
 
-from rm.trials.views import TrialSearchView, TutorialView
+from rm.trials.views import TrialSearchView, TutorialView, TutorialFromExampleView
 from rm.views import HomeView, RMContactView
 from rm.userprofiles.views import RMUserUpdate
 
@@ -45,10 +45,16 @@ urlpatterns = patterns(
         name='contact-ta'),
 
     # Static content pages
-    url(r'about$', TemplateView.as_view(template_name='about.html'), name='about-rm'),
-    url(r'about-rcts$', TemplateView.as_view(template_name='rcts.html'), name='about-rcts'),
-    url(r'how-do-rcts-work$', TemplateView.as_view(template_name='how-do-rcts-work.html'), name='how-do-rcts-work'),
-    url(r'how-does-rm-work$', TemplateView.as_view(template_name='how-does-rm-work.html'), name='how-does-rm-work'),
+    url(r'about$', TemplateView.as_view(template_name='about.html'),
+        name='about-rm'),
+    url(r'about-rcts$', TemplateView.as_view(template_name='rcts.html'),
+        name='about-rcts'),
+    url(r'how-do-rcts-work$',
+        TemplateView.as_view(template_name='how-do-rcts-work.html'),
+        name='how-do-rcts-work'),
+    url(r'how-does-rm-work$',
+        TemplateView.as_view(template_name='how-does-rm-work.html'),
+        name='how-does-rm-work'),
 
 
 #    url(r'dash$', MyTrials.as_view(), name='dash'),
@@ -56,7 +62,9 @@ urlpatterns = patterns(
     # profile editor
     url(r'account$', RMUserUpdate.as_view(), name='account-edit'),
 
-    url(r'tutorial', TutorialView.as_view(), name='tutorial'),
+    url(r'tutorial$', TutorialView.as_view(), name='tutorial'),
+    url(r'tutorial/(?P<pk>\d+)$',
+        TutorialFromExampleView.as_view(), name='tutorial-from-example'),
 
     # Trials on RM Users - CRUD routes
     url(r'^trials/', include('rm.trials.urls')),

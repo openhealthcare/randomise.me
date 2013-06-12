@@ -1,5 +1,6 @@
 {% extends 'baser.html' %}
 {% load terms %}
+{% load worked_examples %}
 
 {% block extratitle %} - About RCTs{% endblock %}
 
@@ -49,7 +50,12 @@
       </div>
     {% endfilter %}
     <div class="span5">
-      {% include 'get_started.html' %}
+      <div class="row-fluid">
+        {% include 'get_started.html' %}
+      </div>
+     <div class="row-fluid">
+        {% worked_examples %}
+      </div>
     </div>
     </div>
 
