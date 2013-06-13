@@ -423,6 +423,10 @@ html.nologo .masthead #header-logo {
 #header {
      background: #393632;
 }
+#presubhead{
+    background: url(/static/img/wavytop.png);
+    height: 5px;
+}
 
 .masthead {
     width: 1170px;
@@ -478,6 +482,10 @@ html.nologo .masthead #header-logo {
 }
 
 /* Footer */
+#prefoot {
+    background: url(/static/img/bottom-wavy.png);
+    height: 5px;
+}
 .footer{
     background: #393632;
     padding: 40px;
