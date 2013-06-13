@@ -5,8 +5,11 @@ from fabric.api import *
 from fabric.colors import red, green
 
 web = ['ohc@byta.randomizeme.org']
+#web = ['ohc@byta.randomizeme.org']
 PROJ_DIR = '/usr/local/ohc/randomise.me'
 VENV_BIN = '/home/ohc/.virtualenvs/rm/bin/{0}'
+#PROJ_DIR = '/usr/local/ohc/'
+#VENV_BIN = '/usr/local/ohc/rm/bin/{0}'
 venv_bin = lambda x: VENV_BIN.format(x)
 VENV_PY = venv_bin('python')
 VENV_CTL = venv_bin('supervisorctl')
