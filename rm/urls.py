@@ -67,7 +67,10 @@ urlpatterns = patterns(
         view  = faq_views.TopicDetail.as_view(),
         name  = 'faq_topic_detail',
     ),
-
+   url(regex = r'^(?P<topic_slug>[\w-]+)/(?P<slug>[\w-]+)/$',
+        view  = faq_views.QuestionDetail.as_view(),
+        name  = 'faq_question_detail',
+    ),
 #    url(r'dash$', MyTrials.as_view(), name='dash'),
 
     # profile editor

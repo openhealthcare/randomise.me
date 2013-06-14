@@ -1,4 +1,5 @@
 {% extends "baser.html" %}
+{% load markup %}
 
 {% block title %}{{ block.super }}: Frequencly asked questions{% endblock %}
 
@@ -15,11 +16,11 @@
                     {% for q in topic.questions.all %}
                         <p id="faq-{{ q.slug }}" class="bold">{{ q }}</p>
                         <p>
-                            {{ q.answer|safe }}
+                            {{ q.answer|markdown:"safe" }}
                         </p>
                     {% endfor %}
                 </li>
-                <br/>        
+                <br/>
               {% endfor %}
             </ul>
         </div>

@@ -1,0 +1,19 @@
+{% extends "baser.html" %}
+{% load markup %}
+
+{% block title %}{{ block.super }}: Question - {{ object.text|truncatewords:30}}{% endblock %}
+
+
+{% block content %}
+
+<h1>
+  <span class="greyunder">
+    {{ object.text }}
+  </span>
+</h1>
+
+<br/>
+
+{{ object.answer|markdown:"safe" }}
+
+{% endblock %}
