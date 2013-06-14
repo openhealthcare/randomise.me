@@ -4,10 +4,10 @@ Fabfile for Randomise Me
 from fabric.api import *
 from fabric.colors import red, green
 
-web = ['ohc@byta.randomizeme.org']
+web = ['app@178.79.166.118']
 #web = ['ohc@byta.randomizeme.org']
-PROJ_DIR = '/usr/local/ohc/randomise.me'
-VENV_BIN = '/home/ohc/.virtualenvs/rm/bin/{0}'
+PROJ_DIR = '/home/app/randomise_me'
+VENV_BIN = '/home/app/randomise_me/bin/{0}'
 #PROJ_DIR = '/usr/local/ohc/'
 #VENV_BIN = '/usr/local/ohc/rm/bin/{0}'
 venv_bin = lambda x: VENV_BIN.format(x)
