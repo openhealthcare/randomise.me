@@ -671,6 +671,15 @@ ul.parsley-error-list li {
 }
 
 
+.span2.protocol-item {
+    background: grey;
+    min-height: 160px;
+    width: 160px;
+}
+
+
+
+
 /* Sharing generics */
 
 .share-this a:hover {

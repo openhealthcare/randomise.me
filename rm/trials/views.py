@@ -1,5 +1,7 @@
 """
-A create trial view?
+Views for trials.
+
+TODO: separate this out into a logically separated package at some point.
 """
 import datetime
 import random

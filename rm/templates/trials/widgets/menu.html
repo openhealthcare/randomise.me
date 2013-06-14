@@ -1,0 +1,207 @@
+  <ul class="unstyled">
+    {% if participant %}
+    <li>
+      <i class="icon-question-sign"
+         title="Ask a Question"
+         data-content="Not quite sure about this trial? Ask a question to the person running the trial."
+         >
+         </i>
+      <a href="#question" role="button" data-toggle="modal">
+        Ask a question
+      </a>
+    </li>
+    {% endif %}
+
+    {% if trial.finished %}
+    <li>
+      <i class="icon-question-sign"
+         title="Export"
+         data-content="Download the raw data from this trial in order to conduct your own analysis offline."
+         >
+         </i>
+      <a href="{% url 'trial-as-csv' trial.pk %}">Export as CSV</a>
+
+    </li>
+    {% endif %}
+    <li>
+      <i class="icon-question-sign"
+         title="Duplicate Trial"
+         data-content="Create a new trial using this one as a template. This is useful to reproduce the results of a trial, or to speed up the creation of similar trials."
+         >
+     </i>
+      <a
+         {% if trial.n1trial %}
+           href="{% url 'reproduce-n1-trial' trial.pk %}">
+         {% else %}
+           href="{% url 'reproduce-trial' trial.pk %}">
+         {% endif %}
+
+         Duplicate Trial
+      </a>
+    </li>
+    <li>
+      <i class="icon-question-sign"
+         title="Talk to us"
+         data-content="Contact the Randomise Me team to talk about this trial"
+         >
+     </i>
+      <a href="{% url 'contact' %}">Talk to us</a>
+    </li>
+
+    {% if is_owner %}
+      <li>
+        <i class="icon-question-sign"
+           title="Edit Trial"
+           data-content="Made a mistake creating your trial? You can make changes here. Be careful though - making changes to a trial after it's started is wonky."
+           >
+        </i>
+        <a href="{% url 'edit-trial' trial.pk %}">
+          Edit this trial
+        </a>
+      </li>
+      {% if not trial.finished %}
+        <li>
+          <i class="icon-question-sign"
+             title="Peek"
+             data-content="You can peek at the results if you really want to"
+             >
+          </i>
+          <a href="#peek" role="button" data-toggle="modal">
+            Peek at the results
+          </a>
+        </li>
+        <li>
+          <a href="#stopit" role="button" data-toggle="modal" class="btn btn-warning">stop this trial</a>
+        </li>
+      {% endif %}
+    {% else %}
+    <li>
+      <i class="icon-question-sign"
+         title="Report a Trial"
+         data-content="If you're concerned about a trial for any reason you can report it to the Randomise Me staff and we'll take appropriate action."
+         >
+      </i>
+      <a href="#report" role="button" data-toggle="modal">
+        Report this trial
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+
+  <!-- Modal Peek -->
+  <div id="peek" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Peek at the results</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           YOU CAN PEEK AT THE RESULTS IF YOU REALLY WANT TO BUT THIS CAN
+           CAUSE BAD THINGS TO HAPPEN = ARE YOU SHURE?
+         </p>
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+         <a href="{% url 'trial-peek' trial.pk%}" class="btn btn-danger">peek</a>
+       </div>
+  </div>
+
+  <!-- Modal Report -->
+  <div id="report" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Report this trial</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           If you are concerned about this trial and would like to report it
+           to the Randomise Me staff, please do so here:
+         </p>
+         <form method="POST" action="{% url 'contact' %}">
+           {% csrf_token %}
+               <div class="control-group required">
+                 <label class="control-label" for="id_name">Name</label>
+                 <div class="controls">
+                   <input id="id_name" name="name" type="text" />
+                 </div>
+               </div>
+               <div class="control-group required">
+                 <label class="control-label" for="id_email">Email</label>
+                 <div class="controls">
+                   <input id="id_email" name="email" type="text" {% if request.user.is_authenticated %} value="{{request.user.email}} {% endif %}"/>
+                 </div>
+               </div>
+
+               <div class="control-group required">
+                 <label class="control-label" for="id_message">Message</label>
+                 <div class="controls">
+                   <textarea cols="40" id="id_message" name="message" rows="10">
+Dear Randomise Me Team,
+
+I would like to report a concern about the trial "{{trial.title}}" which can be found at {{ trial.get_absolute_url }}
+                   </textarea>
+                 </div>
+               </div>
+           <button class="btn btn-danger" type="submit">Send</button>
+         </form>
+
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+       </div>
+  </div>
+
+  <!-- Modal Question -->
+  <div id="question" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Ask a Question</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           If you have a question for the trial owner, please ask it here:
+         </p>
+         <form method="POST" action="{% url 'trial-question' trial.pk %}">
+           {% csrf_token %}
+           <input id="id_name" name="name" type="hidden" value="{{request.user.username}}"/>
+           <input id="id_email" name="email" type="hidden" {% if request.user.is_authenticated %} value="{{request.user.email}} {% endif %}"/>
+
+               <div class="control-group required">
+                 <label class="control-label" for="id_message">Question</label>
+                 <div class="controls">
+                   <textarea cols="40" id="id_message" name="message" rows="10">
+I would like to ask a question about the trial "{{trial.title}}" which can be found at {{ trial.get_absolute_url }},
+
+
+</textarea>
+                 </div>
+               </div>
+           <button class="btn btn-danger" type="submit">Send</button>
+         </form>
+
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+       </div>
+  </div>
+
+  <!-- Modal stopit -->
+  <div id="stopit" class="modal hide fade" tabindex="-1"
+       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-header">
+         <h3 id="myModalLabel">Stop this Trial?</h3>
+       </div>
+       <div class="modal-body">
+         <p>
+           Would you like to stop this trial? Are you shure? This cannot be undone...
+         </p>
+         <form method="POST" action="{% url 'stop-trial' trial.pk %}">
+           {% csrf_token %}
+           <button class="btn btn-danger" type="submit">stop trial</button>
+         </form>
+
+       </div>
+       <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
+       </div>
+  </div>

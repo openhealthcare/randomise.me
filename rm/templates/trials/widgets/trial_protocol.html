@@ -1,0 +1,209 @@
+
+<h3>
+  <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
+</h3>
+
+<div class="feature-box">
+
+  <div class="row">
+    <div class="span8">
+
+      {% with trial.main_outcome as outcome %}
+        <div class="row-fluid innerrow">
+          <div class="span2 protocol-item">
+            <b>
+              Measuring ({{outcome.get_style_display}})
+            </b>
+            <a href="#">Help</a>
+            <a href="#">Edit</a>
+          </div>
+          <div class="span6">
+            {{outcome.question}}
+          </div>
+        </div> <!-- innerrow -->
+      {% endwith %}
+
+      <div class="row-fluid innerrow">
+        <div class="span2 protocol-item">
+          <b>
+            Reporting
+          </b>
+          <a href="#">Help</a>
+          <a href="#">Edit</a>
+        </div>
+        <div class="span6">
+          {% if not trial.n1trial %}
+            <p>
+              Reporting <b>{{ trial.get_reporting_style_display }}</b>
+            </p>
+            {% if trial.reporting_style == trial.DATED %}
+              <p>
+                Where X == trial.reporting_date
+              </p>
+            {% elif trial.reporting_style == trial.REGULARLY %}
+              <p> Where regularly == {{trial.get_reporting_freq_display }} </p>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div> <!-- innerrow -->
+
+      <div class="row-fluid innerrow">
+        <div class="span2 protocol-item">
+          <b>
+            Participants & <br />
+            Observations
+          </b>
+          <a href="#">Help</a>
+          <a href="#">Edit</a>
+        </div>
+        <div class="span6">
+
+          {% if trial.n1trial %}
+            <p>
+              You have reported {{ trial.report_set.count }} observations so far
+            </p>
+          {% else %}
+            {{ trial.participant_set.count }} participants have reported
+            {{ trial.report_set.count }} observations so far
+          {% endif %}
+
+        </div>
+      </div> <!-- innerrow -->
+
+    </div> <!-- span8 -->
+
+    <div class="span3" id="protocol-menu">
+      {% include 'trials/widgets/menu.html' %}
+    </div> <!-- span4 -->
+
+  </div>
+
+  <div class="row-fluid">
+    <div class="span2 protocol-item">
+      <b>
+        Public/Private
+      </b>
+      <a href="#">Help</a>
+      <a href="#">Edit</a>
+    </div>
+    <div class="span10">
+
+      {% if trial.is_invitation_only %}
+        <p>
+          This trial
+          {% if trial.stopped %}was{% else %}is{% endif %}
+          <b>invitation only</b>
+          {% if not trial.stopped %}
+            <a href="#invite-modal" role="button" data-toggle="modal"
+               class="btn btn-warning">
+               invite people
+            </a>
+
+            <!-- Modal -->
+            <div id="invite-modal" class="modal hide fade" tabindex="-1"
+                 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                 <div class="modal-header">
+                   <h3 id="myModalLabel">Invite people to this trial</h3>
+                 </div>
+                 <div class="modal-body">
+                   <form method="POST" id="invite-form" action="{% url 'trial-invite' trial.pk %}">
+                     {% csrf_token %}
+                     <input type="hidden" name="trial_pk" value="{{trial.pk}}" />
+                     <p>
+                       <input type="text" name="email" value="" placeholder="larry@example.com"/>
+                       <button id="btn-invite" class="btn btn-danger">invite</button>
+                     </p>
+                   </form>
+                   <h4>Currently invited</h4>
+                   <ul id="invited-list">
+                     {% for invitation in trial.invitation_set.all %}
+                       <li>
+                         {{ invitation.email }}
+                       </li>
+                     {% endfor %}
+                   </ul>
+                 </div>
+                 <div class="modal-footer">
+                   <button class="btn" data-dismiss="modal" aria-hidden="true">close</button>
+                 </div>
+                 <script type="text/javascript">
+                   $(document).ready( function(){
+                   RM.forms.init_modalinvite();
+                   });
+                 </script>
+            </div> <!-- End modal -->
+          {% endif %}
+    </div>
+  {% else %}
+    <!-- Not Invitation Only -->
+    <p>
+      This
+      {% if trial.stopped %}was{% else %}is{% endif %} a
+      <b>{% if trial.private %}private{% else %}public{% endif %}</b>
+      trial
+      {% if not trial.n1trial %}that anyone can join{% endif %}
+      {% if trial.private %}
+        <a href="#" class="btn btn-warning">make public</a>
+      {% endif %}
+    </p>
+  {% endif %}
+
+  </div> <!-- row -->
+</div>
+
+<div class="row-fluid">
+  <div class="span2 protocol-item">
+    <b>
+      Participant <br />
+      Information
+    </b>
+    <a href="#">Help</a>
+    <a href="#">Edit</a>
+  </div>
+  <div class="span10">
+    <p>
+      {{ trial.description }}
+    </p>
+
+    {% if trial.secret_info %}
+      <p>
+        {{ trial.secret_info }}
+      </p>
+    {% endif %}
+
+  </div>
+</div> <!-- row -->
+
+
+
+<div class="row-fluid">
+  <div class="span2 protocol-item">
+    <b>
+      Instructions for the two groups
+    </b>
+    <p>
+      <a href="#">Help</a>
+      <a href="#">Edit</a>
+    </p>
+  </div>
+  <div class="span5">
+    <h3>Instrucitons for Group A</h3>
+    <p>
+      {{ trial.group_a }}
+    </p>
+  </div>
+  <div class="span5">
+    <h3>Instructions for Group B</h3>
+    <p>
+      {{ trial.group_b }}
+    </p>
+  </div>
+</div> <!-- row -->
+
+
+
+
+</div> <!-- Row fluid -->
+
+
+</div> <!-- Feature box-->

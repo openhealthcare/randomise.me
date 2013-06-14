@@ -1,4 +1,5 @@
 {% load json_filters %}
+{% load trial_protocol %}
 <h3>
   <span class="light">TRIAL</span> <span class="red bold">RESULTS</span>
 </h3>
@@ -11,22 +12,10 @@
     </div>
   </div>
 
-  <h3>
-    <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
-  </h3>
-
-  <div class="feature-box">
-
-    <div class="row-fluid">
-      <!-- Main panel -->
-      <div class="span9">
-        {% include 'trials/trial_protocol.html' %}
-      </div>
-      {% include 'trials/trial_detail_sidebar.html' %}
-    </div>
-  </div> <!-- Row Fluid -->
 
 </div>
+
+  {% trial_protocol_widget %}
 
 
 <script type="text/javascript">
