@@ -77,6 +77,7 @@ def deploy():
     with cd(PROJ_DIR):
         run('git pull origin master --tags') #not ssh - key stuff
         run('{0} install -r requirements.txt'.format(venv_bin('pip')))
+        manage('collectstatic --noinput')
         migrate()
         restart()
 
