@@ -214,6 +214,7 @@ input.wider { width: 600px; }
 
 .justified { text-align: justified; }
 .darkback { background: #393632; }
+.whiteback, .feature-box.whiteback { background: white; }
 
 .row-fluid.darkback .btn {
     margin: 20px;
@@ -672,12 +673,40 @@ ul.parsley-error-list li {
 
 
 .span2.protocol-item {
-    background: grey;
-    min-height: 160px;
+    background: #d9d2ce;
+    min-height: 70px;
     width: 160px;
+    padding: 3px 9px 3px 9px;
+    font-size: 16px;
 }
 
+.protocol-detail, .row-fluid .protocol-detail {
+    background: #fff9f8;
+    min-height: 70px;
+}
 
+#protocol-menu {
+    border-left: 3px dotted #d8d1cd;
+    border-bottom: 3px dotted #d8d1cd;
+    min-height: 280px;
+    margin-top: 0px;
+    margin-left: 80px;
+    margin-bottom: 20px;
+    padding: 0px;
+}
+
+#protocol-menu ul {
+    margin-top: 30px;
+}
+
+#protocol-menu ul li {
+    padding: 10px 10px 10px 20px;
+}
+
+#protocol-menu ul li a{
+    color: #e54f25;
+    font-weight: 400;
+}
 
 
 /* Sharing generics */

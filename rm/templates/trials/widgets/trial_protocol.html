@@ -3,7 +3,7 @@
   <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
 </h3>
 
-<div class="feature-box">
+<div class="feature-box whiteback">
 
   <div class="row">
     <div class="span8">
@@ -14,11 +14,19 @@
             <b>
               Measuring ({{outcome.get_style_display}})
             </b>
-            <a href="#">Help</a>
-            <a href="#">Edit</a>
+            <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="The Primary Outcome"
+                 data-content="This is the main thing you are measuring in this trial"
+                 >
+                 Help
+              </a>
+            </div>
           </div>
-          <div class="span6">
-            {{outcome.question}}
+          <div class="span9 protocol-detail">
+            <p>
+              {{outcome.question}}
+            </p>
           </div>
         </div> <!-- innerrow -->
       {% endwith %}
@@ -28,11 +36,28 @@
           <b>
             Reporting
           </b>
-          <a href="#">Help</a>
-          <a href="#">Edit</a>
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Reporting Protocol"
+                 data-placement="left"
+                 data-content="When and how you want to record observations in your trial"
+                 >
+                 Help
+              </a>
+           {% if not trial.n1trial %}
+             {% if is_owner %}
+               <a href="#" class="pull-right red">Edit</a>
+             {% endif %}
+           {% endif %}
+          </div>
+
         </div>
-        <div class="span6">
-          {% if not trial.n1trial %}
+        <div class="span9 protocol-detail">
+          {% if trial.n1trial %}
+            <p>
+              Reporting <b>whenever you want</b>
+            </p>
+          {% else %}
             <p>
               Reporting <b>{{ trial.get_reporting_style_display }}</b>
             </p>
@@ -53,18 +78,33 @@
             Participants & <br />
             Observations
           </b>
-          <a href="#">Help</a>
-          <a href="#">Edit</a>
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Sizing"
+                 data-content="The current status of how much data you have collected"
+                 >
+                 Help
+              </a>
+            {% if not trial.n1trial %}
+              {% if is_owner %}
+                <a href="#" class="pull-right red">Edit</a>
+              {% endif %}
+            {% endif %}
+          </div>
         </div>
-        <div class="span6">
+        <div class="span9 protocol-detail">
 
           {% if trial.n1trial %}
             <p>
-              You have reported {{ trial.report_set.count }} observations so far
+              <b>
+                You have reported {{ trial.report_set.count }} observations so far
+              </b>
             </p>
           {% else %}
+            <p><b>
             {{ trial.participant_set.count }} participants have reported
             {{ trial.report_set.count }} observations so far
+           </b></p>
           {% endif %}
 
         </div>
@@ -83,10 +123,17 @@
       <b>
         Public/Private
       </b>
-      <a href="#">Help</a>
-      <a href="#">Edit</a>
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Recruitment"
+                 data-placement="left"
+                 data-content="Trials can be either public or private. Anyone can join a public trial, but only people you invite can join a private trial."
+                 >
+                 Help
+              </a>
+          </div>
     </div>
-    <div class="span10">
+    <div class="span10 protocol-detail">
 
       {% if trial.is_invitation_only %}
         <p>
@@ -143,7 +190,7 @@
       trial
       {% if not trial.n1trial %}that anyone can join{% endif %}
       {% if trial.private %}
-        <a href="#" class="btn btn-warning">make public</a>
+        <a href="#" class="btn btn-warning pull-right">make public</a>
       {% endif %}
     </p>
   {% endif %}
@@ -157,10 +204,19 @@
       Participant <br />
       Information
     </b>
-    <a href="#">Help</a>
-    <a href="#">Edit</a>
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Description"
+                 data-content="This is a description of the trial"
+                 >
+                 Help
+              </a>
+              {% if is_owner %}
+                <a href="{% url 'edit-trial' trial.pk %}?step=5" class="pull-right red">Edit</a>
+              {% endif %}
+          </div>
   </div>
-  <div class="span10">
+  <div class="span10 protocol-detail">
     <p>
       {{ trial.description }}
     </p>
@@ -182,17 +238,26 @@
       Instructions for the two groups
     </b>
     <p>
-      <a href="#">Help</a>
-      <a href="#">Edit</a>
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Instructions"
+                 data-content="When we randomise people, we typically provide them one of two sets of instructions. These are the instructions for each group."
+                 >
+                 Help
+              </a>
+              {% if is_owner %}
+                <a href="{% url 'edit-trial' trial.pk %}?step=6" class="pull-right red">Edit</a>
+              {% endif %}
+          </div>
     </p>
   </div>
-  <div class="span5">
+  <div class="span5 protocol-detail">
     <h3>Instrucitons for Group A</h3>
     <p>
       {{ trial.group_a }}
     </p>
   </div>
-  <div class="span5">
+  <div class="span5 protocol-detail">
     <h3>Instructions for Group B</h3>
     <p>
       {{ trial.group_b }}

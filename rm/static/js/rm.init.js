@@ -12,5 +12,5 @@ $(document).ready( function(){
         trigger = 'click'
     }
     $('.icon-question-sign').popover({trigger: 'click'})
-
+    $('.popsover').popover({trigger: 'click'}).on('click', function(){return false})
 });
