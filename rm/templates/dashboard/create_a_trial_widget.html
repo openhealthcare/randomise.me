@@ -1,0 +1,40 @@
+{% if show %}
+  <div class="dashboard-widget">
+    <div class="dashboard-widget-preheader"></div>
+    <div class="dashboard-widget-header">
+      <h2>
+        <span class="red bold">
+          CREATE
+        </span>
+        <span class="white bold">
+          A TRIAL
+        </span>
+      </h2>
+    </div> <!-- dw-header -->
+    <div class="dashboard-widget-body">
+      <div class="row-fluid dashboard-widget-item">
+        <dl class="numbered">
+          <dt>
+            Have a question
+          </dt>
+          <dt>
+            Create a trial in minutes
+          </dt>
+          <dt>
+            Get pretty results
+          </dt>
+        </dl>
+        <a href="{% url 'how-does-rm-work' %}" class="btn btn-warning larger">How does it work?</a>
+        <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
+          create a trial
+        </a>
+
+      </div>
+    </div> <!-- body -->
+    <div class="dashboard-widget-footer">
+
+    </div>
+    <div class="dashboard-widget-postfooter"></div>
+
+  </div> <!-- Widget -->
+{% endif %}

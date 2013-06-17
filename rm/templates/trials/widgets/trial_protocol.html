@@ -1,4 +1,4 @@
-
+{% load staticfiles %}
 <h3>
   <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
 </h3>
@@ -14,6 +14,7 @@
             <b>
               Measuring ({{outcome.get_style_display}})
             </b>
+            <img src="{% static 'img/icons/icn-meas.png' %}" class="protocol-icon" alt="" />
             <div class="protocol-item-help">
               <a href="#" class="green popsover"
                  title="The Primary Outcome"
@@ -36,6 +37,7 @@
           <b>
             Reporting
           </b>
+          <img src="{% static 'img/icons/icn-repo.png' %}" class="protocol-icon" alt="" />
           <div class="protocol-item-help">
               <a href="#" class="green popsover"
                  title="Reporting Protocol"
@@ -78,6 +80,7 @@
             Participants & <br />
             Observations
           </b>
+          <img src="{% static 'img/icons/icn-part.png' %}" class="protocol-icon" alt="" />
           <div class="protocol-item-help">
               <a href="#" class="green popsover"
                  title="Trial Sizing"
@@ -123,6 +126,7 @@
       <b>
         Public/Private
       </b>
+            <img src="{% static 'img/icons/icn-publ.png' %}" class="protocol-icon" alt="" />
           <div class="protocol-item-help">
               <a href="#" class="green popsover"
                  title="Trial Recruitment"
@@ -204,6 +208,8 @@
       Participant <br />
       Information
     </b>
+
+    <img src="{% static 'img/icons/icn.png' %}" class="protocol-icon" alt="" />
           <div class="protocol-item-help">
               <a href="#" class="green popsover"
                  title="Trial Description"
@@ -252,13 +258,19 @@
     </p>
   </div>
   <div class="span5 protocol-detail">
-    <h3>Instrucitons for Group A</h3>
+    <h3>
+      Instrucitons for Group A
+      <img src="{% static 'img/icons/icn-grpA.png' %}" class="protocol-icon-side" alt="" />
+    </h3>
     <p>
       {{ trial.group_a }}
     </p>
   </div>
   <div class="span5 protocol-detail">
-    <h3>Instructions for Group B</h3>
+    <h3>
+      Instructions for Group B
+      <img src="{% static 'img/icons/icn-grpB.png' %}" class="protocol-icon-side" alt="" />
+    </h3>
     <p>
       {{ trial.group_b }}
     </p>

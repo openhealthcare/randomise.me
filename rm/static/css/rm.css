@@ -201,7 +201,7 @@ input[type="color"]:focus,
 
 input.wider { width: 600px; }
 
-.green { color: green; }
+.green { color: #7baa30; }
 .yellow { color: #fbc30c; }
 .red { color: #e54f25; }
 .white { color: #fff9f7; }
@@ -311,30 +311,30 @@ input.wider { width: 600px; }
 
 a.term {
     cursor: help;
-    color: #a9ce36;
+    color: #7baa30;
     font-weight: bold;
 }
 a.term:hover {
     background: transparent;
     text-decoration: underline;
-    color: #a9ce36;
+    color: #7baa30;
 }
 a.helpful {
-    color: #a9ce36;
+    color: #7baa30;
     font-weight: bold;
 }
 a.helpful:hover {
     background: transparent;
     text-decoration: underline;
-    color: #a9ce36;
+    color: #7baa30;
 }
 
 .popover {
-    border: 2px solid #a9ce36;
+    border: 2px solid #7baa30;
     padding: 0px;
 }
 .popover-title {
-    background: #a9ce36;
+    background: #7baa30;
     font-size: 20px;
     color: white;
     line-height: 38px
@@ -636,8 +636,47 @@ ul.parsley-error-list li {
 .feature-box .dashrow h3 {
     padding-left: 30px;
 }
+.dashboard-widget {
+    margin: 0px 0px 28px 0px;
+}
 
+.dashboard-widget-preheader {
+     background: url(/static/img/bottom-wavy.png);
+     height: 5px;
+}
+.dashboard-widget-header {
+    background: #393632;
+    padding: 1px 6px 6px 6px;
+}
 
+.dashboard-widget-body {
+    border-left: 3px dotted #d8d1cd;
+    border-right: 3px dotted #d8d1cd;
+    margin: 12px 0px;
+    padding: 0px 12px;
+    font-weight: 400;
+}
+
+.dashboard-widget-body a {
+   color: #393632;
+}
+
+.dashboard-widget-footer {
+    background: #dbd3cd;
+    padding: 6px 6px;
+    text-align: right;
+    min-height: 28px;
+}
+
+.dashboard-widget-footer .expand {
+    color: #e54f25;
+    font-weight: 400;
+}
+
+.dashboard-widget-postfooter {
+     background: url(/static/img/pgrey-lower-wavy.png);
+     height: 12px;
+}
 
 
 /* Trial Detail*/
@@ -673,7 +712,7 @@ ul.parsley-error-list li {
 
 
 .span2.protocol-item {
-    background: #d9d2ce;
+    background: #efe8e6;
     min-height: 70px;
     width: 160px;
     padding: 3px 9px 3px 9px;
@@ -708,6 +747,11 @@ ul.parsley-error-list li {
     font-weight: 400;
 }
 
+.protocol-icon {
+    margin: 0 auto;
+    display: block;
+    padding: 12px 0px;
+}
 
 /* Sharing generics */
 
@@ -728,7 +772,7 @@ ul.parsley-error-list li {
 }
 
 .icon-question-sign {
-    color: #a9ce36;
+    color: #7baa30;
     font-size: 34px;
 }
 

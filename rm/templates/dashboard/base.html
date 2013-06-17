@@ -1,0 +1,20 @@
+{% load dashboard %}
+
+<div class="row-fluid">
+  <!-- Left Column -->
+  <div class="span6">
+    {% randomising_me_widget %}
+    {% randomising_others_widget %}
+    {% did_you_know_widget %}
+  </div>
+
+  <!-- Right Column -->
+  <div class="span6">
+    {% if tutorial_prompt %}
+      {% create_a_trial_widget %}
+    {% endif %}
+    {% if virgin %}
+      {% example_trials_widget %}
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,42 @@
+{% if show %}
+  <div class="dashboard-widget">
+    <div class="dashboard-widget-preheader"></div>
+    <div class="dashboard-widget-header">
+      <h2>
+        <span class="white bold">
+          RANDOMISING
+        </span>
+        <span class="red bold">
+          OTHERS
+        </span>
+      </h2>
+    </div> <!-- dw-header -->
+    <div class="dashboard-widget-body">
+      {% for trial in randomising_others %}
+        {% if forloop.counter < 3 %}
+            <div class="row-fluid dashboard-widget-item">
+              <h3>
+                <a href="{{ trial.get_absolute_url }}">
+                  {{ trial.title }}
+                </a>
+              </h3>
+              <a href="{{ trial.get_absolute_url }}">
+                <p>
+                  {{ trial.description|truncatewords:34 }}
+                </p>
+              </a>
+            </div>
+          {% endif %}
+      {% endfor %}
+    </div> <!-- body -->
+    <div class="dashboard-widget-footer">
+      {% if num > 2 %}
+        <a href="#" class="expand">
+          see all ({{ num }})
+        </a>
+      {% endif %}
+    </div>
+    <div class="dashboard-widget-postfooter"></div>
+
+  </div> <!-- Widget -->
+{% endif %}
