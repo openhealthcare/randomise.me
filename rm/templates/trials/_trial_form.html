@@ -51,6 +51,10 @@
         <!-- Begin Trial creation steps -->
 </div>
 
+{% if request.user.single_page %}
+  <div> <!-- Replacement Carousel -->
+    <div> <!-- Replacement Carousel-inner -->
+{% else %}
 <div id="myCarousel" class="carousel slide">
   <ol class="carousel-indicators">
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -67,6 +71,7 @@
 
   <!-- Carousel items -->
   <div class="carousel-inner span10 offset1">
+{% endif %}
 
     {% include 'trials/steps/step_title.html' %}
     {% include 'trials/steps/step_variables.html' %}
@@ -93,11 +98,14 @@
     </div>
 
   </div>
+  {% if not request.user.single_page %}
+
   <!-- Carousel nav -->
   <a class="carousel-control left btn btn-danger hidem"
      href="#myCarousel" data-slide="prev" tabindex="-1">back</a>
      <a class="carousel-control right btn btn-danger"
         href="#myCarousel" data-slide="next">next</a>
+  {% endif %}
 </div>
 
 {% if editing %}

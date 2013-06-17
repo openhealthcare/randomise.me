@@ -11,7 +11,10 @@ class ProfileForm(ModelForm):
     """
     class Meta:
         model = RMUser
-        fields = ['name', 'email', 'receive_questions', 'dob', 'gender', 'postcode']
+        fields = ['name', 'email',
+                  'receive_questions',
+                  'single_page',
+                  'dob', 'gender', 'postcode']
         widgets = {
             'gender': widgets.RadioSelect()
             }

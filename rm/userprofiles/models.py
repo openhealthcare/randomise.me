@@ -54,6 +54,12 @@ If you elect to receive questions, then participants in your trials can use
 Randomise Me to send you questions about your trial. You'll receive questions
 by email.
 """
+    FORM_LONG = "1 Page Create Trial"
+    FORM_HELP = """
+If you elect to use the 1 page create trial view, then you will see all
+steps that comprise creating a trial on a single page
+"""
+
 
     username      = models.CharField(max_length=40, unique=True, db_index=True)
     email         = models.EmailField(max_length=254, unique=True)
@@ -67,6 +73,7 @@ by email.
     postcode      = models.CharField(max_length=20, blank=True, null=True)
     receive_questions = models.BooleanField(QUESTION_LONG, default=True,
                                             help_text=QUESTION_HELP)
+    single_page = models.BooleanField(FORM_LONG, default=False, help_text=FORM_HELP)
 
     objects = RMUserManager()
 
