@@ -113,32 +113,13 @@ def did_you_know_widget(context):
         faq=Question.objects.all()[:4]
         )
 
-
-
-
-@register.inclusion_tag('dashboard/base.html', takes_context=True)
-def my_trials(context):
+@register.inclusion_tag('dashboard/featured_trials_widget.html', takes_context=True)
+def featured_trials_widget(context):
     """
-    Pass the trial queryset through to the table
-    to be rendered.
+    Widget to show people trials we like
+
+    Return: dict
+    Exceptions: None
     """
-    user               = context['request'].user
-    participated       = user.participant_set
-
-    randomising_me = [Trial.objects.filter(owner=user, stopped=False, n1trial=True),
-                       participated.filter(trial__stopped=False)]
-
-    randomising_others = Trial.objects.filter(owner=user, stopped=False, n1trial=False)
-
-    my_completed     = Trial.objects.filter(owner=user, stopped=True)
-
-    participated   = participated.filter(trial__stopped=True)
-
-    virgin = running.count() == 0 and completed.count() == 0 and participating.count() == 0 and participated.count() == 0
-
-
-    return dict(virgin=virgin,
-                running=running,
-                completed=completed,
-                participating=participating,
-                participated=participated)
+    featured = Trial.objects.filter(featured=True)[:2]
+    return dict(featured=featured)
