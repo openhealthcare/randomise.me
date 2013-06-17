@@ -6,6 +6,11 @@ body {
     line-height: 24px;
 }
 
+p {
+    font-family: 'Quatttrocentro Sans', sans-serif;
+/*     font-family: 'Rosario', sans-serif; */
+}
+
 h1 {
     font-weight: normal;
     font-family: 'Arvo', serif;
