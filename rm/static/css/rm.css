@@ -653,12 +653,12 @@ ul.parsley-error-list li {
 }
 
 .dashboard-widget-preheader {
-     background: url(/static/img/bottom-wavy.png);
-     height: 5px;
+     /* background: url(/static/img/bottom-wavy.png); */
+     /* height: 5px; */
 }
 .dashboard-widget-header {
-    background: #393632;
-    padding: 1px 6px 6px 6px;
+    /* background: #393632; */
+    padding: 1px 6px 0px 6px;
 }
 
 .dashboard-widget-body {
