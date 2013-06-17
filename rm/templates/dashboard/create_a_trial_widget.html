@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 {% if show %}
   <div class="dashboard-widget">
     <div class="dashboard-widget-preheader"></div>
@@ -13,22 +15,29 @@
     </div> <!-- dw-header -->
     <div class="dashboard-widget-body">
       <div class="row-fluid dashboard-widget-item">
-        <dl class="numbered">
-          <dt>
-            Have a question
-          </dt>
-          <dt>
-            Create a trial in minutes
-          </dt>
-          <dt>
-            Get pretty results
-          </dt>
-        </dl>
+        <div class="span2">
+          <img src="{% static 'img/still-too-flowery-ka.jpg' %}" id="createflowers" />
+        </div>
+        <div class="span9">
+          <dl id="createlist">
+            <dt>
+              Have a question
+            </dt>
+            <dt>
+              Create a trial in minutes
+            </dt>
+            <dt>
+              Get pretty results
+            </dt>
+          </dl>
+        </div>
+
+      </div>
+      <div class="row-fluid drop24 dashboard-widget-item">
         <a href="{% url 'how-does-rm-work' %}" class="btn btn-warning larger">How does it work?</a>
         <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
           create a trial
         </a>
-
       </div>
     </div> <!-- body -->
     <div class="dashboard-widget-footer">
