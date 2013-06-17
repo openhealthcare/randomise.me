@@ -15,7 +15,7 @@
     </div> <!-- dw-header -->
     <div class="dashboard-widget-body">
       <div class="row-fluid dashboard-widget-item">
-        <div class="span2">
+        <div class="span{% if not size %}2{% else %}3{% endif %}">
           <img src="{% static 'img/still-too-flowery-ka.jpg' %}" id="createflowers" />
         </div>
         <div class="span9">
@@ -34,8 +34,12 @@
 
       </div>
       <div class="row-fluid drop24 dashboard-widget-item">
-        <a href="{% url 'how-does-rm-work' %}" class="btn btn-warning larger">How does it work?</a>
-        <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
+        <a href="{% url 'how-does-rm-work' %}" class="btn btn-warning
+                                                      {% if not size %}larger{% endif %}
+                                                      ">How does it work?</a>
+        <a href="{% url 'tutorial' %}" class="btn btn-danger
+                                              {% if not size %}larger{% endif %}
+                                              pull-right">
           create a trial
         </a>
       </div>

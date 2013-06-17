@@ -1,29 +1,41 @@
 {% extends "baser.html" %}
 {% load markup %}
+{% load dashboard %}
 
-{% block title %}{{ block.super }}: Frequencly asked questions{% endblock %}
+{% block title %}{{ block.super }}: Help{% endblock %}
 
 {% block content %}
-<div class="container controls">
-    <h1><span class="greyunder">Frequently asked questions</span></h1>
+<div class="page">
+    <h1><span class="greyunder">Help</span></h1>
 
-    <div class="row">
-        <div class="span8">
-            <ul>
+    <div class="row-fluid">
+        <div class="span8 feature-box" id="help-topics">
+            <ul class="unstyled">
               {% for topic in topics %}
                 <li id="faq-{{topic.slug}}">
-                    <h3><span class="bold red">{{ topic }}</span></h3>
+                    <h3>
+                      <span class="bold red">{{ topic }}</span>
+                    </h3>
                     {% for q in topic.questions.all %}
+
+                      <a href="{% url 'faq_question_detail' topic.slug q.slug %}">
                         <p id="faq-{{ q.slug }}" class="bold">{{ q }}</p>
+                      </a>
                         <p>
-                            {{ q.answer|markdown:"safe" }}
+                            {{ q.answer|markdown|truncatewords:20 }}
                         </p>
                     {% endfor %}
                 </li>
                 <br/>
               {% endfor %}
             </ul>
+        </div> <!-- left col -->
+        <div class="span4">
+          {% create_a_trial_widget "smaller" %}
+          {% example_trials_widget %}
+          {% did_you_know_widget %}
+
         </div>
-    </div>
-</div>
+    </div> <!-- row -->
+</div> <!-- page -->
 {% endblock %}

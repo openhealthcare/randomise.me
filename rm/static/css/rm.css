@@ -397,6 +397,11 @@ a.helpful:hover {
     margin: 0px;
 }
 
+.feature-box#help-topics p {
+    padding: 6px 24px;
+}
+
+
 .numbered {
     counter-reset: numbered-counter;
 }

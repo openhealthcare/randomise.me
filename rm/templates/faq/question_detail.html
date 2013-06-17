@@ -1,10 +1,13 @@
 {% extends "baser.html" %}
 {% load markup %}
+{% load terms %}
+{% load dashboard %}
 
 {% block title %}{{ block.super }}: Question - {{ object.text|truncatewords:30}}{% endblock %}
 
 
 {% block content %}
+<div class="page">
 
 <h1>
   <span class="greyunder">
@@ -12,8 +15,18 @@
   </span>
 </h1>
 
-<br/>
-
-{{ object.answer|markdown:"safe" }}
+<div class="row-fluid">
+  <div class="span8 feature-box">
+    {% filter replace_terms %}
+      {{ object.answer|markdown }}
+    {% endfilter %}
+  </div>
+  <div class="span4">
+    {% create_a_trial_widget "smaller" %}
+    {% example_trials_widget %}
+    {% did_you_know_widget %}
+  </div>
+</div>
+</div>
 
 {% endblock %}

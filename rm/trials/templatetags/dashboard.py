@@ -78,14 +78,14 @@ def randomising_others_widget(context):
 
 
 @register.inclusion_tag('dashboard/create_a_trial_widget.html', takes_context=True)
-def create_a_trial_widget(context):
+def create_a_trial_widget(context, size=False):
     """
     CTA to take the tutorial
 
     Return: dict
     Exceptions: None
     """
-    return dict(show=True)
+    return dict(show=True, size=size)
 
 @register.inclusion_tag('dashboard/example_trials_widget.html', takes_context=True)
 def example_trials_widget(context):
