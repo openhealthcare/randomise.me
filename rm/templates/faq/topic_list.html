@@ -22,7 +22,7 @@
                         <p id="faq-{{ q.slug }}" class="bold">{{ q }}</p>
                       </a>
                         <p>
-                            {{ q.answer|markdown|truncatewords:20 }}
+                            {{ q.answer|truncatewords:20|markdown }}
                         </p>
                     {% endfor %}
                 </li>
