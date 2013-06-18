@@ -221,6 +221,8 @@ input.wider { width: 600px; }
 .darkback { background: #393632; }
 .whiteback, .feature-box.whiteback { background: white; }
 
+.imglist li { padding: 12px; }
+
 .row-fluid.darkback .btn {
     margin: 20px;
 }
@@ -653,12 +655,14 @@ ul.parsley-error-list li {
 }
 
 .dashboard-widget-preheader {
-     /* background: url(/static/img/bottom-wavy.png); */
-     /* height: 5px; */
 }
+
 .dashboard-widget-header {
-    /* background: #393632; */
     padding: 1px 6px 0px 6px;
+}
+
+.dashboard-widget-header h2 img{
+    padding-bottom: 6px;
 }
 
 .dashboard-widget-body {
