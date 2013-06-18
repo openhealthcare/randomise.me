@@ -503,8 +503,10 @@ html.nologo .masthead #header-logo {
 
 /* Footer */
 #prefoot {
-    background: url(/static/img/bottom-wavy.png);
+    background: url(/static/img/bottom-wavy.png) bottom;
     height: 5px;
+    padding-top: 42px;
+    background-repeat: repeat-x;
 }
 .footer{
     background: #393632;
