@@ -18,13 +18,13 @@
   </h1>
   <div class="row-fluid">
     <div class="span9">
-      <h2 class="light">
-                {% if trial.n1trial %}
-                  <img src="{% static 'img/icons/icn-one.png' %}" class="" alt="" />
-                {% else %}
-                  <img src="{% static 'img/icons/icn-many.png' %}" class="" alt="" />
-                {% endif %}
+      {% if trial.n1trial %}
+        <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
+      {% else %}
+        <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
+      {% endif %}
 
+      <h2 class="light">
         {{ trial.title }}
       </h2>
       {% if trial.is_edited %}

@@ -203,6 +203,7 @@ input[type="color"]:focus,
     margin: 60px 0;
 }
 
+
 /* Utility classes */
 .hidem,
 .btn.hidem { display: none }
@@ -884,4 +885,19 @@ body div.rm,
      display: block;
      float: left;
      padding: 2px;
+}
+
+#protocol-tablet-menu ul li{
+    display: inline-block;
+    padding: 2px 16px;
+}
+
+#protocol-tablet-menu ul li a{
+    color: #e54f25;
+}
+
+#protocol-tablet-menu ul li a:hover{
+    color: white;
+    background: #e54f25;
+    text-decoration: none;
 }

@@ -1,9 +1,332 @@
+{% load thumbnail %}
 {% load staticfiles %}
 <h3>
   <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
 </h3>
 
-<div class="feature-box whiteback">
+    <div class="visible-tablet" id="protocol-tablet-menu">
+      {% include 'trials/widgets/menu.html' %}
+    </div> <!-- span4 -->
+
+<div class="feature-box whiteback visible-tablet">
+
+  <div class="row">
+    <div class="span12">
+
+      {% with trial.main_outcome as outcome %}
+        <div class="row-fluid innerrow">
+          <div class="span2 protocol-item">
+            <b>
+              Measuring ({{outcome.get_style_display}})
+            </b>
+            <img src="{% static 'img/icons/icn-meas.png' %}" class="protocol-icon" alt="" />
+            <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="The Primary Outcome"
+                 data-content="This is the main thing you are measuring in this trial"
+                 >
+                 Help
+              </a>
+            </div>
+          </div>
+          <div class="span8 protocol-detail">
+            <p>
+              {{outcome.question}}
+            </p>
+          </div>
+        </div> <!-- innerrow -->
+      {% endwith %}
+
+      <div class="row-fluid innerrow">
+        <div class="span2 protocol-item">
+          <b>
+            Reporting
+          </b>
+          <img src="{% static 'img/icons/icn-repo.png' %}" class="protocol-icon" alt="" />
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Reporting Protocol"
+                 data-placement="right"
+                 data-content="When and how you want to record observations in your trial"
+                 >
+                 Help
+              </a>
+           {% if not trial.n1trial %}
+             {% if is_owner %}
+               <a href="#" class="pull-right red">Edit</a>
+             {% endif %}
+           {% endif %}
+          </div>
+
+        </div>
+        <div class="span8 protocol-detail">
+          {% if trial.n1trial %}
+            <p>
+              Reporting <b>whenever you want</b>
+            </p>
+          {% else %}
+            <p>
+              Reporting <b>{{ trial.get_reporting_style_display }}</b>
+            </p>
+            {% if trial.reporting_style == trial.DATED %}
+              <p>
+                Where X == {{ trial.reporting_date }}
+              </p>
+            {% elif trial.reporting_style == trial.REGULARLY %}
+              <p> Where regularly == {{trial.get_reporting_freq_display }} </p>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div> <!-- innerrow -->
+
+      <div class="row-fluid innerrow">
+        <div class="span2 protocol-item">
+          <b>
+            Participants & <br />
+            Observations
+          </b>
+          <img src="{% static 'img/icons/icn-part.png' %}" class="protocol-icon" alt="" />
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Sizing"
+                 data-content="The current status of how much data you have collected"
+                 >
+                 Help
+              </a>
+            {% if not trial.n1trial %}
+              {% if is_owner %}
+                <a href="#" class="pull-right red">Edit</a>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="span8 protocol-detail">
+
+          {% if trial.n1trial %}
+            <p>
+              <b>
+                You have reported {{ trial.report_set.count }} observations so far
+              </b>
+            </p>
+          {% else %}
+            <p><b>
+            {{ trial.participant_set.count }} participants have reported
+            {{ trial.report_set.count }} observations so far
+           </b></p>
+          {% endif %}
+
+        </div>
+      </div> <!-- innerrow -->
+
+    </div> <!-- span12 -->
+
+  </div>
+
+  <div class="row-fluid">
+    <div class="span2 protocol-item">
+      <b>
+        Public/Private
+      </b>
+            <img src="{% static 'img/icons/icn-publ.png' %}" class="protocol-icon" alt="" />
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Recruitment"
+                 data-placement="right"
+                 data-content="Trials can be either public or private. Anyone can join a public trial, but only people you invite can join a private trial."
+                 >
+                 Help
+              </a>
+          </div>
+    </div>
+    <div class="span8 protocol-detail">
+
+      {% if trial.is_invitation_only %}
+        <p>
+          This trial
+          {% if trial.stopped %}was{% else %}is{% endif %}
+          <b>invitation only</b>
+          {% if not trial.stopped %}
+            <a href="#invite-modal" role="button" data-toggle="modal"
+               class="btn btn-warning">
+               invite people
+            </a>
+
+            <!-- Modal -->
+            <div id="invite-modal" class="modal hide fade" tabindex="-1"
+                 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                 <div class="modal-header">
+                   <h3 id="myModalLabel">Invite people to this trial</h3>
+                 </div>
+                 <div class="modal-body">
+                   <form method="POST" id="invite-form" action="{% url 'trial-invite' trial.pk %}">
+                     {% csrf_token %}
+                     <input type="hidden" name="trial_pk" value="{{trial.pk}}" />
+                     <p>
+                       <input type="text" name="email" value="" placeholder="larry@example.com"/>
+                       <button id="btn-invite" class="btn btn-danger">invite</button>
+                     </p>
+                   </form>
+                   <h4>Currently invited</h4>
+                   <ul id="invited-list">
+                     {% for invitation in trial.invitation_set.all %}
+                       <li>
+                         {{ invitation.email }}
+                       </li>
+                     {% endfor %}
+                   </ul>
+                 </div>
+                 <div class="modal-footer">
+                   <button class="btn" data-dismiss="modal" aria-hidden="true">
+                     close
+                   </button>
+                 </div>
+                 <script type="text/javascript">
+                   $(document).ready( function(){
+                   RM.forms.init_modalinvite();
+                   });
+                 </script>
+            </div> <!-- End modal -->
+          {% endif %}
+    </div>
+  {% else %}
+    <!-- Not Invitation Only -->
+    <p>
+      This
+      {% if trial.stopped %}was{% else %}is{% endif %} a
+      <b>{% if trial.private %}private{% else %}public{% endif %}</b>
+      trial
+      {% if not trial.n1trial %}that anyone can join{% endif %}
+      {% if trial.private %}
+        <a href="#make-public" role="button" data-toggle="modal"
+           class="btn btn-warning pull-right">make public</a>
+            <!-- Modal -->
+            <div id="make-public" class="modal hide fade" tabindex="-1"
+                 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                 <div class="modal-header">
+                   <h3 id="myModalLabel">Make This Trial Public</h3>
+                 </div>
+                 <div class="modal-body">
+                   <form method="POST" id="make-public-form"
+                         action="{% url 'trial-toggle-public' trial.pk %}">
+                     {% csrf_token %}
+                     <input type="hidden" name="trial_pk" value="{{trial.pk}}" />
+                     <p>
+                       This trial is currently private.
+                       Would you like to make this trial public?
+                     </p>
+                     <button class="btn btn-danget">
+                       make public
+                     </button>
+                   </form>
+                 </div>
+                 <div class="modal-footer">
+                   <button class="btn btn-warning" data-dismiss="modal"
+                           aria-hidden="true">
+                     close
+                   </button>
+                 </div>
+            </div> <!-- End modal -->
+      {% endif %}
+    </p>
+  {% endif %}
+
+  </div> <!-- row -->
+</div>
+
+<div class="row-fluid">
+  <div class="span2 protocol-item">
+    <b>
+      Participant <br />
+      Information
+    </b>
+
+    <img src="{% static 'img/icons/icn.png' %}" class="protocol-icon" alt="" />
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Description"
+                 data-content="This is a description of the trial"
+                 >
+                 Help
+              </a>
+              {% if is_owner %}
+                <a href="{% url 'edit-trial' trial.pk %}?step=5" class="pull-right red">Edit</a>
+              {% endif %}
+          </div>
+  </div>
+  <div class="span8 protocol-detail">
+    {% if trial.image %}
+      {% thumbnail trial.image "300x200" crop="center" as im %}
+      <p>
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      </p>
+      {% endthumbnail %}
+    {% endif %}
+
+    <p>
+      {{ trial.description }}
+    </p>
+
+    {% if trial.secret_info %}
+      <p>
+        {{ trial.secret_info }}
+      </p>
+    {% endif %}
+
+  </div>
+</div> <!-- row -->
+
+
+
+<div class="row-fluid">
+  <div class="span2 protocol-item">
+    <b>
+      Instructions for the two groups
+    </b>
+    <p>
+          <div class="protocol-item-help">
+              <a href="#" class="green popsover"
+                 title="Trial Instructions"
+                 data-content="When we randomise people, we typically provide them one of two sets of instructions. These are the instructions for each group."
+                 >
+                 Help
+              </a>
+              {% if is_owner %}
+                <a href="{% url 'edit-trial' trial.pk %}?step=6" class="pull-right red">Edit</a>
+              {% endif %}
+          </div>
+    </p>
+  </div>
+  <div class="span4 protocol-detail">
+    <h3>
+      Instructions for Group A
+      <img src="{% static 'img/icons/icn-grpA.png' %}" class="protocol-icon-side" alt="" />
+    </h3>
+    <p>
+      {{ trial.group_a }}
+    </p>
+  </div>
+  <div class="span4 protocol-detail">
+    <h3>
+      Instructions for Group B
+      <img src="{% static 'img/icons/icn-grpB.png' %}" class="protocol-icon-side" alt="" />
+    </h3>
+    <p>
+      {{ trial.group_b }}
+    </p>
+  </div>
+</div> <!-- row -->
+
+
+
+
+</div> <!-- Row fluid -->
+
+
+</div> <!-- Feature box-->
+
+
+
+<div class="feature-box whiteback hidden-tablet">
 
   <div class="row">
     <div class="span8">
@@ -115,7 +438,7 @@
 
     </div> <!-- span8 -->
 
-    <div class="span3" id="protocol-menu">
+    <div class="span3 hidden-tablet" id="protocol-menu">
       {% include 'trials/widgets/menu.html' %}
     </div> <!-- span4 -->
 
@@ -253,6 +576,14 @@
           </div>
   </div>
   <div class="span10 protocol-detail">
+    {% if trial.image %}
+      {% thumbnail trial.image "300x200" crop="center" as im %}
+      <p>
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      </p>
+      {% endthumbnail %}
+    {% endif %}
+
     <p>
       {{ trial.description }}
     </p>
