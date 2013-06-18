@@ -330,6 +330,22 @@ var RM = {
             });
         },
 
+        // Toggle slide up/down on dashboard-style widgets
+        dashboard_expand: function(){
+            $('a.expand').on('click', function(e){
+                window.console.log(e)
+                var target = $(e.target);
+                window.console.log(target);
+                target.parent().parent().children('.dashboard-widget-body').children('.dashboard-widget-extra').slideToggle()
+                if(target.attr('data-wastext')){
+                    target.text(target.attr('data-wastext')).attr('data-wastext', null);
+                }else{
+                    target.attr('data-wastext', target.text()).text('hide most');
+                }
+                return false;
+            })
+        },
+
     }
 
 }

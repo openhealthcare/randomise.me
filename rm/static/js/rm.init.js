@@ -13,4 +13,5 @@ $(document).ready( function(){
     }
     $('.icon-question-sign').popover({trigger: 'click'})
     $('.popsover').popover({trigger: 'click'}).on('click', function(){return false})
+    RM.interactions.dashboard_expand();
 });

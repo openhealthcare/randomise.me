@@ -32,9 +32,57 @@
                   {{ trial.description|truncatewords:34 }}
                 </p>
               </a>
+            <div class="row-fluid">
+              <div class="span6">
+                <p>
+                  Number of observations
+                </p>
+              </div>
+              <div class="span3">
+                <p>
+                  {{ trial.report_set.count }}
+                </p>
+              </div>
+            </div>
             </div>
           {% endif %}
       {% endfor %}
+      <div class="dashboard-widget-extra">
+        {% for trial in randomising_me %}
+        {% if forloop.counter > 3 %}
+            <div class="row-fluid dashboard-widget-item">
+              <h3>
+                {% if trial.n1trial %}
+                  <img src="{% static 'img/icons/icn.png' %}" class="" alt="" />
+                {% else %}
+                  <img src="{% static 'img/icons/icn-part.png' %}" class="" alt="" />
+                {% endif %}
+                <a href="{{ trial.get_absolute_url }}">
+                  {{ trial.title }}
+                </a>
+              </h3>
+              <a href="{{ trial.get_absolute_url }}">
+                <p>
+                  {{ trial.description|truncatewords:34 }}
+                </p>
+              </a>
+            <div class="row-fluid">
+              <div class="span6">
+                <p>
+                  Number of observations
+                </p>
+              </div>
+              <div class="span3">
+                <p>
+                  {{ trial.report_set.count }}
+                </p>
+              </div>
+            </div>
+            </div>
+          {% endif %}
+      {% endfor %}
+      </div>
+
     </div> <!-- body -->
     <div class="dashboard-widget-footer">
       {% if num > 2 %}

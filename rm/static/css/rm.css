@@ -459,11 +459,16 @@ html.nologo .masthead #header-logo {
     padding: 10px;
 }
 
+.masthead img {
+    margin-left: -9px;
+}
+
 #nav-right {
     float: right;
 }
 .nav {
     margin-bottom: 4px;
+    margin: 0 0 10px 0px;
 }
 .nav li {
     display: inline-block;
@@ -497,6 +502,11 @@ html.nologo .masthead #header-logo {
 
 #subhead li {
     padding: 12px 6px 6px 6px;
+}
+
+#subhead .nav li:first-child {
+    padding-left: 0px;
+    margin-left: -3px;
 }
 
 #subhead li:hover,
@@ -689,10 +699,28 @@ ul.parsley-error-list li {
 .dashboard-widget-body a {
    color: #393632;
 }
+
 .dashboard-widget-body a:hover {
     color: white;
     background: #e54f25;
     text-decoration: none;
+}
+
+.dashboard-widget-item {
+    background: #fff9f7;
+    margin-bottom: 12px;
+
+}
+
+.dashboard-widget-item h3,
+.dashboard-widget-item p
+{
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.dashboard-widget-extra {
+    display: none;
 }
 
 .dashboard-widget-footer {
