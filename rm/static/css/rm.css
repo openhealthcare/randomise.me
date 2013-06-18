@@ -816,7 +816,9 @@ ul.parsley-error-list li {
     font-size: 34px;
 }
 
-
+.icon-question-sign:hover {
+      cursor: pointer;
+}
 body {
 /*    background-color:#f4f0ef;*/
     background-color: #393632;
