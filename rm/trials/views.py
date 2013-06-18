@@ -519,8 +519,9 @@ class InviteTrial(View):
         trial = Trial.objects.get(pk=self.request.POST['trial_pk'])
         if self.request.user.is_authenticated() and self.request.user == trial.owner:
             if trial.recruitment == trial.INVITATION:
-                invitation = Invitation.objects.get_or_create(trial=trial,
-                                                              email=self.request.POST['email'])[0]
+                invitation = Invitation.objects.get_or_create(
+                    trial=trial,
+                    email=self.request.POST['email'])[0]
                 invitation.invite()
                 return HttpResponse('YAY')
         return HttpResponseForbidden('NO')
@@ -532,6 +533,16 @@ class StopTrial(TrialByPkMixin, OwnsTrialMixin, View):
         Stop this trial.
         """
         self.trial.stop()
+        return HttpResponseRedirect(self.trial.get_absolute_url())
+
+
+class ToggleTrialPublicityView(TrialByPkMixin, OwnsTrialMixin, View):
+    def post(self, *args, **kw):
+        """
+        Toggle this trial's publicity value.
+        """
+        self.trial.private = not self.trial.private
+        self.trial.save()
         return HttpResponseRedirect(self.trial.get_absolute_url())
 
 

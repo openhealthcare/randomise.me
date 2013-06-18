@@ -175,7 +175,9 @@
                    </ul>
                  </div>
                  <div class="modal-footer">
-                   <button class="btn" data-dismiss="modal" aria-hidden="true">close</button>
+                   <button class="btn" data-dismiss="modal" aria-hidden="true">
+                     close
+                   </button>
                  </div>
                  <script type="text/javascript">
                    $(document).ready( function(){
@@ -194,7 +196,35 @@
       trial
       {% if not trial.n1trial %}that anyone can join{% endif %}
       {% if trial.private %}
-        <a href="#" class="btn btn-warning pull-right">make public</a>
+        <a href="#make-public" role="button" data-toggle="modal"
+           class="btn btn-warning pull-right">make public</a>
+            <!-- Modal -->
+            <div id="make-public" class="modal hide fade" tabindex="-1"
+                 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                 <div class="modal-header">
+                   <h3 id="myModalLabel">Make This Trial Public</h3>
+                 </div>
+                 <div class="modal-body">
+                   <form method="POST" id="make-public-form"
+                         action="{% url 'trial-toggle-public' trial.pk %}">
+                     {% csrf_token %}
+                     <input type="hidden" name="trial_pk" value="{{trial.pk}}" />
+                     <p>
+                       This trial is currently private.
+                       Would you like to make this trial public?
+                     </p>
+                     <button class="btn btn-danget">
+                       make public
+                     </button>
+                   </form>
+                 </div>
+                 <div class="modal-footer">
+                   <button class="btn btn-warning" data-dismiss="modal"
+                           aria-hidden="true">
+                     close
+                   </button>
+                 </div>
+            </div> <!-- End modal -->
       {% endif %}
     </p>
   {% endif %}
