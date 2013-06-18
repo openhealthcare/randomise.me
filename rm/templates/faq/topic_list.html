@@ -19,7 +19,10 @@
                     {% for q in topic.questions.all %}
 
                       <a href="{% url 'faq_question_detail' topic.slug q.slug %}">
-                        <p id="faq-{{ q.slug }}" class="bold">{{ q }}</p>
+                        <p id="faq-{{ q.slug }}" class="bold">
+                          {{ q }}
+                          <i class="icon-external-link"></i>
+                        </p>
                       </a>
                         <p>
                             {{ q.answer|truncatewords:20|markdown }}
