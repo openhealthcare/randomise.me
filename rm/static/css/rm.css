@@ -879,3 +879,9 @@ body div.rm,
  img#createflowers {
      margin-top: 12px;
  }
+
+ .trial-style-icon{
+     display: block;
+     float: left;
+     padding: 2px;
+}

@@ -17,12 +17,12 @@
       {% for trial in randomising_me %}
         {% if forloop.counter < 3 %}
             <div class="row-fluid dashboard-widget-item">
-              <h3>
                 {% if trial.n1trial %}
-                  <img src="{% static 'img/icons/icn-one.png' %}" class="" alt="" />
+                  <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
                 {% else %}
-                  <img src="{% static 'img/icons/icn-many.png' %}" class="" alt="" />
+                  <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
                 {% endif %}
+              <h3>
                 <a href="{{ trial.get_absolute_url }}">
                   {{ trial.title }}
                 </a>
@@ -51,12 +51,12 @@
         {% for trial in randomising_me %}
         {% if forloop.counter > 3 %}
             <div class="row-fluid dashboard-widget-item">
-              <h3>
                 {% if trial.n1trial %}
-                  <img src="{% static 'img/icons/icn-one.png' %}" class="" alt="" />
+                  <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
                 {% else %}
-                  <img src="{% static 'img/icons/icn-many.png' %}" class="" alt="" />
+                  <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
                 {% endif %}
+              <h3>
                 <a href="{{ trial.get_absolute_url }}">
                   {{ trial.title }}
                 </a>

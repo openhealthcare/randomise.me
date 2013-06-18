@@ -15,13 +15,13 @@
     <div class="dashboard-widget-body">
       {% for trial in featured %}
             <div class="row-fluid ">
-              <h3>
                 {% if trial.n1trial %}
-                  <img src="{% static 'img/icons/icn-one.png' %}" class="" alt="" />
+                  <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
                 {% else %}
-                  <img src="{% static 'img/icons/icn-many.png' %}" class="" alt="" />
+                  <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
                 {% endif %}
 
+              <h3>
                 <a href="{{ trial.get_absolute_url }}">
                   {{ trial.title }}
                 </a>

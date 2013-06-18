@@ -18,8 +18,8 @@
       {% for trial in randomising_others %}
         {% if forloop.counter < 3 %}
             <div class="row-fluid dashboard-widget-item">
+              <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
               <h3>
-                <img src="{% static 'img/icons/icn-many.png' %}" class="" alt="" />
                 <a href="{{ trial.get_absolute_url }}">
                   {{ trial.title }}
                 </a>
@@ -51,8 +51,8 @@
       {% for trial in randomising_others %}
         {% if forloop.counter > 3 %}
             <div class="row-fluid dashboard-widget-item">
+              <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
               <h3>
-                <img src="{% static 'img/icons/icn-many.png' %}" class="" alt="" />
                 <a href="{{ trial.get_absolute_url }}">
                   {{ trial.title }}
                 </a>
