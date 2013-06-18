@@ -64,7 +64,8 @@ a:hover p,
 a:hover h2,
 a:hover h3,
 h3 a:hover,
-h2 a:hover {
+h2 a:hover,
+li a:hove {
     color: white;
     background: #e54f25;
     text-decoration: none;
@@ -770,6 +771,12 @@ ul.parsley-error-list li {
     color: #e54f25;
     font-weight: 400;
 }
+#protocol-menu ul li a:hover {
+    color: white;
+    background: #e54f25;
+    text-decoration: none;
+}
+
 
 .protocol-icon {
     margin: 0 auto;
