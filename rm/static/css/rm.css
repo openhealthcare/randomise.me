@@ -59,7 +59,12 @@ a {
     color: grey;
 }
 
-a:hover {
+a:hover,
+a:hover p,
+a:hover h2,
+a:hover h3,
+h3 a:hover,
+h2 a:hover {
     color: white;
     background: #e54f25;
     text-decoration: none;
