@@ -1,0 +1,31 @@
+{% load staticfiles %}
+
+  <div class="dashboard-widget">
+    <div class="dashboard-widget-preheader"></div>
+    <div class="dashboard-widget-header">
+      <h2>
+        <img src="{% static 'img/dots-crea.png' %}" class="" alt="" />
+          <span class="light">RUN A TRIAL WITH</span>
+          <span class="red bold">RANDOMISE ME USERS</span>
+      </h2>
+    </div> <!-- dw-header -->
+    <div class="dashboard-widget-body">
+      <div class="row-fluid dashboard-widget-item">
+        <p>
+          Create a trial that anyone can join on Randomise
+          Me. We'll take care of allocating your participants
+          and sending them their instructions, and we'll guide
+          you through the whole process step-by-step.
+          </p>
+        <p class="text-center" >
+          <a class="btn btn-danger" href="{% url 'rm-trial-create' %}">Create a group Trial </a>
+        </p>
+
+      </div>
+    </div> <!-- body -->
+    <div class="dashboard-widget-footer">
+
+    </div>
+    <div class="dashboard-widget-postfooter"></div>
+
+  </div> <!-- Widget -->

@@ -123,3 +123,17 @@ def featured_trials_widget(context):
     """
     featured = Trial.objects.filter(featured=True)[:2]
     return dict(featured=featured)
+
+@register.inclusion_tag('dashboard/new_nof1_widget.html')
+def new_nof1_widget():
+    """
+    Widget to show on the new trials page
+    """
+    return {}
+
+@register.inclusion_tag('dashboard/new_trial_widget.html')
+def new_trial_widget():
+    """
+    Widget to show on the new trials page
+    """
+    return {}

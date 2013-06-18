@@ -1,4 +1,5 @@
 {% extends 'baser.html' %}
+{% load dashboard %}
 
 {% block extratitle %} - New Trial{% endblock %}
 {% block content %}
@@ -12,44 +13,11 @@
   <div class="row-fluid">
 
     <div class="span6">
-      <a href="{% url 'n1-trial-create' %}" class="feature-heading">
-        <h3>
-          <span class="light">RANDOMISE</span>
-          <span class="red bold">ME</span>
-        </h3>
-      </a>
-      <div class="feature-box">
-        <p>
-          Create a trial to run on yourself e.g. "I get shin splints when I run.
-          I have two pairs of very different running shoes. Does one of them give
-          worse shin splints than the other?"
-          </p>
-        <p class="text-center" >
-          <a class="btn btn-danger" href="{% url 'n1-trial-create' %}">Create a personal Trial</a>
-        </p>
-
-      </div>
+      {% new_nof1_widget %}
     </div><!-- span4 -->
 
     <div class="span6">
-      <a href="{% url 'rm-trial-create' %}" class="feature-heading">
-        <h3>
-          <span class="light">RUN A TRIAL WITH</span>
-          <span class="red bold">RANDOMISE ME USERS</span>
-        </h3>
-      </a>
-      <div class="feature-box">
-        <p>
-          Create a trial that anyone can join on Randomise
-          Me. We'll take care of allocating your participants
-          and sending them their instructions, and we'll guide
-          you through the whole process step-by-step.
-          </p>
-        <p class="text-center" >
-          <a class="btn btn-danger" href="{% url 'rm-trial-create' %}">Create a group Trial </a>
-        </p>
-
-      </div>
+      {% new_trial_widget %}
     </div><!-- span4 -->
 
   </div> <!-- Row -->
@@ -57,31 +25,7 @@
 <div class="row-fluid">
 
   <div class="span6">
-    <a href="{% url 'tutorial' %}" class="feature-heading">
-      <h3>
-        <span class="light">TAKE THE </span>
-        <span class="red bold">TUTORIAL</span>
-      </h3>
-    </a>
-    <div class="feature-box">
-      <dl class="numbered">
-        <dt>
-          Have a question
-        </dt>
-        <dt>
-          Create a trial in minutes
-        </dt>
-        <dt>
-          Get pretty results
-        </dt>
-      </dl>
-    </div>
-    <p class="drop12">
-      <a href="{% url 'faq_topic_list' %}" class="red weight400">How does it work?</a>
-      <a href="{% url 'tutorial' %}" class="btn btn-danger larger pull-right">
-        get started
-        </a>
-    </p>
+    {% create_a_trial_widget %}
   </div>
 
     <!-- <div class="span6"> -->
