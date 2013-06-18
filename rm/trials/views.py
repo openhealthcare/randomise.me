@@ -570,7 +570,9 @@ class JoinTrial(LoginRequiredMixin, TemplateView):
             self.errors.append('This is your trial - joining it would be wonky!')
         except exceptions.TrialFinishedError:
             self.errors.append('This trial has already finished!')
-        return super(JoinTrial, self).get(self, * args, **kwargs)
+        if len(self.errors) > 0:
+            return super(JoinTrial, self).get(self, * args, **kwargs)
+        return HttpResponseRedirect(trial.get_absolute_url())
 
     def get_context_data(self, **kw):
         """
