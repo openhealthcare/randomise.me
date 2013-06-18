@@ -794,8 +794,17 @@ ul.parsley-error-list li {
 
 
 body {
+/*    background-color:#f4f0ef;*/
+    background-color: #393632;
+}
+
+body div.rm,
+#presubhead,
+#subhead,
+#prefoot {
     background-color:#f4f0ef;
 }
+
 
 
 .feature-box {
