@@ -1,0 +1,47 @@
+{% load bootstrap %}
+
+{% if trial.reporting_date == today %}
+  <form id="usertrialreport_form" method="post"
+        action="{% url 'trial-report' trial.pk %}" class="ajaxform">
+        {% csrf_token %}
+
+        {% for variable in trial.variable_set.all %}
+          {% if forloop.first %}
+            <div class="row-fluid">
+
+
+              <div class="span6">
+                {% with variable.report_form as form %}
+                  <input id="id_date" name="date" readonly="true" size="16" type="hidden"
+                         value="{{today|date:"d/m/Y"}}">
+                         {% if form.Meta.score %}
+                           {{form.score|bootstrap}}
+                         {% elif form.Meta.binary %}
+                           {{form.binary|bootstrap}}
+                         {% elif form.Meta.count %}
+                           {{form.count|bootstrap}}
+                         {% endif %}
+                       {% endwith %}
+                       <button class="btn btn-danger">
+                         report data
+                       </button>
+
+              </div>
+              <div class="span6">
+                <h3>
+                  <i>
+                    {{ variable.question }}
+                  </i>
+                </h3>
+              </div>
+
+
+            </div>
+          {% endif %}
+        {% endfor %}
+
+
+  </form>
+{% else %}
+  You can only report data for this trial on {{trial.reporting_date}}
+{% endif %}

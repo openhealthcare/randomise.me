@@ -1,47 +1,12 @@
-{% load bootstrap report_cal %}
+{% load reporting %}
+{% load trial_protocol %}
 <h3>
   <span class="red bold">REPORT</span> <span class="light">DATA</span>
 </h3>
 <div class="feature-box">
   <div class="row-fluid">
-    {% report_cal %}
+    {% reporting_widget %}
   </div>
 </div>
 
-<h3>
-  <span class="light">TRIAL</span> <span class="red bold">DETAILS</span>
-</h3>
-<div class="feature-box">
-  <div class="row-fluid">
-      <!-- Main panel -->
-      <div class="span9">
-        <h4>
-          <i>
-            This trial has been edited!
-          </i>
-        </h4>
-
-        <p class="smaller">
-          <i>
-            {{ trial.owner }}
-          </i>
-        </p>
-        <h3>Instructions</h3>
-        <p>
-          <i>
-          {{ instructions }}
-          </i>
-        </p>
-        <h3>Description</h3>
-        <p>
-          <i>
-          {{ trial.description }}
-          </i>
-        </p>
-        <p>
-          <a href="{% url 'leave-trial' trial.pk %}" class="btn btn-warning">leave trial</a>
-        </p>
-      </div>
-      {% include 'trials/trial_detail_sidebar.html' %}
-    </div>
-  </div> <!-- Row Fluid -->
+{% trial_protocol_participant_widget %}

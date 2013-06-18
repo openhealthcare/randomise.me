@@ -241,38 +241,26 @@
 <div class="row-fluid">
   <div class="span2 protocol-item">
     <b>
-      Instructions for the two groups
+      Instructions
     </b>
     <p>
           <div class="protocol-item-help">
               <a href="#" class="green popsover"
                  title="Trial Instructions"
-                 data-content="When we randomise people, we typically provide them one of two sets of instructions. These are the instructions for each group."
+                 data-content="When we randomise people, we typically provide them one of two sets of instructions. These are the instructions."
                  >
                  Help
               </a>
-              {% if is_owner %}
-                <a href="{% url 'edit-trial' trial.pk %}?step=6" class="pull-right red">Edit</a>
-              {% endif %}
           </div>
     </p>
   </div>
-  <div class="span5 protocol-detail">
+  <div class="span10 protocol-detail">
     <h3>
-      Instructions for Group A
+      Your Instructions
       <img src="{% static 'img/icons/icn-grpA.png' %}" class="protocol-icon-side" alt="" />
     </h3>
     <p>
-      {{ trial.group_a }}
-    </p>
-  </div>
-  <div class="span5 protocol-detail">
-    <h3>
-      Instructions for Group B
-      <img src="{% static 'img/icons/icn-grpB.png' %}" class="protocol-icon-side" alt="" />
-    </h3>
-    <p>
-      {{ trial.group_b }}
+      {{ instructions }}
     </p>
   </div>
 </div> <!-- row -->

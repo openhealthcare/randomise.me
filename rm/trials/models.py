@@ -52,7 +52,7 @@ class Trial(models.Model):
         (ONCE,      'Once only'),
         (WHENEVER,  'Whenever they want'),
         (DATED,     'On date x'),
-        (REGULARLY, 'Regularly')
+        # (REGULARLY, 'Regularly')
         )
 
     DAILY   = 'da'

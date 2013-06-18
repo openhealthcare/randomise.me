@@ -1,0 +1,32 @@
+{% load bootstrap %}
+<form id="usertrialreport_form" method="post"
+      action="{% url 'trial-report' trial.pk %}" class="">
+      {% csrf_token %}
+      {% for variable in trial.variable_set.all %}
+        {% if forloop.first %}
+        <div class="row-fluid">
+          <div class="span6">
+            <h3><i>{{ variable.question }}</i></h3>
+          </div>
+          <div class="span6">
+            <p>
+                {% with variable.report_form as form %}
+                  <input id="id_date" name="date" readonly="true" size="16" type="hidden"
+                         value="{{today|date:"d/m/Y"}}">
+                       {% if form.Meta.score %}
+                         {{form.score|bootstrap}}
+                       {% elif form.Meta.binary %}
+                         {{form.binary|bootstrap}}
+                       {% elif form.Meta.count %}
+                         {{form.count|bootstrap}}
+                       {% endif %}
+                     {% endwith %}
+            </p>
+              <button class="btn btn-danger">
+                report data
+              </button>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+</form>
