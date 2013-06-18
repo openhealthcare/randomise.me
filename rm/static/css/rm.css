@@ -685,6 +685,11 @@ ul.parsley-error-list li {
 .dashboard-widget-body a {
    color: #393632;
 }
+.dashboard-widget-body a:hover {
+    color: white;
+    background: #e54f25;
+    text-decoration: none;
+}
 
 .dashboard-widget-footer {
     background: #dbd3cd;
@@ -754,7 +759,7 @@ ul.parsley-error-list li {
     border-bottom: 3px dotted #d8d1cd;
     min-height: 280px;
     margin-top: 0px;
-    margin-left: 80px;
+    margin-left:80px;
     margin-bottom: 20px;
     padding: 0px;
 }

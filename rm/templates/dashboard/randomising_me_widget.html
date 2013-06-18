@@ -18,6 +18,11 @@
         {% if forloop.counter < 3 %}
             <div class="row-fluid dashboard-widget-item">
               <h3>
+                {% if trial.n1trial %}
+                  <img src="{% static 'img/icons/icn.png' %}" class="" alt="" />
+                {% else %}
+                  <img src="{% static 'img/icons/icn-part.png' %}" class="" alt="" />
+                {% endif %}
                 <a href="{{ trial.get_absolute_url }}">
                   {{ trial.title }}
                 </a>
