@@ -422,6 +422,7 @@ class ReproductionMixin(object):
     """
     Common functionality for reproducing any trial
     """
+    @method_decorator(login_required)
     def dispatch(self, *args, **kw):
         self.parent = Trial.objects.get(pk=kw['pk'])
         self.reproducee = Trial.objects.reproduce(self.request.user, pk=kw['pk'])
@@ -461,6 +462,7 @@ class ReproduceTrial(ReproductionMixin, TrialCreate):
     """
     Reproduce a N>=1 trial for whatever reason.
     """
+
 
 class ReproduceN1Trial(ReproductionMixin, N1TrialCreate):
     """
