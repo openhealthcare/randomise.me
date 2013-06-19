@@ -9,6 +9,12 @@
           <a href="{{ trial.get_absolute_url }}" class="whiteroll">
           <div class="row-fluid darkback">
             <div class="span8">
+              {% if trial.n1trial %}
+                <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
+              {% else %}
+                <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
+              {% endif %}
+
               <p class="larger white redroll">
                   {{ trial.title }}
               </p>
