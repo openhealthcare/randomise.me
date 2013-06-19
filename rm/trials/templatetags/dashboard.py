@@ -146,3 +146,8 @@ def take_tutorial_widget():
 @register.inclusion_tag('dashboard/virgin_widget.html')
 def virgin_widget():
     return {}
+
+
+@register.inclusion_tag('dashboard/offline_soon_widget.html')
+def offline_soon_widget():
+    return {}
