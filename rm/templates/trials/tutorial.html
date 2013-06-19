@@ -13,8 +13,8 @@
     <div class="page">
       <div class="row-fluid">
         <p class="span6">
-          Here we'll take you through step by step the process of setting up a trial
-          with Randomise Me so you can get up to  speed and start creating your own.
+          We will walk you through one trial that has been set up on this site, so you can see how it works.
+          At the bottom of the page, you can sign up, sign in, and create your own trial.
         </p>
       </div>
 
@@ -90,7 +90,7 @@
       <!-- Step 4 Trial Description -->
       <div class="row-fluid feature-box drop24">
         <div class="span6">
-          <h2> <span class="light">TRIAL</span> <span class="red bold">DESCRIPTION</span></h2>
+          <h2># <span class="light">TRIAL</span> <span class="red bold">DESCRIPTION</span></h2>
           <h3 class="light">Description</h3>
           <p>
             Write your description of the trial here. If you publish this trial,
@@ -164,7 +164,25 @@
       </div>
 
 
-
+      <div class="row-fluid feature-box drop24">
+        <div class="span6 offset3">
+          {% if request.user.is_authenticated %}
+            <p>
+              <center>
+              <a class="btn btn-danger" href="{% url 'n1-trial-create' %}">Create a personal Trial</a>
+              </center>
+            </p>
+          {% else %}
+            <p>
+              You can now log in or sign up to create your own trial
+            </p>
+            <p>
+              <a href="/accounts/login" class="btn btn-warning larger">log in</a>
+              <a href="{% url 'account_signup' %}" class="btn btn-warning larger pull-right">sign up</a>
+            </p>
+          {% endif %}
+        </div>
+      </div>
 
     </div>
   {% endfilter %}

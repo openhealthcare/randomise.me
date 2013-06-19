@@ -51,6 +51,7 @@ var RM = {
                                console.log(e)
                                if (e.which == 13) {
                                    $(".carousel-control.right").click()
+                                   return false;
                                }
                            });
         },

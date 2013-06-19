@@ -383,6 +383,7 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
             # TODO - Read the Django documentation
             # TODO - Convert this nonsense to the *actual* mixin hooks
             # FFS
+            self.object.private = True
             self.object.n1trial = True
             self.object.reporting_style = self.object.WHENEVER
             self.object.instruction_delivery = self.object.ON_DEMAND
@@ -394,6 +395,7 @@ class N1TrialCreate(LoginRequiredMixin, NamedFormsetsMixin, CreateWithInlinesVie
 
         if all_valid(inlines) and form_validated:
             response =  self.forms_valid(form, inlines)
+
             self.object.join(self.request.user)
             return response
 
@@ -497,6 +499,8 @@ class EditTrial(TrialByPkMixin, OwnsTrialMixin, UpdateView):
     def get_context_data(self, *args, **kw):
         context = super(EditTrial, self).get_context_data(*args, **kw)
         context['editing'] = True
+        if self.trial.n1trial:
+            context['n1trial'] = True
         return context
 
 

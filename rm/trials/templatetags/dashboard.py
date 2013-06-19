@@ -137,3 +137,8 @@ def new_trial_widget():
     Widget to show on the new trials page
     """
     return {}
+
+
+@register.inclusion_tag('dashboard/take_tutorial_widget.html')
+def take_tutorial_widget():
+    return {}

@@ -1,0 +1,46 @@
+{% load staticfiles %}
+
+  <div class="dashboard-widget">
+    <div class="dashboard-widget-preheader"></div>
+    <div class="dashboard-widget-header">
+      <h2>
+        <img src="{% static 'img/dots-crea.png' %}" class="" alt="" />
+        <span class="light">
+          TAKE THE
+        </span>
+        <span class="red bold">
+          TUTORIAL
+        </span>
+      </h2>
+    </div> <!-- dw-header -->
+    <div class="dashboard-widget-body">
+      <div class="row-fluid">
+        <div class="span{% if not size %}2{% else %}3{% endif %}">
+          <img src="{% static 'img/create-trial-graphic.png' %}" id="createflowers" />
+        </div>
+        <div class="span9">
+          <p class="larger drop24">
+            Let us walk you through the process of creating a trial
+          </p>
+        </div>
+        <!-- <img src="{% static 'img/create-trial-graphic-full.png' %}" class="" alt="" /> -->
+
+      </div>
+      <div class="row-fluid drop24">
+        <div class="span12">
+          <center>
+            <a href="{% url 'tutorial' %}" class="btn btn-danger
+                                                  ">
+                                                  take the tutorial
+            </a>
+          </center>
+
+        </div>
+      </div>
+    </div> <!-- body -->
+    <div class="dashboard-widget-footer">
+
+    </div>
+    <div class="dashboard-widget-postfooter"></div>
+
+  </div> <!-- Widget -->

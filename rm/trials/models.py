@@ -321,6 +321,7 @@ class Trial(models.Model):
         If nobody has joined yet, we go to Group A, else Group A if
         the groups are equal, else Group B.
         """
+
         if not self.n1trial:
             if self.owner == user:
                 raise exceptions.TrialOwnerError()

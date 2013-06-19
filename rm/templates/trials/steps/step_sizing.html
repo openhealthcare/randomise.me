@@ -5,7 +5,21 @@
   {% if n1trial %}
 
     <h3>Number of observations</h3>
-    {{ form.ending_reports|bootstrap }}
+    {{ form.ending_reports }}
+      <i class="icon-question-sign"
+         title="Number of observations"
+         data-html="true"
+         data-placement="bottom"
+         data-content="          <p>
+         An observation is an individual data point in your trial. e.g. if
+         you were running a trial on how fast you ran 5k with your two pairs
+         of running shoes, an observation would be the time you took to run
+         5k on one run.
+          </p>"
+           >
+        </i>
+
+
     <h3>Would you like help to decide how many observations you'll need?</h3>
   {% else %}
       <h3>Minimum number of participants</h3>
