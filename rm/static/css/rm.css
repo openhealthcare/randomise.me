@@ -191,7 +191,7 @@ input[type="color"]:focus,
     left: 42%;
 }
 .modal.wider .modal-body {
-    max-height: 630px;
+    max-height: 730px;
 }
 
 .modal-header {

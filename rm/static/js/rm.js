@@ -189,7 +189,7 @@ var RM = {
                 var form = $('form#power-form')
                 $('form#power-form input#power').attr('value', '0.8');
                 $('form#power-form input#alpha').attr('value', '0.05');
-                $('form#power-form input#effect-size').attr('value', '0.8');
+                $('form#power-form input#effect-size').attr('value', '0.5');
                 form.submit()
                 return false;
             })
