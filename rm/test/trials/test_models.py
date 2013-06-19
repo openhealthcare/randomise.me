@@ -60,8 +60,8 @@ class TrialTestCase(TemporalTestCase):
         trial.save()
         variable = models.Variable(question="Why", trial=trial)
         variable.save()
-        with self.assertRaises(exceptions.TrialOwnerError):
-            trial.join(user)
+        trial.join(user)
+        self.assertEqual(1, trial.participant_set.filter(user=user).count())
 
     def test_join_finished_trial(self):
         "Should raise"
