@@ -23,11 +23,17 @@
     <h3>Would you like help to decide how many observations you'll need?</h3>
   {% else %}
       <h3>Minimum number of participants</h3>
-      {{ form.min_participants|bootstrap }}
-      <p class="muted">
-        This is the minimum number of people you need in your trial
-        in order to obtain statistically significant results
-      </p>
+      {{ form.min_participants }}
+      <i class="icon-question-sign"
+         title="Number of participants"
+         data-html="true"
+         data-placement="bottom"
+         data-content="          <p>
+             This is the minimum number of people you need in your trial
+             in order to obtain statistically significant results
+          </p>"
+           >
+        </i>
     <h3>Would you like help to decide how many people you will need in your trial? </h3>
 {% endif %}
 

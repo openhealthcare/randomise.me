@@ -14,7 +14,8 @@
     </div> <!-- dw-header -->
     <div class="dashboard-widget-body">
       {% for trial in featured %}
-            <div class="row-fluid ">
+        <a href="{{ trial.get_absolute_url }}">
+            <div class="row-fluid dashboard-widget-item">
                 {% if trial.n1trial %}
                   <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
                 {% else %}
@@ -22,16 +23,13 @@
                 {% endif %}
 
               <h3>
-                <a href="{{ trial.get_absolute_url }}">
                   {{ trial.title }}
-                </a>
               </h3>
-              <a href="{{ trial.get_absolute_url }}">
                 <p>
                   {{ trial.description|truncatewords:34 }}
                 </p>
-              </a>
             </div>
+        </a>
       {% endfor %}
     </div> <!-- body -->
     <div class="dashboard-widget-footer">

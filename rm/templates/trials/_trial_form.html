@@ -65,7 +65,7 @@
     <li data-target="#myCarousel" data-slide-to="5"></li>
     {% if not n1trial %}
       <li data-target="#myCarousel" data-slide-to="6"></li>
-    <li data-target="#myCarousel" data-slide-to="7"></li>
+    <!-- <li data-target="#myCarousel" data-slide-to="7"></li> -->
   {% endif %}
   </ol>
 
@@ -77,7 +77,8 @@
     {% include 'trials/steps/step_variables.html' %}
     {% include 'trials/steps/step_sizing.html' %}
     {% if not n1trial %}
-      {% include 'trials/steps/step_recruitment.html' %}
+{#       {% include 'trials/steps/step_recruitment.html' %} #}
+
     {% endif %}
     {% include 'trials/steps/step_description.html' %}
     {% include 'trials/steps/step_instructions.html' %}
@@ -87,7 +88,7 @@
 
     <div class="item"><!-- End Trial creation steps -->
       <h2>
-        {% if n1trial %}6{% else %}8{% endif %}.
+        {% if n1trial %}6{% else %}7{% endif %}.
         <span class="red bold">CREATE</span> <span class="light">YOUR TRIAL</span>
       </h2>
       {% if editing %}

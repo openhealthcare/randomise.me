@@ -26,10 +26,10 @@ def dashboard(context):
 
     virgin = True
     tutorial_prompt = True
-    # if my_trials.count() > 1:
-    #     virgin = False
-    #     if my_trials.count() > 4:
-    #         tutorial_prompt = False
+    if my_trials.count() > 1:
+        virgin = False
+        # if my_trials.count() > 4:
+        #     tutorial_prompt = False
 
     context['virgin'] = virgin
     context['tutorial_prompt'] = tutorial_prompt
@@ -141,4 +141,8 @@ def new_trial_widget():
 
 @register.inclusion_tag('dashboard/take_tutorial_widget.html')
 def take_tutorial_widget():
+    return {}
+
+@register.inclusion_tag('dashboard/virgin_widget.html')
+def virgin_widget():
     return {}

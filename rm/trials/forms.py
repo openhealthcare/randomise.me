@@ -78,7 +78,7 @@ class TrialForm(ModelForm):
 
     class Meta:
         model = Trial
-        exclude = ['owner', 'created']
+        exclude = ['owner', 'created', 'recruitment']
         widgets = {
             'title': widgets.TextInput(attrs={
                     'class': 'wider',

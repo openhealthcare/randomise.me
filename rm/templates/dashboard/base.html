@@ -3,6 +3,9 @@
 <div class="row-fluid">
   <!-- Left Column -->
   <div class="span6">
+    {% if virgin %}
+      {% virgin_widget %}
+    {% endif %}
     {% randomising_me_widget %}
     {% randomising_others_widget %}
     {% did_you_know_widget %}
@@ -12,8 +15,6 @@
   <div class="span6">
     {% if tutorial_prompt %}
       {% take_tutorial_widget %}
-    {% endif %}
-    {% if virgin %}
     {% endif %}
     {% featured_trials_widget %}
   </div>

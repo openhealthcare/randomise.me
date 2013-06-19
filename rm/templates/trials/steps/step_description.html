@@ -6,7 +6,7 @@
     {% if n1trial %}
       4. <span class="light">TRIAL</span> <span class="red bold">DESCRIPTION</span>
     {% else %}
-      5. <span class="red bold">PARTICIPANT</span> <span class="light">INFORMATION</span>
+      4. <span class="red bold">PARTICIPANT</span> <span class="light">INFORMATION</span>
     {% endif %}
   </h2>
 
@@ -15,8 +15,6 @@
     <div class="row">
       <div class="controls span4">
         {{ form.description }}
-      </div>
-      <div class="span4">
         {% if n1trial %}
           <i class="icon-question-sign"
              title="Trial Description"
@@ -30,25 +28,31 @@
              >
           </i>
         {% else %}
-          <p class="muted">
+          <i class="icon-question-sign"
+             title="Trial Description"
+             data-html="true"
+             data-placement="right"
+             data-content="
+          <p>
             Write your information for participants here. Consider telling them what
             question you‟re interested in answering (you may wish that to be a
             secret), and what kind of intervention you‟re going to give to each group.
           </p>
-          <p class="muted">
+          <p>
             If your trial is open to Randomise Me users this will be like an advert
             explaining what your trial is about and why people should join - so try
             and make it enticing!
           </p>
+          "
+             >
+          </i>
         {% endif %}
       </div>
     </div> <!-- Row -->
 
     <div class="row-fluid">
       <div class="span4">
-        {{ form.image|bootstrap }}
-      </div>
-      <div class="span4">
+        {{ form.image }}
       <i class="icon-question-sign"
          title="Trial Image"
          data-html="true"
@@ -69,16 +73,22 @@
       <div class="row">
         <div class="controls span4">
           {{ form.secret_info }}
-        </div>
-        <div class="span4">
-          <p class="muted">
+      <i class="icon-question-sign"
+         title="Secret info"
+         data-html="true"
+         data-placement="right"
+         data-content="
+          <p>
             Do you have any extra information about what you're trying to find out
             from your trial that you don't want to share with your participants
             until it's over? Add it here and we'll only publish it once the trial
             ends.
           </p>
-        </div>
+         "
+           >
+        </i>
 
+        </div>
       </div>
     {% endif %}
   </div>

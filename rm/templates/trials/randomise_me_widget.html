@@ -13,39 +13,7 @@
 
     <div class="span6 offset3">
 
-      <div class="dashboard-widget">
-        <div class="dashboard-widget-preheader"></div>
-        <div class="dashboard-widget-header">
-          <h2>
-            <img src="{% static 'img/dots-create-rand-me.png' %}" class="" alt="" />
-            <span class="light">
-              YOUR
-            </span>
-            <span class="red bold">
-              INSTRUCTIONS
-            </span>
-            <span class="light">
-              ARE:
-            </span>
-          </h2>
-        </div> <!-- dw-header -->
-        <div class="dashboard-widget-body">
-          <div class="row-fluid dashboard-widget-item">
-
-            <p>
-              <span id="active-instructions">
-                {{active_instructions}}
-              </span>
-            </p>
-
-          </div>
-        </div> <!-- body -->
-        <div class="dashboard-widget-footer">
-
-        </div>
-        <div class="dashboard-widget-postfooter"></div>
-
-      </div> <!-- Widget -->
+      {% include 'trials/widgets/active_instructions_widget.html' %}
     </div>
   </div>
 

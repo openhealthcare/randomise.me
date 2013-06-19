@@ -291,6 +291,7 @@ class TrialDetail(DetailView):
                 if group is not None:
                     instructions = group.name == 'A' and trial.group_a or trial.group_b
                     context['instructions'] = instructions
+                    context['active_instructions'] = instructions
                 context['participant'] = True
 
         if trial.recruitment == trial.INVITATION:

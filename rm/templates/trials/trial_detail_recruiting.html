@@ -6,9 +6,15 @@
     run this trial on yourself
   </a>
 {% else %}
-  <a href="{% url 'join-trial' trial.pk %}" class="btn btn-danger">
-    join trial
-  </a>
+  <div class="row-fluid">
+    <div class="span6 offset2">
+      <center class="drop24">
+        <a href="{% url 'join-trial' trial.pk %}" class="btn btn-danger largest">
+          join trial
+        </a>
+      </center>
+    </div>
+  </div>
 
 {% endif %}
 
@@ -21,11 +27,15 @@
       </a>
   </center>
 {% else %}
-  <center class="drop24">
-  <a href="{% url 'join-trial' trial.pk %}" class="btn btn-danger">
-    join trial
-  </a>
-  </center>
+  <div class="row-fluid">
+    <div class="span6 offset4">
+      <center class="drop24">
+        <a href="{% url 'join-trial' trial.pk %}" class="btn btn-danger largest">
+          join trial
+        </a>
+      </center>
+    </div>
+  </div>
 {% endif %}
 
 <!-- <h3> -->

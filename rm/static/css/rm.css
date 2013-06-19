@@ -720,6 +720,14 @@ ul.parsley-error-list li {
     text-decoration: none;
 }
 
+.dashboard-widget-body ul li {
+   padding: 6px;
+}
+
+.dashboard-widget-body ul li a {
+   color: #e54f25;
+}
+
 .dashboard-widget-item {
     background: #fff9f7;
     margin-bottom: 12px;

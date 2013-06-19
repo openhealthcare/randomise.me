@@ -72,9 +72,11 @@ var RM = {
                     }else if(src.attr('value') == 'ho'){
                         hidem();
                         showem('#hours-after-container');
-                    }else{
+                    }else if(src.attr('value') == 'da' ){
                         hidem();
                         showem('#instruction-date-container');
+                    }else{
+                        hidem();
                     }
                 }
             )
