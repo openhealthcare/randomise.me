@@ -148,6 +148,7 @@ class ReportView(CreateView):
         Store the trial isntance
         """
         self.trial = self.trial_model.objects.get(pk=kw['pk'])
+        return HttpResponseRedirect(self.trial.get_absolute_url())
         return super(ReportView, self).get(*args, **kw)
 
     def post(self, *args,**kw):
@@ -212,6 +213,7 @@ class TrialReport(ReportView):
     """
     model       = Report
     trial_model = Trial
+
 
 
 class MyTrials(TemplateView):

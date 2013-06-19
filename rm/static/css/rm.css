@@ -227,6 +227,7 @@ h3.grey a { color : #959291; }
 .light { font-weight: 300; }
 .weight400 { font-weight: 400; }
 .larger { font-size: 24px; line-height: 32px;}
+.largest { font-size: 32px; line-height: 40px;}
 .smaller { font-size: 0.8em; line-height: 1em;}
 
 .justified { text-align: justified; }
@@ -279,6 +280,13 @@ h3.grey a { color : #959291; }
 .btn.larger {
     font-size: 24px;
     line-height: 30px;
+}
+
+
+.btn.largest {
+    font-size: 32px;
+    padding: 28px;
+    line-height: 40px;
 }
 
 .btn-warning {

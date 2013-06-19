@@ -307,7 +307,10 @@ var RM = {
                     $('#instruction-container').slideDown();
                     $('#randomiseme-button').slideToggle();
                     var row = RM.interactions.report_template({group_name:group_name})
-                    $('#report-table').append(row);
+                    $('#report-table table').append(row);
+                    if(!$('#report-table').is(':visible')){
+                        $('#report-table').slideDown()
+                    }
                 }
             });
 

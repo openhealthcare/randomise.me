@@ -1,6 +1,8 @@
 """
 The randomise Me widget for a particular trial.
 """
+import datetime
+
 from django import template
 
 register = template.Library()
@@ -25,7 +27,7 @@ def randomise_me_widget(context):
     reports = trial.report_set.all()
     pending = None
     active_instructions = None
-    if reports.filter(date__isnull=True).count() > 1:
+    if reports.filter(date__isnull=True).count() > 0:
         pending = reports.filter(date__isnull=True)[0]
         if pending.group == pending.group.GROUP_A:
             active_instructions = trial.group_a
@@ -37,4 +39,5 @@ def randomise_me_widget(context):
         'reports': reports,
         'pending': pending,
         'active_instructions': active_instructions,
+        'today': datetime.date.today(),
         }
