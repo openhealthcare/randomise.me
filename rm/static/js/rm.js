@@ -311,7 +311,7 @@ var RM = {
 
                 // Change the button so the user knows we're doing something
                 beforeSubmit: function(){
-                    $('#randomiseme-button').attr('disabled', true).text(
+                    $('#randomise-me').attr('disabled', true).text(
                         'randomisation in progress...'
                     );
                 },

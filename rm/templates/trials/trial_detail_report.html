@@ -1,14 +1,44 @@
 {% load json_filters %}
 {% load trial_protocol %}
+{% load maths %}
+
 <h3>
   <span class="light">TRIAL</span> <span class="red bold">RESULTS</span>
 </h3>
 <div class="feature-box">
 
   <div class="row-fluid">
-    <div class="span12">
+    <div class="span8">
       <div id="mainbar-{{trial.pk}}" class="">
       </div><!--mainbar-{{trial.pk}}-->
+    </div>
+    <div class="span4">
+      <h3 class="light">
+        Here Are Some Numbers
+      </h3>
+      {% with trial.trialanalysis_set.get as anal %}
+      <ul class="unstyled">
+        <li>
+          Number of Observations: {{ trial.report_set.count }}
+          ( {{ anal.nobsa }} / {{ anal.nobsb }} )
+        </li>
+        <li>
+          Mean: {{ anal.mean|floatformat:"3" }}
+        </li>
+        <li>
+          SD: {{ anal.sd|floatformat:"3" }}
+        </li>
+        <li>
+          Power (Effect Size 0.1): {{ anal.power_small|percy }}
+        </li>
+        <li>
+          Power (Effect Size 0.2): {{ anal.power_med|percy }}
+        </li>
+        <li>
+          Power (Effect Size 0.5): {{ anal.power_large|percy }}
+        </li>
+      </ul>
+      {% endwith %}
     </div>
   </div>
 

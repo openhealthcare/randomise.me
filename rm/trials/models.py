@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
 import letter
+import numpy as np
 from sorl import thumbnail
 
 from rm import exceptions
@@ -176,13 +177,9 @@ class Trial(models.Model):
         Return: dict
         Exceptions: None
         """
-        avg = lambda g: self.report_set.filter(
-            group__name=g).aggregate(Avg('score')).values()[0]
-
-        intervention_group = avg('A')
-        control_group = avg('B')
-        return [dict(name='Intervention Group', avg=intervention_group),
-                dict(name='Control Group', avg=control_group)]
+        anal = self.trialanalysis_set.get()
+        return [dict(name='Group A', avg=anal.meana),
+                dict(name='Group B', avg=anal.meanb)]
 
 
     @property
@@ -374,6 +371,7 @@ class Trial(models.Model):
         """
         self.stopped = True
         self.save()
+        TrialAnalysis.report_on(self)
         for participant in self.participant_set.exclude(user=self.owner):
             participant.send_ended_notification()
         return
@@ -671,3 +669,57 @@ class TutorialExample(models.Model):
 
     def get_absolute_url(self):
         return reverse('tutorial-from-example', kwargs={'pk': self.pk})
+
+
+class TrialAnalysis(models.Model):
+    """
+    Cache of report info for a stopped trial
+    """
+    trial = models.ForeignKey(Trial)
+    power_small = models.FloatField(blank=True, null=True)
+    power_med = models.FloatField(blank=True, null=True)
+    power_large = models.FloatField(blank=True, null=True)
+    mean = models.FloatField(blank=True, null=True)
+    sd = models.FloatField(blank=True, null=True)
+    nobsa = models.IntegerField(blank=True, null=True)
+    nobsb = models.IntegerField(blank=True, null=True)
+    meana = models.FloatField(blank=True, null=True)
+    meanb = models.FloatField(blank=True, null=True)
+
+    @staticmethod
+    def report_on(trial):
+        """
+        Calculate headline stats for TRIAL once
+        """
+        from rm.stats.utils import tt_ind_solve_power
+
+        nobs1 = int(trial.report_set.count()/2)
+        reports = trial.report_set.exclude(date__isnull=True)
+        points = [t.get_value() for t in reports]
+        pointsa = [t.get_value() for t in reports.filter(group__name=Group.GROUP_A)]
+        pointsb = [t.get_value() for t in reports.filter(group__name=Group.GROUP_B)]
+        sd = np.std(points)
+        mean = np.mean(points)
+
+        nobsa = len(pointsa)
+        nobsb = len(pointsb)
+        meana = np.mean(pointsa)
+        meanb = np.mean(pointsb)
+
+        small = tt_ind_solve_power(effect_size=0.1, alpha=0.05, nobs1=nobs1, power=None)
+        med = tt_ind_solve_power(effect_size=0.2, alpha=0.05, nobs1=nobs1, power=None)
+        large = tt_ind_solve_power(effect_size=0.5, alpha=0.05, nobs1=nobs1, power=None)
+        tr = TrialAnalysis.objects.get_or_create(trial=trial)[0]
+
+        tr.power_small=small
+        tr.power_med=med
+        tr.power_large=large
+        tr.sd=sd
+        tr.mean=mean
+        tr.nobsa = nobsa
+        tr.nobsb = nobsb
+        tr.meana = meana
+        tr.meanb = meanb
+
+        tr.save()
+        return
