@@ -2,7 +2,6 @@
 {% load bootstrap %}
 {% block extratitle %} - Your Profile{% endblock %}
 {% block content %}
-
   <div class="page">
     <h1><span class="greyunder">Your Profile</span></h1>
     {% if form.errors %}
@@ -25,6 +24,7 @@
 
           <h2>Preferences</h2>
           {{ form.receive_questions|bootstrap }}
+          {{ form.receive_emails|bootstrap }}
           {{ form.single_page|bootstrap }}
 
           <h2>Demographic data</h2>

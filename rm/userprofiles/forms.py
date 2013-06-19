@@ -13,6 +13,7 @@ class ProfileForm(ModelForm):
         model = RMUser
         fields = ['name', 'email',
                   'receive_questions',
+                  'receive_emails',
                   'single_page',
                   'dob', 'gender', 'postcode']
         widgets = {

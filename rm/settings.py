@@ -209,6 +209,7 @@ THUMBNAIL_DEBUG = True
 # Our Settings
 
 BASICAUTH = True
+RM_REMINDER_DELAY = 86400
 
 # Dummy settings as a reminder
 BASICAUTH_PASSWORD = 'notareal password dummy'

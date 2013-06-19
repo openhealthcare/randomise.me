@@ -541,7 +541,7 @@ class Participant(models.Model):
                 'question'    : question
                 }
 
-        Message.send()
+        self.user.send_message(Message)
         return
 
     def send_ended_notification(self):
@@ -565,10 +565,8 @@ class Participant(models.Model):
                 'name'        : self.trial.title,
                 }
 
-        Message.send()
+        self.user.send_message(Message)
         return
-
-
 
 
 class Report(models.Model):
@@ -618,6 +616,36 @@ class Report(models.Model):
         if self.variable.style == Variable.COUNT:
             return self.count
         return
+
+    def send_reminder(self):
+        """
+        Send a reminder email to our participant that
+        they randomised themselves.
+
+        Return: None
+        Exceptions: None
+        """
+        user = self.participant.user
+        subject = 'We recently randomised you...'
+        question = self.trial.variable_set.all()[0].question
+
+        class Message(letter.Letter):
+            Postie   = POSTIE
+
+            From     = settings.DEFAULT_FROM_EMAIL
+            To       = user.email
+            Subject  = subject
+            Template = 'email/rm_reminder'
+            Context  = {
+                'href'        : settings.DEFAULT_DOMAIN + self.trial.get_absolute_url(),
+                'group'       : self.group.name,
+                'question'    : question,
+                'name'       : self.trial.title
+                }
+
+        user.send_message(Message)
+        return
+
 
 
 class TutorialExample(models.Model):

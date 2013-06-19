@@ -57,3 +57,22 @@ def close_dated_trials():
     for trial in Trial.objects.ending_today():
         trial.stop()
     return
+
+@task
+def randomise_me_reminder(pk):
+    """
+    Given the PK of a report, send the user a reminder if it
+    still has no data left.
+
+
+    Arguments:
+    - `pk`: int
+
+    Return:
+    Exceptions:
+    """
+    from rm.trials.models import Report
+    report = Report.objects.get(pk=pk)
+    if report.date is None:
+        report.send_reminder()
+    return

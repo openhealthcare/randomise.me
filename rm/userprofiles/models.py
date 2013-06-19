@@ -59,6 +59,11 @@ by email.
 If you elect to use the 1 page create trial view, then you will see all
 steps that comprise creating a trial on a single page
 """
+    EMAIL_LONG = "Get emails from Randomise Me"
+    EMAIL_HELP = """
+If you don't want to get emails from Randomise Me untick this box and we
+won't send you any more.
+"""
 
 
     username      = models.CharField(max_length=40, unique=True, db_index=True)
@@ -73,6 +78,7 @@ steps that comprise creating a trial on a single page
     postcode      = models.CharField(max_length=20, blank=True, null=True)
     receive_questions = models.BooleanField(QUESTION_LONG, default=True,
                                             help_text=QUESTION_HELP)
+    receive_emails = models.BooleanField(EMAIL_LONG, default=True, help_text=EMAIL_HELP)
     single_page = models.BooleanField(FORM_LONG, default=False, help_text=FORM_HELP)
 
     objects = RMUserManager()
@@ -124,3 +130,20 @@ steps that comprise creating a trial on a single page
             self.account = self.ADVANCED
             self.save()
         return
+
+    def send_message(self, message):
+        """
+        Given a letter.Letter subclass representing our email,
+        send the message.
+
+        This api allows us to respect user preferences re. us
+        not spamming them
+
+        Arguments:
+        - `message`: letter.Letter
+
+        Return: none
+        Exceptions: none
+        """
+        if self.receive_emails:
+            message.send()

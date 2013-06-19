@@ -749,7 +749,9 @@ class RandomiseMeView(TrialByPkMixin, LoginRequiredMixin, View):
             variable=self.trial.variable_set.all()[0])[0]
         report.group = group
         report.save()
-
+        from rm.trials.tasks import randomise_me_reminder
+        randomise_me_reminder.apply_async(args=[report.pk],
+                                          countdown=settings.RM_REMINDER_DELAY)
         return HttpResponse(group.name.lower())
 
 

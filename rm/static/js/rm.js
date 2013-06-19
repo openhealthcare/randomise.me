@@ -308,6 +308,14 @@ var RM = {
 
             // The randomise me button itself
             $('#randomiseme-form').ajaxForm({
+
+                // Change the button so the user knows we're doing something
+                beforeSubmit: function(){
+                    $('#randomiseme-button').attr('disabled', true).text(
+                        'randomisation in progress...'
+                    );
+                },
+
                 success: function(data){
                     var instructions = $('#group' + data + '-instructions').text();
                     if(data == 'a'){
