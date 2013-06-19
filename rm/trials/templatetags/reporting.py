@@ -35,30 +35,3 @@ def reporting_widget(context):
         widget_template=widget_template,
         today = datetime.date.today()
         )
-
-
-
-
-    # items = []
-    # start, end = participant.joined, participant.joined + datetime.timedelta(weeks=3)
-    # period_date = start
-
-    # delta = datetime.timedelta(days=1)
-    # if trial.reporting_freq == trial.WEEKLY:
-    #     delta = datetime.timedelta(weeks=1)
-    # if trial.reporting_freq == trial.MONTHLY:
-    #     delta = relativedelta(months=1)
-
-    # while period_date <= end:
-    #     reported = any(map(lambda x: x.date==period_date, reports))
-    #     period   = Period(period_date, reported, period_date > datetime.date.today())
-    #     items.append(period)
-    #     period_date += delta
-
-    # return dict(
-    #     trial=trial,
-    #     is_done=is_done,
-    #     today=datetime.date.today(), # single reporting date
-    #     items=items,                 # regular reporting periods
-    #     reports=reports,             # our set of reports by this participant
-    #     )

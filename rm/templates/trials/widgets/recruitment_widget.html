@@ -1,0 +1,18 @@
+
+{% if trial.n1trial %}
+  <center class="drop24">
+    <a href="{% url 'reproduce-n1-trial' trial.pk %}" class="btn btn-danger">
+      run this trial on yourself
+      </a>
+  </center>
+{% else %}
+  <div class="row-fluid">
+    <div class="span6 offset4">
+      <center class="drop24">
+        <a href="{% url 'join-trial' trial.pk %}" class="btn btn-danger largest">
+          join trial
+        </a>
+      </center>
+    </div>
+  </div>
+{% endif %}

@@ -1,8 +1,28 @@
 {% load randomise_me %}
 {% load trial_protocol %}
+{% load reporting %}
 
 {% if trial.n1trial %}
   {% randomise_me_widget %}
-{% endif %}
+{% else %}
+  {% if can_join %}
+    {% include 'trials/widgets/recruitment_widget.html' %}
+  {% endif %}
+  {% if can_report %}
+    <div class="row-fluid">
+      <div class="span6 offset3">
+        {% include 'trials/widgets/active_instructions_widget.html' %}
+      </div>
+    </div>
 
-{% trial_protocol_widget %}
+    <h3>
+      <span class="red bold">REPORT</span> <span class="light">DATA</span>
+    </h3>
+    <div class="feature-box">
+      <div class="row-fluid">
+        {% reporting_widget %}
+      </div>
+    </div>
+  {% endif %}
+  {% trial_protocol_widget %}
+{% endif %}

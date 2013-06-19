@@ -309,9 +309,6 @@ class Trial(models.Model):
         Make sure that the trial has groups, then randomly assign USER
         to one of those groups.
 
-        If this is a public n>1 trial and the USER is also the trial's
-        owner, raise TrialOwnerError
-
         Ensure that this user hasn't already joined the trial, raising
         AlreadyJoinedError if we have.
 
@@ -321,10 +318,6 @@ class Trial(models.Model):
         If nobody has joined yet, we go to Group A, else Group A if
         the groups are equal, else Group B.
         """
-
-        if not self.n1trial:
-            if self.owner == user:
-                raise exceptions.TrialOwnerError()
         if self.stopped:
             raise exceptions.TrialFinishedError()
         if Participant.objects.filter(trial=self, user=user).count() > 0:
@@ -544,7 +537,7 @@ class Participant(models.Model):
                 'href'        : settings.DEFAULT_DOMAIN + self.trial.get_absolute_url(),
                 'instructions': instructions,
                 'name'        : self.trial.title,
-                'frequency'   : self.trial.get_reporting_freq_display(),
+                'group'       : self.group.name,
                 'question'    : question
                 }
 

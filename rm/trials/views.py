@@ -284,6 +284,13 @@ class TrialDetail(DetailView):
                 detail_template = 'trials/trial_detail_owner.html'
                 page_title = 'Your Trial'
                 context['is_owner'] = True
+                if trial.participant_set.filter(user=trial.owner).count() > 0:
+                    context['can_report'] = True
+                    group = trial.participant_set.get(user=self.request.user).group
+                    instructions = group.name == 'A' and trial.group_a or trial.group_b
+                    context['active_instructions'] = instructions
+                else:
+                    context['can_join'] = True
             elif trial.participant_set.filter(user=self.request.user).count() > 0:
                 detail_template = 'trials/trial_detail_participant.html'
                 page_title = 'Participating In'
