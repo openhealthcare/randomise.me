@@ -18,11 +18,17 @@
       </div>
       <div class="span4">
         {% if n1trial %}
-          <p class="muted">
-            Write your description of the trial here. If you publish this trial,
-            this is the description that other users will see when they're looking
-            at your trial and thinking about running something similar themselves.
-          </p>
+          <i class="icon-question-sign"
+             title="Trial Description"
+             data-html="true"
+             data-placement="right"
+             data-content="          <p>
+             Write your description of the trial here. If you publish this trial,
+             this is the description that other users will see when they're looking
+             at your trial and thinking about running something similar themselves.
+             </p>"
+             >
+          </i>
         {% else %}
           <p class="muted">
             Write your information for participants here. Consider telling them what
@@ -43,11 +49,17 @@
         {{ form.image|bootstrap }}
       </div>
       <div class="span4">
-        <p class="muted">
-          You can also upload an image to go along with your trial.
-          This will be displayed on the advert page for your trial, and should
-          be a .png or .jpg file.
-        </p>
+      <i class="icon-question-sign"
+         title="Trial Image"
+         data-html="true"
+         data-placement="right"
+         data-content="          <p>
+            You can also upload an image to go along with your trial.
+            This will be displayed on the advert page for your trial, and should
+            be a .png or .jpg file.
+          </p>"
+           >
+        </i>
       </div>
     </div>
 

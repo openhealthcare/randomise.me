@@ -22,15 +22,18 @@
   {% for var in Variable %}
     {% if forloop.first %}
       <h3>What kind of measure is your main outcome? </h3>
-      {{ var.style|bootstrap }}
-      <p class="muted">
-        -       Score: these are measures that are scored with a number. For example,
-        headache pain can be measured on a severity scale from 0 to 10.<br>
-        -       Binary: these are outcomes that are either present or absent. For example,
-        you could have vomited, or not vomited.<br>
-        -       Count: these are variables that are counted. For example, the number of
-        wees you have in 24 hours.
-      </p>
+      {{ var.style }}
+      <i class="icon-question-sign"
+         title="Measure Style"
+         data-html="true"
+         data-placement="bottom"
+         data-content="<ul>
+         <li>Score: these are measures that are scored with a number. For example, headache pain can be measured on a severity scale from 0 to 10.</li>
+         <li>Binary: these are outcomes that are either present or absent. For example, you could have vomited, or not vomited.</li>
+         <li>Count: these are variables that are counted. For example, the number of wees you have in 24 hours.</li>"
+           >
+        </i>
+
       <h3>
         {% if n1trial %}
           What is the question you'll be answering?
@@ -39,27 +42,16 @@
         {% endif %}
       </h3>
       {{ var.question }}
-      <p class="muted">
-        {% if n1trial %}
-          We will make a drop down
-          menu for you to give your answer (for binary it's yes/no, for
-          score it‟s 0-10, etc).
-        {% else %}
-          Tell us what question to ask, next to this measure, for your participants to
-          see when you collect your results from them. We will make a drop down
-          menu for participants to give you an answer (for binary it's yes/no, for
-          score it‟s 0-10, etc).
-        {% endif %}
-      </p>
+      <i class="icon-question-sign"
+         title="Measure Question"
+         data-html="true"
+         data-placement="right"
+         data-content="This is the question that you will get when making a report. e.g. 'Did you get constipation Y/N'"
+           >
+        </i>
     {% else %}
       <span class="hidem">{{var.style}}{{var.question}}</span>
     {% endif %}
-    <h3>Would you like an image to go with your variable?</h3>
-    {{ var.image|bootstrap }}
-    <p class="muted">
-      This is an image that can help your participants to report data accurately,
-      e.g. a stretch-marks scale.
-    </p>
   {% endfor %}
 {% endif %} <!-- Editing -->
 
