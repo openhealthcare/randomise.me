@@ -686,6 +686,11 @@ ul.parsley-error-list li {
     margin: 0px 0px 28px 0px;
 }
 
+.dashboard-widget-item:hover {
+    background: #e54f25;
+    color: white;
+}
+
 .dashboard-widget-preheader {
 }
 

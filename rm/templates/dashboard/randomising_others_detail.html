@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<a href="{{ trial.get_absolute_url }}">
+  <div class="row-fluid dashboard-widget-item">
+    <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
+    <h3>
+      {{ trial.title }}
+    </h3>
+    <p>
+      {{ trial.description|truncatewords:34 }}
+    </p>
+    <div class="row-fluid">
+      <div class="span6">
+        <p>
+          Number of participants
+        </p>
+      </div>
+      <div class="span3">
+        <p>
+          {{ trial.participant_set.count }}
+        </p>
+      </div>
+    </div>
+
+  </div>
+</a>

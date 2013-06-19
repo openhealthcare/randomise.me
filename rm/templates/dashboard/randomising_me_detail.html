@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<a href="{{ trial.get_absolute_url }}">
+  <div class="row-fluid dashboard-widget-item">
+    {% if trial.n1trial %}
+      <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
+    {% else %}
+      <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
+    {% endif %}
+    <h3>
+      {{ trial.title }}
+    </h3>
+    <p>
+      {{ trial.description|truncatewords:34 }}
+    </p>
+    <div class="row-fluid">
+      <div class="span6">
+        <p>
+          Number of observations
+        </p>
+      </div>
+      <div class="span3">
+        <p>
+          {{ trial.report_set.count }}
+        </p>
+      </div>
+    </div>
+  </div>
+</a>
