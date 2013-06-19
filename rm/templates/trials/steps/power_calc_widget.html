@@ -1,0 +1,123 @@
+
+<!-- Modal power -->
+<div id="power" class="modal hide fade wider" tabindex="-1"
+     role="dialog" aria-labelledby="powerModalLabel" aria-hidden="true">
+
+     <!-- Header -->
+     <div class="modal-header">
+       <h3 id="myModalLabel">
+         How many {% if n1trial %}observations{% else %}people{% endif %} do you need?
+         <!-- <i class="icon-question-sign" -->
+         <!--    title="How does this work?" -->
+         <!--    data-placement="left" -->
+         <!--    data-html="true" -->
+         <!--    data-content='We use these numbers to conduct a power calculation. -->
+         <!--    <a href="{% url 'faq_question_detail' "power" "what-is-power" %}" -->
+         <!--       target="new">More information here</a>' -->
+         <!--    > -->
+         <!-- </i> -->
+       </h3>
+     </div>
+
+
+     <div class="modal-body">
+
+       <p>
+         When running RCTs, researchers do something called a
+         "Power Calculation" to find out how many participants
+         they will need for their trial.
+         You can learn
+         <a href="/power/what-is-power/" target="new">
+           more about power calculations here
+         </a>.
+       </p>
+
+       <p>
+         We can help you do a power calculation, but you need to know
+         a little about the typical results of the thing your main
+         outcome (the thing you're measuring).
+       </p>
+       <p>
+         With this calculation we're performing a t-test with the following
+         values:
+       </p>
+
+
+       <form method="POST" action="{% url 'power-calc' %}"
+             class="form-horizontal"
+             id="power-form"
+             data-validate="parsley">
+             {% csrf_token %}
+             <div class="control-group">
+               <label class="control-label" for="effect-size">Effect Size</label>
+               <div class="controls">
+                 <input type="text" name="effect-size" id="effect-size" value="0.5"
+                        placeholder="effect size"
+                        data-required="true" data-type="number"
+                        />
+               </div>
+             </div>
+
+             <div class="control-group">
+               <label class="control-label" for="alpha">Alpha Value</label>
+               <div class="controls">
+                 <input type="text" name="alpha" id="alpha" value="0.05"
+                        placeholder="alpha"
+                        data-required="true" data-type="number"
+                        />
+               </div>
+             </div>
+
+             <div class="control-group">
+               <label class="control-label" for="power">Power</label>
+               <div class="controls">
+                 <input type="text" name="power" id="power" value="0.8"
+                        placeholder="power"
+                        data-required="true" data-type="number"
+                        />
+               </div>
+             </div>
+
+
+             <p>
+               <center>
+               <button class="btn btn-danger" type="submit" id="power-btn">
+                 run the numbers
+               </button>
+               </center>
+             </p>
+             <h3 id="power-answer">
+               How many {% if n1trial %}observations{% else %}participants{% endif %} do you need?
+             </h3>
+
+             <p>
+               If you don't know about the typical results of your main outcome,
+               we can help you pick a good guestimate which we can use for now.
+             </p>
+
+             <p>
+               If your trial turns out not to have had enough data, we can
+               treat this as a Pilot Study, and use the data you collect in
+               your pilot to perform the power calculation more accurately for
+               a full study.
+             </p>
+
+       </form>
+
+       <p>
+         <center>
+           <a href="#" class="btn btn-warning" id="power-guestimate">
+             give me something reasonable
+           </a>
+         </center>
+       </p>
+
+
+     </div> <!-- Modal body -->
+
+     <div class="modal-footer">
+       <button id="power-done" class="btn" data-dismiss="modal" aria-hidden="true">
+         cancel
+       </button>
+     </div>
+</div>

@@ -171,7 +171,7 @@ var RM = {
                     var msg = 'You need ' + data + ' ' + varname;
                     $('#power-btn').attr('disabled', false).text(
                     'run the numbers');
-                    $('#power-answer').text(msg);
+                    $('#power-answer').text(msg).addClass('active');
                     $(target_input).attr('value', data);
                     $('#power-done').text('done')
                 },
@@ -184,6 +184,16 @@ var RM = {
                 },
 
             })
+
+            $('a#power-guestimate').on('click', function(){
+                var form = $('form#power-form')
+                $('form#power-form input#power').attr('value', '0.8');
+                $('form#power-form input#alpha').attr('value', '0.05');
+                $('form#power-form input#effect-size').attr('value', '0.8');
+                form.submit()
+                return false;
+            })
+
         },
 
     },

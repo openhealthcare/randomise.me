@@ -24,6 +24,10 @@ def nobs(estimated=None, impressive=None):
     num = tt_ind_solve_power(effect_size=effect_size, alpha=0.05, power=0.8, nobs1=None)
     return int(num) * 2
 
+def ttest(effect=None, alpha=None, power=None):
+    num = tt_ind_solve_power(effect_size=effect, alpha=alpha, power=power, nobs1=None)
+    return int(num) * 2
+
 def sdiff(est, imp):
     diff = abs(est - imp)
     sd = 9.0/4.0

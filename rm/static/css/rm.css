@@ -186,6 +186,14 @@ input[type="color"]:focus,
     background: #fff9f7;
     border-radius: 0px;
 }
+.modal.wider {
+    width: 822px;
+    left: 42%;
+}
+.modal.wider .modal-body {
+    max-height: 630px;
+}
+
 .modal-header {
     border-bottom: 2px solid #959291;
 }
@@ -921,4 +929,13 @@ body div.rm,
     color: white;
     background: #e54f25;
     text-decoration: none;
+}
+
+/* Power calcs */
+
+#power-answer.active {
+    text-align: center;
+    padding: 12px;
+    background: #f4f0ef;
+    border: 3px dotted #d8d1cd;
 }

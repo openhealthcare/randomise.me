@@ -115,61 +115,8 @@
 
 </form>
 
-<!-- Modal power -->
-<div id="power" class="modal hide fade wider" tabindex="-1"
-     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-     <div class="modal-header">
-       <h3 id="myModalLabel">
-         How many {% if n1trial %}observations{% else %}people{% endif %} do you need?
-           <i class="icon-question-sign"
-              title="How does this work?"
-              data-placement="left"
-              data-html="true"
-              data-content='We use these numbers to conduct a power calculation.
-              <a href="{% url 'faq_question_detail' "power" "what-is-power" %}"
-                 target="new">More information here</a>'
-              >
-           </i>
-       </h3>
 
-     </div>
-     <div class="modal-body">
-           <form method="POST" action="{% url 'power-calc' %}"
-                 id="power-form"
-                 data-validate="parsley">
-             {% csrf_token %}
-             <p class="muted">
-               Roughly what score/proportion/count do you expect in group A?
-             </p>
-             <input type="text" name="estimated" value=""
-                    placeholder="estimated number"
-                    data-required="true" data-type="digits"
-                    />
-             <p class="muted">
-               What score in treatment group B would be meaningfully different enough
-               for you to be impressed?
-             </p>
-             <input type="text" name="impressive" value=""
-                    placeholder="impressive number"
-                    data-required="true" data-type="digits"
-                    />
-             <p>
-               <button class="btn btn-danger" type="submit" id="power-btn">
-                 run the numbers
-               </button>
-             </p>
-             <h3 id="power-answer">
-               How many {% if n1trial %}observations{% else %}participants{% endif %} do you need?
-               </h3>
-           </form>
-     </div> <!-- Modal body -->
-
-     <div class="modal-footer">
-       <button id="power-done" class="btn" data-dismiss="modal" aria-hidden="true">
-         cancel
-       </button>
-     </div>
-</div>
+{% include 'trials/steps/power_calc_widget.html' %}
 
 
 <script type="text/javascript">
