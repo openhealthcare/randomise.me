@@ -141,6 +141,7 @@ class N1TrialForm(ModelForm):
         label="Number of observations",
         widget=widgets.TextInput(attrs={
                 'data-type': 'digits',
+                'data-required': 'true',
                 'data-min' : '1'
                 }))
 
@@ -152,6 +153,15 @@ class N1TrialForm(ModelForm):
                     'class': 'wider',
                     'data-required' : 'true',
                     'data-maxlength': '200'
+                    }),
+            'description': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'group_a': widgets.Textarea(attrs={
+                    'data-required': 'true'
+                    }),
+            'group_b': widgets.Textarea(attrs={
+                    'data-required': 'true'
                     }),
             'instruction_delivery': widgets.HiddenInput(),
             'ending_style': widgets.HiddenInput(),
