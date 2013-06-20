@@ -692,8 +692,8 @@ class AllTrials(TemplateView):
         today = datetime.datetime.today()
         active = Trial.objects.filter(recruitment=Trial.ANYONE, private=False, n1trial=False)
 
-        if self.request.user.is_authenticated():
-            active = active.exclude(owner=self.request.user).exclude(participant__user=self.request.user)
+        # if self.request.user.is_authenticated():
+        #     active = active.exclude(owner=self.request.user).exclude(participant__user=self.request.user)
         context['active'] = active
         context['past'] = Trial.objects.filter(stopped=True, private=False)
         return context
