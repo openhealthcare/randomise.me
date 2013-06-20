@@ -151,3 +151,28 @@ def virgin_widget():
 @register.inclusion_tag('dashboard/offline_soon_widget.html')
 def offline_soon_widget():
     return {}
+
+
+@register.inclusion_tag('dashboard/reports_part_widget.html', takes_context=True)
+def reports_part_widget(context):
+    user = context['request'].user
+    participated = user.participant_set
+    participated_over = [p.trial for p in participated.filter(trial__stopped=True)]
+    num = len(participated_over)
+    return dict(
+        participated=participated_over,
+        show=num > 0,
+        num=num
+        )
+
+
+@register.inclusion_tag('dashboard/reports_ran_widget.html', takes_context=True)
+def reports_ran_widget(context):
+    user = context['request'].user
+    over = Trial.objects.filter(owner=user, stopped=True, n1trial=False)
+    num = over.count()
+    return dict(
+        participated=over,
+        show=num > 0,
+        num=num
+        )

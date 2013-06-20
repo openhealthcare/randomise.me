@@ -693,7 +693,7 @@ class AllTrials(TemplateView):
         if self.request.user.is_authenticated():
             active = active.exclude(owner=self.request.user).exclude(participant__user=self.request.user)
         context['active'] = active
-        # context['past'] = Trial.objects.completed()
+        context['past'] = Trial.objects.filter(stopped=True, private=False)
         return context
 
 
