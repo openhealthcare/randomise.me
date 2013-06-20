@@ -1,6 +1,7 @@
 {% extends 'baser.html' %}
 {% load  join_trial json_filters %}
 {% load featured_trials %}
+{% load staticfiles %}
 
 {% block htmlclass%}  {% endblock %}
 {% block content %}
@@ -23,11 +24,20 @@
       </div>
     </div>
 
-    {% featured_trials_widget 2 %}
 
+    {% featured_trials_widget 2 %}
     <p class="pull-right drop12">
       <a href="{% url 'featured' %}" class="red weight400">See more trials</a>
     </p>
+
+    <div class="row-fluid">
+
+    </div>
+    <div class="drop48"></div>
+    {% include 'home/new_trial_widget.html' %}
+
+
+
   </div>
 
 {% endblock %}
