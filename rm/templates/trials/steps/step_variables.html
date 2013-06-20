@@ -60,15 +60,15 @@
     {{ form.reporting_style }}
   </div>
 {% else %}
-  <h3>
-    When will you be reporting data?
-  </h3>
+  <!-- <h3> -->
+  <!--   When will you be reporting data? -->
+  <!-- </h3> -->
 
-  <div class="row">
-    <div class="span5">
+  <!-- <div class="row"> -->
+    <div class="span5 hidem">
       {{form.reporting_style|bootstrap}}
     </div>
-    <div class="span5">
+    <div class="span5 hidem">
       <div class="hidem" id="reporting-freq-container">
         {{ form.reporting_freq|bootstrap }}
       </div>
@@ -76,6 +76,6 @@
         {{ form.reporting_date|bootstrap }}
       </div>
     </div>
-  </div>
+  <!-- </div> -->
 {% endif %}
 </div>

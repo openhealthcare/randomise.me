@@ -53,7 +53,7 @@ class Trial(models.Model):
     REGULARLY = 're'
 
     REPORT_STYLE_CHOICES = (
-#        (ONCE,      'Once only'),
+        (ONCE,      'Once only'),
         (WHENEVER,  'Whenever they want'),
         (DATED,     'On date x'),
         # (REGULARLY, 'Regularly')
@@ -88,7 +88,7 @@ class Trial(models.Model):
 
     # Step 2
     reporting_style = models.CharField("Reporting Style", max_length=2,
-                                       choices=REPORT_STYLE_CHOICES, default=WHENEVER)
+                                       choices=REPORT_STYLE_CHOICES, default=ONCE)
     reporting_freq = models.CharField("Reporting frequency", max_length=2,
                                       choices=FREQ_CHOICES, default=DAILY)
     reporting_date = models.DateField('Reporting date', blank=True, null=True)
