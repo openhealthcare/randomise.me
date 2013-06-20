@@ -120,6 +120,16 @@ var RM = {
                 }
             )
 
+            $('#id_variable_set-0-style').change(
+                function(){
+                    if($('#id_variable_set-0-style').val() == 'bi'){
+                        $('#power-help-container').show();
+                    }else{
+                        $('#power-help-container').hide();
+                    }
+                }
+            )
+
 
         },
 

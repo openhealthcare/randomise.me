@@ -7,15 +7,6 @@
      <div class="modal-header">
        <h3 id="myModalLabel">
          How many {% if n1trial %}observations{% else %}people{% endif %} do you need?
-         <!-- <i class="icon-question-sign" -->
-         <!--    title="How does this work?" -->
-         <!--    data-placement="left" -->
-         <!--    data-html="true" -->
-         <!--    data-content='We use these numbers to conduct a power calculation. -->
-         <!--    <a href="{% url 'faq_question_detail' "power" "what-is-power" %}" -->
-         <!--       target="new">More information here</a>' -->
-         <!--    > -->
-         <!-- </i> -->
        </h3>
      </div>
 
@@ -37,72 +28,58 @@
          a little about the typical results of the thing your main
          outcome (the thing you're measuring).
        </p>
-       <p>
-         With this calculation we're performing a t-test with the following
-         values:
-       </p>
 
-
-       <form method="POST" action="{% url 'power-calc' %}"
+       <form method="POST" action="{% url 'power-calc-binary' %}"
              class="form-horizontal"
              id="power-form"
              data-validate="parsley">
              {% csrf_token %}
-             <div class="control-group">
-               <label class="control-label" for="effect-size">Effect Size</label>
-               <div class="controls">
-                 <input type="text" name="effect-size" id="effect-size" value="0.3"
-                        placeholder="effect size"
-                        data-required="true" data-type="number"
-                        />
-                        <i class="icon-question-sign"
-                           title="Effect Size"
-                           data-placement="left"
-                           data-html="true"
-                           data-content='In statistics, an effect size is a measure of the strength of a phenomenon
-                           <a href="http://en.wikipedia.org/wiki/Effect_size" target="new">read more</a>
-                           '
-                           ></i>
-               </div>
-             </div>
 
-             <div class="control-group">
-               <label class="control-label" for="alpha">Alpha Value</label>
-               <div class="controls">
-                 <input type="text" name="alpha" id="alpha" value="0.05"
-                        placeholder="alpha"
-                        data-required="true" data-type="number"
-                        />
-                        <i class="icon-question-sign"
-                           title="Alpha Value"
-                           data-placement="left"
-                           data-html="true"
-                           data-max="2.1"
-                           data-content='The probability of getting a false positive
-                           <a href="http://en.wikipedia.org/wiki/Significance_level" target="new">read more</a>
-                           '
-                           ></i>
-               </div>
-             </div>
 
-             <div class="control-group">
-               <label class="control-label" for="power">Power</label>
-               <div class="controls">
-                 <input type="text" name="power" id="power" value="0.8"
-                        placeholder="power"
-                        data-required="true" data-type="number"
-                        />
-                        <i class="icon-question-sign"
-                           title="Power"
-                           data-placement="left"
-                           data-html="true"
-                           data-content='The probability of getting a false negative
-                           <a href="http://en.wikipedia.org/wiki/Statistical_power" target="new">read more</a>
-                           '
-                           ></i>
-               </div>
-             </div>
-
+<fieldset>
+        <div class="control-group">
+          <label class="control-label" for="alpha">Significance level (alpha)</label>
+          <div class="controls">
+            <select class="span1" id="alpha" name="alpha">
+              <option value="0.01">1%</option>
+              <option value="0.025">2.5%</option>
+              <option selected="selected" value="0.05">5%</option>
+              <option value="0.1">10%</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="beta">Power (1-beta)</label>
+          <div class="controls">
+            <select class="span1" id="beta" name="power">
+              <option value="0.05">95%</option>
+              <option selected="selected" value="0.1">90%</option>
+              <option value="0.2">80%</option>
+              <option value="0.3">70%</option>
+              <option value="0.4">60%</option>
+              <option value="0.5">50%</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="p1">Percentage 'success' in control group</label>
+          <div class="controls">
+            <div class="input-append">
+              <input class="span1" id="p1" max="100" min="0" type="number" name="p1">
+              <span class="add-on">%</span>
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="p2">Percentage 'success' in experimental group</label>
+          <div class="controls">
+            <div class="input-append">
+              <input class="span1" id="p2" max="100" min="0" type="number" name="p2">
+              <span class="add-on">%</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
              <p>
                <center>
@@ -114,38 +91,8 @@
              <h3 id="power-answer">
                How many {% if n1trial %}observations{% else %}participants{% endif %} do you need?
              </h3>
-
-             <p>
-               If you don't know about the typical results of your main outcome,
-               we can help you pick a good guestimate which we can use for now.
-             </p>
-
-             <p>
-               If your trial turns out not to have had enough data, we can
-               treat this as a Pilot Study, and use the data you collect in
-               your pilot to perform the power calculation more accurately for
-               a full study.
-             </p>
-             <p>
-               For now we'll pick something that will look for large differences as given by Cohen's guidelines for
-               the social sciences [1].
-             </p>
-
        </form>
 
-       <p>
-         <center>
-           <a href="#" class="btn btn-warning" id="power-guestimate">
-             give me something reasonable
-           </a>
-         </center>
-       </p>
-
-         <ol>
-           <li class="muted smaller">
-             Jacob Cohen (1988). Statistical Power Analysis for the Behavioral Sciences (second ed.). Lawrence Erlbaum Associates.
-           </li>
-         </ol>
      </div> <!-- Modal body -->
 
      <div class="modal-footer">
@@ -154,3 +101,159 @@
        </button>
      </div>
 </div>
+
+<!-- <\!-- Modal power -\-> -->
+<!-- <div id="power" class="modal hide fade wider" tabindex="-1" -->
+<!--      role="dialog" aria-labelledby="powerModalLabel" aria-hidden="true"> -->
+
+<!--      <\!-- Header -\-> -->
+<!--      <div class="modal-header"> -->
+<!--        <h3 id="myModalLabel"> -->
+<!--          How many {% if n1trial %}observations{% else %}people{% endif %} do you need? -->
+<!--          <\!-- <i class="icon-question-sign" -\-> -->
+<!--          <\!--    title="How does this work?" -\-> -->
+<!--          <\!--    data-placement="left" -\-> -->
+<!--          <\!--    data-html="true" -\-> -->
+<!--          <\!--    data-content='We use these numbers to conduct a power calculation. -\-> -->
+<!--          <\!--    <a href="{% url 'faq_question_detail' "power" "what-is-power" %}" -\-> -->
+<!--          <\!--       target="new">More information here</a>' -\-> -->
+<!--          <\!--    > -\-> -->
+<!--          <\!-- </i> -\-> -->
+<!--        </h3> -->
+<!--      </div> -->
+
+
+<!--      <div class="modal-body"> -->
+
+<!--        <p> -->
+<!--          When running RCTs, researchers do something called a -->
+<!--          "Power Calculation" to find out how many participants -->
+<!--          they will need for their trial. -->
+<!--          You can learn -->
+<!--          <a href="/power/what-is-power/" target="new"> -->
+<!--            more about power calculations here -->
+<!--          </a>. -->
+<!--        </p> -->
+
+<!--        <p> -->
+<!--          We can help you do a power calculation, but you need to know -->
+<!--          a little about the typical results of the thing your main -->
+<!--          outcome (the thing you're measuring). -->
+<!--        </p> -->
+<!--        <p> -->
+<!--          With this calculation we're performing a t-test with the following -->
+<!--          values: -->
+<!--        </p> -->
+
+
+<!--        <form method="POST" action="{% url 'power-calc' %}" -->
+<!--              class="form-horizontal" -->
+<!--              id="power-form" -->
+<!--              data-validate="parsley"> -->
+<!--              {% csrf_token %} -->
+<!--              <div class="control-group"> -->
+<!--                <label class="control-label" for="effect-size">Effect Size</label> -->
+<!--                <div class="controls"> -->
+<!--                  <input type="text" name="effect-size" id="effect-size" value="0.3" -->
+<!--                         placeholder="effect size" -->
+<!--                         data-required="true" data-type="number" -->
+<!--                         /> -->
+<!--                         <i class="icon-question-sign" -->
+<!--                            title="Effect Size" -->
+<!--                            data-placement="left" -->
+<!--                            data-html="true" -->
+<!--                            data-content='In statistics, an effect size is a measure of the strength of a phenomenon -->
+<!--                            <a href="http://en.wikipedia.org/wiki/Effect_size" target="new">read more</a> -->
+<!--                            ' -->
+<!--                            ></i> -->
+<!--                </div> -->
+<!--              </div> -->
+
+<!--              <div class="control-group"> -->
+<!--                <label class="control-label" for="alpha">Alpha Value</label> -->
+<!--                <div class="controls"> -->
+<!--                  <input type="text" name="alpha" id="alpha" value="0.05" -->
+<!--                         placeholder="alpha" -->
+<!--                         data-required="true" data-type="number" -->
+<!--                         /> -->
+<!--                         <i class="icon-question-sign" -->
+<!--                            title="Alpha Value" -->
+<!--                            data-placement="left" -->
+<!--                            data-html="true" -->
+<!--                            data-max="2.1" -->
+<!--                            data-content='The probability of getting a false positive -->
+<!--                            <a href="http://en.wikipedia.org/wiki/Significance_level" target="new">read more</a> -->
+<!--                            ' -->
+<!--                            ></i> -->
+<!--                </div> -->
+<!--              </div> -->
+
+<!--              <div class="control-group"> -->
+<!--                <label class="control-label" for="power">Power</label> -->
+<!--                <div class="controls"> -->
+<!--                  <input type="text" name="power" id="power" value="0.8" -->
+<!--                         placeholder="power" -->
+<!--                         data-required="true" data-type="number" -->
+<!--                         /> -->
+<!--                         <i class="icon-question-sign" -->
+<!--                            title="Power" -->
+<!--                            data-placement="left" -->
+<!--                            data-html="true" -->
+<!--                            data-content='The probability of getting a false negative -->
+<!--                            <a href="http://en.wikipedia.org/wiki/Statistical_power" target="new">read more</a> -->
+<!--                            ' -->
+<!--                            ></i> -->
+<!--                </div> -->
+<!--              </div> -->
+
+
+<!--              <p> -->
+<!--                <center> -->
+<!--                <button class="btn btn-danger" type="submit" id="power-btn"> -->
+<!--                  run the numbers -->
+<!--                </button> -->
+<!--                </center> -->
+<!--              </p> -->
+<!--              <h3 id="power-answer"> -->
+<!--                How many {% if n1trial %}observations{% else %}participants{% endif %} do you need? -->
+<!--              </h3> -->
+
+<!--              <p> -->
+<!--                If you don't know about the typical results of your main outcome, -->
+<!--                we can help you pick a good guestimate which we can use for now. -->
+<!--              </p> -->
+
+<!--              <p> -->
+<!--                If your trial turns out not to have had enough data, we can -->
+<!--                treat this as a Pilot Study, and use the data you collect in -->
+<!--                your pilot to perform the power calculation more accurately for -->
+<!--                a full study. -->
+<!--              </p> -->
+<!--              <p> -->
+<!--                For now we'll pick something that will look for large differences as given by Cohen's guidelines for -->
+<!--                the social sciences [1]. -->
+<!--              </p> -->
+
+<!--        </form> -->
+
+<!--        <p> -->
+<!--          <center> -->
+<!--            <a href="#" class="btn btn-warning" id="power-guestimate"> -->
+<!--              give me something reasonable -->
+<!--            </a> -->
+<!--          </center> -->
+<!--        </p> -->
+
+<!--          <ol> -->
+<!--            <li class="muted smaller"> -->
+<!--              Jacob Cohen (1988). Statistical Power Analysis for the Behavioral Sciences (second ed.). Lawrence Erlbaum Associates. -->
+<!--            </li> -->
+<!--          </ol> -->
+<!--      </div> <\!-- Modal body -\-> -->
+
+<!--      <div class="modal-footer"> -->
+<!--        <button id="power-done" class="btn" data-dismiss="modal" aria-hidden="true"> -->
+<!--          cancel -->
+<!--        </button> -->
+<!--      </div> -->
+<!-- </div> -->
