@@ -1,4 +1,5 @@
 {% extends 'baser.html' %}
+{% load staticfiles %}
 {% load terms bootstrap %}
 
 {% block extratitle %} - Create your own trial{% endblock %}
@@ -38,7 +39,7 @@
         </div>
         <div class="span6">
           <p>
-          <img src="/static/img/video-placeholder-large.jpg" class="" alt="" />
+          <img src="{% static 'img/screenz/your-trial.png' %}" class="" alt="" />
           </p>
         </div>
       </div> <!-- Row -->
@@ -70,7 +71,7 @@
           </p>
         </div>
         <div class="span6">
-          <img src="/static/img/video-placeholder-large.jpg" class="" alt="" />
+          <img src="{% static 'img/screenz/outcome.png' %}" class="" alt="" />
         </div>
       </div>
 
@@ -83,7 +84,7 @@
           </p>
         </div>
         <div class="span6">
-          <img src="/static/img/video-placeholder-large.jpg" class="" alt="" />
+          <img src="{% static 'img/screenz/size.png' %}" class="" alt="" />
         </div>
       </div>
 
@@ -108,7 +109,7 @@
 
         </div>
         <div class="span6">
-          <img src="/static/img/video-placeholder-large.jpg" class="" alt="" />
+          <img src="{% static 'img/screenz/description.png' %}" class="" alt="" />
         </div>
       </div>
 
@@ -125,7 +126,7 @@
 
         </div>
         <div class="span6">
-          <img src="/static/img/video-placeholder-large.jpg" class="" alt="" />
+          <img src="{% static 'img/screenz/instructions.png' %}" class="" alt="" />
         </div>
       </div>
 
@@ -145,7 +146,7 @@
           </p>
         </div>
         <div class="span6">
-          <img src="/static/img/video-placeholder-large.jpg" class="" alt="" />
+          <img src="{% static 'img/screenz/rm-button.png' %}" class="" alt="" />
         </div>
       </div>
 
@@ -159,7 +160,8 @@
           </p>
         </div>
         <div class="span6">
-          <img src="/static/img/video-placeholder-large.jpg" class="" alt="" />
+          <img src="{% static 'img/screenz/randomised.png' %}" class="" alt="" />
+          <img src="{% static 'img/screenz/report.png' %}" class="" alt="" />
         </div>
       </div>
 
