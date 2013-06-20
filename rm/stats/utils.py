@@ -60,4 +60,4 @@ def t(e, t):
 def binary_superiority(p1, p2, alpha, power):
     if p1 == p2:
         return "infinite"
-    return int(np.ceil(t(alpha/2, power) * ((p1 * (100 - p1)) + (p2 * (100-p2 ))) / np.power(p1-p2, 2)))
+    return int(np.ceil(t(alpha/2, power) * ((p1 * (100 - p1)) + (p2 * (100-p2 ))) / np.power(p1-p2, 2))) * 2

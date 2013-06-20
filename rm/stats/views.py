@@ -39,5 +39,5 @@ class PowerCalcBinaryView(View):
         p1, p2 = int(self.request.POST.get('p1')), int(self.request.POST.get('p2'))
         power = float(self.request.POST.get('power'))
         alpha = float(self.request.POST.get('alpha'))
-        num = binary_superiority(p1, p2, alpha, power) * 2
+        num = binary_superiority(p1, p2, alpha, power)
         return HttpResponse(str(num))
