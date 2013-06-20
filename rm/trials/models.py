@@ -11,7 +11,9 @@ from django.core.urlresolvers import reverse
 from django.db import models
 import letter
 import numpy as np
+from scipy import stats as scistats
 from sorl import thumbnail
+from statsmodels.stats.power import tt_ind_solve_power
 
 from rm import exceptions
 from rm.trials import managers, tasks
@@ -685,14 +687,14 @@ class TrialAnalysis(models.Model):
     nobsb = models.IntegerField(blank=True, null=True)
     meana = models.FloatField(blank=True, null=True)
     meanb = models.FloatField(blank=True, null=True)
+    stderrmeana = models.FloatField(blank=True, null=True)
+    stderrmeanb = models.FloatField(blank=True, null=True)
 
     @staticmethod
     def report_on(trial):
         """
         Calculate headline stats for TRIAL once
         """
-        from rm.stats.utils import tt_ind_solve_power
-
         nobs1 = int(trial.report_set.count()/2)
         reports = trial.report_set.exclude(date__isnull=True)
         points = [t.get_value() for t in reports]
@@ -705,6 +707,8 @@ class TrialAnalysis(models.Model):
         nobsb = len(pointsb)
         meana = np.mean(pointsa)
         meanb = np.mean(pointsb)
+        stderrmeana = scistats.sem(pointsa)
+        stderrmeanb = scistats.sem(pointsb)
 
         small = tt_ind_solve_power(effect_size=0.1, alpha=0.05, nobs1=nobs1, power=None)
         med = tt_ind_solve_power(effect_size=0.2, alpha=0.05, nobs1=nobs1, power=None)
@@ -720,6 +724,8 @@ class TrialAnalysis(models.Model):
         tr.nobsb = nobsb
         tr.meana = meana
         tr.meanb = meanb
+        tr.stderrmeana = stderrmeana
+        tr.stderrmeanb = stderrmeanb
 
         tr.save()
         return

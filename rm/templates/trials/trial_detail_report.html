@@ -1,6 +1,7 @@
 {% load json_filters %}
 {% load trial_protocol %}
 {% load maths %}
+{% load staticfiles %}
 
 <h3>
   <span class="light">TRIAL</span> <span class="red bold">RESULTS</span>
@@ -13,34 +14,68 @@
       </div><!--mainbar-{{trial.pk}}-->
     </div>
     <div class="span4">
-      <h3 class="light">
-        Here Are Some Numbers
-      </h3>
       {% with trial.trialanalysis_set.get as anal %}
-      <ul class="unstyled">
-        <li>
-          Number of Observations: {{ trial.report_set.count }}
-          ( {{ anal.nobsa }} / {{ anal.nobsb }} )
-        </li>
-        <li>
-          Mean: {{ anal.mean|floatformat:"3" }}
-        </li>
-        <li>
-          SD: {{ anal.sd|floatformat:"3" }}
-        </li>
-        <li>
-          Power (Effect Size 0.1): {{ anal.power_small|percy }}
-        </li>
-        <li>
-          Power (Effect Size 0.2): {{ anal.power_med|percy }}
-        </li>
-        <li>
-          Power (Effect Size 0.5): {{ anal.power_large|percy }}
-        </li>
-      </ul>
+        <p>
+          Number of observations: {{ trial.report_set.count }}
+        </p>
+
+      <table class="table">
+        <tr>
+          <td></td>
+          <td>Group A</td>
+          <td>Group B</td>
+        </tr>
+        <tr>
+          <td>Mean</td>
+          <td>
+            {{ anal.meana|floatformat:"3" }}
+          </td>
+          <td>
+            {{ anal.meanb|floatformat:"3" }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Standard error of the mean <br />
+            <small>
+              <a href="https://en.wikipedia.org/wiki/Standard_error#Standard_error_of_the_mean">
+                What is this?
+              </a>
+            </small>
+          </td>
+          <td>
+            {{ anal.stderrmeana|floatformat:"3" }}
+          </td>
+          <td>
+            {{ anal.stderrmeanb|floatformat:"3" }}
+          </td>
+        </tr>
+      </table>
       {% endwith %}
     </div>
   </div>
+
+<div class="row-fluid">
+  <div class="span4 protocol-detail">
+    <h3>
+      Instructions for Group A
+      <img src="{% static 'img/icons/icn-grpA.png' %}" class="protocol-icon-side" alt="" />
+    </h3>
+    <p>
+      {{ trial.group_a }}
+    </p>
+  </div>
+  <div class="span4 protocol-detail">
+    <h3>
+      Instructions for Group B
+      <img src="{% static 'img/icons/icn-grpB.png' %}" class="protocol-icon-side" alt="" />
+    </h3>
+    <p>
+      {{ trial.group_b }}
+    </p>
+  </div>
+</div> <!-- row -->
+
 
 
 </div>
