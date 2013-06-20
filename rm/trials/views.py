@@ -185,6 +185,8 @@ class ReportView(CreateView):
             report.binary = bool(self.request.POST['binary'])
         elif variable.style == variable.COUNT:
             report.count = int(self.request.POST['count'])
+        elif variable.style == variable.TIME:
+            report.seconds = (int(self.request.POST['minutes']) * 60) + int(self.request.POST['seconds'])
         report.save()
 
         # Checking for closing criteria

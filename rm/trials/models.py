@@ -434,11 +434,13 @@ class Variable(models.Model):
     SCORE  = 'sc'
     BINARY = 'bi'
     COUNT  = 'co'
+    TIME   = 'ti'
 
     STYLE_CHOICES = (
         (SCORE,  'Score'),
         (BINARY, 'Binary'),
-        (COUNT,  'Count')
+        (COUNT,  'Count'),
+        (TIME,  'Time')
         )
 
     trial = models.ForeignKey(Trial)
@@ -590,6 +592,7 @@ class Report(models.Model):
     score        = models.IntegerField(blank=True, null=True)
     binary       = models.NullBooleanField(blank=True)
     count        = models.IntegerField(blank=True, null=True)
+    seconds      = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
         return '<Report for {0} {1} on {2}>'.format(self.trial.title,
@@ -613,6 +616,8 @@ class Report(models.Model):
             return True
         if self.variable.style == Variable.COUNT and self.count is not None:
             return True
+        if self.variable.style == Variable.TIME and self.seconds is not None:
+            return True
         return False
 
     def get_value(self):
@@ -625,6 +630,8 @@ class Report(models.Model):
             return self.binary
         if self.variable.style == Variable.COUNT:
             return self.count
+        if self.variable.style == Variable.TIME:
+            return self.seconds
         return
 
     def send_reminder(self):

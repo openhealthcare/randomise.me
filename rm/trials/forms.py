@@ -277,6 +277,23 @@ class CountReportForm(BaseTrialReportForm):
                 'data-type': 'digits'
                 }))
 
+class TimeReportForm(BaseTrialReportForm):
+    class Meta:
+        time = True
+        model = Report
+
+    minutes = fields.IntegerField(
+        widget=widgets.TextInput(attrs={
+                'data-type': 'digits',
+                'placeholder': 'minutes'
+                }))
+    seconds = fields.IntegerField(
+        widget=widgets.TextInput(attrs={
+                'data-type': 'digits',
+                'placeholder': 'seconds'
+                }))
+
+
 
 
 def reportform_factory(variable, initial):
@@ -297,6 +314,8 @@ def reportform_factory(variable, initial):
         return BinaryReportForm(initial=initial)
     elif variable.style == variable.COUNT:
         return CountReportForm()
+    elif variable.style == variable.TIME:
+        return TimeReportForm()
     raise ValueError('No variable style - what the what?')
 
 

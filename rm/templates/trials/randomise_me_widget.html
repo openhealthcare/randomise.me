@@ -127,6 +127,8 @@
                          {{form.binary|bootstrap}}
                        {% elif form.Meta.count %}
                          {{form.count|bootstrap}}
+                       {% elif form.Meta.time %}
+                         {{form.minutes}} {{ form.seconds }}
                        {% endif %}
                      {% endwith %}
                    {% endif %}
