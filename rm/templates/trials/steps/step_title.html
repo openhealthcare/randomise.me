@@ -1,6 +1,6 @@
 {% load bootstrap %}
 
-<div class="active item"> <!-- Step 1 - question/title -->
+<div class="{% if not reproducing %}active{% endif %} item"> <!-- Step 1 - question/title -->
   <h2>1. <span class="light">YOUR</span> <span class="red bold">TRIAL</span></h2>
   <h3>What is the title of your trial?</h3>
   {{ form.title }}

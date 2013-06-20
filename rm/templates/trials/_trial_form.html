@@ -65,14 +65,22 @@
     <li data-target="#myCarousel" data-slide-to="5"></li>
     {% if not n1trial %}
       <li data-target="#myCarousel" data-slide-to="6"></li>
-    <!-- <li data-target="#myCarousel" data-slide-to="7"></li> -->
+    {% if reproducing %}
+      {% if n1trial %}
+        <li data-target="#myCarousel" data-slide-to="6"></li>
+      {% else %}
+        <li data-target="#myCarousel" data-slide-to="7"></li>
+      {% endif %}
+    {% endif %}
   {% endif %}
   </ol>
 
   <!-- Carousel items -->
   <div class="carousel-inner span10 offset1">
 {% endif %}
-
+    {% if reproducing %}
+      {% include 'trials/steps/step_reproducing_intro.html' %}
+    {% endif %}
     {% include 'trials/steps/step_title.html' %}
     {% include 'trials/steps/step_variables.html' %}
     {% include 'trials/steps/step_sizing.html' %}

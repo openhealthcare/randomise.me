@@ -45,6 +45,15 @@
 
 </div>
 
+{% if trial.n1trial %}
+  <center class="drop24">
+    <a href="{% url 'reproduce-n1-trial' trial.pk %}" class="btn btn-danger">
+      run this trial on yourself
+      </a>
+  </center>
+{% endif %}
+
+
   {% trial_protocol_widget %}
 
 
