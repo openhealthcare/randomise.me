@@ -48,25 +48,27 @@
           </i>
         {% endif %}
       </div>
-    </div> <!-- Row -->
-
-    <div class="row-fluid">
       <div class="span4">
-        {{ form.image }}
-      <i class="icon-question-sign"
-         title="Trial Image"
-         data-html="true"
-         data-placement="right"
-         data-content="          <p>
-            You can also upload an image to go along with your trial.
-            This will be displayed on the advert page for your trial, and should
-            be a .png or .jpg file.
-          </p>"
-           >
-        </i>
+        {% if n1trial %}
+          <p>
+             Write your description of the trial here. If you publish this trial,
+             this is the description that other users will see when they're looking
+             at your trial and thinking about running something similar themselves.
+             </p>
+        {% else %}
+          <p>
+            Write your information for participants here. Consider telling them what
+            question you‟re interested in answering (you may wish that to be a
+            secret), and what kind of intervention you‟re going to give to each group.
+          </p>
+          <p>
+            If your trial is open to Randomise Me users this will be like an advert
+            explaining what your trial is about and why people should join - so try
+            and make it enticing!
+          </p>
+        {% endif %}
       </div>
-    </div>
-
+    </div> <!-- Row -->
 
     {% if not n1trial %}
       <h3>Any secret information?</h3>

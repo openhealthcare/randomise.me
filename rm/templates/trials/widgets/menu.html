@@ -77,7 +77,9 @@
              data-content="End the trial now - warning, this cannot be undone!"
              >
           </i>
-          <a href="#stopit" role="button" data-toggle="modal">stop this trial</a>
+          <a href="#stopit" role="button" data-toggle="modal" class="btn btn-warning">
+            stop this trial
+          </a>
         </li>
       {% endif %}
     {% else %}
@@ -199,7 +201,7 @@ I would like to ask a question about the trial "{{trial.title}}" which can be fo
        </div>
        <div class="modal-body">
          <p>
-           Would you like to stop this trial? Are you shure? This cannot be undone...
+           Would you like to stop this trial? Are you sure? This cannot be undone...
          </p>
          <form method="POST" action="{% url 'stop-trial' trial.pk %}">
            {% csrf_token %}

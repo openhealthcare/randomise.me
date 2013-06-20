@@ -34,6 +34,32 @@
               "
               id="report-table"
               >
+              {% if trial.num_reports > 0 %}
+
+              <p>
+                Observations so far: {{ trial.num_reports }} / {{ trial.ending_reports }}
+              </p>
+              <div id="observation-ticker">
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                  RM.graphs.observation_ticker({{ trial.num_reports }}, {{ trial.ending_reports }});
+                  })
+                </script>
+              </div><!--observation-ticker-->
+              {% endif %}
+              {% if trial.num_reports >= trial.ending_reports %}
+                <p>
+                  You have reached the target number of observations do you want to stop the trial?
+                </p>
+                <p>
+                  <center>
+                    <a href="#stopit" role="button" data-toggle="modal" class="btn btn-warning">
+                      stop this trial
+                      </a>
+
+                  <center>
+                </p>
+              {% endif %}
               <table width="" cellspacing="" cellpadding="" border=""
                      class="table table-bordered table-hover table-striped"
                      >

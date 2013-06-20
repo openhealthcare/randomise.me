@@ -14,6 +14,7 @@ import numpy as np
 from scipy import stats as scistats
 from sorl import thumbnail
 from statsmodels.stats.power import tt_ind_solve_power
+from statsmodels.stats.weightstats import ttest_ind
 
 from rm import exceptions
 from rm.trials import managers, tasks
@@ -378,6 +379,15 @@ class Trial(models.Model):
             participant.send_ended_notification()
         return
 
+    def num_reports(self):
+        """
+        the number of completed reports
+
+        Return: int
+        Exceptions: None
+        """
+        return self.report_set.exclude(date__isnull=True).count()
+
 
 class Invitation(models.Model):
     """
@@ -689,6 +699,7 @@ class TrialAnalysis(models.Model):
     meanb = models.FloatField(blank=True, null=True)
     stderrmeana = models.FloatField(blank=True, null=True)
     stderrmeanb = models.FloatField(blank=True, null=True)
+    pval = models.FloatField(blank=True, null=True)
 
     @staticmethod
     def report_on(trial):
@@ -713,6 +724,8 @@ class TrialAnalysis(models.Model):
         small = tt_ind_solve_power(effect_size=0.1, alpha=0.05, nobs1=nobs1, power=None)
         med = tt_ind_solve_power(effect_size=0.2, alpha=0.05, nobs1=nobs1, power=None)
         large = tt_ind_solve_power(effect_size=0.5, alpha=0.05, nobs1=nobs1, power=None)
+        tstat, pval, df = ttest_ind(pointsa, pointsb)
+
         tr = TrialAnalysis.objects.get_or_create(trial=trial)[0]
 
         tr.power_small=small
@@ -726,6 +739,7 @@ class TrialAnalysis(models.Model):
         tr.meanb = meanb
         tr.stderrmeana = stderrmeana
         tr.stderrmeanb = stderrmeanb
+        tr.pval = pval
 
         tr.save()
         return

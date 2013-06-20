@@ -15,11 +15,24 @@
     </div>
     <div class="span4">
       {% with trial.trialanalysis_set.get as anal %}
-        <p>
-          Number of observations: {{ trial.report_set.count }}
-        </p>
 
       <table class="table">
+        <tr>
+          <td colspan="2">
+            Number of observations:
+          </td>
+          <td>
+            {{ trial.report_set.count }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            P-value for a t-test comparing the two means:
+          </td>
+          <td>
+            {{ anal.pval|floatformat:"3" }}
+          </td>
+        </tr>
         <tr>
           <td></td>
           <td>Group A</td>

@@ -634,12 +634,25 @@ ul.parsley-error-list li {
 }
 
 /* Graph Stuffs */
+#observation-ticker {
+    margin: 10px auto;
+}
+
+#observation-ticker .chart {
+    background: #ffc711;
+    width: 1124px;
+    height: 44px;
+}
+
 .chart div {
   font: 10px sans-serif;
   text-align: right;
+  height: 38px;
+  font-size: 12px;
   padding: 3px;
   margin: 1px;
   color: white;
+  background: #e54f25;
 }
 
 .chart rect {
@@ -837,6 +850,9 @@ ul.parsley-error-list li {
 #protocol-menu ul li a{
     color: #e54f25;
     font-weight: 400;
+}
+#protocol-menu ul li a.btn{
+    color: white;
 }
 #protocol-menu ul li a:hover {
     color: white;

@@ -296,7 +296,29 @@ var RM = {
                 .attr('text-anchor', 'end')
                 .text(function(d) { return d.name + ' (' + d.avg + ')' })
 
-        }
+        },
+
+        // Number of observations so faras a ticker
+        observation_ticker: function(num, max){
+
+            var chart = d3.select('#observation-ticker').append('div')
+                .attr('class', 'chart')
+
+            var data = [num];
+            var obs = 1124/max
+            if(num > max){
+                var width = 1124;
+            }else{
+                var width = obs * num
+            }
+
+            chart.selectAll('div')
+                .data(data)
+                .enter().append('div')
+                .style('width', function(d) { return width + "px"})
+                // .text(function(d){ return d })
+
+        },
     },
 
     interactions: {
