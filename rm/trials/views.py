@@ -660,7 +660,7 @@ class TrialAsCsv(View):
         """
         trial = Trial.objects.get(pk=pk)
         rows = [
-            (report.group.name, report.date.isoformat(), report.score)
+            (report.group.name, report.date.isoformat(), report.get_value())
             for report in trial.report_set.all()
             ]
 
@@ -669,7 +669,7 @@ class TrialAsCsv(View):
             csv.writerows([[
                     'group',
                     'date'
-                    'score'
+                    'value'
                     ]] + rows)
         return raw
 

@@ -49,11 +49,6 @@ urlpatterns = patterns(
     # Static content pages
     url(r'about$', TemplateView.as_view(template_name='about.html'),
         name='about-rm'),
-    # url(r'about-rcts$', TemplateView.as_view(template_name='rcts.html'),
-    #     name='about-rcts'),
-    # url(r'how-do-rcts-work$',
-    #     TemplateView.as_view(template_name='how-do-rcts-work.html'),
-    #     name='how-do-rcts-work'),
     url(r'how-does-rm-work$',
         TemplateView.as_view(template_name='how-does-rm-work.html'),
         name='how-does-rm-work'),
@@ -71,7 +66,6 @@ urlpatterns = patterns(
         view  = faq_views.QuestionDetail.as_view(),
         name  = 'faq_question_detail',
     ),
-#    url(r'dash$', MyTrials.as_view(), name='dash'),
 
     # profile editor
     url(r'account$', RMUserUpdate.as_view(), name='account-edit'),

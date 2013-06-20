@@ -21,8 +21,8 @@
       {% endfor %}
       <div class="dashboard-widget-extra">
         {% for trial in randomising_me %}
-          {% include 'dashboard/randomising_me_detail.html' %}
         {% if forloop.counter > 2 %}
+          {% include 'dashboard/randomising_me_detail.html' %}
         {% endif %}
       {% endfor %}
       </div>
