@@ -6,6 +6,14 @@ body {
     line-height: 24px;
 }
 
+@media (max-width: 480px) {
+    body {
+        padding: 0px 2px;
+    }
+}
+
+
+
 p {
 
 /*     font-family: 'Rosario', sans-serif; */
@@ -19,6 +27,13 @@ h1 {
     background-repeat: no-repeat;
     background-position: right;
     margin-bottom: 50px;
+}
+
+
+@media (max-width: 480px) {
+    h1 {
+        background: none !important;
+    }
 }
 
 h1.nodots {
