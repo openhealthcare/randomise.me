@@ -570,6 +570,9 @@ html.nologo .masthead #header-logo {
     background: white;
     color: black;
 }
+.footer a.img:hover {
+    background: transparent;
+}
 
 /* Pages */
 .page { margin-top: 40px; }
