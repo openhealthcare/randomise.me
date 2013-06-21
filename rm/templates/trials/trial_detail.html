@@ -48,7 +48,10 @@
   </div>
   {% include detail_template %}
 
-  <div class="row-fluid feature-box drop48">
+    <h3>
+      <span class="red bold">COMMENTS</span> <span class="light">ON THIS TRIAL</span>
+    </h3>
+  <div class="row-fluid feature-box ">
     <div class="span6">
   {% if user.is_authenticated %}
     {% get_comment_form for object as form %}
@@ -66,7 +69,7 @@
     </button>
     </form>
   {% else %}
-    <p>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment.</p>
+    <p>Please <a href="/accounts/login?next={{trial.get_absolute_url}}">log in</a> to leave a comment.</p>
   {% endif %}
 
   {% render_comment_list for trial %}

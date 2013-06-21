@@ -208,7 +208,7 @@ THUMBNAIL_DEBUG = True
 
 # Our Settings
 
-BASICAUTH = True
+BASICAUTH = False
 RM_REMINDER_DELAY = 86400
 
 # Dummy settings as a reminder
