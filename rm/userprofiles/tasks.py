@@ -6,9 +6,6 @@ from django.conf import settings
 from django.contrib.comments.models import Comment
 import letter
 
-from rm.userprofiles.models import RMUser
-from rm.trials.models import Trial
-
 POSTIE = letter.DjangoPostman()
 
 @task
@@ -25,6 +22,10 @@ def notify_new_comment(trial_pk, comment_pk):
     Return: None
     Exceptions: None
     """
+    from rm.userprofiles.models import RMUser
+    from rm.trials.models import Trial
+
+
     comment = Comment.objects.get(pk=comment_pk)
     trial = Trial.objects.get(pk=trial_pk)
     owner = trial.owner
