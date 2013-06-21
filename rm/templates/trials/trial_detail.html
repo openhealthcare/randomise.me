@@ -1,4 +1,5 @@
 {% extends 'baser.html' %}
+{% load comments %}
 {% load staticfiles %}
 {% load share %}
 
@@ -47,7 +48,32 @@
   </div>
   {% include detail_template %}
 
+  <div class="row-fluid feature-box drop48">
+    <div class="span6">
+  {% if user.is_authenticated %}
+    {% get_comment_form for object as form %}
+    <form action="{% comment_form_target %}" method="POST">
+    {% csrf_token %}
+    {{ form.comment }}
+    {{ form.honeypot }}
+    {{ form.content_type }}
+    {{ form.object_pk }}
+    {{ form.timestamp }}
+    {{ form.security_hash }}
+    <input type="hidden" name="next" value="{{ trial.get_absolute_url }}" />
+    <button class="btn btn-warning">
+      add your comment
+    </button>
+    </form>
+  {% else %}
+    <p>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment.</p>
+  {% endif %}
+
+  {% render_comment_list for trial %}
+
+    </div>
   <!-- {% include 'trials/possibly_related.html' %} -->
+  </div>
 
 </div>
 {% endblock %}

@@ -833,6 +833,14 @@ ul.parsley-error-list li {
     margin-bottom: 12px;
 }
 
+/* Comments */
+#comments dt {
+    font-size: 0.8em;
+}
+#comments dd {
+    background: #efe8e6;
+    margin-bottom: 24px;
+}
 
 .span2.protocol-item {
     background: #efe8e6;
