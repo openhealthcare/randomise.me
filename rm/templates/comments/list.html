@@ -4,7 +4,7 @@
   {% for comment in comment_list %}
     <dt id="c{{ comment.id }}">
       <p>
-        {% gravatar comment.name 40 %} <a href="{% get_comment_permalink comment %}">{{ comment.submit_date }}</a>
+        {% gravatar comment.name 40 %} {{ comment.name }} <a href="{% get_comment_permalink comment %}">{{ comment.submit_date }}</a>
       </p>
     </dt>
     <dd>
