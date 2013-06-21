@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     # 'django_cas',
     'django_extensions',
+    'django_gravatar',
     'djcelery',
     'sorl.thumbnail',
     'form_utils',

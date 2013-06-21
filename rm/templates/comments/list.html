@@ -1,7 +1,11 @@
+{% load gravatar %}
+{% load comments %}
 <dl id="comments">
   {% for comment in comment_list %}
     <dt id="c{{ comment.id }}">
-        {{ comment.submit_date }} - {{ comment.name }}
+      <p>
+        {% gravatar comment.name 40 %} <a href="{% get_comment_permalink comment %}">{{ comment.submit_date }}</a>
+      </p>
     </dt>
     <dd>
         <p>{{ comment.comment }}</p>
