@@ -28,6 +28,8 @@ def notify_new_comment(trial_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     trial = Trial.objects.get(pk=trial_pk)
     owner = trial.owner
+    if comment.email == owner.email:
+        return
 
     class Message(letter.Letter):
         Postie   = POSTIE
