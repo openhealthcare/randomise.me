@@ -15,7 +15,7 @@
       {% for q in faq %}
         <div class="row-fluid">
           <h3 class="grey">
-            <a href="{{ q.get_absolute_url }}">
+            <a href="{% url 'faq_question_detail' q.topic.slug q.slug %}">
               {{ q.text }}
             </a>
           </h3>
