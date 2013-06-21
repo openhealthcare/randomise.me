@@ -46,7 +46,6 @@ def notify_new_comment(trial_pk, comment_pk):
             'trial_href'  : settings.DEFAULT_DOMAIN + comment.get_absolute_url()
             }
 
-    print 'sending'
     owner.send_message(Message)
 
     return
