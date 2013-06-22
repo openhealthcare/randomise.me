@@ -1,5 +1,7 @@
 {% load thumbnail %}
 {% load staticfiles %}
+{% load markup %}
+{% load maths %}
 
   <div class="row">
     <div class="span8">
@@ -106,11 +108,26 @@
                 You have reported {{ trial.report_set.count }} observations so far
               </b>
             </p>
+            <ul class="unstyled">
+              <li>
+                {{ trial.ending_reports }} observations required
+              </li>
+            </ul>
+
+
           {% else %}
-            <p><b>
-                {{ trial.participant_set.count }} participants have reported
-                {{ trial.report_set.count }} observations so far
-              </b></p>
+              <b>
+                  <p>
+                    Requiring {{ trial.min_participants }} participants
+                  </p>
+                  <p>
+                    {{ trial.report_set.count }} completed participants so far
+                  </p>
+                  <p>
+                    {{ trial.participant_set.count|subtract:trial.report_set.count }}
+                    accepted randomization but not yet provided outcome data
+                  </p>
+              </b>
             {% endif %}
 
         </div>
@@ -245,7 +262,8 @@
 
 {% endif %}
 
-<div class="row-fluid">
+
+<div class="row-fluid innerrow">
   <div class="span2 protocol-item">
     <b>
       Participant <br />
@@ -266,29 +284,12 @@
     </div>
   </div>
   <div class="span10 protocol-detail">
-    {% if trial.image %}
-      {% thumbnail trial.image "300x200" crop="center" as im %}
-      <p>
-        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-      </p>
-    {% endthumbnail %}
-  {% endif %}
-
-  <p>
-    {{ trial.description }}
-  </p>
-
-  {% if trial.secret_info %}
-    <p>
-      {{ trial.secret_info }}
-    </p>
-  {% endif %}
-
+    {{ trial.description|markdown }}
+    {% if trial.secret_info %}{{ trial.secret_info|markdown }}{% endif %}
   </div>
 </div> <!-- row -->
 
 
-{% if show_instructions %}
 <div class="row-fluid">
   <div class="span2 protocol-item">
     <b>
@@ -327,9 +328,6 @@
     </p>
   </div>
 </div> <!-- row -->
-
-{% endif %}
-
 
 
 </div> <!-- Row fluid -->

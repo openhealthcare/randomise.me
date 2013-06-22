@@ -274,12 +274,10 @@ class TrialDetail(DetailView):
 
         detail_template = 'trials/trial_detail_recruiting.html'
         page_title = 'Recruiting Trial'
-        show_instructions = False
 
         if trial.finished:
             detail_template = 'trials/trial_detail_report.html'
             page_title = 'Trial Report'
-            show_instructions = True
             if trial.owner == self.request.user:
                 context['is_owner'] = True
 
@@ -287,7 +285,6 @@ class TrialDetail(DetailView):
             if trial.owner == self.request.user:
                 detail_template = 'trials/trial_detail_owner.html'
                 page_title = 'Your Trial'
-                show_instructions = True
                 context['is_owner'] = True
                 if trial.participant_set.filter(user=trial.owner).count() > 0:
                     context['can_report'] = True
@@ -317,7 +314,6 @@ class TrialDetail(DetailView):
 
         context['detail_template'] = detail_template
         context['page_title'] = page_title
-        context['show_instructions'] = show_instructions
         return context
 
 class TrialQuestion(TrialByPkMixin, ContactView):
