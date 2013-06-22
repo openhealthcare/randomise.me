@@ -714,6 +714,11 @@ class TrialAnalysis(models.Model):
         """
         Calculate headline stats for TRIAL once
         """
+        tr = TrialAnalysis.objects.get_or_create(trial=trial)[0]
+
+        if trial.report_set.count() < 2:
+            return
+
         nobs1 = int(trial.report_set.count()/2)
         reports = trial.report_set.exclude(date__isnull=True)
         points = [t.get_value() for t in reports]
@@ -747,16 +752,16 @@ class TrialAnalysis(models.Model):
                     To = 'david@deadpansincerity.com'
                     Subject = 'Chi2 failure instance'
                     Body = "Couldn't run chi2 for {0}\n\n{1}".format(str(obs), exc)
-
-                Message.send()
+                try:
+                    Message.send()
+                except:
+                    print exc
 
                 pval = None
 
         else:
             tstat, pval, df = ttest_ind(pointsa, pointsb)
 
-
-        tr = TrialAnalysis.objects.get_or_create(trial=trial)[0]
 
         tr.power_small=small
         tr.power_med=med
