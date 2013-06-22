@@ -245,6 +245,8 @@ class TrialDetail(DetailView):
                                 * have an email address that matches an
                                   invitation for this trial
         """
+        if self.request.user.is_authenticated() and self.request.user.is_superuser:
+            return super(TrialDetail, self).get(*args, **kw)
         trial = self.get_object()
         if trial.private:
             if self.request.user != trial.owner:
