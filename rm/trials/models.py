@@ -3,6 +3,7 @@ MODELS for trials we're running
 """
 import datetime
 import random
+import traceback
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -736,7 +737,21 @@ class TrialAnalysis(models.Model):
                              len([p for p in pointsa if p == False])],
                             [len([p for p in pointsb if p == True]),
                              len([p for p in pointsb if p == False])]])
-            pval = scistats.chi2_contingency(obs)
+            try:
+                chi2, pval, dof, expected = scistats.chi2_contingency(obs)
+            except ValueError:
+                exc = traceback.format_exc()
+                class Message(letter.Letter):
+                    Postie = POSTIE
+                    From = 'chisquare@randomiseme.org'
+                    To = 'david@deadpansincerity.com'
+                    Subject = 'Chi2 failure instance'
+                    Body = "Couldn't run chi2 for {0}\n\n{1}".format(str(obs), exc)
+
+                Message.send()
+
+                pval = None
+
         else:
             tstat, pval, df = ttest_ind(pointsa, pointsb)
 
