@@ -182,7 +182,8 @@ class ReportView(CreateView):
         if variable.style == variable.SCORE:
             report.score = int(self.request.POST['score'])
         elif variable.style == variable.BINARY:
-            report.binary = bool(self.request.POST['binary'])
+            binary = int(self.request.POST['binary']) == 1
+            report.binary = binary
         elif variable.style == variable.COUNT:
             report.count = int(self.request.POST['count'])
         elif variable.style == variable.TIME:

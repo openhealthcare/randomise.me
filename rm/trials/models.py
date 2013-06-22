@@ -731,7 +731,15 @@ class TrialAnalysis(models.Model):
         small = tt_ind_solve_power(effect_size=0.1, alpha=0.05, nobs1=nobs1, power=None)
         med = tt_ind_solve_power(effect_size=0.2, alpha=0.05, nobs1=nobs1, power=None)
         large = tt_ind_solve_power(effect_size=0.5, alpha=0.05, nobs1=nobs1, power=None)
-        tstat, pval, df = ttest_ind(pointsa, pointsb)
+        if trial.variable_set.get().style == Variable.BINARY:
+            obs = np.array([[len([p for p in pointsa if p == True]),
+                             len([p for p in pointsa if p == False])],
+                            [len([p for p in pointsb if p == True]),
+                             len([p for p in pointsb if p == False])]])
+            pval = scistats.chi2_contingency(obs)
+        else:
+            tstat, pval, df = ttest_ind(pointsa, pointsb)
+
 
         tr = TrialAnalysis.objects.get_or_create(trial=trial)[0]
 

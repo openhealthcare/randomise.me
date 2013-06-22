@@ -34,7 +34,7 @@ class ReportAdmin(admin.ModelAdmin):
     Manual admin of data reports
     """
     list_filter = ('trial',)
-    list_display = ['trial', 'date', 'group']
+    list_display = ['trial', 'date', 'group', 'get_value']
 
 class TutorialAdmin(admin.ModelAdmin):
     list_display  = ['name', 'question', 'measure_style', 'measure_question', 'group_a', 'group_b']

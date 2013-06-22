@@ -253,12 +253,18 @@ class BinaryReportForm(BaseTrialReportForm):
     """
     Report on a binary outcome
     """
+    CHOICES = (
+        (1,'Yes'),
+        (0,'No'),
+        )
     class Meta:
         binary = True
         model = Report
 
-    binary = fields.NullBooleanField(
-        widget= widgets.NullBooleanSelect(attrs={
+    binary = forms.TypedChoiceField(
+        coerce=int,
+        choices=CHOICES,
+        widget= widgets.RadioSelect(attrs={
                 'data-required': 'true'
                 }))
 
