@@ -133,6 +133,7 @@ class Trial(models.Model):
     is_edited         = models.BooleanField(default=False)
     created           = models.DateTimeField(default=lambda: datetime.datetime.now())
     private           = models.BooleanField(default=False)
+    hide              = models.BooleanField(default=False)
     parent            = models.ForeignKey('self', blank=True, null=True,
                                           related_name='child')
 

@@ -14,9 +14,9 @@ class TrialAdmin(admin.ModelAdmin):
     """
     list_filter = ('owner__email', 'n1trial', 'private')
     list_display = ['title', 'pk', 'private', 'owner', 'featured', 'n1trial', 'stopped',
-                    'recruitment']
+                    'recruitment', 'hide']
     list_search = ['title', 'description', 'group_a', 'group_b']
-    list_editable = ['featured',]
+    list_editable = ['featured','hide']
     inlines = [VariableInline]
 
 class VariableAdmin(admin.ModelAdmin):
