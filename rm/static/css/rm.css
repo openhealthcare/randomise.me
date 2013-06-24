@@ -985,3 +985,47 @@ body div.rm,
 .beta {
     color: #959291;
 }
+
+/* Voting */
+.suffrage-widget div {
+    float: left
+}
+.suffrage-total {
+    font-size: 3em;
+    margin: 12px;
+}
+
+.suffrage-pluses div,
+.suffrage-minuses div{
+    margin-top: 4px;
+    font-weight: bold;
+    font-size: 1.6em;
+    padding: 3px;
+}
+.suffrage-pluses div:hover,
+.suffrage-minuses div:hover{
+    color: white;
+    background: #e54f25;
+    cursor: pointer;
+}
+.suffrage-pluses div{
+    color: #959291;
+}
+
+.suffrage-minuses div{
+    color: #959291;
+}
+
+.suffrage-pluses.yours div,
+.suffrage-minuses.yours div{
+    color: #fbc30c;
+}
+
+
+.suffrage-widget button {
+    background: transparent;
+    border: none;
+    display: inline-block;
+    float: left;
+    margin-top: 6px;
+}

@@ -151,12 +151,14 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'faq',
+    'secretballot',
     'south',
     'terms',
     # Our Apps
     'rm.trials',
     'rm.userprofiles',
     'rm.gcapp',
+    'rm.suffrage',
 )
 
 # A sample logging configuration. The only tangible logging

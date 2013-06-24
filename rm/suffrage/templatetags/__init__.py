@@ -1,0 +1,3 @@
+"""
+Make the templatetags discoverable
+"""

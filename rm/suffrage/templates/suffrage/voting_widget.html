@@ -1,0 +1,30 @@
+<div class="suffrage-widget">
+
+  <form method="POST" id="voting-form" action="{{ object.get_voting_url }}">
+    {% csrf_token %}
+    <input type="hidden" name="vote" value="{{ up }}" />
+  <button class="suffrage-pluses {% if vote.val == vote.PLUS_ONE %}yours{% endif %}">
+    <div>
+      <i class="icon-thumbs-up"></i>
+      {{ object.suffrage.pluses }}
+    </div>
+  </button>
+  </form>
+
+
+  <div class="suffrage-total">
+    {{ object.suffrage.score }}
+  </div>
+
+  <form method="POST" id="voting-form" action="{{ object.get_voting_url }}">
+    {% csrf_token %}
+    <input type="hidden" name="vote" value="{{ down }}" />
+  <button class="suffrage-minuses {% if vote.val == vote.MINUS_ONE %}yours{% endif %}">
+    <div>
+      <i class="icon-thumbs-down"></i>
+      {{ object.suffrage.minuses }}
+    </div>
+  </button>
+  </form>
+
+</div>

@@ -13,11 +13,13 @@ from django.db import models
 import letter
 import numpy as np
 from scipy import stats as scistats
+import secretballot
 from sorl import thumbnail
 from statsmodels.stats.power import tt_ind_solve_power
 from statsmodels.stats.weightstats import ttest_ind
 
 from rm import exceptions
+from rm.suffrage.models import VotableMixin
 from rm.trials import managers, tasks
 
 td = lambda: datetime.date.today()
@@ -26,7 +28,7 @@ Avg = models.Avg
 User = get_user_model()
 
 
-class Trial(models.Model):
+class Trial(VotableMixin, models.Model):
     """
     An individual trial that we are running.
     """
@@ -389,6 +391,8 @@ class Trial(models.Model):
         Exceptions: None
         """
         return self.report_set.exclude(date__isnull=True).count()
+
+secretballot.enable_voting_on(Trial)
 
 
 class Invitation(models.Model):

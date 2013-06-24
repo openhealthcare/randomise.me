@@ -10,6 +10,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 admin.autodiscover()
 
+from rm.trials.models import Trial
 from rm.trials.views import TrialSearchView, TutorialView, TutorialFromExampleView
 from rm.views import HomeView, RMContactView
 from rm.userprofiles.views import RMUserUpdate
@@ -79,6 +80,10 @@ urlpatterns = patterns(
     url(r'search$', TrialSearchView.as_view(), name='search'),
 
     url(r'^stats/', include('rm.stats.urls')),
+
+    # Votes
+    url(r'^suffrage/', include('rm.suffrage.urls')),
+    # url('^suffrage/trial/(?P<pl>\d+)$', VoteView.as_view(model=Trial), name='trial-vote'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

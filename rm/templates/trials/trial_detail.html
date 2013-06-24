@@ -1,6 +1,7 @@
 {% extends 'baser.html' %}
 {% load comments %}
 {% load staticfiles %}
+{% load suffrage %}
 {% load share %}
 
 {% block extratitle %} - Trials - {{ trial.title }}{% endblock %}
@@ -44,6 +45,7 @@
         </h3>
       </a>
       {% share_this %}
+      {% voting_widget trial %}
     </div>
   </div>
 
