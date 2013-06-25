@@ -19,6 +19,8 @@ def voting_widget(context, obj):
         if vote:
             has_voted = True
             val = vote.val
+    else:
+        vote = None
 
     return dict(
         up=Vote.PLUS_ONE,
