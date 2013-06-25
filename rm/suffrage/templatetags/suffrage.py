@@ -14,10 +14,11 @@ def voting_widget(context, obj):
     """
     has_voted, val = False, None
     user = context['request'].user
-    vote = obj.suffrage.vote_by(user)
-    if vote:
-        has_voted = True
-        val = vote.val
+    if user.is_authenticated():
+        vote = obj.suffrage.vote_by(user)
+        if vote:
+            has_voted = True
+            val = vote.val
 
     return dict(
         up=Vote.PLUS_ONE,
