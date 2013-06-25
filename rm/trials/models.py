@@ -138,7 +138,7 @@ class Trial(VotableMixin, models.Model):
     is_edited         = models.BooleanField(default=False)
     created           = models.DateTimeField(default=lambda: datetime.datetime.now())
     private           = models.BooleanField(default=False)
-    hide              = models.BooleanField(default=False, blank=True, null=True)
+    hide              = models.NullBooleanField(default=False, blank=True, null=True)
     parent            = models.ForeignKey('self', blank=True, null=True,
                                           related_name='child')
 
