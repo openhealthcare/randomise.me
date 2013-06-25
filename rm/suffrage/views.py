@@ -78,3 +78,9 @@ class VoteView(View):
         if self.request.is_ajax():
             return JsonResponse(dict(error=None, vote=val))
         return HttpResponseRedirect(obj.get_absolute_url())
+
+    def get(self, *args, **kwargs):
+        """
+        Return to object or 404
+        """
+        return HttpResponseRedirect(self.get_object_or_404(kwargs['pk']).get_absolute_url())
