@@ -67,7 +67,7 @@ class VoteView(View):
         """
         obj = self.get_object_or_404(kwargs['pk'])
         val = self.request.POST.get('vote')
-        vote, new = Vote.objects.get_or_create(contenttype=self.contenttype,
+        vote, new = Vote.objects.get_or_create(content_type=self.contenttype,
                                              object_id=obj.pk,
                                              voter=self.request.user,
                                              defaults={'val': val})

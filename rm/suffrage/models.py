@@ -31,7 +31,7 @@ class VotableMixin(object):
 
             def _count_for(self, vote_direction):
                 return Vote.objects.filter(val=vote_direction,
-                                           contenttype=self._content_id,
+                                           content_type=self._content_id,
                                            object_id=instance.pk).count()
 
             @property
@@ -62,7 +62,7 @@ class VotableMixin(object):
                 try:
                     return Vote.objects.get(voter=user,
                                             object_id=instance.pk,
-                                            contenttype=self._content_id)
+                                            content_type=self._content_id)
                 except Vote.DoesNotExist:
                     return None
 
@@ -80,14 +80,14 @@ class Vote(models.Model):
         (MINUS_ONE, '-1'),
         )
 
-    val            = models.SmallIntegerField(choices=VOTE_CHOICES)
-    contenttype    = models.ForeignKey(ContentType)
+    val            = models.FloatField(choices=VOTE_CHOICES)
+    content_type    = models.ForeignKey(ContentType)
     object_id      = models.IntegerField()
-    content_object = generic.GenericForeignKey('contenttype', 'object_id')
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
     voter          = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
-        unique_together = (('voter', 'contenttype', 'object_id'),)
+        unique_together = (('voter', 'content_type', 'object_id'),)
 
     def __unicode__(self):
         return '{0} Vote on {1}'.format(self.get_vote_display(), self.content_object)

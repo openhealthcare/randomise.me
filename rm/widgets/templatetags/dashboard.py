@@ -195,7 +195,8 @@ def active_trials_widget(context):
     active = Trial.objects.filter(
         recruitment=Trial.ANYONE,
         private=False,
-        n1trial=False).exclude(hide=True).order_by('votes__val')[:7]
+        n1trial=False,
+        votes__isnull=False).exclude(hide=True).order_by('-votes__val')[:7]
     return dict(active=active)
 
 @register.inclusion_tag('trials/widgets/past_trials_widget.html', takes_context=True)
@@ -204,9 +205,10 @@ def past_trials_widget(context):
     Widget for past trials before we move to full page past trials.
     """
     past = Trial.objects.filter(
-        stopped=True, private=False).exclude(
+        stopped=True, private=False,
+        votes__isnull=False).exclude(
         hide=True).order_by(
-        'votes__val')[:7]
+        '-votes__val')[:7]
     return dict(past=past)
 
 @register.inclusion_tag('trials/widgets/latest_trials_widget.html', takes_context=True)
