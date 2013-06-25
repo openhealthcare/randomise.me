@@ -193,9 +193,8 @@ def active_trials_widget(context):
     Widget for active trials before we move to full page active trials.
     """
     active = Trial.objects.filter(
-        recruitment=Trial.ANYONE,
         private=False,
-        n1trial=False,
+        stopped=False,
         votes__isnull=False).exclude(hide=True).order_by('-votes__val')[:7]
     return dict(active=active)
 

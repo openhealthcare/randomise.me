@@ -693,9 +693,8 @@ class ActiveTrialsView(ListView):
     All active Trials
     """
     queryset = Trial.objects.filter(
-        recruitment=Trial.ANYONE,
         private=False,
-        n1trial=False).exclude(hide=True).order_by('-created')
+        stopped=False).exclude(hide=True).order_by('-created')
     context_object_name = 'trials'
     template_name = 'trials/active_trial_list.html'
 
