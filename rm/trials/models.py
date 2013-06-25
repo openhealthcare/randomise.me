@@ -7,19 +7,19 @@ import traceback
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes import generic
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
 import letter
 import numpy as np
 from scipy import stats as scistats
-import secretballot
 from sorl import thumbnail
 from statsmodels.stats.power import tt_ind_solve_power
 from statsmodels.stats.weightstats import ttest_ind
 
 from rm import exceptions
-from rm.suffrage.models import VotableMixin
+from rm.suffrage.models import VotableMixin, Vote
 from rm.trials import managers, tasks
 
 td = lambda: datetime.date.today()
@@ -126,6 +126,9 @@ class Trial(VotableMixin, models.Model):
     # Currently unused power calcs
     group_a_expected  = models.IntegerField(blank=True, null=True)
     group_b_impressed = models.IntegerField(blank=True, null=True)
+
+    # popularity
+    votes             = generic.GenericRelation(Vote)
 
     # Metadata
     owner             = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -391,8 +394,6 @@ class Trial(VotableMixin, models.Model):
         Exceptions: None
         """
         return self.report_set.exclude(date__isnull=True).count()
-
-secretballot.enable_voting_on(Trial)
 
 
 class Invitation(models.Model):

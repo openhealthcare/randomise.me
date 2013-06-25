@@ -80,8 +80,8 @@ class Vote(models.Model):
         (MINUS_ONE, '-1'),
         )
 
-    val           = models.SmallIntegerField(choices=VOTE_CHOICES)
-    contenttype    = models.ForeignKey(ContentType, related_name='votes')
+    val            = models.SmallIntegerField(choices=VOTE_CHOICES)
+    contenttype    = models.ForeignKey(ContentType)
     object_id      = models.IntegerField()
     content_object = generic.GenericForeignKey('contenttype', 'object_id')
     voter          = models.ForeignKey(settings.AUTH_USER_MODEL)

@@ -10,7 +10,8 @@ from rm.trials.views import (MyTrials, TrialCreateLanding,
                              ToggleTrialPublicityView,
                              LeaveTrial, PeekTrial, InviteTrial,
                              ReproduceTrial, TrialAsCsv,
-                             AllTrials, FeaturedTrialsList)
+                             AllTrials, FeaturedTrialsList,
+                             ActiveTrialsView, PastTrialsView)
 
 
 urlpatterns = patterns(
@@ -39,6 +40,8 @@ urlpatterns = patterns(
 
     # Multiple ways to see lists of trials
     url(r'featured$', FeaturedTrialsList.as_view(), name='featured'),
+    url(r'active$', ActiveTrialsView.as_view(), name='browse-active-trials'),
+    url(r'past$', PastTrialsView.as_view(), name='browse-past-trials'),
     url(r'$', AllTrials.as_view(), name='trials'),
 
 )

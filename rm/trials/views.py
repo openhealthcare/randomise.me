@@ -685,21 +685,31 @@ class AllTrials(TemplateView):
     """
     The all trials tab of the site
     """
-    template_name = 'trials.html'
+    template_name = 'trials/browse.html'
 
-    def get_context_data(self, **kw):
-        """
-        Add popular and featured trials to the all trials page
-        """
-        context = super(AllTrials, self).get_context_data(**kw)
-        today = datetime.datetime.today()
-        active = Trial.objects.filter(recruitment=Trial.ANYONE, private=False, n1trial=False).exclude(hide=True)
 
-        # if self.request.user.is_authenticated():
-        #     active = active.exclude(owner=self.request.user).exclude(participant__user=self.request.user)
-        context['active'] = active
-        context['past'] = Trial.objects.filter(stopped=True, private=False).exclude(hide=True)
-        return context
+class ActiveTrialsView(ListView):
+    """
+    All active Trials
+    """
+    queryset = Trial.objects.filter(
+        recruitment=Trial.ANYONE,
+        private=False,
+        n1trial=False).exclude(hide=True).order_by('votes__val')
+    context_object_name = 'trials'
+    template_name = 'trials/active_trial_list.html'
+
+
+class PastTrialsView(ListView):
+    """
+    All past trials
+    """
+    queryset = Trial.objects.filter(
+        stopped=True, private=False).exclude(
+        hide=True).order_by(
+        'votes__val')
+    context_object_name = 'trials'
+    template_name = 'trials/past_trial_list.html'
 
 
 class FeaturedTrialsList(ListView):

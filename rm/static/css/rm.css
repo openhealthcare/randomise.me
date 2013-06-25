@@ -791,6 +791,10 @@ ul.parsley-error-list li {
     min-height: 28px;
 }
 
+.dashboard-widget-footer a {
+    color: #e54f25;
+}
+
 .dashboard-widget-footer .expand {
     color: #e54f25;
     font-weight: 400;

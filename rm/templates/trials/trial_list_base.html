@@ -1,0 +1,48 @@
+{% extends 'baser.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+
+  <div class="page">
+    <h1>
+      <span class="greyunder">{% block h1 %}{% endblock %}</span>
+    </h1>
+
+    <div class="row-fluid">
+
+      <div class="dashboard-widget">
+        <div class="dashboard-widget-preheader"></div>
+        <div class="dashboard-widget-header">
+        </div> <!-- dw-header -->
+        <div class="dashboard-widget-body">
+          {% for trial in trials %}
+            <a href="{{ trial.get_absolute_url }}">
+              <div class="row-fluid dashboard-widget-item">
+                {% if trial.n1trial %}
+                  <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
+                {% else %}
+                  <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
+                {% endif %}
+                <h3>
+                  ({{ trial.suffrage.score }})
+                  {{ trial.title }}
+                </h3>
+                <p>
+                  {{ trial.description|truncatewords:34 }}
+                </p>
+              </div>
+            </a>
+
+{% endfor %}
+        </div> <!-- body -->
+        <div class="dashboard-widget-footer">
+
+        </div>
+        <div class="dashboard-widget-postfooter"></div>
+
+      </div> <!-- Widget -->
+
+    </div>
+  {% endblock %}

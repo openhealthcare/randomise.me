@@ -28,13 +28,25 @@ def dashboard(context):
     tutorial_prompt = True
     if my_trials.count() > 1:
         virgin = False
-        # if my_trials.count() > 4:
-        #     tutorial_prompt = False
 
     context['virgin'] = virgin
     context['tutorial_prompt'] = tutorial_prompt
     return context
 
+@register.inclusion_tag('trials/widgets/featured_trials.html', takes_context=False)
+def featured_trials_full_widget(num):
+    """
+    Return a dictionary with the context for the
+    Featured Trials Widget.
+
+    This widget is a list of trials that have been editorially selected by
+    the Randomise Me Team.
+
+    Return: dict
+    Exceptions: None
+    """
+    featured = Trial.objects.filter(featured=True)[:num]
+    return dict(featured=featured)
 
 @register.inclusion_tag('dashboard/randomising_me_widget.html', takes_context=True)
 def randomising_me_widget(context):
@@ -152,7 +164,6 @@ def virgin_widget():
 def offline_soon_widget():
     return {}
 
-
 @register.inclusion_tag('dashboard/reports_part_widget.html', takes_context=True)
 def reports_part_widget(context):
     user = context['request'].user
@@ -165,7 +176,6 @@ def reports_part_widget(context):
         num=num
         )
 
-
 @register.inclusion_tag('dashboard/reports_ran_widget.html', takes_context=True)
 def reports_ran_widget(context):
     user = context['request'].user
@@ -176,3 +186,36 @@ def reports_ran_widget(context):
         show=num > 0,
         num=num
         )
+
+@register.inclusion_tag('trials/widgets/active_trials_widget.html', takes_context=True)
+def active_trials_widget(context):
+    """
+    Widget for active trials before we move to full page active trials.
+    """
+    active = Trial.objects.filter(
+        recruitment=Trial.ANYONE,
+        private=False,
+        n1trial=False).exclude(hide=True).order_by('votes__val')[:7]
+    return dict(active=active)
+
+@register.inclusion_tag('trials/widgets/past_trials_widget.html', takes_context=True)
+def past_trials_widget(context):
+    """
+    Widget for past trials before we move to full page past trials.
+    """
+    past = Trial.objects.filter(
+        stopped=True, private=False).exclude(
+        hide=True).order_by(
+        'votes__val')[:7]
+    return dict(past=past)
+
+@register.inclusion_tag('trials/widgets/latest_trials_widget.html', takes_context=True)
+def latest_trials_widget(context):
+    """
+    Widget for latest trials before we move to full page latest trials.
+    """
+    latest = Trial.objects.filter(
+        private=False).exclude(
+        hide=True).order_by(
+        '-created')[:7]
+    return dict(latest=latest)
