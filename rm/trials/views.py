@@ -650,7 +650,7 @@ class LeaveTrial(LoginRequiredMixin, TemplateView):
         return context
 
 
-class TrialAsCsv(View):
+class TrialAsCsvView(View):
     """
     Download the trial's raw data as a csv.
     """
@@ -666,14 +666,14 @@ class TrialAsCsv(View):
         trial = Trial.objects.get(pk=pk)
         rows = [
             (report.group.name, report.date.isoformat(), report.get_value())
-            for report in trial.report_set.all()
+            for report in trial.report_set.exclude(date__isnull=True)
             ]
 
         raw = ffs.Path.newfile()
         with raw.csv() as csv:
             csv.writerows([[
                     'group',
-                    'date'
+                    'date',
                     'value'
                     ]] + rows)
         return raw

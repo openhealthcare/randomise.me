@@ -9,7 +9,7 @@ from rm.trials.views import (MyTrials, TrialCreateLanding,
                              EditTrial, TrialQuestion, StopTrial,
                              ToggleTrialPublicityView,
                              LeaveTrial, PeekTrial, InviteTrial,
-                             ReproduceTrial, TrialAsCsv,
+                             ReproduceTrial, TrialAsCsvView,
                              AllTrials, FeaturedTrialsList,
                              ActiveTrialsView, PastTrialsView)
 
@@ -35,7 +35,7 @@ urlpatterns = patterns(
     url(r'(?P<pk>\d+)/leave$', LeaveTrial.as_view(), name='leave-trial'),
     url(r'(?P<pk>\d+)/reproduce$', ReproduceTrial.as_view(),
         name='reproduce-trial'),
-    url(r'(?P<pk>\d+)/as-csv$', TrialAsCsv.as_view(), name='trial-as-csv'),
+    url(r'(?P<pk>\d+)/as-csv$', TrialAsCsvView.as_view(), name='trial-as-csv'),
     url(r'(?P<pk>\d+)/randomise-me', RandomiseMeView.as_view(), name='randomise-me'),
 
     # Multiple ways to see lists of trials
