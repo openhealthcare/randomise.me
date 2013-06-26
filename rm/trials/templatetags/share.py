@@ -12,6 +12,7 @@ def absolute(request):
 def share_this(context):
     "What, you can't copy a URL? Bah."
     return dict(
+        title=context['trial'].title,
         href=absolute(context['request']),
         img=context['request'].build_absolute_uri('/static/img/randomisemelogo.png')
         )
