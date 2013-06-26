@@ -12,7 +12,7 @@ class TrialAdmin(admin.ModelAdmin):
     """
     Tweak trials in the admin.
     """
-    list_filter = ('owner__email', 'n1trial', 'private')
+    list_filter = ('owner__email', 'n1trial', 'private', 'featured')
     list_display = ['title', 'pk', 'private', 'owner', 'featured', 'n1trial', 'stopped',
                     'recruitment', 'hide']
     list_search = ['title', 'description', 'group_a', 'group_b']
