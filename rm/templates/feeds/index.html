@@ -1,0 +1,36 @@
+{% extends 'baser.html' %}
+{% load staticfiles %}
+
+{% block extratitle %} - About {% endblock %}
+
+{% block content %}
+  <div class="page">
+
+  <h1>
+    <span class="greyunder">
+      Feeds
+    </span>
+  </h1>
+<div class="feature-box">
+  <div class="row-fluid">
+      <!-- Main panel -->
+      <div class="span9">
+        <p>
+          We have a number of RSS feeds that allow you to keep track of
+          what's going on with Randomise Me:
+        </p>
+        <ul class="unstyled">
+          <li>
+            <a href="{% url 'new-trials-feed' %}">New public trials</a>
+          </li>
+          <li>
+            <a href="{% url 'finished-trials-feed' %}">Finished trials</a>
+          </li>
+        </ul>
+
+      </div>
+  </div> <!-- Row Fluid -->
+
+</div> <!-- page -->
+
+{% endblock %}

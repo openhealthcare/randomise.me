@@ -84,6 +84,9 @@ urlpatterns = patterns(
     # Votes
     url(r'^suffrage/', include('rm.suffrage.urls')),
     # url('^suffrage/trial/(?P<pl>\d+)$', VoteView.as_view(model=Trial), name='trial-vote'),
+
+    # Syndication
+    url(r'^feeds/', include('rm.feeds.urls')),
 )
 
 urlpatterns += staticfiles_urlpatterns()
