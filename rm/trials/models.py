@@ -152,7 +152,7 @@ class Trial(VotableMixin, models.Model):
         """
         Nice printing representation
         """
-        return '#({0}) {1}'.format(self.pk, self.title)
+        return u'#({0}) {1}'.format(self.pk, self.title)
 
     def get_absolute_url(self):
         return reverse('trial-detail', kwargs={'pk': self.pk})
