@@ -36,7 +36,7 @@ class PowerCalcBinaryView(View):
         Return: str(int)
         Exceptions: None
         """
-        p1, p2 = int(self.request.POST.get('p1')), int(self.request.POST.get('p2'))
+        p1, p2 = int(self.request.POST.get('p1', 0)), int(self.request.POST.get('p2', 0))
         power = float(self.request.POST.get('power'))
         alpha = float(self.request.POST.get('alpha'))
         num = binary_superiority(p1, p2, alpha, power)
