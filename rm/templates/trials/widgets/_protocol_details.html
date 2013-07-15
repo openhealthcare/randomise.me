@@ -14,7 +14,7 @@
             </b>
             <img src="{% static 'img/icons/icn-meas.png' %}" class="protocol-icon" alt="" />
             <div class="protocol-item-help">
-              <a href="#" class="green popsover"
+              <a href="#" class="green popsover helpful"
                  title="The Primary Outcome"
                  data-content="This is the main thing you are measuring in this trial"
                  >
@@ -37,7 +37,7 @@
           </b>
           <img src="{% static 'img/icons/icn-repo.png' %}" class="protocol-icon" alt="" />
           <div class="protocol-item-help">
-            <a href="#" class="green popsover"
+            <a href="#" class="green helpful popsover"
                title="Reporting Protocol"
                data-placement="right"
                data-content="When and how you want to record observations in your trial"
@@ -87,7 +87,7 @@
             <img src="{% static 'img/icons/icn-part.png' %}" class="protocol-icon" alt="" />
           {% endif %}
           <div class="protocol-item-help">
-            <a href="#" class="green popsover"
+            <a href="#" class="green helpful popsover"
                title="Trial Sizing"
                data-content="The current status of how much data you have collected"
                >
@@ -150,7 +150,7 @@
       </b>
       <img src="{% static 'img/icons/icn-publ.png' %}" class="protocol-icon" alt="" />
       <div class="protocol-item-help">
-        <a href="#" class="green popsover"
+        <a href="#" class="green helpful popsover"
            data-placement="right"
            {% if trial.n1trial %}
              title="Trial Visibility"
@@ -272,7 +272,7 @@
 
     <img src="{% static 'img/icons/icn.png' %}" class="protocol-icon" alt="" />
     <div class="protocol-item-help">
-      <a href="#" class="green popsover"
+      <a href="#" class="green helpful popsover"
          title="Trial Description"
          data-content="This is a description of the trial"
          >
@@ -297,7 +297,7 @@
     </b>
     <p>
       <div class="protocol-item-help">
-        <a href="#" class="green popsover"
+        <a href="#" class="green helpful popsover"
            title="Trial Instructions"
            data-content="When we randomise people, we typically provide them one of two sets of instructions. These are the instructions for each group."
            >
