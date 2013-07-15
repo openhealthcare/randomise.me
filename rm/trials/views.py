@@ -12,7 +12,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import all_valid
 from django.forms.models import inlineformset_factory
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from django.http import (HttpResponse, HttpResponseRedirect, HttpResponseForbidden,
+                         HttpResponseBadRequest)
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView, BaseCreateView, UpdateView, FormView
@@ -173,7 +174,6 @@ class ReportView(CreateView):
             d, m, y = int(d), int(m), int(y)
             date = datetime.date(y, m, d)
             report.date  = date
-            report.save()
 
         else:
             report = Report.objects.get_or_create(trial=self.trial, date=date,
@@ -182,6 +182,9 @@ class ReportView(CreateView):
         if variable.style == variable.SCORE:
             report.score = int(self.request.POST['score'])
         elif variable.style == variable.BINARY:
+            if not self.request.POST.get('binary', None):
+                errmsg = 'Must supply a value for Binary for this trial'
+                return HttpResponseBadRequest(errmsg)
             binary = int(self.request.POST['binary']) == 1
             report.binary = binary
         elif variable.style == variable.COUNT:
