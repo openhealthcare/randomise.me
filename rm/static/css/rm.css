@@ -252,6 +252,7 @@ h3.grey a { color : #959291; }
 .larger { font-size: 24px; line-height: 32px;}
 .largest { font-size: 32px; line-height: 40px;}
 .smaller { font-size: 0.8em; line-height: 1em;}
+.smallest { font-size: 0.4em; line-height: 0.6em;}
 
 .justified { text-align: justified; }
 .darkback { background: #393632; }

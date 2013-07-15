@@ -42,6 +42,9 @@
       <a href="{{ trial.get_absolute_url }}">
         <h3 class="redroll">
           #{{ trial.pk }}
+          <span class="smallest">
+            {{ trial.created|date:"d/m/y Hm" }}
+          </span>
         </h3>
       </a>
       {% share_this %}
