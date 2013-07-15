@@ -182,14 +182,20 @@ class ReportView(CreateView):
         if variable.style == variable.SCORE:
             report.score = int(self.request.POST['score'])
         elif variable.style == variable.BINARY:
-            if not self.request.POST.get('binary', None):
+            if not self.request.POST.get('binary'):
                 errmsg = 'Must supply a value for Binary for this trial'
                 return HttpResponseBadRequest(errmsg)
             binary = int(self.request.POST['binary']) == 1
             report.binary = binary
         elif variable.style == variable.COUNT:
+            if not self.request.POST.get('count'):
+                errmsg = 'Must supply a value for count for this trial'
+                return HttpResponseBadRequest(errmsg)
             report.count = int(self.request.POST['count'])
         elif variable.style == variable.TIME:
+            if not self.request.POST.get('minutes') and self.request.get('seconds'):
+                errmsg =  'Must supply a value for minutes & seconds for this trial'
+                return HttpResponseBadRequest(errmsg)
             report.seconds = (int(self.request.POST['minutes']) * 60) + int(self.request.POST['seconds'])
         report.save()
 
