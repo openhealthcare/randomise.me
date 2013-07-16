@@ -167,6 +167,7 @@ class N1TrialForm(ModelForm):
             'ending_style': widgets.HiddenInput(),
             }
 
+
 class VariableForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -417,3 +418,34 @@ class TutorialForm(forms.Form):
                 self.user = user
 
         return cleaned_data
+
+
+class OfflineTrialForm(forms.Form):
+    """
+    Form for creating an offline Trial
+    """
+    title = forms.CharField(max_length=100,
+                            widget=widgets.TextInput(attrs={
+                'class': 'wider',
+                'placeholder': "Trial Title?",
+                'data-required' : 'true',
+                'data-maxlength': '200'
+                }))
+
+    description = forms.CharField(widget=widgets.Textarea(attrs={
+                'data-required': 'false',
+                'class': 'wider',
+                'placeholder': 'Trial Description'
+                }))
+
+    group_a = forms.CharField(widget=widgets.Textarea(attrs={
+                'data-required': 'true',
+                'class': 'wider',
+                'placeholder': 'Group A'
+                }))
+
+    group_b = forms.CharField(widget=widgets.Textarea(attrs={
+                    'data-required': 'true',
+                    'class': 'wider',
+                    'placeholder': 'Group B'
+                    }))

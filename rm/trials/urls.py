@@ -12,7 +12,7 @@ from rm.trials.views import (MyTrials, TrialCreateLanding,
                              ReproduceTrial, TrialAsCsvView,
                              AllTrials, FeaturedTrialsList,
                              ActiveTrialsView, PastTrialsView)
-
+from rm.trials.views.offline import CreateOfflineTrialView
 
 urlpatterns = patterns(
     '',
@@ -37,6 +37,9 @@ urlpatterns = patterns(
         name='reproduce-trial'),
     url(r'(?P<pk>\d+)/as-csv$', TrialAsCsvView.as_view(), name='trial-as-csv'),
     url(r'(?P<pk>\d+)/randomise-me', RandomiseMeView.as_view(), name='randomise-me'),
+
+
+    url(r'create-offline$', CreateOfflineTrialView.as_view(), name='create-offline-trial'),
 
     # Multiple ways to see lists of trials
     url(r'featured$', FeaturedTrialsList.as_view(), name='featured'),
