@@ -206,6 +206,31 @@ var RM = {
 
         },
 
+        // Initialization for our offline trial form handling
+        init_offline: function(options){
+            $('form.ajaxform').ajaxForm({
+
+                beforeSubmit: function(){
+                    if(!$('form.ajaxform').parsley().validate()){
+                        return false
+                    }
+                    $('form.ajaxform button').attr('disabled', true).text('uploading')
+                },
+
+                success: function(data){
+                    location.reload();
+                },
+
+                error: function(data){
+                    var $form = $('form.ajaxform');
+                    $('form.ajaxform button').attr('disabled', false).text('upload');
+                    errmsg = RM.templates.error_message({message:data.responseText});
+                    $('form.ajaxform').append(errmsg);
+                },
+
+            })
+        },
+
     },
 
     graphs: {
@@ -401,6 +426,12 @@ var RM = {
                 return false;
             })
         },
+
+    },
+
+    templates: {
+
+        error_message: _.template('<p class="text-error"><%= message %></p>')
 
     }
 

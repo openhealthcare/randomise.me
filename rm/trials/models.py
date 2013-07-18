@@ -54,6 +54,7 @@ class Trial(VotableMixin, models.Model):
     WHENEVER  = 'wh'
     DATED     = 'da'
     REGULARLY = 're'
+    OFFLINE   = 'of'
 
     REPORT_STYLE_CHOICES = (
         (ONCE,      'Once only'),
@@ -118,7 +119,8 @@ class Trial(VotableMixin, models.Model):
     instruction_date = models.DateField(blank=True, null=True)
 
     # Step 7
-    ending_style   = models.CharField(max_length=2, choices=ENDING_CHOICES, default=MANUALLY)
+    ending_style   = models.CharField(max_length=2, choices=ENDING_CHOICES,
+                                      default=MANUALLY)
     ending_reports = models.IntegerField(blank=True, null=True)
     ending_date    = models.DateField(blank=True, null=True)
 
@@ -133,6 +135,7 @@ class Trial(VotableMixin, models.Model):
     # Metadata
     owner             = models.ForeignKey(settings.AUTH_USER_MODEL)
     n1trial           = models.BooleanField(default=False)
+    offline           = models.BooleanField(default=False)
     featured          = models.BooleanField(default=False)
     stopped           = models.BooleanField(default=False)
     is_edited         = models.BooleanField(default=False)
@@ -510,6 +513,7 @@ class Participant(models.Model):
     user  = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     trial = models.ForeignKey(Trial)
     group = models.ForeignKey(Group, blank=True, null=True)
+    identifier = models.CharField(max_length=200, blank=True, null=True)
     joined = models.DateField(default=lambda: datetime.date.today(), blank=True)
 
     def __unicode__(self):

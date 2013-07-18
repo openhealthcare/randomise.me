@@ -150,9 +150,19 @@ def new_trial_widget():
     """
     return {}
 
+@register.inclusion_tag('dashboard/new_offline_widget.html')
+def new_offline_widget():
+    """
+    Widget to show on the new trials page
+    """
+    return {}
 
 @register.inclusion_tag('dashboard/take_tutorial_widget.html')
 def take_tutorial_widget():
+    return {}
+
+@register.inclusion_tag('dashboard/offline_tutorial_widget.html')
+def offline_tutorial_widget():
     return {}
 
 @register.inclusion_tag('dashboard/virgin_widget.html')

@@ -1,0 +1,44 @@
+<div class="row-fluid feature-box whiteback">
+  <div class="span6 push24">
+    <p>
+      Upload Results please
+    </p>
+    <form method="POST" id="upload-results-form"
+          enctype="multipart/form-data"
+          action="{% url 'upload-offline-results' trial.pk %}"
+          data-required="true"
+          class="ajaxform"
+          >
+      {% csrf_token %}
+      <input type="file" name="results" />
+      <button class="btn-warning btn">
+        upload results
+      </button>
+    </form>
+  </div>
+
+  <div class="span6">
+    <p>
+      <a href="{% url 'download-offline-participants' trial.pk %}">
+        Download participant groups
+      </a>
+    </p>
+    <div id="offline-participants">
+
+    <table width="" cellspacing="" cellpadding="" border=""
+           class="table table-bordered table-striped" >
+      <tr>
+        <th>Participant</th>
+        <th>Group</th>
+      </tr>
+      {% for participant in trial.participant_set.all %}
+        <tr>
+          <td>{{ participant.identifier }}</td>
+          <td>{{ participant.group }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    </div><!--fi-->
+  </div>
+
+</div>

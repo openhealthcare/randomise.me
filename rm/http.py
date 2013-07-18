@@ -1,11 +1,11 @@
 """
 Http generics.
 """
-import json
-
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
+from django.utils import simplejson
 
 def serve_maybe(meth):
     """

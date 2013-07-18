@@ -1,0 +1,18 @@
+<div class="row-fluid feature-box whiteback">
+  <div class="span6 offset3 push24">
+    <p>
+      Upload Participants please
+    </p>
+    <form method="POST" id="upload-participants-form"
+          enctype="multipart/form-data"
+          action="{% url 'upload-offline-participants' trial.pk %}"
+          data-required="true"
+          class="ajaxform">
+      {% csrf_token %}
+      <input type="file" name="participants" />
+      <button class="btn-warning btn">
+        upload participants
+      </button>
+    </form>
+  </div>
+</div>

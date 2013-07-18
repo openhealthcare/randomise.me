@@ -4,9 +4,16 @@
 </h3>
 
 <div class="visible-tablet" id="protocol-tablet-menu">
-{#   {% include 'trials/widgets/menu.html' %} #}
+  {% include 'trials/widgets/menu.html' %}
 </div> <!-- span4 -->
 
-<div class="feature-box whiteback ">
+{% with True as Tablet %}
+  <div class="feature-box whiteback visible-tablet">
+    {% include 'trials/widgets/_protocol_details.html' %}
+  </div>
+{% endwith %}
+
+
+<div class="feature-box whiteback hidden-tablet">
   {% include 'trials/widgets/_protocol_details.html' %}
 </div>

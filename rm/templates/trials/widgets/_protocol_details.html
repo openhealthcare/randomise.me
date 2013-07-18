@@ -3,8 +3,12 @@
 {% load markup %}
 {% load maths %}
 
-  <div class="row">
-    <div class="span8">
+  <div class="row-fluid">
+    <div
+       {% if not Tablet %}
+         class="span8"
+       {% endif %}
+       >
 
       {% with trial.main_outcome as outcome %}
         <div class="row-fluid innerrow">
@@ -22,9 +26,14 @@
               </a>
             </div>
           </div>
-          <div class="span9 protocol-detail">
+          <div class="span{% if Tablet %}8{% else %}9{% endif %} protocol-detail">
             <p>
-              {{outcome.question}}
+              {% if outcome.name %}
+                {{ outcome.name }}
+              {% endif %}
+              {% if outcome.question %}
+                {{outcome.question}}
+              {% endif %}
             </p>
           </div>
         </div> <!-- innerrow -->
@@ -52,7 +61,7 @@
           </div>
 
         </div>
-        <div class="span9 protocol-detail">
+        <div class="span{% if Tablet %}8{% else %}9{% endif %} protocol-detail">
           {% if trial.n1trial %}
             <p>
               Reporting <b>whenever you want</b>
@@ -72,67 +81,7 @@
         </div>
       </div> <!-- innerrow -->
 
-      <div class="row-fluid innerrow">
-        <div class="span2 protocol-item">
-          {% if trial.n1trial %}
-            <b>
-              Observations
-            </b>
-            <img src="{% static 'img/icons/icn-one.png' %}" class="protocol-icon" alt="" />
-          {% else %}
-            <b>
-              Participants & <br />
-              Observations
-            </b>
-            <img src="{% static 'img/icons/icn-part.png' %}" class="protocol-icon" alt="" />
-          {% endif %}
-          <div class="protocol-item-help">
-            <a href="#" class="green helpful popsover"
-               title="Trial Sizing"
-               data-content="The current status of how much data you have collected"
-               >
-               Help
-            </a>
-            {% if not trial.n1trial %}
-              {% if is_owner %}
-                <a href="#" class="pull-right red">Edit</a>
-              {% endif %}
-            {% endif %}
-          </div>
-        </div>
-        <div class="span9 protocol-detail">
-
-          {% if trial.n1trial %}
-            <p>
-              <b>
-                You have reported {{ trial.report_set.count }} observations so far
-              </b>
-            </p>
-            <ul class="unstyled">
-              <li>
-                {{ trial.ending_reports }} observations required
-              </li>
-            </ul>
-
-
-          {% else %}
-              <b>
-                  <p>
-                    Requiring {{ trial.min_participants }} participants
-                  </p>
-                  <p>
-                    {{ trial.report_set.count }} completed participants so far
-                  </p>
-                  <p>
-                    {{ trial.participant_set.count|subtract:trial.report_set.count }}
-                    accepted randomization but not yet provided outcome data
-                  </p>
-              </b>
-            {% endif %}
-
-        </div>
-      </div> <!-- innerrow -->
-
+      {% include 'trials/widgets/protocol_participants.html' %}
     </div> <!-- span8 -->
 
     <div class="span3 hidden-tablet" id="protocol-menu">
@@ -283,7 +232,7 @@
       {% endif %}
     </div>
   </div>
-  <div class="span10 protocol-detail">
+  <div class="span{% if Tablet %}7{% else %}10{% endif %} protocol-detail">
     {{ trial.description|markdown }}
     {% if trial.secret_info %}{{ trial.secret_info|markdown }}{% endif %}
   </div>
@@ -309,7 +258,7 @@
       </div>
     </p>
   </div>
-  <div class="span5 protocol-detail">
+  <div class="span{% if Tablet %}4{% else %}5{% endif %} protocol-detail">
     <h3>
       Instructions for Group A
       <img src="{% static 'img/icons/icn-grpA.png' %}" class="protocol-icon-side" alt="" />
@@ -318,7 +267,7 @@
       {{ trial.group_a }}
     </p>
   </div>
-  <div class="span5 protocol-detail">
+  <div class="span{% if Tablet %}4{% else %}5{% endif %} protocol-detail">
     <h3>
       Instructions for Group B
       <img src="{% static 'img/icons/icn-grpB.png' %}" class="protocol-icon-side" alt="" />
@@ -330,4 +279,4 @@
 </div> <!-- row -->
 
 
-</div> <!-- Row fluid -->
+<!-- </div> <\!-- Row fluid -\-> -->

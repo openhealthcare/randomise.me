@@ -426,8 +426,8 @@ class OfflineTrialForm(forms.Form):
     """
     title = forms.CharField(max_length=100,
                             widget=widgets.TextInput(attrs={
-                'class': 'wider',
-                'placeholder': "Trial Title?",
+                # 'class': 'wider',
+                'placeholder': "Trial Title",
                 'data-required' : 'true',
                 'data-maxlength': '200'
                 }))
@@ -449,3 +449,29 @@ class OfflineTrialForm(forms.Form):
                     'class': 'wider',
                     'placeholder': 'Group B'
                     }))
+
+    measure_style = forms.ChoiceField(choices=Variable.STYLE_CHOICES,
+                                      widget=widgets.Select(attrs={
+                'data-required': 'true',
+                }),
+                                      initial=Variable.SCORE)
+
+    measure_name = forms.CharField(widget=widgets.Textarea(attrs={
+                'data-required': 'true',
+                'class': 'wider',
+                'placeholder': 'What is the name of the variable you are measuring?'
+                }))
+
+
+class OfflineParticipantsForm(forms.Form):
+    """
+    Form for handling the upload of participants
+    """
+    participants = forms.FileField()
+
+
+class OfflineResultsForm(forms.Form):
+    """
+    Form for handling the upload of results
+    """
+    results = forms.FileField()

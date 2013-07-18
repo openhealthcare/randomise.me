@@ -71,7 +71,10 @@ urlpatterns = patterns(
     # profile editor
     url(r'account$', RMUserUpdate.as_view(), name='account-edit'),
 
-    url(r'tutorial$', TutorialView.as_view(), name='tutorial'),
+    url(r'^tutorial$', TutorialView.as_view(), name='tutorial'),
+    url(r'offline-tutorial$', TemplateView.as_view(
+            template_name='trials/tutorial_offline.html'),
+        name='offline-tutorial'),
     url(r'tutorial/(?P<pk>\d+)$',
         TutorialFromExampleView.as_view(), name='tutorial-from-example'),
 

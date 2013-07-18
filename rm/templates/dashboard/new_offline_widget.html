@@ -5,25 +5,25 @@
   <div class="dashboard-widget-header">
     <h2>
       <img src="{% static 'img/dots-create-rand-me.png' %}" class="" alt="" />
-      <span class="light">
-        TRIAL ON
-      </span>
       <span class="red bold">
-        ME
+        OFFLINE
+      </span>
+      <span class="light">
+        TRIAL
       </span>
     </h2>
   </div> <!-- dw-header -->
   <div class="dashboard-widget-body">
-    <a href="{% url 'n1-trial-create' %}">
+    <a href="{% url 'create-offline-trial' %}">
       <div class="row-fluid dashboard-widget-item">
-
         <p>
-          Create a trial to run on yourself e.g. "I get shin splints when I run.
-          I have two pairs of very different running shoes. Does one of them give
-          worse shin splints than the other?"
+          For when you want to answer questions about
+          a sample that already exists offline, we'll help
+          you design a great trial, allocate your sample,
+          and run the stats when you're done.
         </p>
         <p class="text-center" >
-          <a class="btn btn-danger" href="{% url 'n1-trial-create' %}">Create a personal Trial</a>
+          <a class="btn btn-danger" href="{% url 'create-offline-trial' %}">Create an offline Trial</a>
         </p>
 
       </div>

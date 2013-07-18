@@ -1,0 +1,67 @@
+{% load staticfiles %}
+{% load maths %}
+
+<div class="row-fluid innerrow">
+  <div class="span2 protocol-item">
+    {% if trial.n1trial %}
+      <b>
+        Observations
+      </b>
+      <img src="{% static 'img/icons/icn-one.png' %}" class="protocol-icon" alt="" />
+    {% else %}
+      <b>
+        Participants & <br />
+        Observations
+      </b>
+      <img src="{% static 'img/icons/icn-part.png' %}" class="protocol-icon" alt="" />
+    {% endif %}
+    <div class="protocol-item-help">
+      <a href="#" class="green helpful popsover"
+         title="Trial Sizing"
+         data-content="The current status of how much data you have collected"
+         >
+         Help
+      </a>
+      {% if not trial.n1trial %}
+        {% if is_owner %}
+          <a href="#" class="pull-right red">Edit</a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="span{% if Tablet %}8{% else %}9{% endif %} protocol-detail">
+    {% if trial.n1trial %}
+      <p>
+        <b>
+          You have reported {{ trial.report_set.count }} observations so far
+        </b>
+      </p>
+      <ul class="unstyled">
+        <li>{{ trial.ending_reports }} observations required</li>
+      </ul>
+    {% elif trial.offline %}
+      <p>
+        {% if trial.participant_set.count > 0 %}
+          {{ trial.participant_set.count }} participants
+        {% else %}
+          No participants yet - please upload your participant information.
+        {% endif %}
+      </p>
+    {% else %}
+      <b>
+        <p>
+          Requiring {{ trial.min_participants }} participants
+        </p>
+        <p>
+          {{ trial.report_set.count }} completed participants so far
+        </p>
+        <p>
+          {{ trial.participant_set.count|subtract:trial.report_set.count }}
+          accepted randomization but not yet provided outcome data
+        </p>
+      </b>
+    {% endif %}
+
+  </div>
+</div> <!-- innerrow -->

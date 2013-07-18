@@ -237,6 +237,9 @@ input[type="color"]:focus,
 .drop12 { margin-top: 12px; }
 .drop24 { margin-top: 24px; }
 .drop48 { margin-top: 48px; }
+.push12 { margin-bottom: 12px; }
+.push24 { margin-bottom: 24px; }
+.push48 { margin-bottom: 48px; }
 
 input.wider { width: 600px; }
 
@@ -1033,4 +1036,9 @@ body div.rm,
     display: inline-block;
     float: left;
     margin-top: 6px;
+}
+
+#offline-participants {
+    max-height: 200px;
+    overflow-y: scroll;
 }

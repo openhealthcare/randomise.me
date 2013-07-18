@@ -17,7 +17,6 @@ from django.http import (HttpResponse, HttpResponseRedirect, HttpResponseForbidd
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, TemplateView, View, ListView
 from django.views.generic.edit import CreateView, BaseCreateView, UpdateView, FormView
-from django.utils import simplejson
 from extra_views import CreateWithInlinesView, InlineFormSet
 from extra_views import NamedFormsetsMixin, ModelFormSetView
 from extra_views.advanced import BaseCreateWithInlinesView
@@ -111,7 +110,6 @@ class ReportView(CreateView):
         variable = self.trial.variable_set.all()[0]
 
         if self.trial.n1trial:
-
             report = Report.objects.get(trial=self.trial,
                                         date__isnull=True)
             d, m, y = self.request.POST['date'].split('/')
@@ -140,14 +138,15 @@ class ReportView(CreateView):
             if not self.request.POST.get('minutes') and self.request.get('seconds'):
                 errmsg =  'Must supply a value for minutes & seconds for this trial'
                 return HttpResponseBadRequest(errmsg)
-            report.seconds = (int(self.request.POST['minutes']) * 60) + int(self.request.POST['seconds'])
+            mins = (int(self.request.POST['minutes']) * 60)
+            secs = int(self.request.POST['seconds'])
+            report.seconds = mins + secs
         report.save()
 
         # Checking for closing criteria
         if self.trial.ending_style == self.trial.REPORT_NUM:
             if self.trial.report_set.count() >= self.trial.ending_reports:
                 self.trial.stop()
-
 
         return HttpResponseRedirect(self.trial.get_absolute_url())
 
@@ -171,7 +170,6 @@ class TrialReport(ReportView):
     trial_model = Trial
 
 
-
 class MyTrials(TemplateView):
     """
     Trials associated with this user
@@ -179,7 +177,7 @@ class MyTrials(TemplateView):
     template_name = 'trials/my_trials.html'
 
 
-class TrialDetail(DetailView):
+class TrialDetailView(DetailView):
     """
     A trial detail page - this will be the unique URL for
     a trial.
@@ -191,16 +189,22 @@ class TrialDetail(DetailView):
         """
         Make sure that we adhere to the right privacy concerns.
 
+        * If the user is a superuser, just show them the trial.
         * N=1 private trials == you must be the owner
         * N>1 private trials == you must:
                                 * be the owner
                                 * be participating
                                 * have an email address that matches an
                                   invitation for this trial
+        * Offline trials     == you must be the owner
         """
         if self.request.user.is_authenticated() and self.request.user.is_superuser:
-            return super(TrialDetail, self).get(*args, **kw)
+            return super(TrialDetailView, self).get(*args, **kw)
+
         trial = self.get_object()
+        if trial.offline:
+            if self.request.user != trial.owner:
+                return HttpResponse('Unauthorized', status=401)
         if trial.private:
             if self.request.user != trial.owner:
                 if trial.n1trial: # n1 private, non owner -> Go home
@@ -211,12 +215,111 @@ class TrialDetail(DetailView):
                     return HttpResponse('Unauthorized', status=401)
                 elif trial.participant_set.filter(user=self.request.user).count() > 0:
                     pass # private but we're a participant -> Collect $200
-                elif trial.invitation_set.filter(email=self.request.user.email).count() >0:
+                elif trial.invitation_set.filter(
+                    email=self.request.user.email).count() >0:
                     pass # private but we're invited -> Collect $200
                 else:            # private, authenticated, not authorized -> Go home
                     return HttpResponse('Unauthorized', status=401)
 
-        return super(TrialDetail, self).get(*args, **kw)
+        return super(TrialDetailView, self).get(*args, **kw)
+
+    def _get_context_method(self, trial):
+        """
+        Determine the correct context setting method for this
+        trial.
+        """
+        if trial.finished:
+            return self._context_data_finished
+        if trial.offline:
+            return self._context_data_offline
+        if self.request.user.is_authenticated():
+            if trial.owner == self.request.user:
+                return self._context_data_owner
+            elif trial.participant_set.filter(user=self.request.user).count() > 0:
+                return self._context_data_participant
+        return self._context_data_base
+
+    def _set_context_joinability(self, trial, ctx):
+        """
+        Set the can_join attribute if required.
+        """
+        if trial.recruitment == trial.INVITATION:
+            can_join = trial.can_join()
+            if not self.request.user.is_authenticated():
+                can_join = False
+            elif trial.invitation_set.filter(email=self.request.user.email).count() < 1:
+                can_join = False
+            context['can_join'] = can_join
+        return context
+
+    def _context_data_base(self, super_context, trial):
+        """
+        Legacy implementation of get_context_data
+        """
+        detail_template = 'trials/trial_detail_recruiting.html'
+        page_title = 'Recruiting Trial'
+        context = self._set_context_joinability(trial, context)
+        super_context['detail_template'] = detail_template
+        super_context['page_title'] = page_title
+        return super_context
+
+    def _context_data_finished(self, super_context, trial):
+        """
+        Return the context dictionary for a finished trial.
+        """
+        detail_template = 'trials/trial_detail_report.html'
+        page_title = 'Trial Report'
+        if trial.owner == self.request.user:
+            super_context['is_owner'] = True
+        super_context['detail_template'] = detail_template
+        super_context['page_title'] = page_title
+        super_context = self._set_context_joinability
+        return super_context
+
+    def _context_data_owner(self, super_context, trial):
+        """
+        Return the context dictionary for a trial where we are the owner.
+        """
+        detail_template = 'trials/trial_detail_owner.html'
+        page_title = 'Your Trial'
+        super_context['is_owner'] = True
+        if trial.participant_set.filter(user=trial.owner).count() > 0:
+            super_context['can_report'] = True
+            group = trial.participant_set.get(user=self.request.user).group
+            instructions = group.name == 'A' and trial.group_a or trial.group_b
+            super_context['active_instructions'] = instructions
+        else:
+            super_context['can_join'] = True
+        super_context['detail_template'] = detail_template
+        super_context['page_title'] = page_title
+        return super_context
+
+    def _context_data_participant(self, super_context, trial):
+        """
+        Return the context dictionary for a trial the user is
+        participating in.
+        """
+        detail_template = 'trials/trial_detail_participant.html'
+        page_title = 'Participating In'
+        group = trial.participant_set.get(user=self.request.user).group
+        if group is not None:
+            instructions = group.name == 'A' and trial.group_a or trial.group_b
+            context['instructions'] = instructions
+            context['active_instructions'] = instructions
+            context['participant'] = True
+        super_context['detail_template'] = detail_template
+        super_context['page_title'] = page_title
+        super_context = self._set_context_joinability
+        return super_context
+
+    def _context_data_offline(self, super_context, trial):
+        """
+        Return the context dictionary for an offline trial
+        """
+        super_context['detail_template'] = 'trials/trial_detail_offline.html'
+        super_context['page_title'] = 'Your Trial'
+        super_context['is_owner'] = self.request.user == trial.owner
+        return super_context
 
     def get_context_data(self, **kw):
         """
@@ -225,52 +328,10 @@ class TrialDetail(DetailView):
         Return: dict
         Exceptions: None
         """
-        context = super(TrialDetail, self).get_context_data(**kw)
-        trial = context['trial']
-
-        detail_template = 'trials/trial_detail_recruiting.html'
-        page_title = 'Recruiting Trial'
-
-        if trial.finished:
-            detail_template = 'trials/trial_detail_report.html'
-            page_title = 'Trial Report'
-            if trial.owner == self.request.user:
-                context['is_owner'] = True
-
-        elif self.request.user.is_authenticated():
-            if trial.owner == self.request.user:
-                detail_template = 'trials/trial_detail_owner.html'
-                page_title = 'Your Trial'
-                context['is_owner'] = True
-                if trial.participant_set.filter(user=trial.owner).count() > 0:
-                    context['can_report'] = True
-                    group = trial.participant_set.get(user=self.request.user).group
-                    instructions = group.name == 'A' and trial.group_a or trial.group_b
-                    context['active_instructions'] = instructions
-                else:
-                    context['can_join'] = True
-            elif trial.participant_set.filter(user=self.request.user).count() > 0:
-                detail_template = 'trials/trial_detail_participant.html'
-                page_title = 'Participating In'
-                group = trial.participant_set.get(user=self.request.user).group
-                if group is not None:
-                    instructions = group.name == 'A' and trial.group_a or trial.group_b
-                    context['instructions'] = instructions
-                    context['active_instructions'] = instructions
-                context['participant'] = True
-
-        if trial.recruitment == trial.INVITATION:
-            can_join = trial.can_join()
-            if not self.request.user.is_authenticated():
-                can_join = False
-            elif trial.invitation_set.filter(email=self.request.user.email).count() < 1:
-                can_join = False
-            context['can_join'] = can_join
-
-
-        context['detail_template'] = detail_template
-        context['page_title'] = page_title
-        return context
+        context = super(TrialDetailView, self).get_context_data(**kw)
+        trial = self.get_object()
+        meth = self._get_context_method(trial)
+        return meth(context, trial)
 
 
 class TrialQuestion(TrialByPkMixin, ContactView):
@@ -750,7 +811,8 @@ class TutorialView(FormView):
         Return: RMUser
         Exceptions: None
         """
-        email, pw, pw2 = [form.data.get(x) for x in ['email', 'password', 'password_confirmation']]
+        email, pw, pw2 = [form.data.get(x)
+                          for x in ['email', 'password', 'password_confirmation']]
         if form.user is None:
             # We need to sign 'em up!
             sign_me_up(self.request, email, pw, pw2)

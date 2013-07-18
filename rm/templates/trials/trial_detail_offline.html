@@ -1,0 +1,12 @@
+{% load trial_protocol %}
+
+{% if trial.participant_set.count == 0 %}
+  {% include 'trials/widgets/offline_upload_participants.html' %}
+{% else %}
+  {% include 'trials/widgets/offline_upload_results.html' %}
+{% endif %}
+{% trial_protocol_widget %}
+
+<script type="text/javascript">
+  $(document).ready(function(){RM.forms.init_offline()})
+</script>

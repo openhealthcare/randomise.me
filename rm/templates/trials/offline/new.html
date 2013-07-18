@@ -1,5 +1,6 @@
 {% extends 'baser.html' %}
 {% load bootstrap %}
+{% load dashboard %}
 
 {% block content %}
   <div class="page">
@@ -8,11 +9,19 @@
         New Offline Trial
       </span>
     </h1>
-    <form method="POST" id="new-offline-trial-form" action=".">
+    <form method="POST" id="new-offline-trial-form" action="">
+      {% csrf_token %}
       <div class="row-fluid">
-        <div class="span12">
+        <div class="span6">
           {{ form.title|bootstrap }}
           {{ form.description|bootstrap }}
+        </div>
+        <div class="span6">
+          {% offline_tutorial_widget %}
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span12">
           <div class="row-fluid">
             <div class="span6">
               {{ form.group_a|bootstrap }}
@@ -21,8 +30,11 @@
               {{ form.group_b|bootstrap }}
             </div>
           </div>
+          {{ form.measure_style|bootstrap }}
+          {{ form.measure_name|bootstrap }}
         </div>
       </div>
+      <button class="btn btn-danger" type="submit">Create Trial</button>
     </form>
   </div>
 {% endblock %}

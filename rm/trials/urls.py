@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
 from rm.trials.views import (MyTrials, TrialCreateLanding,
-                             TrialDetail, RandomiseMeView,
+                             TrialDetailView, RandomiseMeView,
                              TrialCreate,
                              N1TrialCreate, ReproduceN1Trial,
                              TrialReport, JoinTrial,
@@ -12,7 +12,10 @@ from rm.trials.views import (MyTrials, TrialCreateLanding,
                              ReproduceTrial, TrialAsCsvView,
                              AllTrials, FeaturedTrialsList,
                              ActiveTrialsView, PastTrialsView)
-from rm.trials.views.offline import CreateOfflineTrialView
+from rm.trials.views.offline import (CreateOfflineTrialView,
+                                     UploadOfflineParticipantsView,
+                                     UploadOfflineResultsView,
+                                     DownloadOfflineParticipantsView)
 
 urlpatterns = patterns(
     '',
@@ -22,7 +25,7 @@ urlpatterns = patterns(
     url(r'create-n1$', N1TrialCreate.as_view(), name='n1-trial-create'),
     url(r'n1/(?P<pk>\d+)/reproduce$', ReproduceN1Trial.as_view(),
         name='reproduce-n1-trial'),
-    url(r'(?P<pk>\d+)$', TrialDetail.as_view(), name='trial-detail'),
+    url(r'(?P<pk>\d+)$', TrialDetailView.as_view(), name='trial-detail'),
     url(r'(?P<pk>\d+)/report', TrialReport.as_view(), name='trial-report'),
     url(r'(?P<pk>\d+)/question', TrialQuestion.as_view(), name='trial-question'),
     url(r'(?P<pk>\d+)/edit$', EditTrial.as_view(), name='edit-trial'),
@@ -39,7 +42,15 @@ urlpatterns = patterns(
     url(r'(?P<pk>\d+)/randomise-me', RandomiseMeView.as_view(), name='randomise-me'),
 
 
-    url(r'create-offline$', CreateOfflineTrialView.as_view(), name='create-offline-trial'),
+    url(r'create-offline$', CreateOfflineTrialView.as_view(),
+        name='create-offline-trial'),
+    url(r'offline/(?P<pk>\d+)/upload-results$', UploadOfflineResultsView.as_view(),
+        name='upload-offline-results'),
+    url(r'offline/(?P<pk>\d+)/upload-participants$', UploadOfflineParticipantsView.as_view(),
+        name='upload-offline-participants'),
+    url(r'offline/(?P<pk>\d+)/download-participants$', DownloadOfflineParticipantsView.as_view(),
+        name='download-offline-participants'),
+
 
     # Multiple ways to see lists of trials
     url(r'featured$', FeaturedTrialsList.as_view(), name='featured'),
