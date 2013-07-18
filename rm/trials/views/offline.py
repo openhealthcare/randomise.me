@@ -6,11 +6,12 @@ import re
 from django.http import HttpResponseRedirect
 from django.views.generic import View, FormView
 import ffs
+from ffs.formats import CSV
 
 from rm.http import LoginRequiredMixin, JsonResponse, serve_maybe
 from rm.trials.forms import (OfflineTrialForm, OfflineParticipantsForm,
                              OfflineResultsForm)
-from rm.trials.models import Trial, Variable, Participant
+from rm.trials.models import Trial, Variable, Participant, Report
 from rm.trials.views import TrialByPkMixin, OwnsTrialMixin
 
 class CreateOfflineTrialView(LoginRequiredMixin, FormView):
@@ -51,7 +52,7 @@ class CreateOfflineTrialView(LoginRequiredMixin, FormView):
         return HttpResponseRedirect(trial.get_absolute_url())
 
 
-class UploadOfflineParticipantsView(TrialByPkMixin, FormView):
+class UploadOfflineParticipantsView(TrialByPkMixin, OwnsTrialMixin, FormView):
     """
     Handle CSV uploads of offline trial participants
     """
@@ -61,7 +62,7 @@ class UploadOfflineParticipantsView(TrialByPkMixin, FormView):
         """
         Handle a badly constructed request.
         """
-        if form.errors.get('results') == ['This field is required.']:
+        if form.errors.get('participants') == ['This field is required.']:
             return JsonResponse('Must upload a file!', status=401)
         return JsonResponse(form.errors, status=401)
 
@@ -72,7 +73,6 @@ class UploadOfflineParticipantsView(TrialByPkMixin, FormView):
         participant_list = [l.strip()
                             for l in
                             form.cleaned_data['participants'].readlines()]
-        print participant_list
         if not all(re.match(r'^[a-zA-Z0-9_]+$', part)
                    for part in participant_list):
             return JsonResponse('Your participant identifiers are not ^[a-zA-Z0-9_]+$', status=401)
@@ -84,17 +84,58 @@ class UploadOfflineParticipantsView(TrialByPkMixin, FormView):
         return JsonResponse(True)
 
 
-class UploadOfflineResultsView(FormView):
+class UploadOfflineResultsView(TrialByPkMixin, OwnsTrialMixin, FormView):
     """
     Handle CSV uploads of offline trial results
     """
     form_class = OfflineResultsForm
 
+    def form_invalid(self, form):
+        """
+        Handle a badly constructed request.
+        """
+        if form.errors.get('results') == ['This field is required.']:
+            return JsonResponse('Must upload a file!', status=401)
+        return JsonResponse(form.errors, status=401)
+
     def form_valid(self, form):
         """
         Handle the uploaded results.
         """
-        return JsonResponse(True, status=401)
+        csv = [r.strip().split(',')
+               for r in form.cleaned_data['results'].readlines()]
+        try:
+            for identifier, group, result in csv:
+                try:
+                    participant = Participant.objects.get(
+                        identifier=identifier,
+                        trial=self.trial
+                        )
+                    variable = self.trial.variable_set.get()
+                    report = Report(trial=self.trial,
+                                    participant=participant,
+                                    variable=variable,
+                                    group=participant.group)
+                    if variable.style == Variable.SCORE:
+                        report.score = int(result)
+                    elif variable.style == Variable.COUNT:
+                        report.score = float(count)
+                    elif variable.style == Variable.BINARY:
+                        report.binary = bool(result)
+
+                    report.save()
+
+                except Participant.DoesNotExist:
+                    return JsonResponse('No participant {0}'.format(identifier),
+                                        status=401)
+                except Exception as err:
+                    raise
+        except ValueError:
+            err = "We couldn't find an identifier, group and result for every row :("
+            return JsonResponse(err, status=401)
+
+        self.trial.stop()
+        return JsonResponse(True)
 
 
 class DownloadOfflineParticipantsView(TrialByPkMixin, OwnsTrialMixin, View):
@@ -114,8 +155,5 @@ class DownloadOfflineParticipantsView(TrialByPkMixin, OwnsTrialMixin, View):
 
         raw = ffs.Path.newfile()
         with raw.csv() as csv:
-            csv.writerows([[
-                        'identifier',
-                        'group'
-                        ]] + rows)
+            csv.writerows(rows)
         return raw

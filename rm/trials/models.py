@@ -385,6 +385,8 @@ class Trial(VotableMixin, models.Model):
         self.stopped = True
         self.save()
         TrialAnalysis.report_on(self)
+        if self.offline:
+            return
         for participant in self.participant_set.exclude(user=self.owner):
             participant.send_ended_notification()
         return
@@ -730,7 +732,10 @@ class TrialAnalysis(models.Model):
             return
 
         nobs1 = int(trial.report_set.count()/2)
-        reports = trial.report_set.exclude(date__isnull=True)
+        if trial.offline:
+            reports = trial.report_set.all()
+        else:
+            reports = trial.report_set.exclude(date__isnull=True)
         points = [t.get_value() for t in reports]
         pointsa = [t.get_value() for t in reports.filter(group__name=Group.GROUP_A)]
         pointsb = [t.get_value() for t in reports.filter(group__name=Group.GROUP_B)]

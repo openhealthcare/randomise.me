@@ -249,8 +249,8 @@ class TrialDetailView(DetailView):
                 can_join = False
             elif trial.invitation_set.filter(email=self.request.user.email).count() < 1:
                 can_join = False
-            context['can_join'] = can_join
-        return context
+            ctx['can_join'] = can_join
+        return ctx
 
     def _context_data_base(self, super_context, trial):
         """
@@ -273,7 +273,7 @@ class TrialDetailView(DetailView):
             super_context['is_owner'] = True
         super_context['detail_template'] = detail_template
         super_context['page_title'] = page_title
-        super_context = self._set_context_joinability
+        super_context = self._set_context_joinability(trial, super_context)
         return super_context
 
     def _context_data_owner(self, super_context, trial):
