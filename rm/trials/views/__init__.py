@@ -258,7 +258,7 @@ class TrialDetailView(DetailView):
         """
         detail_template = 'trials/trial_detail_recruiting.html'
         page_title = 'Recruiting Trial'
-        context = self._set_context_joinability(trial, context)
+        super_context = self._set_context_joinability(trial, super_context)
         super_context['detail_template'] = detail_template
         super_context['page_title'] = page_title
         return super_context
