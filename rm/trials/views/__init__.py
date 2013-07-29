@@ -304,9 +304,9 @@ class TrialDetailView(DetailView):
         group = trial.participant_set.get(user=self.request.user).group
         if group is not None:
             instructions = group.name == 'A' and trial.group_a or trial.group_b
-            context['instructions'] = instructions
-            context['active_instructions'] = instructions
-            context['participant'] = True
+            super_context['instructions'] = instructions
+            super_context['active_instructions'] = instructions
+            super_context['participant'] = True
         super_context['detail_template'] = detail_template
         super_context['page_title'] = page_title
         super_context = self._set_context_joinability
