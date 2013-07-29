@@ -20,7 +20,7 @@ class Migration(SchemaMigration):
                       keep_default=False)
 
         # Adding unique constraint on 'Vote', fields ['voter', 'object_id', 'content_type']
-        db.create_unique(u'suffrage_vote', ['voter_id', 'object_id', 'content_type_id'])
+#        db.create_unique(u'suffrage_vote', ['voter_id', 'object_id', 'content_type_id'])
 
 
     def backwards(self, orm):

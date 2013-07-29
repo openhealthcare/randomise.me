@@ -226,6 +226,7 @@ def latest_trials_widget(context):
     Widget for latest trials before we move to full page latest trials.
     """
     latest = Trial.objects.filter(
+        offline=False,
         private=False).exclude(
         hide=True).order_by(
         '-created')[:7]
