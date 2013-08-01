@@ -1,7 +1,7 @@
 <div class="row-fluid feature-box whiteback">
   <div class="span6 push24">
     <p>
-      Upload Results please
+      Upload Results
     </p>
     <form method="POST" id="upload-results-form"
           enctype="multipart/form-data"
@@ -18,11 +18,6 @@
   </div>
 
   <div class="span6">
-    <p>
-      <a href="{% url 'download-offline-participants' trial.pk %}">
-        Download participant groups
-      </a>
-    </p>
     <div id="offline-participants">
 
     <table width="" cellspacing="" cellpadding="" border=""
@@ -39,6 +34,25 @@
       {% endfor %}
     </table>
     </div><!--fi-->
+    <p>
+      <a href="{% url 'download-offline-participants' trial.pk %}" class="btn btn-warning">
+        Download participant groups
+      </a>
+    </p>
   </div>
+
+
+    <p>
+      <a href="#" class="green helpful popsover"
+         title="Offline Trial"
+         data-html="true"
+         data-content="Download a CSV file for you to fill in with your results by clicking the 'Download Participant Groups' button.<br \>When your trial is completed and you've filled in the results column of the CSV, uplod the results file."
+         >
+         Help
+      </a>
+      <br />
+      <a href="{% url 'offline-tutorial' %}">(Offline Trials Tutorial)</a
+    </p>
+
 
 </div>

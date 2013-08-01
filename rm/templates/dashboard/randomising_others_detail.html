@@ -1,7 +1,11 @@
 {% load staticfiles %}
 <a href="{{ trial.get_absolute_url }}">
   <div class="row-fluid dashboard-widget-item">
-    <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
+    {% if trial.offline %}
+      <img src="{% static 'img/icons/offlinetrial-from-csv.png' %}" class="trial-style-icon" alt="" />
+    {% else %}
+      <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
+    {% endif %}
     <h3>
       {{ trial.title }}
     </h3>

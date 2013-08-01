@@ -23,6 +23,8 @@
     <div class="span9">
       {% if trial.n1trial %}
         <img src="{% static 'img/icons/icn-one.png' %}" class="trial-style-icon" alt="" />
+      {% elif trial.offline %}
+        <img src="{% static 'img/icons/offlinetrial-from-csv.png' %}" class="trial-style-icon" alt="" />
       {% else %}
         <img src="{% static 'img/icons/icn-many.png' %}" class="trial-style-icon" alt="" />
       {% endif %}
