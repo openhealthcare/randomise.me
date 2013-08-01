@@ -104,6 +104,8 @@ class UploadOfflineResultsView(TrialByPkMixin, OwnsTrialMixin, FormView):
         """
         csv = [r.strip().split(',')
                for r in form.cleaned_data['results'].readlines()]
+        if csv[0] == ['identifier', 'group', 'result']:
+            csv = csv[1:]
         try:
             for identifier, group, result in csv:
                 try:
@@ -148,8 +150,9 @@ class DownloadOfflineParticipantsView(TrialByPkMixin, OwnsTrialMixin, View):
         """
         Serve a CSV of this trial's grouped participants
         """
-        rows = [
-            (participant.identifier, participant.group)
+        rows = [['identifier', 'group', 'result']]
+        rows += [
+            (participant.identifier, participant.group, '')
             for participant in self.trial.participant_set.all()
             ]
 
