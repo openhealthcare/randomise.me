@@ -1,21 +1,4 @@
 <div class="row-fluid feature-box whiteback">
-  <div class="span6 push24">
-    <p>
-      Upload Results
-    </p>
-    <form method="POST" id="upload-results-form"
-          enctype="multipart/form-data"
-          action="{% url 'upload-offline-results' trial.pk %}"
-          data-required="true"
-          class="ajaxform"
-          >
-      {% csrf_token %}
-      <input type="file" name="results" />
-      <button class="btn-warning btn">
-        upload results
-      </button>
-    </form>
-  </div>
 
   <div class="span6">
     <div id="offline-participants">
@@ -41,6 +24,23 @@
     </p>
   </div>
 
+  <div class="span6 push24">
+    <p>
+      Upload Results
+    </p>
+    <form method="POST" id="upload-results-form"
+          enctype="multipart/form-data"
+          action="{% url 'upload-offline-results' trial.pk %}"
+          data-required="true"
+          class="ajaxform"
+          >
+      {% csrf_token %}
+      <input type="file" name="results" />
+      <button class="btn-warning btn">
+        upload results
+      </button>
+    </form>
+
 
     <p>
       <a href="#" class="green helpful popsover"
@@ -54,5 +54,7 @@
       <a href="{% url 'offline-tutorial' %}">(Offline Trials Tutorial)</a
     </p>
 
+
+  </div>
 
 </div>
