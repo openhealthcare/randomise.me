@@ -309,7 +309,7 @@ class TrialDetailView(DetailView):
             super_context['participant'] = True
         super_context['detail_template'] = detail_template
         super_context['page_title'] = page_title
-        super_context = self._set_context_joinability
+        super_context = self._set_context_joinability(trial, super_context)
         return super_context
 
     def _context_data_offline(self, super_context, trial):
