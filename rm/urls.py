@@ -90,6 +90,9 @@ urlpatterns = patterns(
 
     # Syndication
     url(r'^feeds/', include('rm.feeds.urls')),
+
+    #Debug
+    url(r'^500', TemplateView.as_view(template_name='500.html')),
 )
 
 urlpatterns += staticfiles_urlpatterns()
