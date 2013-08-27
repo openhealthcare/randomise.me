@@ -4,11 +4,12 @@ Views that allow us to edit user profile data
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import UpdateView
 
+from rm.http import LoginRequiredMixin
 from rm.userprofiles.forms import ProfileForm
 from rm.userprofiles.models import RMUser
 
 
-class RMUserUpdate(UpdateView):
+class RMUserUpdate(LoginRequiredMixin, UpdateView):
     model      = RMUser
     form_class = ProfileForm
     success_url = reverse_lazy('account-edit')
