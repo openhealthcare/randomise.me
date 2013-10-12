@@ -39,7 +39,10 @@ class TrialByPkMixin(object):
 
     def dispatch(self, *args,**kw):
         if not getattr(self, 'trial', None):
-            self.trial = Trial.objects.get(pk=kw['pk'])
+            try:
+                self.trial = Trial.objects.get(pk=kw['pk'])
+            except Trial.DoesNotExist:
+                return HttpResponse('Nope', status=404)
         return super(TrialByPkMixin, self).dispatch(*args, **kw)
 
     def get(self, *args,**kw):
