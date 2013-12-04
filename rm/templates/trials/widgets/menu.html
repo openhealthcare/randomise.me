@@ -6,7 +6,7 @@
          data-content="Not quite sure about this trial? Ask a question to the person running the trial."
          >
          </i>
-      <a href="#question" role="button" data-toggle="modal">
+      <a href="#question{{which}}" role="button" data-toggle="modal">
         Ask a question
       </a>
     </li>
@@ -68,9 +68,10 @@
              data-content="End the trial now - warning, this cannot be undone!"
              >
           </i>
-          <a href="#stopit" role="button" data-toggle="modal" class="btn btn-warning">
+          <a href="#stopit{{which}}" role="button" data-toggle="modal" class="btn btn-warning">
             stop this trial
           </a>
+
         </li>
         {% endif %}
       {% endif %}
@@ -81,33 +82,15 @@
          data-content="If you're concerned about a trial for any reason you can report it to the Randomise Me staff and we'll take appropriate action."
          >
       </i>
-      <a href="#report" role="button" data-toggle="modal">
+      <a href="#report{{which}}" role="button" data-toggle="modal">
         Report this trial
       </a>
     </li>
     {% endif %}
   </ul>
 
-  <!-- Modal Peek -->
-  <div id="peek" class="modal hide fade" tabindex="-1"
-       role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-       <div class="modal-header">
-         <h3 id="myModalLabel">Peek at the results</h3>
-       </div>
-       <div class="modal-body">
-         <p>
-           YOU CAN PEEK AT THE RESULTS IF YOU REALLY WANT TO BUT THIS CAN
-           CAUSE BAD THINGS TO HAPPEN = ARE YOU SHURE?
-         </p>
-       </div>
-       <div class="modal-footer">
-         <button class="btn" data-dismiss="modal" aria-hidden="true">cancel</button>
-         <a href="{% url 'trial-peek' trial.pk%}" class="btn btn-danger">peek</a>
-       </div>
-  </div>
-
   <!-- Modal Report -->
-  <div id="report" class="modal hide fade" tabindex="-1"
+  <div id="report{{which}}" class="modal hide fade" tabindex="-1"
        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
        <div class="modal-header">
          <h3 id="myModalLabel">Report this trial</h3>
@@ -152,7 +135,7 @@ I would like to report a concern about the trial "{{trial.title}}" which can be 
   </div>
 
   <!-- Modal Question -->
-  <div id="question" class="modal hide fade" tabindex="-1"
+  <div id="question{{which}}" class="modal hide fade" tabindex="-1"
        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
        <div class="modal-header">
          <h3 id="myModalLabel">Ask a Question</h3>
@@ -186,7 +169,7 @@ I would like to ask a question about the trial "{{trial.title}}" which can be fo
   </div>
 
   <!-- Modal stopit -->
-  <div id="stopit" class="modal hide fade" tabindex="-1"
+  <div id="stopit{{which}}" class="modal hide fade" tabindex="-1"
        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
        <div class="modal-header">
          <h3 id="myModalLabel">Stop this Trial?</h3>
