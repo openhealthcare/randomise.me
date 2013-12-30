@@ -9,6 +9,8 @@ from rm.trials.models import (Trial, Report, Participant, Variable,
 class VariableInline(admin.StackedInline):
     model = Variable
 
+class ParticipantInline(admin.StackedInline):
+    model = Participant
 
 class TrialAdmin(admin.ModelAdmin):
     """
@@ -19,7 +21,7 @@ class TrialAdmin(admin.ModelAdmin):
                     'recruitment', 'hide']
     list_search = ['title', 'description', 'group_a', 'group_b']
     list_editable = ['featured','hide']
-    inlines = [VariableInline]
+    inlines = [VariableInline, ParticipantInline]
 
 
 class VariableAdmin(admin.ModelAdmin):

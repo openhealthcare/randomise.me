@@ -522,7 +522,7 @@ class Participant(models.Model):
         """
         Pretty printin'
         """
-        return '<{0} - {1} ({2})>'.format(self.user, self.trial, self.group)
+        return u'<{0} - {1} ({2})>'.format(self.user, self.trial, self.group)
 
     def randomise(self):
         """
@@ -547,7 +547,7 @@ class Participant(models.Model):
         if not self.user.email:
             raise exceptions.NoEmailError()
 
-        subject = 'Randomise.me - instructions for {0}'.format(self.trial.title)
+        subject = u'Randomise.me - instructions for {0}'.format(self.trial.title)
         instructions = self.group.name == 'A' and self.trial.group_a or self.trial.group_b
         question = self.trial.variable_set.all()[0].question
 
