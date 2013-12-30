@@ -136,7 +136,12 @@ class ReportView(CreateView):
             if not self.request.POST.get('count'):
                 errmsg = 'Must supply a value for count for this trial'
                 return HttpResponseBadRequest(errmsg)
-            report.count = int(self.request.POST['count'])
+            try:
+                report.count = int(self.request.POST['count'])
+            except ValueError:
+                errmsg = 'Values for "count" variables must be integers.'
+                return HttpResponseBadRequest(errmsg)
+
         elif variable.style == variable.TIME:
             if not self.request.POST.get('minutes') and self.request.get('seconds'):
                 errmsg =  'Must supply a value for minutes & seconds for this trial'
