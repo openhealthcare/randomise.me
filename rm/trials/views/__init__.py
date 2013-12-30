@@ -113,8 +113,8 @@ class ReportView(CreateView):
         variable = self.trial.variable_set.all()[0]
 
         if self.trial.n1trial:
-            report = Report.objects.get(trial=self.trial,
-                                        date__isnull=True)
+            report, _ = Report.objects.get_or_create(trial=self.trial,
+                                                     date__isnull=True)
             d, m, y = self.request.POST['date'].split('/')
             d, m, y = int(d), int(m), int(y)
             date = datetime.date(y, m, d)
