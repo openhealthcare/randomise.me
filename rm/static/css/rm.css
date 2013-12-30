@@ -484,12 +484,12 @@ html.nologo .masthead #header-logo {
      background: #393632;
 }
 #presubhead{
+    margin-top: -8px;
     background: url(/static/img/wavytop.png);
     height: 5px;
 }
 
 .masthead {
-    width: 1170px;
     min-height: 60px;
     margin: 0 auto;
     padding: 10px;
