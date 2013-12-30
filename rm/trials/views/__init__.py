@@ -563,6 +563,13 @@ class InviteTrial(View):
 
 
 class StopTrial(TrialByPkMixin, OwnsTrialMixin, View):
+
+    def get(self, *args, **kw):
+        """
+        Direct access to stopping a trial is not a valid move.
+        """
+        return HttpResponseRedirect(self.trial.get_absolute_url())
+
     def post(self, *args, **kw):
         """
         Stop this trial.
