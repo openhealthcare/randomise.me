@@ -462,7 +462,7 @@ class Variable(models.Model):
     image = thumbnail.ImageField(upload_to='variableuploads', blank=True, null=True)
 
     def __unicode__(self):
-        return '<Variable {0} ({1})>'.format(self.name, self.style)
+        return u'<Variable {0} ({1})>'.format(self.name, self.style)
 
     def report_form(self):
         """
