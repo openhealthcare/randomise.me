@@ -56,10 +56,12 @@
         <p>
           {{ trial.report_set.count }} completed participants so far
         </p>
-        <p>
-          {{ trial.participant_set.count|subtract:trial.report_set.count }}
-          accepted randomization but not yet provided outcome data
-        </p>
+        {% if trial.reporting_style == trial.ONCE %}
+          <p>
+            {{ trial.participant_set.count|subtract:trial.report_set.count }}
+            accepted randomization but not yet provided outcome data
+            </p>
+        {% endif %}
       </b>
     {% endif %}
 
