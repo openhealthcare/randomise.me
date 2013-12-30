@@ -8,7 +8,7 @@ import random
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, View
-from letter.contrib.contact import ContactView
+from letter.contrib.contact import ContactView, ReCaptchaContactForm
 
 from rm.trials.models import Trial
 
@@ -35,4 +35,5 @@ class RMContactView(ContactView):
     """
     Pointless form for people who don't like their email clients
     """
-    success_url   = reverse_lazy('contact-ta')
+    success_url = reverse_lazy('contact-ta')
+    form_class  = ReCaptchaContactForm

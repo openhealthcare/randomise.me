@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'faq',
+    'captcha',
     'south',
     'terms',
     # Our Apps
@@ -208,6 +209,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 TERMS_REPLACE_FIRST_ONLY = False
 THUMBNAIL_DEBUG = True
+RECAPTCHA_PUBLIC_KEY = '6LfUX-wSAAAAAKoWnRtw5rTFH07TcpjcebxWpgjD'
+
 
 # Our Settings
 

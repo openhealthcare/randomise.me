@@ -36,7 +36,7 @@ iowait==0.1
 ipdb==0.7
 ipython==0.13.2
 kombu==2.5.10
-letter==0.3.1
+letter==0.4.2
 lxml==3.1.1
 mailtools==2.1
 meld3==0.6.10
