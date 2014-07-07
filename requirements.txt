@@ -65,3 +65,4 @@ wsgiref==0.1.2
 Markdown==2.3.1
 django-gravatar2==1.0.6
 django-recaptcha==0.0.6
+statsmodels==0.5.0
